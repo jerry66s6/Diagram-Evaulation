@@ -1,0 +1,82 @@
+{
+  "criteria": [
+    {
+      "id": "presence.elements",
+      "dimension": "presence",
+      "description": "Every required object, group, label, symbol, and connector visible in the reference is present in the candidate; no required element is omitted.",
+      "severity": "high",
+      "deterministic_metric": "element_presence"
+    },
+    {
+      "id": "layout.position",
+      "dimension": "layout",
+      "description": "Matched elements have the same relative and normalized positions as in the reference.",
+      "severity": "high",
+      "deterministic_metric": "spatial_position"
+    },
+    {
+      "id": "layout.size_aspect",
+      "dimension": "layout",
+      "description": "Matched shapes preserve relative size and aspect ratio.",
+      "severity": "medium",
+      "deterministic_metric": "size_and_aspect"
+    },
+    {
+      "id": "layout.overlap",
+      "dimension": "layout",
+      "description": "Containment and overlap relationships match the reference and introduce no unintended collisions.",
+      "severity": "medium",
+      "deterministic_metric": "overlap_relations"
+    },
+    {
+      "id": "connectivity.connectors",
+      "dimension": "connectivity",
+      "description": "All required lines and arrows are present; no required connection is missing.",
+      "severity": "critical",
+      "deterministic_metric": "connector_presence"
+    },
+    {
+      "id": "connectivity.endpoints",
+      "dimension": "connectivity",
+      "description": "Each connector attaches to the correct source and destination, with the correct direction.",
+      "severity": "critical",
+      "deterministic_metric": "connector_endpoints"
+    },
+    {
+      "id": "details.text",
+      "dimension": "details",
+      "description": "All text content, numbers, punctuation, and capitalization match the reference.",
+      "severity": "high",
+      "deterministic_metric": "text_accuracy"
+    },
+    {
+      "id": "details.style",
+      "dimension": "details",
+      "description": "Colors, fills, strokes, line styles, and arrowhead styles match the reference.",
+      "severity": "medium",
+      "deterministic_metric": "style_fidelity"
+    },
+    {
+      "id": "details.shapes",
+      "dimension": "details",
+      "description": "Shape types and small visual marks match the reference.",
+      "severity": "medium",
+      "deterministic_metric": "shape_fidelity"
+    },
+    {
+      "id": "legibility.overflow",
+      "dimension": "legibility",
+      "description": "Text stays inside its intended container without clipping, collision, or overflow.",
+      "severity": "high",
+      "deterministic_metric": "text_overflow"
+    },
+    {
+      "id": "legibility.minimum_font",
+      "dimension": "legibility",
+      "description": "Every text element meets the configured minimum rendered font size.",
+      "severity": "high",
+      "deterministic_metric": "minimum_font_size"
+    }
+  ]
+}
+

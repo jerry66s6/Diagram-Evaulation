@@ -1,0 +1,10 @@
+{
+  "issues": [
+    {"dimension": "presence", "severity": "high", "count": 1},
+    {"dimension": "layout", "severity": "medium", "count": 1},
+    {"dimension": "connectivity", "severity": "critical", "count": 1},
+    {"dimension": "details", "severity": "medium", "count": 1},
+    {"dimension": "legibility", "severity": "high", "count": 1}
+  ]
+}
+
