@@ -1,5 +1,5 @@
 {
-  "correctness": 0.30610047846889954,
+  "correctness": 0.20282344361291732,
   "formula": "0.200000*presence + 0.100000*layout + 0.400000*connectivity + 0.100000*details + 0.200000*legibility",
   "weights": {
     "presence": 0.2,
@@ -11,34 +11,38 @@
   "dimensions": {
     "presence": {
       "dimension": "presence",
-      "score": 0.18181818181818182,
+      "score": 0.12937062937062938,
       "criteria": {
-        "presence.elements": 0.18181818181818182
+        "presence.elements": 0.12937062937062938
       },
       "participating_judges": [
-        "deterministic-svg"
+        "deterministic-svg",
+        "gpt-5.5"
       ]
     },
     "layout": {
       "dimension": "layout",
-      "score": 0.6973684210526316,
+      "score": 0.26949317738791423,
       "criteria": {
-        "layout.canvas": 0.8947368421052632,
-        "layout.overlap": 0.5
+        "layout.order": 0.1111111111111111,
+        "layout.canvas": 0.4473684210526316,
+        "layout.overlap": 0.25
       },
       "participating_judges": [
-        "deterministic-svg"
+        "deterministic-svg",
+        "gpt-5.5"
       ]
     },
     "connectivity": {
       "dimension": "connectivity",
-      "score": 0.25,
+      "score": 0.125,
       "criteria": {
         "connectivity.connections": 0.0,
-        "connectivity.endpoints": 0.5
+        "connectivity.endpoints": 0.25
       },
       "participating_judges": [
-        "deterministic-svg"
+        "deterministic-svg",
+        "gpt-5.5"
       ]
     },
     "details": {
@@ -48,7 +52,8 @@
         "details.labels": 0.0
       },
       "participating_judges": [
-        "deterministic-svg"
+        "deterministic-svg",
+        "gpt-5.5"
       ]
     },
     "legibility": {
@@ -59,11 +64,558 @@
         "legibility.minimum_font": 0.0
       },
       "participating_judges": [
-        "deterministic-svg"
+        "deterministic-svg",
+        "gpt-5.5"
       ]
     }
   },
   "metrics": [
+    {
+      "criterion_id": "presence.elements",
+      "dimension": "presence",
+      "judge": "gpt-5.5",
+      "expected_count": 13,
+      "detected_issues": 12,
+      "issues": [
+        {
+          "description": "Required Input Tokens component is not visible; the top component is labeled \"Thing 1\".",
+          "severity": "high",
+          "element_ids": [
+            "input_tokens"
+          ]
+        },
+        {
+          "description": "Required Token Embeddings component is not visible.",
+          "severity": "high",
+          "element_ids": [
+            "token_embeddings"
+          ]
+        },
+        {
+          "description": "Required Positional Encoding component is not visible.",
+          "severity": "high",
+          "element_ids": [
+            "positional_encoding"
+          ]
+        },
+        {
+          "description": "Required Add operation is not visible.",
+          "severity": "high",
+          "element_ids": [
+            "add"
+          ]
+        },
+        {
+          "description": "Required N\u00d7 repetition marker is missing from the encoder block.",
+          "severity": "high",
+          "element_ids": [
+            "repetition_marker_n_times"
+          ]
+        },
+        {
+          "description": "Required Multi-Head Self-Attention component is not visible inside the block.",
+          "severity": "high",
+          "element_ids": [
+            "multi_head_self_attention"
+          ]
+        },
+        {
+          "description": "Required first Add & Norm component is not visible inside the block.",
+          "severity": "high",
+          "element_ids": [
+            "add_norm_1"
+          ]
+        },
+        {
+          "description": "Required Position-wise Feed-Forward Network component is not visible inside the block.",
+          "severity": "high",
+          "element_ids": [
+            "position_wise_feed_forward_network"
+          ]
+        },
+        {
+          "description": "Required second Add & Norm component is not visible inside the block.",
+          "severity": "high",
+          "element_ids": [
+            "add_norm_2"
+          ]
+        },
+        {
+          "description": "Required Contextual Embeddings output is not visible; the output is labeled \"Output?\".",
+          "severity": "high",
+          "element_ids": [
+            "contextual_embeddings"
+          ]
+        },
+        {
+          "description": "Required residual/skip connection from Add to first Add & Norm is not present.",
+          "severity": "high",
+          "element_ids": [
+            "add",
+            "add_norm_1"
+          ]
+        },
+        {
+          "description": "Required residual/skip connection from first Add & Norm to second Add & Norm is not present.",
+          "severity": "high",
+          "element_ids": [
+            "add_norm_1",
+            "add_norm_2"
+          ]
+        }
+      ],
+      "notes": "A generic red container labeled \"Block\" is visible, but most required Transformer encoder elements are absent or replaced by placeholders.",
+      "measurable": true,
+      "score": 0.07692307692307693
+    },
+    {
+      "criterion_id": "layout.order",
+      "dimension": "layout",
+      "judge": "gpt-5.5",
+      "expected_count": 9,
+      "detected_issues": 8,
+      "issues": [
+        {
+          "description": "The diagram does not follow a clear top-to-bottom Transformer encoder processing order.",
+          "severity": "medium",
+          "element_ids": []
+        },
+        {
+          "description": "Input Tokens is not positioned above Token Embeddings and Positional Encoding because those required components are absent.",
+          "severity": "medium",
+          "element_ids": [
+            "input_tokens",
+            "token_embeddings",
+            "positional_encoding"
+          ]
+        },
+        {
+          "description": "Token Embeddings and Positional Encoding are not shown as parallel components beneath the input.",
+          "severity": "medium",
+          "element_ids": [
+            "token_embeddings",
+            "positional_encoding"
+          ]
+        },
+        {
+          "description": "The Add operation is not shown beneath Token Embeddings and Positional Encoding.",
+          "severity": "medium",
+          "element_ids": [
+            "add"
+          ]
+        },
+        {
+          "description": "The Transformer Encoder Block is not shown beneath a visible Add operation.",
+          "severity": "medium",
+          "element_ids": [
+            "transformer_encoder_block",
+            "add"
+          ]
+        },
+        {
+          "description": "The required internal order of Multi-Head Self-Attention, Add & Norm, Feed-Forward Network, Add & Norm is not shown.",
+          "severity": "medium",
+          "element_ids": [
+            "multi_head_self_attention",
+            "add_norm_1",
+            "position_wise_feed_forward_network",
+            "add_norm_2"
+          ]
+        },
+        {
+          "description": "Contextual Embeddings is not shown beneath the Transformer Encoder Block.",
+          "severity": "medium",
+          "element_ids": [
+            "contextual_embeddings",
+            "transformer_encoder_block"
+          ]
+        },
+        {
+          "description": "The block does not visually contain the required internal Transformer encoder components; one large internal box also extends outside the container.",
+          "severity": "medium",
+          "element_ids": [
+            "transformer_encoder_block"
+          ]
+        }
+      ],
+      "notes": "The generic block outline is visually distinct, but the expected internal sequence is missing.",
+      "measurable": true,
+      "score": 0.1111111111111111
+    },
+    {
+      "criterion_id": "layout.canvas",
+      "dimension": "layout",
+      "judge": "gpt-5.5",
+      "expected_count": 1,
+      "detected_issues": 1,
+      "issues": [
+        {
+          "description": "The blue output rectangle extends beyond the right edge of the canvas.",
+          "severity": "high",
+          "element_ids": [
+            "contextual_embeddings"
+          ]
+        }
+      ],
+      "notes": "",
+      "measurable": true,
+      "score": 0.0
+    },
+    {
+      "criterion_id": "layout.overlap",
+      "dimension": "layout",
+      "judge": "gpt-5.5",
+      "expected_count": 5,
+      "detected_issues": 5,
+      "issues": [
+        {
+          "description": "The yellow \"Thing 1\" box overlaps the pink \"Layer\" box.",
+          "severity": "high",
+          "element_ids": [
+            "input_tokens"
+          ]
+        },
+        {
+          "description": "The pink \"Layer\" box overlaps the purple \"???\" box.",
+          "severity": "high",
+          "element_ids": []
+        },
+        {
+          "description": "The purple \"???\" box collides with/crosses the red block container region.",
+          "severity": "high",
+          "element_ids": [
+            "transformer_encoder_block"
+          ]
+        },
+        {
+          "description": "The gray \"TBD\" box overlaps the gray \"Some Network Stuff\" box.",
+          "severity": "high",
+          "element_ids": []
+        },
+        {
+          "description": "The gray \"Some Network Stuff\" box extends through the right boundary of the red block container.",
+          "severity": "high",
+          "element_ids": [
+            "transformer_encoder_block"
+          ]
+        }
+      ],
+      "notes": "",
+      "measurable": true,
+      "score": 0.0
+    },
+    {
+      "criterion_id": "connectivity.connections",
+      "dimension": "connectivity",
+      "judge": "gpt-5.5",
+      "expected_count": 10,
+      "detected_issues": 10,
+      "issues": [
+        {
+          "description": "Missing directed arrow from Input Tokens to Token Embeddings.",
+          "severity": "critical",
+          "element_ids": [
+            "input_tokens",
+            "token_embeddings"
+          ]
+        },
+        {
+          "description": "Missing directed arrow from Token Embeddings to Add.",
+          "severity": "critical",
+          "element_ids": [
+            "token_embeddings",
+            "add"
+          ]
+        },
+        {
+          "description": "Missing directed arrow from Positional Encoding to Add.",
+          "severity": "critical",
+          "element_ids": [
+            "positional_encoding",
+            "add"
+          ]
+        },
+        {
+          "description": "Missing directed arrow from Add to Multi-Head Self-Attention.",
+          "severity": "critical",
+          "element_ids": [
+            "add",
+            "multi_head_self_attention"
+          ]
+        },
+        {
+          "description": "Missing directed arrow from Multi-Head Self-Attention to first Add & Norm.",
+          "severity": "critical",
+          "element_ids": [
+            "multi_head_self_attention",
+            "add_norm_1"
+          ]
+        },
+        {
+          "description": "Missing residual/skip arrow from Add to first Add & Norm.",
+          "severity": "critical",
+          "element_ids": [
+            "add",
+            "add_norm_1"
+          ]
+        },
+        {
+          "description": "Missing directed arrow from first Add & Norm to Position-wise Feed-Forward Network.",
+          "severity": "critical",
+          "element_ids": [
+            "add_norm_1",
+            "position_wise_feed_forward_network"
+          ]
+        },
+        {
+          "description": "Missing directed arrow from Position-wise Feed-Forward Network to second Add & Norm.",
+          "severity": "critical",
+          "element_ids": [
+            "position_wise_feed_forward_network",
+            "add_norm_2"
+          ]
+        },
+        {
+          "description": "Missing residual/skip arrow from first Add & Norm to second Add & Norm.",
+          "severity": "critical",
+          "element_ids": [
+            "add_norm_1",
+            "add_norm_2"
+          ]
+        },
+        {
+          "description": "Missing directed arrow from second Add & Norm to Contextual Embeddings.",
+          "severity": "critical",
+          "element_ids": [
+            "add_norm_2",
+            "contextual_embeddings"
+          ]
+        }
+      ],
+      "notes": "Visible arrows connect placeholder boxes rather than the required Transformer components.",
+      "measurable": true,
+      "score": 0.0
+    },
+    {
+      "criterion_id": "connectivity.endpoints",
+      "dimension": "connectivity",
+      "judge": "gpt-5.5",
+      "expected_count": 4,
+      "detected_issues": 4,
+      "issues": [
+        {
+          "description": "Visible arrow from \"Thing 1\" toward \"Layer\" does not attach to the expected Input Tokens \u2192 Token Embeddings endpoints.",
+          "severity": "critical",
+          "element_ids": []
+        },
+        {
+          "description": "Visible arrow from \"Layer\" toward \"???\" does not attach to any expected Transformer encoder connection.",
+          "severity": "critical",
+          "element_ids": []
+        },
+        {
+          "description": "Visible arrow pointing into the gray \"Some Network Stuff\" box has incorrect placeholder endpoints and direction for the expected internal encoder flow.",
+          "severity": "critical",
+          "element_ids": []
+        },
+        {
+          "description": "Visible arrow from \"Some Network Stuff\" toward the partial \"Output?\" box does not attach to the expected second Add & Norm \u2192 Contextual Embeddings endpoints.",
+          "severity": "critical",
+          "element_ids": [
+            "contextual_embeddings"
+          ]
+        }
+      ],
+      "notes": "",
+      "measurable": true,
+      "score": 0.0
+    },
+    {
+      "criterion_id": "details.labels",
+      "dimension": "details",
+      "judge": "gpt-5.5",
+      "expected_count": 17,
+      "detected_issues": 17,
+      "issues": [
+        {
+          "description": "Exact label \"Input Tokens\" is missing.",
+          "severity": "high",
+          "element_ids": [
+            "input_tokens"
+          ]
+        },
+        {
+          "description": "Exact label \"Token Embeddings\" is missing.",
+          "severity": "high",
+          "element_ids": [
+            "token_embeddings"
+          ]
+        },
+        {
+          "description": "Exact label \"Positional Encoding\" is missing.",
+          "severity": "high",
+          "element_ids": [
+            "positional_encoding"
+          ]
+        },
+        {
+          "description": "Exact label \"Add\" is missing.",
+          "severity": "high",
+          "element_ids": [
+            "add"
+          ]
+        },
+        {
+          "description": "Exact label \"Transformer Encoder Block\" is missing; the container is labeled \"Block\".",
+          "severity": "high",
+          "element_ids": [
+            "transformer_encoder_block"
+          ]
+        },
+        {
+          "description": "Exact repetition marker \"N\u00d7\" is missing.",
+          "severity": "high",
+          "element_ids": [
+            "repetition_marker_n_times"
+          ]
+        },
+        {
+          "description": "Exact label \"Multi-Head Self-Attention\" is missing.",
+          "severity": "high",
+          "element_ids": [
+            "multi_head_self_attention"
+          ]
+        },
+        {
+          "description": "Exact label \"Add & Norm\" for the first normalization component is missing.",
+          "severity": "high",
+          "element_ids": [
+            "add_norm_1"
+          ]
+        },
+        {
+          "description": "Exact label \"Position-wise Feed-Forward Network\" is missing.",
+          "severity": "high",
+          "element_ids": [
+            "position_wise_feed_forward_network"
+          ]
+        },
+        {
+          "description": "Exact label \"Add & Norm\" for the second normalization component is missing.",
+          "severity": "high",
+          "element_ids": [
+            "add_norm_2"
+          ]
+        },
+        {
+          "description": "Exact label \"Contextual Embeddings\" is missing.",
+          "severity": "high",
+          "element_ids": [
+            "contextual_embeddings"
+          ]
+        },
+        {
+          "description": "Labels are not meaningful for the required architecture; visible labels include placeholders such as \"Thing 1\", \"Layer\", \"???\", \"TBD\", and \"Output?\".",
+          "severity": "high",
+          "element_ids": []
+        },
+        {
+          "description": "Forbidden placeholder label \"Layer\" is used.",
+          "severity": "high",
+          "element_ids": []
+        },
+        {
+          "description": "Forbidden placeholder label \"Thing\" is used in \"Thing 1\".",
+          "severity": "high",
+          "element_ids": []
+        },
+        {
+          "description": "Forbidden placeholder label \"TBD\" is used in the title and inside the block.",
+          "severity": "high",
+          "element_ids": []
+        },
+        {
+          "description": "Forbidden placeholder label \"???\" is used.",
+          "severity": "high",
+          "element_ids": []
+        },
+        {
+          "description": "Generic or placeholder text is used in place of required labels, including \"Some Network Stuff\" and \"Output?\".",
+          "severity": "high",
+          "element_ids": []
+        }
+      ],
+      "notes": "",
+      "measurable": true,
+      "score": 0.0
+    },
+    {
+      "criterion_id": "legibility.overflow",
+      "dimension": "legibility",
+      "judge": "gpt-5.5",
+      "expected_count": 8,
+      "detected_issues": 0,
+      "issues": [],
+      "notes": "Visible text appears to stay within its associated boxes or title area; off-canvas geometry is counted under layout.canvas.",
+      "measurable": true,
+      "score": 1.0
+    },
+    {
+      "criterion_id": "legibility.minimum_font",
+      "dimension": "legibility",
+      "judge": "gpt-5.5",
+      "expected_count": 8,
+      "detected_issues": 8,
+      "issues": [
+        {
+          "description": "\"MODEL DIAGRAM TBD\" appears below the 12 px minimum rendered font size.",
+          "severity": "high",
+          "element_ids": []
+        },
+        {
+          "description": "\"Thing 1\" appears below the 12 px minimum rendered font size.",
+          "severity": "high",
+          "element_ids": []
+        },
+        {
+          "description": "\"Layer\" appears below the 12 px minimum rendered font size.",
+          "severity": "high",
+          "element_ids": []
+        },
+        {
+          "description": "\"???\" appears below the 12 px minimum rendered font size.",
+          "severity": "high",
+          "element_ids": []
+        },
+        {
+          "description": "\"Block\" appears below the 12 px minimum rendered font size.",
+          "severity": "high",
+          "element_ids": [
+            "transformer_encoder_block"
+          ]
+        },
+        {
+          "description": "\"TBD\" appears below the 12 px minimum rendered font size.",
+          "severity": "high",
+          "element_ids": []
+        },
+        {
+          "description": "\"Some Network Stuff\" appears below the 12 px minimum rendered font size.",
+          "severity": "high",
+          "element_ids": []
+        },
+        {
+          "description": "\"Output?\" appears below the 12 px minimum rendered font size.",
+          "severity": "high",
+          "element_ids": [
+            "contextual_embeddings"
+          ]
+        }
+      ],
+      "notes": "",
+      "measurable": true,
+      "score": 0.0
+    },
     {
       "criterion_id": "presence.elements",
       "dimension": "presence",
@@ -103,28 +655,28 @@
           "description": "Expected component is not visible: Multi-Head Self-Attention",
           "severity": "high",
           "element_ids": [
-            "attention"
+            "multi_head_self_attention"
           ]
         },
         {
           "description": "Expected component is not visible: Add & Norm",
           "severity": "high",
           "element_ids": [
-            "norm_1"
+            "add_norm_1"
           ]
         },
         {
           "description": "Expected component is not visible: Position-wise Feed-Forward Network",
           "severity": "high",
           "element_ids": [
-            "ffn"
+            "position_wise_feed_forward_network"
           ]
         },
         {
           "description": "Expected component is not visible: Add & Norm",
           "severity": "high",
           "element_ids": [
-            "norm_2"
+            "add_norm_2"
           ]
         },
         {
@@ -248,15 +800,15 @@
           "severity": "critical",
           "element_ids": [
             "add",
-            "attention"
+            "multi_head_self_attention"
           ]
         },
         {
           "description": "Expected directed connection is missing or joins the wrong components",
           "severity": "critical",
           "element_ids": [
-            "attention",
-            "norm_1"
+            "multi_head_self_attention",
+            "add_norm_1"
           ]
         },
         {
@@ -264,38 +816,38 @@
           "severity": "critical",
           "element_ids": [
             "add",
-            "norm_1"
+            "add_norm_1"
           ]
         },
         {
           "description": "Expected directed connection is missing or joins the wrong components",
           "severity": "critical",
           "element_ids": [
-            "norm_1",
-            "ffn"
+            "add_norm_1",
+            "position_wise_feed_forward_network"
           ]
         },
         {
           "description": "Expected directed connection is missing or joins the wrong components",
           "severity": "critical",
           "element_ids": [
-            "ffn",
-            "norm_2"
+            "position_wise_feed_forward_network",
+            "add_norm_2"
           ]
         },
         {
           "description": "Expected directed connection is missing or joins the wrong components",
           "severity": "critical",
           "element_ids": [
-            "norm_1",
-            "norm_2"
+            "add_norm_1",
+            "add_norm_2"
           ]
         },
         {
           "description": "Expected directed connection is missing or joins the wrong components",
           "severity": "critical",
           "element_ids": [
-            "norm_2",
+            "add_norm_2",
             "contextual_embeddings"
           ]
         }
@@ -383,28 +935,28 @@
           "description": "Expected meaningful label is missing",
           "severity": "high",
           "element_ids": [
-            "attention"
+            "multi_head_self_attention"
           ]
         },
         {
           "description": "Expected meaningful label is missing",
           "severity": "high",
           "element_ids": [
-            "norm_1"
+            "add_norm_1"
           ]
         },
         {
           "description": "Expected meaningful label is missing",
           "severity": "high",
           "element_ids": [
-            "ffn"
+            "position_wise_feed_forward_network"
           ]
         },
         {
           "description": "Expected meaningful label is missing",
           "severity": "high",
           "element_ids": [
-            "norm_2"
+            "add_norm_2"
           ]
         },
         {
@@ -530,50 +1082,70 @@
   "inventory": {
     "inventory": {
       "presence": [
-        "Input Tokens",
-        "Token Embeddings",
-        "Positional Encoding",
-        "Add operation",
-        "Transformer Encoder Block group",
-        "N\u00d7 repetition marker",
-        "Multi-Head Self-Attention",
-        "first Add & Norm",
-        "Position-wise Feed-Forward Network",
-        "second Add & Norm",
-        "Contextual Embeddings"
+        "Input Tokens component is present at the top.",
+        "Token Embeddings component is present beneath Input Tokens.",
+        "Positional Encoding component is present parallel to Token Embeddings beneath Input Tokens.",
+        "Add operation is present combining Token Embeddings and Positional Encoding.",
+        "Transformer Encoder Block group/container is present.",
+        "Transformer Encoder Block is visibly marked N\u00d7 to show repetition.",
+        "Multi-Head Self-Attention component is present inside the Transformer Encoder Block.",
+        "First Add & Norm component is present inside the Transformer Encoder Block.",
+        "Position-wise Feed-Forward Network component is present inside the Transformer Encoder Block.",
+        "Second Add & Norm component is present inside the Transformer Encoder Block.",
+        "Contextual Embeddings output component is present beneath the Transformer Encoder Block.",
+        "Residual/skip connection from Add to first Add & Norm is present.",
+        "Residual/skip connection from first Add & Norm to second Add & Norm is present."
       ],
       "layout": [
-        "top-to-bottom reading order",
-        "parallel embeddings and positional encoding before Add",
-        "four internal stages contained by encoder block",
-        "all content inside canvas",
-        "no unintended overlaps"
+        "Diagram follows a top-to-bottom processing order.",
+        "Input Tokens is above Token Embeddings and Positional Encoding.",
+        "Token Embeddings and Positional Encoding are parallel components beneath Input Tokens.",
+        "Add is beneath Token Embeddings and Positional Encoding.",
+        "Transformer Encoder Block is beneath Add.",
+        "Internal encoder block order is top-to-bottom: Multi-Head Self-Attention, first Add & Norm, Position-wise Feed-Forward Network, second Add & Norm.",
+        "Contextual Embeddings is beneath the Transformer Encoder Block.",
+        "Transformer Encoder Block visually contains its internal components.",
+        "Transformer Encoder Block is visually distinct from internal components.",
+        "All content remains fully inside the canvas.",
+        "No unintended overlaps or collisions are present.",
+        "Arrows are routed so sources and targets are visually unambiguous."
       ],
       "connectivity": [
-        "Input Tokens -> Token Embeddings",
-        "Token Embeddings -> Add",
-        "Positional Encoding -> Add",
-        "Add -> Multi-Head Self-Attention",
-        "Multi-Head Self-Attention -> first Add & Norm",
-        "residual Add -> first Add & Norm",
-        "first Add & Norm -> Position-wise Feed-Forward Network",
-        "Position-wise Feed-Forward Network -> second Add & Norm",
-        "residual first Add & Norm -> second Add & Norm",
-        "second Add & Norm -> Contextual Embeddings"
+        "Directed arrow from Input Tokens to Token Embeddings.",
+        "Directed arrow from Token Embeddings to Add.",
+        "Directed arrow from Positional Encoding to Add.",
+        "Directed arrow from Add to Multi-Head Self-Attention.",
+        "Directed arrow from Multi-Head Self-Attention to first Add & Norm.",
+        "Directed residual/skip arrow from Add to first Add & Norm.",
+        "Directed arrow from first Add & Norm to Position-wise Feed-Forward Network.",
+        "Directed arrow from Position-wise Feed-Forward Network to second Add & Norm.",
+        "Directed residual/skip arrow from first Add & Norm to second Add & Norm.",
+        "Directed arrow from second Add & Norm to Contextual Embeddings."
       ],
       "details": [
-        "all component labels are meaningful and architecture-specific",
-        "the attention label includes Multi-Head and Self-Attention",
-        "the feed-forward label identifies a position-wise feed-forward network",
-        "both normalization stages say Add & Norm",
-        "the repeated block is explicitly labeled Transformer Encoder Block",
-        "the repetition badge says N\u00d7",
-        "no placeholder labels such as Layer, Thing, TBD, or ???"
+        "Exact label \"Input Tokens\" is visible.",
+        "Exact label \"Token Embeddings\" is visible.",
+        "Exact label \"Positional Encoding\" is visible.",
+        "Exact label \"Add\" is visible.",
+        "Exact label \"Transformer Encoder Block\" is visible on the group/container.",
+        "Exact repetition marker \"N\u00d7\" is visible on or near the Transformer Encoder Block.",
+        "Exact label \"Multi-Head Self-Attention\" is visible.",
+        "Exact label \"Add & Norm\" is visible for the first normalization component.",
+        "Exact label \"Position-wise Feed-Forward Network\" is visible.",
+        "Exact label \"Add & Norm\" is visible for the second normalization component.",
+        "Exact label \"Contextual Embeddings\" is visible.",
+        "Labels are meaningful and not missing.",
+        "Placeholder label \"Layer\" is not used as a substitute for required labels.",
+        "Placeholder label \"Thing\" is not used.",
+        "Placeholder label \"TBD\" is not used.",
+        "Placeholder label \"???\" is not used.",
+        "Generic or placeholder text is not used in place of required labels."
       ],
       "legibility": [
-        "all labels use at least 12 px rendered font size",
-        "text remains inside its intended box",
-        "arrows and labels are visually distinguishable"
+        "All text is readable.",
+        "All text remains inside its intended box or container.",
+        "Text does not clip, collide, or overflow.",
+        "Every text element uses rendered font size of at least 12 px."
       ]
     },
     "components": [
@@ -585,12 +1157,12 @@
       {
         "id": "token_embeddings",
         "label": "Token Embeddings",
-        "kind": "embedding"
+        "kind": "component"
       },
       {
         "id": "positional_encoding",
         "label": "Positional Encoding",
-        "kind": "encoding"
+        "kind": "component"
       },
       {
         "id": "add",
@@ -598,34 +1170,34 @@
         "kind": "operation"
       },
       {
-        "id": "encoder_block",
+        "id": "transformer_encoder_block",
         "label": "Transformer Encoder Block",
         "kind": "group"
       },
       {
-        "id": "repeat_marker",
+        "id": "repetition_marker_n_times",
         "label": "N\u00d7",
-        "kind": "annotation"
+        "kind": "repetition marker"
       },
       {
-        "id": "attention",
+        "id": "multi_head_self_attention",
         "label": "Multi-Head Self-Attention",
-        "kind": "operation"
+        "kind": "component"
       },
       {
-        "id": "norm_1",
+        "id": "add_norm_1",
         "label": "Add & Norm",
-        "kind": "operation"
+        "kind": "component"
       },
       {
-        "id": "ffn",
+        "id": "position_wise_feed_forward_network",
         "label": "Position-wise Feed-Forward Network",
-        "kind": "operation"
+        "kind": "component"
       },
       {
-        "id": "norm_2",
+        "id": "add_norm_2",
         "label": "Add & Norm",
-        "kind": "operation"
+        "kind": "component"
       },
       {
         "id": "contextual_embeddings",
@@ -648,30 +1220,30 @@
       },
       {
         "source": "add",
-        "target": "attention"
+        "target": "multi_head_self_attention"
       },
       {
-        "source": "attention",
-        "target": "norm_1"
+        "source": "multi_head_self_attention",
+        "target": "add_norm_1"
       },
       {
         "source": "add",
-        "target": "norm_1"
+        "target": "add_norm_1"
       },
       {
-        "source": "norm_1",
-        "target": "ffn"
+        "source": "add_norm_1",
+        "target": "position_wise_feed_forward_network"
       },
       {
-        "source": "ffn",
-        "target": "norm_2"
+        "source": "position_wise_feed_forward_network",
+        "target": "add_norm_2"
       },
       {
-        "source": "norm_1",
-        "target": "norm_2"
+        "source": "add_norm_1",
+        "target": "add_norm_2"
       },
       {
-        "source": "norm_2",
+        "source": "add_norm_2",
         "target": "contextual_embeddings"
       }
     ],
@@ -679,14 +1251,14 @@
       "Layer",
       "Thing",
       "TBD",
-      "TODO",
-      "???",
-      "Placeholder"
+      "???"
     ]
   },
   "metadata": {
-    "vlm_judges": [],
-    "expectation_model": null,
+    "vlm_judges": [
+      "gpt-5.5"
+    ],
+    "expectation_model": "gpt-5.5",
     "expectations_from": "description",
     "deterministic_judge": true
   }
