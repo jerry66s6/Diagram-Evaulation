@@ -9,22 +9,28 @@ from .deterministic import DeterministicJudge, GeometryConfig
 from .pipeline import CorrectnessPipeline, PipelineConfig
 from .rubric import load_config, load_rubric
 from .vfig import VFigRunner
-from .vlm import AnthropicBackend, ExpectationExtractor, OpenAIBackend, VLMJudge
+from .vlm import ExpectationExtractor, OpenAIBackend, VLMJudge
 
 
 def build_parser() -> argparse.ArgumentParser:
-    parser = argparse.ArgumentParser(description="Evaluate diagram correctness with a multi-judge panel")
-    parser.add_argument("--reference", required=True, help="Reference/target diagram image")
-    parser.add_argument("--candidate", required=True, help="Rendered candidate diagram image")
-    parser.add_argument("--reference-svg", help="Existing reference SVG; bypass VFIG for this image")
-    parser.add_argument("--candidate-svg", help="Existing candidate SVG; bypass VFIG for this image")
+    parser = argparse.ArgumentParser(description="Evaluate diagram alignment with a description")
+    parser.add_argument("--description", required=True, help="Path to the intended diagram description")
+    candidate = parser.add_mutually_exclusive_group(required=True)
+    candidate.add_argument(
+        "--candidate-svg",
+        help="Generated candidate SVG (rendered internally for GPT and parsed for geometry)",
+    )
+    candidate.add_argument(
+        "--candidate",
+        help="Rendered candidate image (requires VFIG for deterministic geometry checks)",
+    )
     parser.add_argument("--rubric", default="config/rubric.json")
     parser.add_argument("--config", default="config/evaluator.json")
     parser.add_argument("--output", default="correctness-report.json")
     parser.add_argument(
         "--skip-deterministic",
         action="store_true",
-        help="Run only the three VLM judges (useful before VFIG is installed)",
+        help="Run only the configured GPT judge (useful before VFIG is installed)",
     )
     return parser
 
@@ -35,21 +41,16 @@ def main(argv: list[str] | None = None) -> int:
         settings = load_config(args.config)
         criteria = load_rubric(args.rubric)
         models = settings["models"]
-        judges = [
-            VLMJudge(OpenAIBackend(models["openai"][0])),
-            VLMJudge(OpenAIBackend(models["openai"][1])),
-            VLMJudge(AnthropicBackend(models["anthropic"])),
-        ]
+        judges = [VLMJudge(OpenAIBackend(models["judge"]))]
         geometry = settings.get("geometry", {})
         deterministic = DeterministicJudge(GeometryConfig(**geometry))
         vfig = None
-        reference_svg = args.reference_svg
         candidate_svg = args.candidate_svg
-        if not args.skip_deterministic and not (reference_svg and candidate_svg):
+        if not args.skip_deterministic and not candidate_svg:
             vfig_command = settings.get("vfig", {}).get("command", [])
             if not vfig_command:
                 raise ValueError(
-                    "Deterministic evaluation requires both --reference-svg and --candidate-svg, "
+                    "Deterministic evaluation requires --candidate-svg "
                     "or a config.vfig.command. Use --skip-deterministic to omit it."
                 )
             vfig = VFigRunner(
@@ -67,7 +68,7 @@ def main(argv: list[str] | None = None) -> int:
                 criteria=criteria,
                 judges=judges,
                 expectation_extractor=ExpectationExtractor(
-                    OpenAIBackend(models.get("expectation", "gpt-5.6"))
+                    OpenAIBackend(models.get("expectation", models["judge"]))
                 ),
                 vfig_runner=vfig,
                 deterministic_judge=deterministic,
@@ -76,11 +77,12 @@ def main(argv: list[str] | None = None) -> int:
                 fallback_frequencies=settings.get("fallback_frequencies"),
             )
         )
+        description = Path(args.description).read_text(encoding="utf-8")
         report = pipeline.run(
-            reference_image=args.reference,
+            description=description,
             candidate_image=args.candidate,
-            reference_svg=reference_svg if not args.skip_deterministic else None,
-            candidate_svg=candidate_svg if not args.skip_deterministic else None,
+            candidate_svg=candidate_svg,
+            run_deterministic=not args.skip_deterministic,
         )
         output = Path(args.output)
         output.write_text(json.dumps(report.to_dict(), indent=2), encoding="utf-8")
@@ -96,4 +98,3 @@ def main(argv: list[str] | None = None) -> int:
 
 if __name__ == "__main__":
     raise SystemExit(main())
-

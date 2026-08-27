@@ -3,65 +3,51 @@
     {
       "id": "presence.elements",
       "dimension": "presence",
-      "description": "Every required object, group, label, symbol, and connector visible in the reference is present in the candidate; no required element is omitted.",
+      "description": "Every component, group, input, output, repeated block, and operation expected from the written description is visibly present in the candidate.",
       "severity": "high",
-      "deterministic_metric": "element_presence"
+      "deterministic_metric": "description_presence"
     },
     {
-      "id": "layout.position",
+      "id": "layout.order",
       "dimension": "layout",
-      "description": "Matched elements have the same relative and normalized positions as in the reference.",
-      "severity": "high",
-      "deterministic_metric": "spatial_position"
-    },
-    {
-      "id": "layout.size_aspect",
-      "dimension": "layout",
-      "description": "Matched shapes preserve relative size and aspect ratio.",
+      "description": "Components follow the sensible reading and processing order implied by the description.",
       "severity": "medium",
-      "deterministic_metric": "size_and_aspect"
+      "deterministic_metric": "description_order"
+    },
+    {
+      "id": "layout.canvas",
+      "dimension": "layout",
+      "description": "All candidate content remains fully inside the SVG canvas.",
+      "severity": "high",
+      "deterministic_metric": "canvas_bounds"
     },
     {
       "id": "layout.overlap",
       "dimension": "layout",
-      "description": "Containment and overlap relationships match the reference and introduce no unintended collisions.",
-      "severity": "medium",
-      "deterministic_metric": "overlap_relations"
+      "description": "Candidate components have no unintended overlaps or collisions; intentional container nesting is allowed.",
+      "severity": "high",
+      "deterministic_metric": "unintended_overlap"
     },
     {
-      "id": "connectivity.connectors",
+      "id": "connectivity.connections",
       "dimension": "connectivity",
-      "description": "All required lines and arrows are present; no required connection is missing.",
+      "description": "Every directed source-to-target connection expected from the description is visibly present in the candidate.",
       "severity": "critical",
-      "deterministic_metric": "connector_presence"
+      "deterministic_metric": "description_connections"
     },
     {
       "id": "connectivity.endpoints",
       "dimension": "connectivity",
-      "description": "Each connector attaches to the correct source and destination, with the correct direction.",
+      "description": "Each visible arrow attaches to the correct description-expected source and target components with the correct direction.",
       "severity": "critical",
-      "deterministic_metric": "connector_endpoints"
+      "deterministic_metric": "connector_attachment"
     },
     {
-      "id": "details.text",
+      "id": "details.labels",
       "dimension": "details",
-      "description": "All text content, numbers, punctuation, and capitalization match the reference.",
+      "description": "Labels and content are complete, accurate, and meaningful for the description rather than missing, generic, or placeholder text.",
       "severity": "high",
-      "deterministic_metric": "text_accuracy"
-    },
-    {
-      "id": "details.style",
-      "dimension": "details",
-      "description": "Colors, fills, strokes, line styles, and arrowhead styles match the reference.",
-      "severity": "medium",
-      "deterministic_metric": "style_fidelity"
-    },
-    {
-      "id": "details.shapes",
-      "dimension": "details",
-      "description": "Shape types and small visual marks match the reference.",
-      "severity": "medium",
-      "deterministic_metric": "shape_fidelity"
+      "deterministic_metric": "meaningful_labels"
     },
     {
       "id": "legibility.overflow",
@@ -79,4 +65,3 @@
     }
   ]
 }
-

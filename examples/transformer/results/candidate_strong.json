@@ -1,0 +1,331 @@
+{
+  "correctness": 1.0,
+  "formula": "0.200000*presence + 0.100000*layout + 0.400000*connectivity + 0.100000*details + 0.200000*legibility",
+  "weights": {
+    "presence": 0.2,
+    "layout": 0.1,
+    "connectivity": 0.4,
+    "details": 0.1,
+    "legibility": 0.2
+  },
+  "dimensions": {
+    "presence": {
+      "dimension": "presence",
+      "score": 1.0,
+      "criteria": {
+        "presence.elements": 1.0
+      },
+      "participating_judges": [
+        "deterministic-svg"
+      ]
+    },
+    "layout": {
+      "dimension": "layout",
+      "score": 1.0,
+      "criteria": {
+        "layout.order": 1.0,
+        "layout.canvas": 1.0,
+        "layout.overlap": 1.0
+      },
+      "participating_judges": [
+        "deterministic-svg"
+      ]
+    },
+    "connectivity": {
+      "dimension": "connectivity",
+      "score": 1.0,
+      "criteria": {
+        "connectivity.connections": 1.0,
+        "connectivity.endpoints": 1.0
+      },
+      "participating_judges": [
+        "deterministic-svg"
+      ]
+    },
+    "details": {
+      "dimension": "details",
+      "score": 1.0,
+      "criteria": {
+        "details.labels": 1.0
+      },
+      "participating_judges": [
+        "deterministic-svg"
+      ]
+    },
+    "legibility": {
+      "dimension": "legibility",
+      "score": 1.0,
+      "criteria": {
+        "legibility.overflow": 1.0,
+        "legibility.minimum_font": 1.0
+      },
+      "participating_judges": [
+        "deterministic-svg"
+      ]
+    }
+  },
+  "metrics": [
+    {
+      "criterion_id": "presence.elements",
+      "dimension": "presence",
+      "judge": "deterministic-svg",
+      "expected_count": 11,
+      "detected_issues": 0,
+      "issues": [],
+      "notes": "",
+      "measurable": true,
+      "score": 1.0
+    },
+    {
+      "criterion_id": "layout.order",
+      "dimension": "layout",
+      "judge": "deterministic-svg",
+      "expected_count": 10,
+      "detected_issues": 0,
+      "issues": [],
+      "notes": "",
+      "measurable": true,
+      "score": 1.0
+    },
+    {
+      "criterion_id": "layout.canvas",
+      "dimension": "layout",
+      "judge": "deterministic-svg",
+      "expected_count": 33,
+      "detected_issues": 0,
+      "issues": [],
+      "notes": "",
+      "measurable": true,
+      "score": 1.0
+    },
+    {
+      "criterion_id": "layout.overlap",
+      "dimension": "layout",
+      "judge": "deterministic-svg",
+      "expected_count": 10,
+      "detected_issues": 0,
+      "issues": [],
+      "notes": "",
+      "measurable": true,
+      "score": 1.0
+    },
+    {
+      "criterion_id": "connectivity.connections",
+      "dimension": "connectivity",
+      "judge": "deterministic-svg",
+      "expected_count": 10,
+      "detected_issues": 0,
+      "issues": [],
+      "notes": "",
+      "measurable": true,
+      "score": 1.0
+    },
+    {
+      "criterion_id": "connectivity.endpoints",
+      "dimension": "connectivity",
+      "judge": "deterministic-svg",
+      "expected_count": 10,
+      "detected_issues": 0,
+      "issues": [],
+      "notes": "",
+      "measurable": true,
+      "score": 1.0
+    },
+    {
+      "criterion_id": "details.labels",
+      "dimension": "details",
+      "judge": "deterministic-svg",
+      "expected_count": 11,
+      "detected_issues": 0,
+      "issues": [],
+      "notes": "",
+      "measurable": true,
+      "score": 1.0
+    },
+    {
+      "criterion_id": "legibility.overflow",
+      "dimension": "legibility",
+      "judge": "deterministic-svg",
+      "expected_count": 12,
+      "detected_issues": 0,
+      "issues": [],
+      "notes": "Text bounds use SVG positions and a conservative font-width estimate.",
+      "measurable": true,
+      "score": 1.0
+    },
+    {
+      "criterion_id": "legibility.minimum_font",
+      "dimension": "legibility",
+      "judge": "deterministic-svg",
+      "expected_count": 12,
+      "detected_issues": 0,
+      "issues": [],
+      "notes": "",
+      "measurable": true,
+      "score": 1.0
+    }
+  ],
+  "inventory": {
+    "inventory": {
+      "presence": [
+        "Input Tokens",
+        "Token Embeddings",
+        "Positional Encoding",
+        "Add operation",
+        "Transformer Encoder Block group",
+        "N\u00d7 repetition marker",
+        "Multi-Head Self-Attention",
+        "first Add & Norm",
+        "Position-wise Feed-Forward Network",
+        "second Add & Norm",
+        "Contextual Embeddings"
+      ],
+      "layout": [
+        "top-to-bottom reading order",
+        "parallel embeddings and positional encoding before Add",
+        "four internal stages contained by encoder block",
+        "all content inside canvas",
+        "no unintended overlaps"
+      ],
+      "connectivity": [
+        "Input Tokens -> Token Embeddings",
+        "Token Embeddings -> Add",
+        "Positional Encoding -> Add",
+        "Add -> Multi-Head Self-Attention",
+        "Multi-Head Self-Attention -> first Add & Norm",
+        "residual Add -> first Add & Norm",
+        "first Add & Norm -> Position-wise Feed-Forward Network",
+        "Position-wise Feed-Forward Network -> second Add & Norm",
+        "residual first Add & Norm -> second Add & Norm",
+        "second Add & Norm -> Contextual Embeddings"
+      ],
+      "details": [
+        "all component labels are meaningful and architecture-specific",
+        "the attention label includes Multi-Head and Self-Attention",
+        "the feed-forward label identifies a position-wise feed-forward network",
+        "both normalization stages say Add & Norm",
+        "the repeated block is explicitly labeled Transformer Encoder Block",
+        "the repetition badge says N\u00d7",
+        "no placeholder labels such as Layer, Thing, TBD, or ???"
+      ],
+      "legibility": [
+        "all labels use at least 12 px rendered font size",
+        "text remains inside its intended box",
+        "arrows and labels are visually distinguishable"
+      ]
+    },
+    "components": [
+      {
+        "id": "input_tokens",
+        "label": "Input Tokens",
+        "kind": "input"
+      },
+      {
+        "id": "token_embeddings",
+        "label": "Token Embeddings",
+        "kind": "embedding"
+      },
+      {
+        "id": "positional_encoding",
+        "label": "Positional Encoding",
+        "kind": "encoding"
+      },
+      {
+        "id": "add",
+        "label": "Add",
+        "kind": "operation"
+      },
+      {
+        "id": "encoder_block",
+        "label": "Transformer Encoder Block",
+        "kind": "group"
+      },
+      {
+        "id": "repeat_marker",
+        "label": "N\u00d7",
+        "kind": "annotation"
+      },
+      {
+        "id": "attention",
+        "label": "Multi-Head Self-Attention",
+        "kind": "operation"
+      },
+      {
+        "id": "norm_1",
+        "label": "Add & Norm",
+        "kind": "operation"
+      },
+      {
+        "id": "ffn",
+        "label": "Position-wise Feed-Forward Network",
+        "kind": "operation"
+      },
+      {
+        "id": "norm_2",
+        "label": "Add & Norm",
+        "kind": "operation"
+      },
+      {
+        "id": "contextual_embeddings",
+        "label": "Contextual Embeddings",
+        "kind": "output"
+      }
+    ],
+    "connections": [
+      {
+        "source": "input_tokens",
+        "target": "token_embeddings"
+      },
+      {
+        "source": "token_embeddings",
+        "target": "add"
+      },
+      {
+        "source": "positional_encoding",
+        "target": "add"
+      },
+      {
+        "source": "add",
+        "target": "attention"
+      },
+      {
+        "source": "attention",
+        "target": "norm_1"
+      },
+      {
+        "source": "add",
+        "target": "norm_1"
+      },
+      {
+        "source": "norm_1",
+        "target": "ffn"
+      },
+      {
+        "source": "ffn",
+        "target": "norm_2"
+      },
+      {
+        "source": "norm_1",
+        "target": "norm_2"
+      },
+      {
+        "source": "norm_2",
+        "target": "contextual_embeddings"
+      }
+    ],
+    "forbidden_placeholders": [
+      "Layer",
+      "Thing",
+      "TBD",
+      "TODO",
+      "???",
+      "Placeholder"
+    ]
+  },
+  "metadata": {
+    "vlm_judges": [],
+    "expectation_model": null,
+    "expectations_from": "description",
+    "deterministic_judge": true
+  }
+}

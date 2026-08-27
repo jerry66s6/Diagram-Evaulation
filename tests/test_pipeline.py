@@ -15,8 +15,16 @@ class FakeExtractor(ExpectationExtractor):
     def __init__(self) -> None:
         self.backend = FakeBackend()
 
-    def extract(self, reference_image: str | Path, criteria: list[Criterion]) -> dict[str, list[str]]:
-        return {dimension.value: [f"expected {dimension.value}"] for dimension in Dimension}
+    def extract(self, description: str, criteria: list[Criterion]):
+        return {
+            "inventory": {
+                dimension.value: [f"expected {dimension.value}"]
+                for dimension in Dimension
+            },
+            "components": [],
+            "connections": [],
+            "forbidden_placeholders": [],
+        }
 
 
 class FakeJudge:
@@ -24,7 +32,7 @@ class FakeJudge:
         self.name = name
         self.detected = detected
 
-    def evaluate(self, reference_image, candidate_image, criteria, inventory):
+    def evaluate(self, description, candidate_image, criteria, inventory):
         return [
             MetricScore(
                 criterion.id,
@@ -38,9 +46,7 @@ class FakeJudge:
 
 
 def test_pipeline_scores_all_five_dimensions(tmp_path: Path) -> None:
-    reference = tmp_path / "reference.png"
     candidate = tmp_path / "candidate.png"
-    reference.write_bytes(b"reference")
     candidate.write_bytes(b"candidate")
     criteria = [
         Criterion(f"{dimension.value}.metric", dimension, "", Severity.MEDIUM)
@@ -54,8 +60,34 @@ def test_pipeline_scores_all_five_dimensions(tmp_path: Path) -> None:
             fallback_frequencies={dimension.value: 1 for dimension in Dimension},
         )
     )
-    report = pipeline.run(reference, candidate)
+    report = pipeline.run("A five-part diagram", candidate)
     assert set(report.dimensions) == set(Dimension)
     assert report.correctness == pytest.approx(0.8)
     assert sum(report.weights.values()) == pytest.approx(1.0)
     assert report.metadata["deterministic_judge"] is False
+    assert report.metadata["expectations_from"] == "description"
+
+
+def test_pipeline_accepts_svg_as_the_only_candidate_artifact(tmp_path: Path) -> None:
+    candidate_svg = tmp_path / "candidate.svg"
+    candidate_svg.write_text(
+        '<svg xmlns="http://www.w3.org/2000/svg" width="100" height="100">'
+        '<rect x="10" y="10" width="80" height="40"/>'
+        '<text x="20" y="35" font-size="14">Input</text></svg>',
+        encoding="utf-8",
+    )
+    criterion = Criterion(
+        "presence.elements", Dimension.PRESENCE, "required elements", Severity.HIGH
+    )
+    pipeline = CorrectnessPipeline(
+        PipelineConfig(
+            criteria=[criterion],
+            judges=[FakeJudge("gpt", 0)],  # type: ignore[list-item]
+            expectation_extractor=FakeExtractor(),
+            fallback_frequencies={dimension.value: 1 for dimension in Dimension},
+        )
+    )
+
+    report = pipeline.run("Show an input box.", candidate_svg=candidate_svg)
+
+    assert report.correctness == pytest.approx(1.0)

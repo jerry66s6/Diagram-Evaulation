@@ -17,12 +17,6 @@ def _data_url(path: str | Path) -> str:
     return f"data:{mime};base64,{encoded}"
 
 
-def _raw_image(path: str | Path) -> tuple[str, str]:
-    file_path = Path(path)
-    mime = mimetypes.guess_type(file_path.name)[0] or "image/png"
-    return mime, base64.b64encode(file_path.read_bytes()).decode("ascii")
-
-
 def _criterion_payload(criteria: list[Criterion]) -> list[dict[str, str]]:
     return [
         {
@@ -46,9 +40,38 @@ INVENTORY_SCHEMA: dict[str, Any] = {
             },
             "required": [dimension.value for dimension in Dimension],
             "additionalProperties": False,
-        }
+        },
+        "components": {
+            "type": "array",
+            "items": {
+                "type": "object",
+                "properties": {
+                    "id": {"type": "string"},
+                    "label": {"type": "string"},
+                    "kind": {"type": "string"},
+                },
+                "required": ["id", "label", "kind"],
+                "additionalProperties": False,
+            },
+        },
+        "connections": {
+            "type": "array",
+            "items": {
+                "type": "object",
+                "properties": {
+                    "source": {"type": "string"},
+                    "target": {"type": "string"},
+                },
+                "required": ["source", "target"],
+                "additionalProperties": False,
+            },
+        },
+        "forbidden_placeholders": {
+            "type": "array",
+            "items": {"type": "string"},
+        },
     },
-    "required": ["inventory"],
+    "required": ["inventory", "components", "connections", "forbidden_placeholders"],
     "additionalProperties": False,
 }
 
@@ -139,60 +162,33 @@ class OpenAIBackend(VLMBackend):
         return json.loads(response.output_text)
 
 
-class AnthropicBackend(VLMBackend):
-    def __init__(self, model: str) -> None:
-        from anthropic import Anthropic
-
-        self.model = model
-        self.name = model
-        self.client = Anthropic()
-
-    def structured(self, prompt: str, images: list[str | Path], schema: dict[str, Any], schema_name: str) -> dict[str, Any]:
-        content: list[dict[str, Any]] = []
-        for image in images:
-            mime, data = _raw_image(image)
-            content.append(
-                {
-                    "type": "image",
-                    "source": {"type": "base64", "media_type": mime, "data": data},
-                }
-            )
-        content.append({"type": "text", "text": prompt})
-        response = self.client.messages.create(
-            model=self.model,
-            max_tokens=8192,
-            messages=[{"role": "user", "content": content}],
-            tools=[
-                {
-                    "name": schema_name,
-                    "description": "Return the requested evaluation as structured data.",
-                    "input_schema": schema,
-                }
-            ],
-            tool_choice={"type": "tool", "name": schema_name},
-        )
-        tool_block = next((block for block in response.content if block.type == "tool_use"), None)
-        if tool_block is None:
-            raise RuntimeError(f"{self.model} did not return the required structured result")
-        return dict(tool_block.input)
-
-
 class ExpectationExtractor:
     def __init__(self, backend: VLMBackend) -> None:
         self.backend = backend
 
-    def extract(self, reference_image: str | Path, criteria: list[Criterion]) -> dict[str, list[str]]:
+    def extract(self, description: str, criteria: list[Criterion]) -> dict[str, Any]:
         prompt = (
-            "You are the expectation-discovery stage of a diagram evaluator. The attached image is the "
-            "REFERENCE diagram, never the candidate. Inventory concrete, countable expectations visible in "
-            "the image for all five dimensions. Presence and details must be especially explicit (objects, "
-            "labels, colors, styles, and small marks). Connectivity entries must state source, destination, "
-            "and direction. Layout entries must state relative positions. Legibility entries must identify "
-            "text regions. Do not score anything. Use short, atomic strings.\n\nShared rubric:\n"
+            "You are stage 1 of a description-to-diagram alignment evaluator. Read only the written diagram "
+            "description below. There is no candidate image in this stage. Infer a frozen inventory of concrete, "
+            "countable expectations for all five dimensions. Presence must enumerate every expected component, "
+            "group, input, output, and repeated block. Details must enumerate exact meaningful labels and content "
+            "and must explicitly reject missing or placeholder labels. Connectivity must list each intended "
+            "directed source-to-target connection. Layout must describe sensible ordering, containment, overlap, "
+            "and canvas expectations. Legibility must describe readable text expectations. Do not score. Do not "
+            "add decorative requirements not implied by the description. Also return an ordered components list. "
+            "Give each component a unique snake_case id, its exact expected visible label, and a short kind. Preserve "
+            "repeated components as separate entries with separate ids. Return connections using only those component "
+            "ids, directed from source to target. Return explicit forbidden placeholder strings. Use short, atomic "
+            "strings.\n\nShared rubric:\n"
             + json.dumps(_criterion_payload(criteria), ensure_ascii=False)
+            + "\n\nDiagram description:\n"
+            + description
         )
-        data = self.backend.structured(prompt, [reference_image], INVENTORY_SCHEMA, "diagram_expectation_inventory")
-        return {dimension.value: list(data["inventory"][dimension.value]) for dimension in Dimension}
+        data = self.backend.structured(prompt, [], INVENTORY_SCHEMA, "diagram_expectation_inventory")
+        data["inventory"] = {
+            dimension.value: list(data["inventory"][dimension.value]) for dimension in Dimension
+        }
+        return data
 
 
 class VLMJudge:
@@ -202,24 +198,30 @@ class VLMJudge:
 
     def evaluate(
         self,
-        reference_image: str | Path,
+        description: str,
         candidate_image: str | Path,
         criteria: list[Criterion],
-        inventory: dict[str, list[str]],
+        inventory: dict[str, Any],
     ) -> list[MetricScore]:
         prompt = (
-            "You are one judge in a correctness panel. Image 1 is the REFERENCE and image 2 is the CANDIDATE. "
-            "Evaluate every rubric criterion independently. Use the frozen inventory below; do not invent a "
-            "different task. For each metric, expected_count is the number of relevant countable opportunities "
-            "and detected_issues is the number that fail. If no opportunity exists, return both counts as zero. "
-            "Count each failing opportunity once. Evidence must refer to visible elements.\n\nShared rubric:\n"
+            "You are stage 2 of a description-to-diagram alignment evaluator. The attached image is the only "
+            "CANDIDATE. Evaluate it against the written description and the frozen stage-1 inventory. Do not "
+            "invent a different target. Presence and Details must use the frozen expectations rather than "
+            "deciding what should exist while scoring. For every criterion, expected_count is the number of "
+            "relevant countable opportunities and detected_issues is the number that fail. If no opportunity "
+            "exists, return both counts as zero. Count each failing opportunity once. Layout must penalize overlap "
+            "and off-canvas content. Connectivity must verify visible source and target endpoints, not merely arrow "
+            "count. Details must penalize missing, meaningless, and placeholder labels. Evidence must refer to "
+            "visible candidate elements.\n\nShared rubric:\n"
             + json.dumps(_criterion_payload(criteria), ensure_ascii=False)
-            + "\n\nFrozen reference inventory:\n"
+            + "\n\nDiagram description:\n"
+            + description
+            + "\n\nFrozen description-derived inventory:\n"
             + json.dumps(inventory, ensure_ascii=False)
         )
         data = self.backend.structured(
             prompt,
-            [reference_image, candidate_image],
+            [candidate_image],
             JUDGE_SCHEMA,
             "diagram_correctness_judgment",
         )
@@ -254,4 +256,3 @@ class VLMJudge:
         if missing_ids:
             raise RuntimeError(f"{self.name} omitted rubric criteria: {sorted(missing_ids)}")
         return results
-

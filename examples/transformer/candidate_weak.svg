@@ -1,0 +1,23 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1100" height="900" viewBox="0 0 1100 900">
+  <defs><marker id="arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8" orient="auto"><path d="M0 0 L10 5 L0 10 z" fill="#991b1b" /></marker></defs>
+  <rect id="canvas-w" x="0" y="0" width="1100" height="900" fill="#fff7ed" />
+  <text id="title-w" x="70" y="38" font-size="11" fill="#7f1d1d">MODEL DIAGRAM TBD</text>
+  <rect id="thing1" x="30" y="90" width="250" height="80" fill="#fde68a" stroke="#991b1b" stroke-width="2" />
+  <text id="thing1-label" x="155" y="137" text-anchor="middle" font-size="10" fill="#111827">Thing 1</text>
+  <rect id="layer-a" x="235" y="130" width="330" height="150" fill="#fecaca" stroke="#991b1b" stroke-width="3" />
+  <text id="layer-a-label" x="400" y="208" text-anchor="middle" font-size="10" fill="#111827">Layer</text>
+  <rect id="unknown" x="450" y="210" width="360" height="150" fill="#ddd6fe" stroke="#6d28d9" stroke-width="3" />
+  <text id="unknown-label" x="630" y="289" text-anchor="middle" font-size="9" fill="#111827">???</text>
+  <rect id="block-w" x="120" y="330" width="700" height="360" fill="none" stroke="#991b1b" stroke-width="2" />
+  <text id="block-label-w" x="140" y="350" font-size="9" fill="#991b1b">Block</text>
+  <rect id="placeholder-a" x="180" y="370" width="480" height="130" fill="#e5e7eb" stroke="#111827" stroke-width="2" />
+  <text id="placeholder-a-label" x="420" y="440" text-anchor="middle" font-size="10" fill="#111827">TBD</text>
+  <rect id="placeholder-b" x="390" y="450" width="510" height="145" fill="#e5e7eb" stroke="#111827" stroke-width="2" />
+  <text id="placeholder-b-label" x="645" y="525" text-anchor="middle" font-size="8" fill="#111827">Some Network Stuff</text>
+  <rect id="off-canvas" x="960" y="720" width="250" height="100" fill="#bfdbfe" stroke="#1d4ed8" stroke-width="2" />
+  <text id="off-canvas-label" x="1085" y="775" text-anchor="middle" font-size="9" fill="#111827">Output?</text>
+  <line id="w1" x1="280" y1="130" x2="235" y2="170" stroke="#991b1b" stroke-width="4" marker-end="url(#arrow)" />
+  <line id="w2" x1="565" y1="205" x2="450" y2="260" stroke="#991b1b" stroke-width="4" marker-end="url(#arrow)" />
+  <line id="w3" x1="660" y1="435" x2="390" y2="500" stroke="#991b1b" stroke-width="4" marker-end="url(#arrow)" />
+  <line id="w4" x1="900" y1="522" x2="960" y2="770" stroke="#991b1b" stroke-width="4" marker-end="url(#arrow)" />
+</svg>

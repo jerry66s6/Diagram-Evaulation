@@ -1,8 +1,7 @@
 {
   "models": {
-    "expectation": "gpt-5.6",
-    "openai": ["gpt-5.5", "gpt-5.6"],
-    "anthropic": "claude-opus-4-8"
+    "expectation": "gpt-5.5",
+    "judge": "gpt-5.5"
   },
   "vfig": {
     "command": [
@@ -15,12 +14,11 @@
     "timeout_seconds": 600
   },
   "geometry": {
-    "position_tolerance": 0.06,
-    "size_tolerance": 0.25,
-    "endpoint_tolerance": 0.08,
+    "endpoint_tolerance": 0.035,
     "minimum_font_size": 12.0,
     "overlap_area_threshold": 0.01,
-    "match_threshold": 0.5
+    "label_similarity_threshold": 0.45,
+    "canvas_tolerance": 0.5
   },
   "severity_multipliers": {
     "low": 1.0,
@@ -37,4 +35,3 @@
   },
   "weight_history": "config/issue_history.json"
 }
-

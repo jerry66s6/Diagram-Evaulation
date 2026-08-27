@@ -1,0 +1,439 @@
+{
+  "correctness": 0.8134199134199135,
+  "formula": "0.200000*presence + 0.100000*layout + 0.400000*connectivity + 0.100000*details + 0.200000*legibility",
+  "weights": {
+    "presence": 0.2,
+    "layout": 0.1,
+    "connectivity": 0.4,
+    "details": 0.1,
+    "legibility": 0.2
+  },
+  "dimensions": {
+    "presence": {
+      "dimension": "presence",
+      "score": 0.9090909090909091,
+      "criteria": {
+        "presence.elements": 0.9090909090909091
+      },
+      "participating_judges": [
+        "deterministic-svg"
+      ]
+    },
+    "layout": {
+      "dimension": "layout",
+      "score": 0.9523809523809524,
+      "criteria": {
+        "layout.order": 0.8571428571428571,
+        "layout.canvas": 1.0,
+        "layout.overlap": 1.0
+      },
+      "participating_judges": [
+        "deterministic-svg"
+      ]
+    },
+    "connectivity": {
+      "dimension": "connectivity",
+      "score": 0.75,
+      "criteria": {
+        "connectivity.connections": 0.5,
+        "connectivity.endpoints": 1.0
+      },
+      "participating_judges": [
+        "deterministic-svg"
+      ]
+    },
+    "details": {
+      "dimension": "details",
+      "score": 0.36363636363636365,
+      "criteria": {
+        "details.labels": 0.36363636363636365
+      },
+      "participating_judges": [
+        "deterministic-svg"
+      ]
+    },
+    "legibility": {
+      "dimension": "legibility",
+      "score": 1.0,
+      "criteria": {
+        "legibility.overflow": 1.0,
+        "legibility.minimum_font": 1.0
+      },
+      "participating_judges": [
+        "deterministic-svg"
+      ]
+    }
+  },
+  "metrics": [
+    {
+      "criterion_id": "presence.elements",
+      "dimension": "presence",
+      "judge": "deterministic-svg",
+      "expected_count": 11,
+      "detected_issues": 1,
+      "issues": [
+        {
+          "description": "Expected component is not visible: Add & Norm",
+          "severity": "high",
+          "element_ids": [
+            "norm_2"
+          ]
+        }
+      ],
+      "notes": "",
+      "measurable": true,
+      "score": 0.9090909090909091
+    },
+    {
+      "criterion_id": "layout.order",
+      "dimension": "layout",
+      "judge": "deterministic-svg",
+      "expected_count": 7,
+      "detected_issues": 1,
+      "issues": [
+        {
+          "description": "Connected components violate the expected top-to-bottom reading order",
+          "severity": "medium",
+          "element_ids": [
+            "positional_encoding",
+            "add"
+          ]
+        }
+      ],
+      "notes": "",
+      "measurable": true,
+      "score": 0.8571428571428571
+    },
+    {
+      "criterion_id": "layout.canvas",
+      "dimension": "layout",
+      "judge": "deterministic-svg",
+      "expected_count": 27,
+      "detected_issues": 0,
+      "issues": [],
+      "notes": "",
+      "measurable": true,
+      "score": 1.0
+    },
+    {
+      "criterion_id": "layout.overlap",
+      "dimension": "layout",
+      "judge": "deterministic-svg",
+      "expected_count": 8,
+      "detected_issues": 0,
+      "issues": [],
+      "notes": "",
+      "measurable": true,
+      "score": 1.0
+    },
+    {
+      "criterion_id": "connectivity.connections",
+      "dimension": "connectivity",
+      "judge": "deterministic-svg",
+      "expected_count": 10,
+      "detected_issues": 5,
+      "issues": [
+        {
+          "description": "Expected directed connection is missing or joins the wrong components",
+          "severity": "critical",
+          "element_ids": [
+            "positional_encoding",
+            "add"
+          ]
+        },
+        {
+          "description": "Expected directed connection is missing or joins the wrong components",
+          "severity": "critical",
+          "element_ids": [
+            "add",
+            "norm_1"
+          ]
+        },
+        {
+          "description": "Expected directed connection is missing or joins the wrong components",
+          "severity": "critical",
+          "element_ids": [
+            "ffn",
+            "norm_2"
+          ]
+        },
+        {
+          "description": "Expected directed connection is missing or joins the wrong components",
+          "severity": "critical",
+          "element_ids": [
+            "norm_1",
+            "norm_2"
+          ]
+        },
+        {
+          "description": "Expected directed connection is missing or joins the wrong components",
+          "severity": "critical",
+          "element_ids": [
+            "norm_2",
+            "contextual_embeddings"
+          ]
+        }
+      ],
+      "notes": "",
+      "measurable": true,
+      "score": 0.5
+    },
+    {
+      "criterion_id": "connectivity.endpoints",
+      "dimension": "connectivity",
+      "judge": "deterministic-svg",
+      "expected_count": 7,
+      "detected_issues": 0,
+      "issues": [],
+      "notes": "",
+      "measurable": true,
+      "score": 1.0
+    },
+    {
+      "criterion_id": "details.labels",
+      "dimension": "details",
+      "judge": "deterministic-svg",
+      "expected_count": 11,
+      "detected_issues": 7,
+      "issues": [
+        {
+          "description": "Label is incomplete or generic; expected 'Positional Encoding'",
+          "severity": "high",
+          "element_ids": [
+            "repeat-m"
+          ]
+        },
+        {
+          "description": "Label is incomplete or generic; expected 'Transformer Encoder Block'",
+          "severity": "high",
+          "element_ids": [
+            "encoder-label-m"
+          ]
+        },
+        {
+          "description": "Label is incomplete or generic; expected 'N\u00d7'",
+          "severity": "high",
+          "element_ids": [
+            "title-m"
+          ]
+        },
+        {
+          "description": "Label is incomplete or generic; expected 'Multi-Head Self-Attention'",
+          "severity": "high",
+          "element_ids": [
+            "attention-label-m"
+          ]
+        },
+        {
+          "description": "Label is incomplete or generic; expected 'Position-wise Feed-Forward Network'",
+          "severity": "high",
+          "element_ids": [
+            "ffn-label-m"
+          ]
+        },
+        {
+          "description": "Expected meaningful label is missing",
+          "severity": "high",
+          "element_ids": [
+            "norm_2"
+          ]
+        },
+        {
+          "description": "Placeholder or meaningless label is visible",
+          "severity": "high",
+          "element_ids": [
+            "norm2-label-m"
+          ]
+        }
+      ],
+      "notes": "",
+      "measurable": true,
+      "score": 0.36363636363636365
+    },
+    {
+      "criterion_id": "legibility.overflow",
+      "dimension": "legibility",
+      "judge": "deterministic-svg",
+      "expected_count": 11,
+      "detected_issues": 0,
+      "issues": [],
+      "notes": "Text bounds use SVG positions and a conservative font-width estimate.",
+      "measurable": true,
+      "score": 1.0
+    },
+    {
+      "criterion_id": "legibility.minimum_font",
+      "dimension": "legibility",
+      "judge": "deterministic-svg",
+      "expected_count": 11,
+      "detected_issues": 0,
+      "issues": [],
+      "notes": "",
+      "measurable": true,
+      "score": 1.0
+    }
+  ],
+  "inventory": {
+    "inventory": {
+      "presence": [
+        "Input Tokens",
+        "Token Embeddings",
+        "Positional Encoding",
+        "Add operation",
+        "Transformer Encoder Block group",
+        "N\u00d7 repetition marker",
+        "Multi-Head Self-Attention",
+        "first Add & Norm",
+        "Position-wise Feed-Forward Network",
+        "second Add & Norm",
+        "Contextual Embeddings"
+      ],
+      "layout": [
+        "top-to-bottom reading order",
+        "parallel embeddings and positional encoding before Add",
+        "four internal stages contained by encoder block",
+        "all content inside canvas",
+        "no unintended overlaps"
+      ],
+      "connectivity": [
+        "Input Tokens -> Token Embeddings",
+        "Token Embeddings -> Add",
+        "Positional Encoding -> Add",
+        "Add -> Multi-Head Self-Attention",
+        "Multi-Head Self-Attention -> first Add & Norm",
+        "residual Add -> first Add & Norm",
+        "first Add & Norm -> Position-wise Feed-Forward Network",
+        "Position-wise Feed-Forward Network -> second Add & Norm",
+        "residual first Add & Norm -> second Add & Norm",
+        "second Add & Norm -> Contextual Embeddings"
+      ],
+      "details": [
+        "all component labels are meaningful and architecture-specific",
+        "the attention label includes Multi-Head and Self-Attention",
+        "the feed-forward label identifies a position-wise feed-forward network",
+        "both normalization stages say Add & Norm",
+        "the repeated block is explicitly labeled Transformer Encoder Block",
+        "the repetition badge says N\u00d7",
+        "no placeholder labels such as Layer, Thing, TBD, or ???"
+      ],
+      "legibility": [
+        "all labels use at least 12 px rendered font size",
+        "text remains inside its intended box",
+        "arrows and labels are visually distinguishable"
+      ]
+    },
+    "components": [
+      {
+        "id": "input_tokens",
+        "label": "Input Tokens",
+        "kind": "input"
+      },
+      {
+        "id": "token_embeddings",
+        "label": "Token Embeddings",
+        "kind": "embedding"
+      },
+      {
+        "id": "positional_encoding",
+        "label": "Positional Encoding",
+        "kind": "encoding"
+      },
+      {
+        "id": "add",
+        "label": "Add",
+        "kind": "operation"
+      },
+      {
+        "id": "encoder_block",
+        "label": "Transformer Encoder Block",
+        "kind": "group"
+      },
+      {
+        "id": "repeat_marker",
+        "label": "N\u00d7",
+        "kind": "annotation"
+      },
+      {
+        "id": "attention",
+        "label": "Multi-Head Self-Attention",
+        "kind": "operation"
+      },
+      {
+        "id": "norm_1",
+        "label": "Add & Norm",
+        "kind": "operation"
+      },
+      {
+        "id": "ffn",
+        "label": "Position-wise Feed-Forward Network",
+        "kind": "operation"
+      },
+      {
+        "id": "norm_2",
+        "label": "Add & Norm",
+        "kind": "operation"
+      },
+      {
+        "id": "contextual_embeddings",
+        "label": "Contextual Embeddings",
+        "kind": "output"
+      }
+    ],
+    "connections": [
+      {
+        "source": "input_tokens",
+        "target": "token_embeddings"
+      },
+      {
+        "source": "token_embeddings",
+        "target": "add"
+      },
+      {
+        "source": "positional_encoding",
+        "target": "add"
+      },
+      {
+        "source": "add",
+        "target": "attention"
+      },
+      {
+        "source": "attention",
+        "target": "norm_1"
+      },
+      {
+        "source": "add",
+        "target": "norm_1"
+      },
+      {
+        "source": "norm_1",
+        "target": "ffn"
+      },
+      {
+        "source": "ffn",
+        "target": "norm_2"
+      },
+      {
+        "source": "norm_1",
+        "target": "norm_2"
+      },
+      {
+        "source": "norm_2",
+        "target": "contextual_embeddings"
+      }
+    ],
+    "forbidden_placeholders": [
+      "Layer",
+      "Thing",
+      "TBD",
+      "TODO",
+      "???",
+      "Placeholder"
+    ]
+  },
+  "metadata": {
+    "vlm_judges": [],
+    "expectation_model": null,
+    "expectations_from": "description",
+    "deterministic_judge": true
+  }
+}

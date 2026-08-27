@@ -93,7 +93,7 @@ class EvaluationReport:
     dimensions: dict[Dimension, DimensionScore]
     weights: dict[Dimension, float]
     metrics: list[MetricScore]
-    inventory: dict[str, list[str]]
+    inventory: dict[str, Any]
     metadata: dict[str, Any] = field(default_factory=dict)
 
     def to_dict(self) -> dict[str, Any]:
@@ -146,4 +146,3 @@ def aggregate_panel(
                 participating_judges=sorted(judges),
             )
     return dimensions
-

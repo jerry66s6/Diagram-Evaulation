@@ -1,13 +1,16 @@
 # Diagram Correctness Evaluator
 
-This package implements **Syntactically Axis 1: Correctness** as a four-judge panel:
+This package evaluates how well a rendered diagram aligns with a written description across five dimensions:
 
-- GPT-5.5 vision judge
-- GPT-5.6 vision judge
-- Claude Opus 4.8 vision judge
-- deterministic SVG geometry judge
+| Dimension | What it measures |
+|---|---|
+| **Layout** | Sensible placement, no unintended overlap, and no off-canvas content |
+| **Connectivity** | Every arrow joins its intended source and target in the correct direction |
+| **Presence** | All diagram elements expected from the description are present |
+| **Details** | Labels and content are meaningful rather than missing, generic, or placeholder text |
+| **Legibility** | Text does not overflow and meets the minimum rendered font size |
 
-It evaluates five dimensions: **presence, layout, connectivity, details, and legibility**. The original formula listed four terms but described five dimensions; this implementation includes legibility as the fifth term:
+The final formula is:
 
 ```text
 Correctness =
@@ -18,29 +21,53 @@ Correctness =
   + w_legibility   * Legibility
 ```
 
-Every criterion score is:
+Every criterion uses:
 
 ```text
 (expected opportunities - detected issues) / expected opportunities
 ```
 
-Counts are clamped to `[0, 1]`. A criterion with zero opportunities is `N/A` and is excluded rather than silently treated as perfect.
+A criterion with zero opportunities is `N/A` and is excluded rather than treated as perfect.
 
-## How the judging pipeline works
+## Description-first GPT design
 
-1. A separate expectation VLM reads only the reference image and freezes a concrete inventory. This is the first VLM stage requested for presence/details.
-2. GPT-5.5, GPT-5.6, and Claude Opus 4.8 independently compare the reference and candidate against that inventory.
-3. VFIG converts both images to SVG, unless existing SVGs are supplied.
-4. The deterministic judge parses shapes, paths, lines, connectors, and text and evaluates the **same criterion IDs** as the VLM panel.
-5. Results are aggregated criterion-first. The panel median is used to reduce the effect of a single outlier judge.
-6. Dimension weights are derived from historical issue frequency times a severity multiplier, then normalized.
+The default configuration uses **only GPT-5.5** as the VLM source.
 
-The deterministic legibility checks cover both rubric conditions:
+1. **Expectation stage:** GPT-5.5 receives only the written description—no reference or candidate image. It freezes a countable inventory for all five dimensions. Presence explicitly lists expected components; Details explicitly lists meaningful labels and rejects placeholders.
+2. **Scoring stage:** the same model receives one candidate image, the description, and the frozen inventory. It cannot redefine what should exist while scoring.
+3. **Geometry stage:** the deterministic judge inspects only the candidate SVG and checks it against the structured component/connection specification extracted from the description. It is not another language model.
+4. Criterion-aligned signals are aggregated into the five dimension scores. Dimension weights are historical issue frequency multiplied by severity, then normalized.
 
-- rendered font size below the configured minimum;
-- text geometry outside its containing shape.
+The deterministic legibility checks cover minimum font size and estimated text overflow. Its width estimate is conservative because SVGs do not contain browser `getBBox()` results.
 
-Text width is conservatively estimated from the SVG text position and font size because VFIG output does not include browser `getBBox()` data. The report labels this approximation.
+## Transformer experiment
+
+The repository contains a controlled example in [`examples/transformer`](examples/transformer):
+
+- a written Transformer encoder specification;
+- a strong candidate;
+- a mixed candidate missing positional encoding and residual paths and using a placeholder label;
+- a weak candidate with missing components, incorrect arrows, overlap, off-canvas content, placeholders, and tiny text.
+
+Run the deterministic smoke test without an API key:
+
+```bash
+PYTHONPATH=src python3 scripts/run_transformer_examples.py --offline
+```
+
+Run the full experiment with one GPT expectation call and three GPT candidate calls:
+
+```bash
+export OPENAI_API_KEY='...'
+PYTHONPATH=src python3 scripts/run_transformer_examples.py
+```
+
+Outputs are written to `examples/transformer/results/`:
+
+- rendered PNGs;
+- `description_expectations.json`, the countable specification derived only from the text;
+- one complete JSON report per candidate;
+- `summary.json` and `summary.md` with all five scores and sensemaking.
 
 ## Install
 
@@ -52,65 +79,46 @@ source .venv/bin/activate
 python3 -m pip install -e '.[dev]'
 ```
 
-Set both API keys:
+On macOS, CairoSVG also needs the native Cairo library:
 
 ```bash
-export OPENAI_API_KEY='...'
-export ANTHROPIC_API_KEY='...'
+brew install cairo
 ```
 
-Install the official [VFIG repository](https://github.com/RAIVNLab/VFig), then replace `/absolute/path/to/VFig` in `config/evaluator.json` with its real location. VFIG can be skipped when ground-truth and candidate SVG files already exist.
+## Evaluate another diagram
 
-## Run
-
-With VFIG image-to-SVG conversion:
+With an existing generated SVG:
 
 ```bash
 diagram-correctness \
-  --reference reference.png \
-  --candidate candidate.png \
-  --output correctness-report.json
-```
-
-With existing SVGs:
-
-```bash
-diagram-correctness \
-  --reference reference.png \
-  --candidate candidate.png \
-  --reference-svg reference.svg \
+  --description intended-diagram.md \
   --candidate-svg candidate.svg \
   --output correctness-report.json
 ```
 
-For a VLM-only smoke test before VFIG is installed:
+Those are the only two semantic inputs. The SVG is rendered internally to a temporary PNG solely because the GPT vision endpoint consumes an image; the evaluator does not generate or use a target/reference diagram.
+
+For GPT-only scoring:
 
 ```bash
 diagram-correctness \
-  --reference reference.png \
+  --description intended-diagram.md \
   --candidate candidate.png \
   --skip-deterministic
 ```
 
-The JSON output contains the final score, exact normalized formula, dimension scores, weights, every judge's criterion-level counts, evidence, and the frozen reference inventory.
+If SVGs are unavailable, install the official [VFIG repository](https://github.com/RAIVNLab/VFig) and set its inference command in `config/evaluator.json`.
 
-## Configure the rubric and weights
+## Configuration
 
-- `config/rubric.json` is the single source of truth for criteria shared by all judges.
-- `config/issue_history.json` contains issue counts observed on a calibration set.
-- `config/evaluator.json` contains model IDs, VFIG command arguments, geometry tolerances, and severity multipliers.
+- `config/rubric.json`: shared criteria used by GPT and the deterministic judge.
+- `config/evaluator.json`: the single model ID, VFIG command, geometry tolerances, and severity multipliers.
+- `config/issue_history.json`: calibration-set issue counts used to derive dimension weights.
 
-An issue-history row contributes:
-
-```text
-historical count * severity multiplier
-```
-
-to its dimension. The dimension totals are normalized to sum to `1.0`. Replace the sample counts with frequencies measured on your evaluation/calibration corpus.
+Replace the sample issue frequencies with frequencies measured on the real calibration corpus before reporting benchmark results.
 
 ## Test
 
 ```bash
 python3 -m pytest -q
 ```
-

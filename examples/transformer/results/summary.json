@@ -1,0 +1,32 @@
+{
+  "mode": "offline deterministic smoke test",
+  "results": [
+    {
+      "candidate": "candidate_strong",
+      "correctness": 1.0,
+      "layout": 1.0,
+      "connectivity": 1.0,
+      "presence": 1.0,
+      "details": 1.0,
+      "legibility": 1.0
+    },
+    {
+      "candidate": "candidate_mixed",
+      "correctness": 0.8134199134199135,
+      "layout": 0.9523809523809524,
+      "connectivity": 0.75,
+      "presence": 0.9090909090909091,
+      "details": 0.36363636363636365,
+      "legibility": 1.0
+    },
+    {
+      "candidate": "candidate_weak",
+      "correctness": 0.30610047846889954,
+      "layout": 0.6973684210526316,
+      "connectivity": 0.25,
+      "presence": 0.18181818181818182,
+      "details": 0.0,
+      "legibility": 0.5
+    }
+  ]
+}

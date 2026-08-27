@@ -1,0 +1,76 @@
+{
+  "inventory": {
+    "presence": [
+    "Input Tokens",
+    "Token Embeddings",
+    "Positional Encoding",
+    "Add operation",
+    "Transformer Encoder Block group",
+    "N× repetition marker",
+    "Multi-Head Self-Attention",
+    "first Add & Norm",
+    "Position-wise Feed-Forward Network",
+    "second Add & Norm",
+    "Contextual Embeddings"
+  ],
+    "layout": [
+    "top-to-bottom reading order",
+    "parallel embeddings and positional encoding before Add",
+    "four internal stages contained by encoder block",
+    "all content inside canvas",
+    "no unintended overlaps"
+  ],
+    "connectivity": [
+    "Input Tokens -> Token Embeddings",
+    "Token Embeddings -> Add",
+    "Positional Encoding -> Add",
+    "Add -> Multi-Head Self-Attention",
+    "Multi-Head Self-Attention -> first Add & Norm",
+    "residual Add -> first Add & Norm",
+    "first Add & Norm -> Position-wise Feed-Forward Network",
+    "Position-wise Feed-Forward Network -> second Add & Norm",
+    "residual first Add & Norm -> second Add & Norm",
+    "second Add & Norm -> Contextual Embeddings"
+  ],
+    "details": [
+    "all component labels are meaningful and architecture-specific",
+    "the attention label includes Multi-Head and Self-Attention",
+    "the feed-forward label identifies a position-wise feed-forward network",
+    "both normalization stages say Add & Norm",
+    "the repeated block is explicitly labeled Transformer Encoder Block",
+    "the repetition badge says N×",
+    "no placeholder labels such as Layer, Thing, TBD, or ???"
+  ],
+    "legibility": [
+    "all labels use at least 12 px rendered font size",
+    "text remains inside its intended box",
+      "arrows and labels are visually distinguishable"
+    ]
+  },
+  "components": [
+    {"id": "input_tokens", "label": "Input Tokens", "kind": "input"},
+    {"id": "token_embeddings", "label": "Token Embeddings", "kind": "embedding"},
+    {"id": "positional_encoding", "label": "Positional Encoding", "kind": "encoding"},
+    {"id": "add", "label": "Add", "kind": "operation"},
+    {"id": "encoder_block", "label": "Transformer Encoder Block", "kind": "group"},
+    {"id": "repeat_marker", "label": "N×", "kind": "annotation"},
+    {"id": "attention", "label": "Multi-Head Self-Attention", "kind": "operation"},
+    {"id": "norm_1", "label": "Add & Norm", "kind": "operation"},
+    {"id": "ffn", "label": "Position-wise Feed-Forward Network", "kind": "operation"},
+    {"id": "norm_2", "label": "Add & Norm", "kind": "operation"},
+    {"id": "contextual_embeddings", "label": "Contextual Embeddings", "kind": "output"}
+  ],
+  "connections": [
+    {"source": "input_tokens", "target": "token_embeddings"},
+    {"source": "token_embeddings", "target": "add"},
+    {"source": "positional_encoding", "target": "add"},
+    {"source": "add", "target": "attention"},
+    {"source": "attention", "target": "norm_1"},
+    {"source": "add", "target": "norm_1"},
+    {"source": "norm_1", "target": "ffn"},
+    {"source": "ffn", "target": "norm_2"},
+    {"source": "norm_1", "target": "norm_2"},
+    {"source": "norm_2", "target": "contextual_embeddings"}
+  ],
+  "forbidden_placeholders": ["Layer", "Thing", "TBD", "TODO", "???", "Placeholder"]
+}
