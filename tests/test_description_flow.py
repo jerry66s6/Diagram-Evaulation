@@ -27,15 +27,25 @@ class RecordingBackend:
                 "forbidden_placeholders": ["TBD"],
             }
         return {
+            # A count-based Presence answer is ignored: Presence is scored per component.
             "metrics": [
                 {
                     "criterion_id": "presence.elements",
-                    "expected_count": 1,
-                    "detected_issues": 0,
+                    "expected_count": 5,
+                    "detected_issues": 5,
                     "issues": [],
-                    "notes": "visible",
+                    "notes": "ignored",
                 }
-            ]
+            ],
+            "components": [
+                {
+                    "component_id": "input_tokens",
+                    "verdict": "present",
+                    "visible_text": "Input Tokens",
+                    "location": {"x0": 0.1, "y0": 0.1, "x1": 0.4, "y1": 0.2},
+                    "evidence": "box at the top",
+                }
+            ],
         }
 
 
@@ -57,4 +67,8 @@ def test_presence_expectations_are_frozen_from_description_before_image_judging(
     results = VLMJudge(backend).evaluate(description, candidate, [criterion], inventory)
     assert backend.calls[1]["images"] == [candidate]
     assert "Frozen description-derived inventory" in backend.calls[1]["prompt"]
-    assert results[0].score == 1.0
+    assert '"component_id": "input_tokens"' in backend.calls[1]["prompt"]
+    presence = next(result for result in results if result.criterion_id == "presence.elements")
+    assert presence.score == 1.0
+    assert presence.expected_count == 1
+    assert [item.verdict.value for item in presence.component_verdicts] == ["present"]

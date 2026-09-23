@@ -6,6 +6,7 @@ import sys
 from pathlib import Path
 
 from .deterministic import DeterministicJudge, GeometryConfig
+from .models import PresencePolicy
 from .pipeline import CorrectnessPipeline, PipelineConfig
 from .rubric import load_config, load_rubric
 from .vfig import VFigRunner
@@ -41,9 +42,10 @@ def main(argv: list[str] | None = None) -> int:
         settings = load_config(args.config)
         criteria = load_rubric(args.rubric)
         models = settings["models"]
-        judges = [VLMJudge(OpenAIBackend(models["judge"]))]
+        policy = PresencePolicy.from_dict(settings.get("presence_policy"))
+        judges = [VLMJudge(OpenAIBackend(models["judge"]), policy)]
         geometry = settings.get("geometry", {})
-        deterministic = DeterministicJudge(GeometryConfig(**geometry))
+        deterministic = DeterministicJudge(GeometryConfig(**geometry), policy)
         vfig = None
         candidate_svg = args.candidate_svg
         if not args.skip_deterministic and not candidate_svg:

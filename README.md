@@ -34,8 +34,8 @@ A criterion with zero opportunities is `N/A` and is excluded rather than treated
 The default configuration uses **only GPT-5.5** as the VLM source.
 
 1. **Expectation stage:** GPT-5.5 receives only the written description—no reference or candidate image. It freezes a countable inventory for all five dimensions. Presence explicitly lists expected components; Details explicitly lists meaningful labels and rejects placeholders.
-2. **Scoring stage:** the same model receives one candidate image, the description, and the frozen inventory. It cannot redefine what should exist while scoring.
-3. **Geometry stage:** the deterministic judge inspects only the candidate SVG and checks it against the structured component/connection specification extracted from the description. It is not another language model.
+2. **Scoring stage:** the same model receives one candidate image, the description, and the frozen inventory. It cannot redefine what should exist while scoring. Presence and Details are answered per component: for every component ID in the inventory the model returns `present`, `mislabeled`, `absent`, or `uncertain`, with the quoted visible text and a bounding box as evidence. The evaluator, not the model, computes Presence = drawn / decided components and Details = correctly labeled / drawn components, so a missing component and a wrong label are each counted once. The other criteria still use counts.
+3. **Geometry stage:** the deterministic judge inspects only the candidate SVG and checks it against the structured component/connection specification extracted from the description. It is not another language model. It returns the same per-component verdicts, and the report metadata (`component_verdicts`, `component_disagreements`) lists where the two judges disagree.
 4. Criterion-aligned signals are aggregated into the five dimension scores. Dimension weights are historical issue frequency multiplied by severity, then normalized.
 
 The deterministic legibility checks cover minimum font size and estimated text overflow. Its width estimate is conservative because SVGs do not contain browser `getBBox()` results.
@@ -112,7 +112,7 @@ If SVGs are unavailable, install the official [VFIG repository](https://github.c
 ## Configuration
 
 - `config/rubric.json`: shared criteria used by GPT and the deterministic judge.
-- `config/evaluator.json`: the single model ID, VFIG command, geometry tolerances, and severity multipliers.
+- `config/evaluator.json`: the single model ID, VFIG command, geometry tolerances, and severity multipliers. `presence_policy` sets two shared scoring rules: whether an abbreviation such as "FFN" counts as a correct label (`accept_abbreviations`), and whether a box in the right position with a placeholder or missing label counts as drawn but mislabeled (`placeholder_counts_as_present`).
 - `config/issue_history.json`: calibration-set issue counts used to derive dimension weights.
 
 Replace the sample issue frequencies with frequencies measured on the real calibration corpus before reporting benchmark results.

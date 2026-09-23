@@ -36,9 +36,18 @@ def test_deterministic_judge_counts_missing_text_and_small_font() -> None:
             candidate, _criteria(), expectations
         )
     }
-    assert results["presence.elements"].detected_issues >= 1
+    # "Start too wide" is drawn with the wrong label; "Finish" is an unlabeled box with a
+    # single incoming arrow, which is too little evidence to accept it as Finish.
+    verdicts = {
+        item.component_id: item.verdict.value
+        for item in results["presence.elements"].component_verdicts
+    }
+    assert verdicts == {"start": "mislabeled", "finish": "absent"}
+    assert results["presence.elements"].detected_issues == 1
     assert results["connectivity.connections"].detected_issues == 1
     assert results["connectivity.endpoints"].detected_issues == 1
-    assert results["details.labels"].detected_issues == 2
+    # Details counts only drawn components, so the missing Finish is not counted again.
+    assert results["details.labels"].expected_count == 1
+    assert results["details.labels"].detected_issues == 1
     assert results["legibility.minimum_font"].detected_issues == 1
     assert results["legibility.overflow"].detected_issues == 1

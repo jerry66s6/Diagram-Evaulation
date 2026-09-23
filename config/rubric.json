@@ -3,7 +3,7 @@
     {
       "id": "presence.elements",
       "dimension": "presence",
-      "description": "Every component, group, input, output, repeated block, and operation expected from the written description is visibly present in the candidate.",
+      "description": "Every component, group, input, output, repeated block, and operation expected from the written description is visibly drawn in the candidate, even if its label is imperfect. Connections are judged under Connectivity, not here.",
       "severity": "high",
       "deterministic_metric": "description_presence"
     },
@@ -45,7 +45,7 @@
     {
       "id": "details.labels",
       "dimension": "details",
-      "description": "Labels and content are complete, accurate, and meaningful for the description rather than missing, generic, or placeholder text.",
+      "description": "Each drawn component carries its complete, accurate, meaningful expected label rather than an abbreviated, generic, missing, or placeholder label. Components that are not drawn are judged under Presence, not here.",
       "severity": "high",
       "deterministic_metric": "meaningful_labels"
     },

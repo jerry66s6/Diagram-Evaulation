@@ -20,7 +20,7 @@ if sys.platform == "darwin" and Path("/opt/homebrew/lib/libcairo.2.dylib").exist
 import cairosvg
 
 from diagram_correctness.deterministic import DeterministicJudge, GeometryConfig
-from diagram_correctness.models import Dimension
+from diagram_correctness.models import Dimension, PresencePolicy
 from diagram_correctness.pipeline import CorrectnessPipeline, PipelineConfig
 from diagram_correctness.rubric import load_config, load_rubric
 from diagram_correctness.vlm import ExpectationExtractor, OpenAIBackend, VLMJudge
@@ -73,7 +73,8 @@ def load_history(settings: dict[str, Any]) -> list[dict[str, Any]]:
 def build_pipeline(offline: bool) -> CorrectnessPipeline:
     settings = load_config(ROOT / "config" / "evaluator.json")
     criteria = load_rubric(ROOT / "config" / "rubric.json")
-    geometry = DeterministicJudge(GeometryConfig(**settings.get("geometry", {})))
+    policy = PresencePolicy.from_dict(settings.get("presence_policy"))
+    geometry = DeterministicJudge(GeometryConfig(**settings.get("geometry", {})), policy)
     if offline:
         judges = []
         extractor = None
@@ -83,7 +84,7 @@ def build_pipeline(offline: bool) -> CorrectnessPipeline:
                 "OPENAI_API_KEY is not configured. Set it in your shell, then rerun without --offline."
             )
         model = settings["models"]["judge"]
-        judges = [VLMJudge(OpenAIBackend(model))]
+        judges = [VLMJudge(OpenAIBackend(model), policy)]
         extractor = ExpectationExtractor(OpenAIBackend(settings["models"]["expectation"]))
     return CorrectnessPipeline(
         PipelineConfig(

@@ -18,7 +18,12 @@
     "minimum_font_size": 12.0,
     "overlap_area_threshold": 0.01,
     "label_similarity_threshold": 0.45,
-    "canvas_tolerance": 0.5
+    "canvas_tolerance": 0.5,
+    "min_role_links": 2
+  },
+  "presence_policy": {
+    "accept_abbreviations": false,
+    "placeholder_counts_as_present": true
   },
   "severity_multipliers": {
     "low": 1.0,

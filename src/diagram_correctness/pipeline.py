@@ -9,7 +9,14 @@ from pathlib import Path
 from typing import Any
 
 from .deterministic import DeterministicJudge, GeometryConfig
-from .models import Criterion, Dimension, EvaluationReport, MetricScore, aggregate_panel
+from .models import (
+    Criterion,
+    Dimension,
+    EvaluationReport,
+    MetricScore,
+    aggregate_panel,
+    component_agreement,
+)
 from .rubric import renormalize_weights, severity_frequency_weights
 from .svg import parse_svg
 from .vfig import VFigRunner
@@ -93,6 +100,7 @@ class CorrectnessPipeline:
         )
         weights = renormalize_weights(raw_weights, set(dimensions))
         correctness = sum(weights[dimension] * result.score for dimension, result in dimensions.items())
+        agreement = component_agreement(metrics)
         return EvaluationReport(
             correctness=correctness,
             dimensions=dimensions,
@@ -108,6 +116,9 @@ class CorrectnessPipeline:
                 ),
                 "expectations_from": "description",
                 "deterministic_judge": bool(resolved_candidate_svg),
+                # Per-component verdicts from every judge, with disagreements flagged for review.
+                "component_verdicts": agreement,
+                "component_disagreements": sum(1 for row in agreement if not row["agree"]),
             },
         )
 
