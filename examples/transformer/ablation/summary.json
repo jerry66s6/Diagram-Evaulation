@@ -1,0 +1,911 @@
+{
+  "created_at": "2026-09-28T15:19:44.743864+00:00",
+  "mode": "deterministic SVG only",
+  "live": false,
+  "dimensions": [
+    "layout",
+    "connectivity",
+    "presence",
+    "details",
+    "legibility"
+  ],
+  "rows": [
+    {
+      "id": "baseline",
+      "target": null,
+      "label": "Original baseline",
+      "scores": {
+        "layout": 1.0,
+        "connectivity": 1.0,
+        "presence": 1.0,
+        "details": 1.0,
+        "legibility": 1.0
+      },
+      "delta": {
+        "layout": 0.0,
+        "connectivity": 0.0,
+        "presence": 0.0,
+        "details": 0.0,
+        "legibility": 0.0
+      },
+      "overall": 1.0,
+      "overall_delta": 0.0,
+      "criteria": [
+        {
+          "id": "presence.elements",
+          "judge": "deterministic-svg",
+          "expected": 11,
+          "issues": 0,
+          "score": 1.0,
+          "evidence": []
+        },
+        {
+          "id": "layout.order",
+          "judge": "deterministic-svg",
+          "expected": 10,
+          "issues": 0,
+          "score": 1.0,
+          "evidence": []
+        },
+        {
+          "id": "layout.canvas",
+          "judge": "deterministic-svg",
+          "expected": 33,
+          "issues": 0,
+          "score": 1.0,
+          "evidence": []
+        },
+        {
+          "id": "layout.overlap",
+          "judge": "deterministic-svg",
+          "expected": 10,
+          "issues": 0,
+          "score": 1.0,
+          "evidence": []
+        },
+        {
+          "id": "connectivity.connections",
+          "judge": "deterministic-svg",
+          "expected": 10,
+          "issues": 0,
+          "score": 1.0,
+          "evidence": []
+        },
+        {
+          "id": "connectivity.endpoints",
+          "judge": "deterministic-svg",
+          "expected": 10,
+          "issues": 0,
+          "score": 1.0,
+          "evidence": []
+        },
+        {
+          "id": "details.labels",
+          "judge": "deterministic-svg",
+          "expected": 11,
+          "issues": 0,
+          "score": 1.0,
+          "evidence": []
+        },
+        {
+          "id": "legibility.overflow",
+          "judge": "deterministic-svg",
+          "expected": 12,
+          "issues": 0,
+          "score": 1.0,
+          "evidence": []
+        },
+        {
+          "id": "legibility.minimum_font",
+          "judge": "deterministic-svg",
+          "expected": 12,
+          "issues": 0,
+          "score": 1.0,
+          "evidence": []
+        }
+      ],
+      "intervention": null
+    },
+    {
+      "id": "layout",
+      "target": "layout",
+      "label": "Layout degraded",
+      "scores": {
+        "layout": 0.9333333333333332,
+        "connectivity": 1.0,
+        "presence": 1.0,
+        "details": 1.0,
+        "legibility": 1.0
+      },
+      "delta": {
+        "layout": -0.06666666666666676,
+        "connectivity": 0.0,
+        "presence": 0.0,
+        "details": 0.0,
+        "legibility": 0.0
+      },
+      "overall": 0.9933333333333334,
+      "overall_delta": -0.006666666666666599,
+      "criteria": [
+        {
+          "id": "presence.elements",
+          "judge": "deterministic-svg",
+          "expected": 11,
+          "issues": 0,
+          "score": 1.0,
+          "evidence": []
+        },
+        {
+          "id": "layout.order",
+          "judge": "deterministic-svg",
+          "expected": 10,
+          "issues": 2,
+          "score": 0.8,
+          "evidence": [
+            {
+              "description": "Connected components violate the expected top-to-bottom reading order",
+              "severity": "medium",
+              "element_ids": [
+                "multi_head_self_attention",
+                "add_norm_1"
+              ]
+            },
+            {
+              "description": "Connected components violate the expected top-to-bottom reading order",
+              "severity": "medium",
+              "element_ids": [
+                "add_norm_1",
+                "position_wise_feed_forward_network"
+              ]
+            }
+          ]
+        },
+        {
+          "id": "layout.canvas",
+          "judge": "deterministic-svg",
+          "expected": 33,
+          "issues": 0,
+          "score": 1.0,
+          "evidence": []
+        },
+        {
+          "id": "layout.overlap",
+          "judge": "deterministic-svg",
+          "expected": 10,
+          "issues": 0,
+          "score": 1.0,
+          "evidence": []
+        },
+        {
+          "id": "connectivity.connections",
+          "judge": "deterministic-svg",
+          "expected": 10,
+          "issues": 0,
+          "score": 1.0,
+          "evidence": []
+        },
+        {
+          "id": "connectivity.endpoints",
+          "judge": "deterministic-svg",
+          "expected": 10,
+          "issues": 0,
+          "score": 1.0,
+          "evidence": []
+        },
+        {
+          "id": "details.labels",
+          "judge": "deterministic-svg",
+          "expected": 11,
+          "issues": 0,
+          "score": 1.0,
+          "evidence": []
+        },
+        {
+          "id": "legibility.overflow",
+          "judge": "deterministic-svg",
+          "expected": 12,
+          "issues": 0,
+          "score": 1.0,
+          "evidence": []
+        },
+        {
+          "id": "legibility.minimum_font",
+          "judge": "deterministic-svg",
+          "expected": 12,
+          "issues": 0,
+          "score": 1.0,
+          "evidence": []
+        }
+      ],
+      "intervention": {
+        "title": "Swap two processing stages",
+        "description": "Exchange the vertical positions of Self-Attention and the Feed-Forward Network. Reroute their incident arrows to preserve the original source and target roles.",
+        "dose": "2 stages exchanged; 2 of 10 expected relations now run upward"
+      }
+    },
+    {
+      "id": "connectivity",
+      "target": "connectivity",
+      "label": "Connectivity degraded",
+      "scores": {
+        "layout": 1.0,
+        "connectivity": 0.85,
+        "presence": 1.0,
+        "details": 1.0,
+        "legibility": 1.0
+      },
+      "delta": {
+        "layout": 0.0,
+        "connectivity": -0.15000000000000002,
+        "presence": 0.0,
+        "details": 0.0,
+        "legibility": 0.0
+      },
+      "overall": 0.9400000000000001,
+      "overall_delta": -0.05999999999999994,
+      "criteria": [
+        {
+          "id": "presence.elements",
+          "judge": "deterministic-svg",
+          "expected": 11,
+          "issues": 0,
+          "score": 1.0,
+          "evidence": []
+        },
+        {
+          "id": "layout.order",
+          "judge": "deterministic-svg",
+          "expected": 10,
+          "issues": 0,
+          "score": 1.0,
+          "evidence": []
+        },
+        {
+          "id": "layout.canvas",
+          "judge": "deterministic-svg",
+          "expected": 30,
+          "issues": 0,
+          "score": 1.0,
+          "evidence": []
+        },
+        {
+          "id": "layout.overlap",
+          "judge": "deterministic-svg",
+          "expected": 10,
+          "issues": 0,
+          "score": 1.0,
+          "evidence": []
+        },
+        {
+          "id": "connectivity.connections",
+          "judge": "deterministic-svg",
+          "expected": 10,
+          "issues": 3,
+          "score": 0.7,
+          "evidence": [
+            {
+              "description": "Expected directed connection is missing or joins the wrong components",
+              "severity": "critical",
+              "element_ids": [
+                "positional_encoding",
+                "add"
+              ]
+            },
+            {
+              "description": "Expected directed connection is missing or joins the wrong components",
+              "severity": "critical",
+              "element_ids": [
+                "add",
+                "add_norm_1"
+              ]
+            },
+            {
+              "description": "Expected directed connection is missing or joins the wrong components",
+              "severity": "critical",
+              "element_ids": [
+                "add_norm_1",
+                "add_norm_2"
+              ]
+            }
+          ]
+        },
+        {
+          "id": "connectivity.endpoints",
+          "judge": "deterministic-svg",
+          "expected": 7,
+          "issues": 0,
+          "score": 1.0,
+          "evidence": []
+        },
+        {
+          "id": "details.labels",
+          "judge": "deterministic-svg",
+          "expected": 11,
+          "issues": 0,
+          "score": 1.0,
+          "evidence": []
+        },
+        {
+          "id": "legibility.overflow",
+          "judge": "deterministic-svg",
+          "expected": 12,
+          "issues": 0,
+          "score": 1.0,
+          "evidence": []
+        },
+        {
+          "id": "legibility.minimum_font",
+          "judge": "deterministic-svg",
+          "expected": 12,
+          "issues": 0,
+          "score": 1.0,
+          "evidence": []
+        }
+      ],
+      "intervention": {
+        "title": "Remove three arrows",
+        "description": "Remove Positional Encoding → Add and both residual/skip arrows. Keep every component and label in its original position.",
+        "dose": "3 of 10 arrows removed"
+      }
+    },
+    {
+      "id": "presence",
+      "target": "presence",
+      "label": "Presence degraded",
+      "scores": {
+        "layout": 1.0,
+        "connectivity": 0.9,
+        "presence": 0.8181818181818182,
+        "details": 1.0,
+        "legibility": 1.0
+      },
+      "delta": {
+        "layout": 0.0,
+        "connectivity": -0.09999999999999998,
+        "presence": -0.18181818181818177,
+        "details": 0.0,
+        "legibility": 0.0
+      },
+      "overall": 0.9236363636363637,
+      "overall_delta": -0.0763636363636363,
+      "criteria": [
+        {
+          "id": "presence.elements",
+          "judge": "deterministic-svg",
+          "expected": 11,
+          "issues": 2,
+          "score": 0.8181818181818182,
+          "evidence": [
+            {
+              "description": "Expected component is not drawn: positional_encoding",
+              "severity": "high",
+              "element_ids": [
+                "positional_encoding"
+              ]
+            },
+            {
+              "description": "Expected component is not drawn: repetition_marker_n_times",
+              "severity": "high",
+              "element_ids": [
+                "repetition_marker_n_times"
+              ]
+            }
+          ]
+        },
+        {
+          "id": "layout.order",
+          "judge": "deterministic-svg",
+          "expected": 9,
+          "issues": 0,
+          "score": 1.0,
+          "evidence": []
+        },
+        {
+          "id": "layout.canvas",
+          "judge": "deterministic-svg",
+          "expected": 29,
+          "issues": 0,
+          "score": 1.0,
+          "evidence": []
+        },
+        {
+          "id": "layout.overlap",
+          "judge": "deterministic-svg",
+          "expected": 8,
+          "issues": 0,
+          "score": 1.0,
+          "evidence": []
+        },
+        {
+          "id": "connectivity.connections",
+          "judge": "deterministic-svg",
+          "expected": 10,
+          "issues": 1,
+          "score": 0.9,
+          "evidence": [
+            {
+              "description": "Expected directed connection is missing or joins the wrong components",
+              "severity": "critical",
+              "element_ids": [
+                "positional_encoding",
+                "add"
+              ]
+            }
+          ]
+        },
+        {
+          "id": "connectivity.endpoints",
+          "judge": "deterministic-svg",
+          "expected": 10,
+          "issues": 1,
+          "score": 0.9,
+          "evidence": [
+            {
+              "description": "Connector endpoint is not attached to a description-expected component",
+              "severity": "critical",
+              "element_ids": [
+                "s3"
+              ]
+            }
+          ]
+        },
+        {
+          "id": "details.labels",
+          "judge": "deterministic-svg",
+          "expected": 9,
+          "issues": 0,
+          "score": 1.0,
+          "evidence": []
+        },
+        {
+          "id": "legibility.overflow",
+          "judge": "deterministic-svg",
+          "expected": 10,
+          "issues": 0,
+          "score": 1.0,
+          "evidence": []
+        },
+        {
+          "id": "legibility.minimum_font",
+          "judge": "deterministic-svg",
+          "expected": 10,
+          "issues": 0,
+          "score": 1.0,
+          "evidence": []
+        }
+      ],
+      "intervention": {
+        "title": "Remove two components",
+        "description": "Remove the Positional Encoding box and label, and the N× badge and label. Leave all arrows in place, including the now-dangling positional arrow.",
+        "dose": "2 of 11 expected components removed"
+      }
+    },
+    {
+      "id": "details",
+      "target": "details",
+      "label": "Details degraded",
+      "scores": {
+        "layout": 1.0,
+        "connectivity": 1.0,
+        "presence": 1.0,
+        "details": 0.7272727272727273,
+        "legibility": 1.0
+      },
+      "delta": {
+        "layout": 0.0,
+        "connectivity": 0.0,
+        "presence": 0.0,
+        "details": -0.2727272727272727,
+        "legibility": 0.0
+      },
+      "overall": 0.9727272727272728,
+      "overall_delta": -0.027272727272727226,
+      "criteria": [
+        {
+          "id": "presence.elements",
+          "judge": "deterministic-svg",
+          "expected": 11,
+          "issues": 0,
+          "score": 1.0,
+          "evidence": []
+        },
+        {
+          "id": "layout.order",
+          "judge": "deterministic-svg",
+          "expected": 10,
+          "issues": 0,
+          "score": 1.0,
+          "evidence": []
+        },
+        {
+          "id": "layout.canvas",
+          "judge": "deterministic-svg",
+          "expected": 33,
+          "issues": 0,
+          "score": 1.0,
+          "evidence": []
+        },
+        {
+          "id": "layout.overlap",
+          "judge": "deterministic-svg",
+          "expected": 10,
+          "issues": 0,
+          "score": 1.0,
+          "evidence": []
+        },
+        {
+          "id": "connectivity.connections",
+          "judge": "deterministic-svg",
+          "expected": 10,
+          "issues": 0,
+          "score": 1.0,
+          "evidence": []
+        },
+        {
+          "id": "connectivity.endpoints",
+          "judge": "deterministic-svg",
+          "expected": 10,
+          "issues": 0,
+          "score": 1.0,
+          "evidence": []
+        },
+        {
+          "id": "details.labels",
+          "judge": "deterministic-svg",
+          "expected": 11,
+          "issues": 3,
+          "score": 0.7272727272727273,
+          "evidence": [
+            {
+              "description": "Drawn component has an abbreviated, incorrect, missing, or placeholder label: token_embeddings (visible text: 'Embeddings')",
+              "severity": "high",
+              "element_ids": [
+                "token_embeddings"
+              ]
+            },
+            {
+              "description": "Drawn component has an abbreviated, incorrect, missing, or placeholder label: multi_head_self_attention (visible text: 'Layer')",
+              "severity": "high",
+              "element_ids": [
+                "multi_head_self_attention"
+              ]
+            },
+            {
+              "description": "Drawn component has an abbreviated, incorrect, missing, or placeholder label: position_wise_feed_forward_network (visible text: 'TBD')",
+              "severity": "high",
+              "element_ids": [
+                "position_wise_feed_forward_network"
+              ]
+            }
+          ]
+        },
+        {
+          "id": "legibility.overflow",
+          "judge": "deterministic-svg",
+          "expected": 12,
+          "issues": 0,
+          "score": 1.0,
+          "evidence": []
+        },
+        {
+          "id": "legibility.minimum_font",
+          "judge": "deterministic-svg",
+          "expected": 12,
+          "issues": 0,
+          "score": 1.0,
+          "evidence": []
+        }
+      ],
+      "intervention": {
+        "title": "Replace three meaningful labels",
+        "description": "Change Token Embeddings to Embeddings, Multi-Head Self-Attention to Layer, and Position-wise Feed-Forward Network to TBD. Keep all shapes, text positions, fonts, and arrows.",
+        "dose": "3 of 11 component labels made incomplete or generic"
+      }
+    },
+    {
+      "id": "legibility",
+      "target": "legibility",
+      "label": "Legibility degraded",
+      "scores": {
+        "layout": 1.0,
+        "connectivity": 1.0,
+        "presence": 1.0,
+        "details": 1.0,
+        "legibility": 0.8333333333333333
+      },
+      "delta": {
+        "layout": 0.0,
+        "connectivity": 0.0,
+        "presence": 0.0,
+        "details": 0.0,
+        "legibility": -0.16666666666666674
+      },
+      "overall": 0.9666666666666667,
+      "overall_delta": -0.033333333333333326,
+      "criteria": [
+        {
+          "id": "presence.elements",
+          "judge": "deterministic-svg",
+          "expected": 11,
+          "issues": 0,
+          "score": 1.0,
+          "evidence": []
+        },
+        {
+          "id": "layout.order",
+          "judge": "deterministic-svg",
+          "expected": 10,
+          "issues": 0,
+          "score": 1.0,
+          "evidence": []
+        },
+        {
+          "id": "layout.canvas",
+          "judge": "deterministic-svg",
+          "expected": 33,
+          "issues": 0,
+          "score": 1.0,
+          "evidence": []
+        },
+        {
+          "id": "layout.overlap",
+          "judge": "deterministic-svg",
+          "expected": 10,
+          "issues": 0,
+          "score": 1.0,
+          "evidence": []
+        },
+        {
+          "id": "connectivity.connections",
+          "judge": "deterministic-svg",
+          "expected": 10,
+          "issues": 0,
+          "score": 1.0,
+          "evidence": []
+        },
+        {
+          "id": "connectivity.endpoints",
+          "judge": "deterministic-svg",
+          "expected": 10,
+          "issues": 0,
+          "score": 1.0,
+          "evidence": []
+        },
+        {
+          "id": "details.labels",
+          "judge": "deterministic-svg",
+          "expected": 11,
+          "issues": 0,
+          "score": 1.0,
+          "evidence": []
+        },
+        {
+          "id": "legibility.overflow",
+          "judge": "deterministic-svg",
+          "expected": 12,
+          "issues": 0,
+          "score": 1.0,
+          "evidence": []
+        },
+        {
+          "id": "legibility.minimum_font",
+          "judge": "deterministic-svg",
+          "expected": 12,
+          "issues": 4,
+          "score": 0.6666666666666666,
+          "evidence": [
+            {
+              "description": "Font size 8px is below 12px",
+              "severity": "high",
+              "element_ids": [
+                "input-label-s"
+              ]
+            },
+            {
+              "description": "Font size 8px is below 12px",
+              "severity": "high",
+              "element_ids": [
+                "token-label-s"
+              ]
+            },
+            {
+              "description": "Font size 8px is below 12px",
+              "severity": "high",
+              "element_ids": [
+                "attention-label-s"
+              ]
+            },
+            {
+              "description": "Font size 8px is below 12px",
+              "severity": "high",
+              "element_ids": [
+                "ffn-label-s"
+              ]
+            }
+          ]
+        }
+      ],
+      "intervention": {
+        "title": "Shrink four labels",
+        "description": "Set the Input Tokens, Token Embeddings, Self-Attention, and Feed-Forward labels to 8 px, below the configured 12 px minimum. Preserve their wording and positions.",
+        "dose": "4 of 12 text elements reduced to 8 px"
+      }
+    }
+  ],
+  "weights": {
+    "presence": 0.2,
+    "layout": 0.1,
+    "connectivity": 0.4,
+    "details": 0.1,
+    "legibility": 0.2
+  },
+  "historical": {
+    "mode": "live gpt-5.5 + deterministic SVG",
+    "baseline": {
+      "candidate": "candidate_strong",
+      "correctness": 0.9723076923076923,
+      "layout": 1.0,
+      "connectivity": 0.95,
+      "presence": 0.9615384615384616,
+      "details": 1.0,
+      "legibility": 1.0
+    },
+    "used_for_deltas": false
+  },
+  "provenance": {
+    "source_svg": "examples/transformer/candidate_strong.svg",
+    "source_sha256": "6b88d3400a118b6ebe3f63ac5c2ec67645c5ad5eddfc2ead482e902b8e227478",
+    "inventory_source": "examples/transformer/results/description_expectations.json",
+    "inventory_sha256": "e9f01b9df6baeceeb00ab5e6e87dfbfb07a5882dec43f17a1ffa46085934249e",
+    "settings": {
+      "models": {
+        "expectation": "gpt-5.5",
+        "judge": "gpt-5.5"
+      },
+      "vfig": {
+        "command": [
+          "python",
+          "/absolute/path/to/VFig/inference/inference.py",
+          "{image}",
+          "--output",
+          "{svg}"
+        ],
+        "timeout_seconds": 600
+      },
+      "geometry": {
+        "endpoint_tolerance": 0.035,
+        "minimum_font_size": 12.0,
+        "overlap_area_threshold": 0.01,
+        "label_similarity_threshold": 0.45,
+        "canvas_tolerance": 0.5,
+        "min_role_links": 2
+      },
+      "presence_policy": {
+        "accept_abbreviations": false,
+        "placeholder_counts_as_present": true
+      },
+      "severity_multipliers": {
+        "low": 1.0,
+        "medium": 2.0,
+        "high": 4.0,
+        "critical": 8.0
+      },
+      "fallback_frequencies": {
+        "presence": 1.0,
+        "layout": 1.0,
+        "connectivity": 1.0,
+        "details": 1.0,
+        "legibility": 1.0
+      },
+      "weight_history": "config/issue_history.json"
+    },
+    "rubric": {
+      "criteria": [
+        {
+          "id": "presence.elements",
+          "dimension": "presence",
+          "description": "Every component, group, input, output, repeated block, and operation expected from the written description is visibly drawn in the candidate, even if its label is imperfect. Connections are judged under Connectivity, not here.",
+          "severity": "high",
+          "deterministic_metric": "description_presence"
+        },
+        {
+          "id": "layout.order",
+          "dimension": "layout",
+          "description": "Components follow the sensible reading and processing order implied by the description.",
+          "severity": "medium",
+          "deterministic_metric": "description_order"
+        },
+        {
+          "id": "layout.canvas",
+          "dimension": "layout",
+          "description": "All candidate content remains fully inside the SVG canvas.",
+          "severity": "high",
+          "deterministic_metric": "canvas_bounds"
+        },
+        {
+          "id": "layout.overlap",
+          "dimension": "layout",
+          "description": "Candidate components have no unintended overlaps or collisions; intentional container nesting is allowed.",
+          "severity": "high",
+          "deterministic_metric": "unintended_overlap"
+        },
+        {
+          "id": "connectivity.connections",
+          "dimension": "connectivity",
+          "description": "Every directed source-to-target connection expected from the description is visibly present in the candidate.",
+          "severity": "critical",
+          "deterministic_metric": "description_connections"
+        },
+        {
+          "id": "connectivity.endpoints",
+          "dimension": "connectivity",
+          "description": "Each visible arrow attaches to the correct description-expected source and target components with the correct direction.",
+          "severity": "critical",
+          "deterministic_metric": "connector_attachment"
+        },
+        {
+          "id": "details.labels",
+          "dimension": "details",
+          "description": "Each drawn component carries its complete, accurate, meaningful expected label rather than an abbreviated, generic, missing, or placeholder label. Components that are not drawn are judged under Presence, not here.",
+          "severity": "high",
+          "deterministic_metric": "meaningful_labels"
+        },
+        {
+          "id": "legibility.overflow",
+          "dimension": "legibility",
+          "description": "Text stays inside its intended container without clipping, collision, or overflow.",
+          "severity": "high",
+          "deterministic_metric": "text_overflow"
+        },
+        {
+          "id": "legibility.minimum_font",
+          "dimension": "legibility",
+          "description": "Every text element meets the configured minimum rendered font size.",
+          "severity": "high",
+          "deterministic_metric": "minimum_font_size"
+        }
+      ]
+    },
+    "issue_history": [
+      {
+        "dimension": "presence",
+        "severity": "high",
+        "count": 1
+      },
+      {
+        "dimension": "layout",
+        "severity": "medium",
+        "count": 1
+      },
+      {
+        "dimension": "connectivity",
+        "severity": "critical",
+        "count": 1
+      },
+      {
+        "dimension": "details",
+        "severity": "medium",
+        "count": 1
+      },
+      {
+        "dimension": "legibility",
+        "severity": "high",
+        "count": 1
+      }
+    ],
+    "scoring_source_sha256": {
+      "deterministic.py": "f1e22422928636b94a18692ec4615b2f537f2a773b91c3a88eb45d99b55ed9bc",
+      "models.py": "711cfafeb136c9c51ace98e736a1b8340375869e8bf2adbdbd6073a0c5c71043",
+      "rubric.py": "d0bfa32166843612ea41b709b3af60ae7577452f90014163012fb9be14fcbb9f",
+      "svg.py": "9a79bb329b13c44710e42fa429e574f0066d8521e52b175abc027852f03c3919",
+      "pipeline.py": "b25f8aa0c0ef1f9eb348e3a9dfb860fed6a5e3b684bed922dc41bb929e99c29f",
+      "vlm.py": "03696437dca9ed3dd171c33c792be86c64ae9e33e5834a0de3a9e02b275140f1"
+    }
+  },
+  "limitations": [
+    "One base diagram and one fixed intervention per dimension; no statistical uncertainty or generalization claim.",
+    "Intervention sizes differ. Drops cannot rank intrinsic dimension sensitivity.",
+    "Off-diagonal changes may reflect real structural dependence or evaluator coupling; the matrix alone cannot distinguish them.",
+    "Overall weights are the repository's sample issue-history weights, not corpus-calibrated weights."
+  ]
+}

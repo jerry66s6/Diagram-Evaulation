@@ -69,6 +69,45 @@ Outputs are written to `examples/transformer/results/`:
 - one complete JSON report per candidate;
 - `summary.json` and `summary.md` with all five scores and sensemaking.
 
+## Single-dimension degradation experiment
+
+The [interactive experiment report](examples/transformer/ablation/index.html) compares
+the original strong diagram with five actual SVG edits: swapped stages, removed
+arrows, missing components, generic labels, and undersized text. Its matrix uses
+interventions as rows and measured dimensions as columns, highlights the target
+diagonal, and shows every change relative to the original evaluated in the same run.
+
+Run the deterministic experiment with standard-library Python (no API key or
+rendering dependency needed):
+
+```bash
+python3 scripts/run_dimension_ablation.py
+```
+
+The self-contained HTML includes plots, original/edited diagram comparisons,
+criterion evidence, and data downloads. Generated SVGs, full JSON reports, a CSV,
+the frozen inventory, source hashes, and the exact mutation manifest are saved in
+`examples/transformer/ablation/`. The existing Transformer results stay unchanged.
+The saved historical GPT+SVG baseline is shown separately and is not used to
+calculate deterministic-run deltas.
+
+To run all six candidates with the configured GPT judge plus deterministic checks:
+
+```bash
+PYTHONPATH=src python3 scripts/run_dimension_ablation.py --live
+```
+
+This requires the normal dependencies and `OPENAI_API_KEY`; results go to
+`examples/transformer/ablation-live/`. Both modes reuse the existing description-only
+inventory so the expectations stay fixed. This is one diagram with one intervention
+per dimension and unequal degradation sizes, not a calibrated sensitivity benchmark.
+
+Validate the experiment without third-party dependencies:
+
+```bash
+python3 -m unittest discover -s tests -p 'test_dimension_ablation.py'
+```
+
 ## Install
 
 Python 3.11 or newer is required.

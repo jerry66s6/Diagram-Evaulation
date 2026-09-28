@@ -1,0 +1,175 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Five-dimension degradation experiment</title>
+<style>
+:root{color-scheme:light;--bg:#f7f8f4;--paper:#fff;--ink:#182a2b;--muted:#556867;--line:#dce3dd;--accent:#166f61;--accent-soft:#e4f3ec;--loss:#ae472b;--loss-soft:#fcf0e9;--neutral:#a5b9b4}
+*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--ink);font:15px/1.55 -apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif}main{max-width:1450px;margin:auto;padding:42px 44px 64px}h1,h2,h3,p{margin-top:0}h1{font-size:clamp(30px,4vw,48px);line-height:1.12;letter-spacing:-1.6px;max-width:900px;margin-bottom:20px;font-weight:650}h2{font-size:23px;letter-spacing:-.45px;margin-bottom:8px}h3{font-size:16px;margin-bottom:10px}p{max-width:880px}.eyebrow{color:var(--accent);font-size:12px;font-weight:700;letter-spacing:1.8px;text-transform:uppercase;margin-bottom:15px}.lead{font-size:17px;color:var(--muted);max-width:850px}.topline{display:flex;justify-content:space-between;gap:16px;align-items:start;flex-wrap:wrap}.status{font-size:12px;border:1px solid var(--line);padding:6px 10px;border-radius:6px;background:var(--paper)}.meta{display:flex;gap:10px 24px;flex-wrap:wrap;font-size:13px;color:var(--muted);margin:22px 0 26px}.notice{border-left:3px solid var(--accent);background:var(--accent-soft);padding:15px 18px;margin:0 0 38px;max-width:100%;font-size:14px}.notice strong{font-weight:650}.section{margin-top:38px}.section-intro{color:var(--muted);font-size:14px;margin-bottom:18px}.section-heading{display:flex;align-items:start;justify-content:space-between;gap:18px;flex-wrap:wrap}.actions{display:flex;gap:8px;flex-wrap:wrap}button,select,.download{font:inherit;border:1px solid var(--line);background:var(--paper);color:var(--ink);border-radius:6px;padding:9px 12px}button,.download{cursor:pointer;font-size:13px;text-decoration:none}button:hover,.download:hover{border-color:var(--accent)}button:focus-visible,select:focus-visible,a:focus-visible{outline:3px solid #709eec;outline-offset:3px}.table-wrap{overflow:auto;background:var(--paper);border:1px solid var(--line);border-radius:10px}table{border-collapse:collapse;width:100%;font-variant-numeric:tabular-nums}th,td{padding:16px 14px;text-align:right;border-bottom:1px solid var(--line);white-space:nowrap}th:first-child,td:first-child{text-align:left}thead th{font-size:13px;color:var(--muted);font-weight:550;background:#f1f4ef}thead th small{display:block;font-weight:400;font-size:11px;margin-top:2px}tbody th{font-weight:500;font-size:14px}tbody td{font-size:18px;line-height:1.2}tbody td small{display:block;font-size:12px;color:var(--muted);margin-top:7px}tbody td.target{background:var(--accent-soft);box-shadow:inset 0 -3px var(--accent)}tbody td.spill{background:var(--loss-soft)}tbody td small.drop{color:var(--loss)}tbody tr.baseline{background:#f7f9f5}tbody tr:last-child>*{border-bottom:0}td.overall{border-left:1px solid var(--line);font-weight:600}.row-select{font-size:14px;border:0;padding:0;background:none;text-align:left;border-radius:0;white-space:normal;color:var(--ink)}.row-select:hover{text-decoration:underline}.row-select[aria-pressed=true]{font-weight:700}.legend{display:flex;gap:10px 24px;flex-wrap:wrap;margin-top:13px;font-size:12px;color:var(--muted)}.legend span{display:flex;align-items:center;gap:7px}.swatch{width:13px;height:13px;display:inline-block;background:var(--accent-soft);border-bottom:2px solid var(--accent)}.swatch.spill{background:var(--loss-soft);border-bottom:0}.swatch.neutral{background:var(--neutral);border:0}.swatch.solid{background:var(--accent);border:0}.point-line{display:inline-block;height:14px;width:0;border-left:2px dashed var(--muted)}.takeaway{padding:16px 0;border-bottom:1px solid var(--line);margin-top:12px;font-size:14px}.plots{display:grid;grid-template-columns:repeat(5,minmax(210px,1fr));gap:18px;margin-top:24px}.facet{min-width:0}.facet h3{margin-bottom:2px}.facet p{color:var(--muted);font-size:12px;margin-bottom:8px}.chart{width:100%;display:block;overflow:visible}.chart text{font:12px -apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;fill:var(--ink)}.chart .tick{fill:var(--muted);font-size:11px}.chart .grid{stroke:var(--line);stroke-width:1}.chart .baseline-line{stroke:var(--muted);stroke-dasharray:3 3;stroke-width:1}.chart .bar{fill:var(--neutral)}.chart .bar.target{fill:var(--accent)}.chart .bar.spill{fill:var(--loss)}.inspection{background:var(--paper);border:1px solid var(--line);border-radius:10px;padding:22px}.inspection-head{display:flex;justify-content:space-between;gap:16px;align-items:start;flex-wrap:wrap}.field-label{display:block;font-size:12px;color:var(--muted);margin-bottom:5px}select{min-width:220px;max-width:100%;font-size:14px}.dose{color:var(--accent);font-size:13px;font-weight:600;margin:10px 0 8px}.pair{display:grid;grid-template-columns:1fr 1fr;gap:22px;margin-top:20px}.diagram{margin:0;min-width:0}.diagram figcaption{font-size:13px;color:var(--muted);margin-bottom:8px;display:flex;align-items:center;justify-content:space-between;gap:10px}.diagram img{width:100%;height:auto;display:block;border:1px solid var(--line);background:white;border-radius:6px}.diagram a{font-size:12px;color:var(--accent)}details{margin-top:20px}summary{cursor:pointer;color:var(--accent);font-weight:550}details .table-wrap{margin-top:12px;border-radius:6px}.evidence th,.evidence td{font-size:12px;padding:10px;white-space:normal}.evidence td small{font-size:11px}.evidence .bad{color:var(--loss);font-weight:650}.evidence td:last-child{max-width:540px;text-align:left;line-height:1.45}.method-grid{display:grid;grid-template-columns:1.2fr 1fr;gap:40px;border-top:1px solid var(--line);padding-top:22px;font-size:14px}.method-grid ul{padding-left:20px;margin-top:8px}.method-grid li{margin-bottom:9px;color:var(--muted)}.formula{font-family:ui-monospace,SFMono-Regular,monospace;font-size:12px;line-height:1.8;word-break:break-word}.historical{font-variant-numeric:tabular-nums;font-size:13px;line-height:1.8}footer{font-size:12px;color:var(--muted);border-top:1px solid var(--line);padding-top:18px;margin-top:32px}code{font-size:12px;overflow-wrap:anywhere}.sr-only{position:absolute;clip:rect(0,0,0,0);width:1px;height:1px;overflow:hidden}noscript{display:block;padding:20px;color:var(--loss)}
+.examples{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:24px;margin:22px 0 40px}.example{margin:0;padding:20px;background:var(--paper);border:1px solid var(--line);border-radius:10px;min-width:0;display:flex;flex-direction:column}.example figcaption{margin-bottom:14px}.example h3{font-size:19px;margin-bottom:6px}.example-description{font-size:14px;color:var(--muted);margin-bottom:10px}.example-score{font-size:13px;color:var(--accent);font-variant-numeric:tabular-nums;margin-bottom:0}.example-image{display:block;width:100%;height:auto;background:white;border:1px solid var(--line);border-radius:6px;margin-top:auto}.example-actions{display:flex;justify-content:space-between;gap:10px;flex-wrap:wrap;margin-top:12px}.example-actions button{font-size:13px}.gallery-link{color:var(--accent);font-size:14px;text-underline-offset:3px}.preview-dialog{width:min(1180px,96vw);max-width:96vw;max-height:92vh;border:1px solid var(--line);border-radius:10px;padding:20px;background:var(--paper);color:var(--ink)}.preview-dialog::backdrop{background:rgba(12,29,28,.65)}.preview-heading{display:flex;justify-content:space-between;gap:16px;align-items:center}.preview-heading h2{font-size:20px;margin:0}.preview-dialog p{margin:12px 0;font-size:14px}.preview-image-scroll{overflow:auto;max-height:70vh;background:white;border:1px solid var(--line)}.preview-image-scroll img{display:block;width:1100px;height:900px;max-width:none}.preview-note{color:var(--muted);font-size:12px!important}
+@media(max-width:1250px){.plots{grid-template-columns:repeat(3,minmax(210px,1fr))}}
+@media(max-width:820px){.examples{grid-template-columns:1fr}.example{padding:16px}.preview-dialog{padding:14px}}
+@media(max-width:820px){main{padding:26px 20px}.plots{grid-template-columns:repeat(2,minmax(210px,1fr))}.method-grid{grid-template-columns:1fr;gap:18px}.pair{gap:12px}.inspection{padding:16px}th,td{padding:13px 12px}}
+@media(max-width:520px){main{padding:22px 16px 36px}h1{letter-spacing:-.8px}.plots,.pair{grid-template-columns:1fr}.status{font-size:11px}.lead{font-size:15px}.inspection{padding:12px}.actions{width:100%}select{width:100%;min-width:0}.inspection-head>div{width:100%}.legend{gap:10px 16px}.notice{margin-bottom:28px}}
+@media print{body{background:white}main{padding:0}.actions,.inspection-head select,.download{display:none}.plots{grid-template-columns:repeat(5,1fr);gap:12px}.section{break-inside:avoid}.pair{break-inside:avoid}table{font-size:10px}th,td{padding:8px}tbody td{font-size:14px}.table-wrap{overflow:visible}}
+</style>
+</head>
+<body>
+<main>
+  <header>
+    <div class="topline"><div class="eyebrow">Diagram evaluation · Controlled experiment</div><div class="status" id="mode"></div></div>
+    <h1>Change one dimension.<br>Measure all five.</h1>
+    <p class="lead">Five edited versions of the same Transformer diagram, each targeting one dimension. The diagonal records the intended effect; the other cells reveal any measured spillover.</p>
+    <div class="meta"><span>1 original diagram + 5 interventions</span><span>Same frozen expectations for all six</span><span>Scores on a 0–100 scale · higher is better</span></div>
+    <p><a class="gallery-link" href="#examples-title">See all six diagrams</a> <span aria-hidden="true"> · </span> <a class="gallery-link" href="#matrix-title">Jump to scores and plots</a></p>
+    <div class="notice" id="baseline-note"></div>
+  </header>
+
+  <section aria-labelledby="examples-title">
+    <h2 id="examples-title">What each degraded example looks like</h2>
+    <p class="section-intro">The original and all five edited diagrams are shown below at the same scale. Each caption explains the edit and its measured effect. Open any diagram at its original size to inspect the text and arrows.</p>
+    <div class="examples" id="examples"></div>
+  </section>
+
+  <section aria-labelledby="matrix-title">
+    <div class="section-heading"><div><h2 id="matrix-title">The intervention matrix</h2><p class="section-intro">Rows = intentionally degraded dimension. Columns = measured dimension. Each cell shows score and change from the re-scored original.</p></div><div class="actions"><button type="button" id="csv">Download CSV</button><button type="button" id="json">Download results</button></div></div>
+    <div class="table-wrap"><table id="matrix"><caption class="sr-only">Original baseline and five single-dimension interventions. Highlighted diagonal cells are the intended targets. Changes are in score points.</caption><thead></thead><tbody></tbody></table></div>
+    <div class="legend"><span><i class="swatch"></i>Intended target / diagonal</span><span><i class="swatch spill"></i>Change outside the target</span><span>Δ = variant − original, in score points</span></div>
+    <p class="takeaway" id="takeaway"></p>
+  </section>
+
+  <section class="section" aria-labelledby="plot-title">
+    <h2 id="plot-title">Response of each measured dimension</h2>
+    <p class="section-intro">Every panel uses the same 0–100 scale. The dashed line is that dimension’s original score. Row labels name the intervention.</p>
+    <div class="legend"><span><i class="swatch solid"></i>Intended target</span><span><i class="swatch spill" style="background:var(--loss)"></i>Spillover</span><span><i class="swatch neutral"></i>Unchanged</span><span><i class="point-line"></i>Original baseline</span></div>
+    <div class="plots" id="plots"></div>
+  </section>
+
+  <section class="section" aria-labelledby="inspect-title">
+    <h2 id="inspect-title">Inspect the actual edit</h2>
+    <p class="section-intro">Select an intervention here or in the matrix to compare the diagrams and inspect criterion-level evidence.</p>
+    <div class="inspection">
+      <div class="inspection-head"><div><h3 id="edit-title"></h3><p class="dose" id="dose"></p></div><div><label class="field-label" for="variant">Intentionally degraded dimension</label><select id="variant"></select></div></div>
+      <p id="edit-description"></p><p id="edit-response" aria-live="polite"></p>
+      <div class="pair"><figure class="diagram"><figcaption><span>Original baseline</span><a id="original-download" download="baseline.svg">Download SVG</a></figcaption><img id="original" alt="Original Transformer encoder architecture diagram"></figure><figure class="diagram"><figcaption><span id="variant-caption"></span><a id="variant-download" download>Download SVG</a></figcaption><img id="edited" alt=""></figure></div>
+      <details><summary>Criterion scores and detected issues</summary><div class="table-wrap"><table class="evidence"><thead><tr><th scope="col">Criterion / judge</th><th scope="col">Failed / evaluated</th><th scope="col">Score</th><th scope="col">Evidence</th></tr></thead><tbody id="evidence"></tbody></table></div></details>
+    </div>
+  </section>
+
+  <section class="section" aria-labelledby="method-title">
+    <h2 id="method-title">How to read this experiment</h2>
+    <div class="method-grid"><div>
+      <h3>Measured scores, fixed comparison</h3>
+      <p>Each variant is generated directly from the original SVG. All six are evaluated using the same rubric, frozen inventory, thresholds, and weights. Scores are calculated from detected issues; no cell is manually reduced.</p>
+      <p>Within each dimension, criterion scores are averaged. A failed reading-order check therefore affects one of three Layout criteria; a font-size failure affects one of two Legibility criteria. An absent component is excluded from the Details denominator.</p>
+      <p class="formula" id="formula"></p>
+      <details><summary>Saved historical baseline</summary><p class="historical" id="historical"></p><p class="section-intro">This prior result is retained for context. Changes in the matrix use only the baseline evaluated in this run with the same evaluator and expectations as its variants.</p></details>
+    </div><div>
+      <h3>Scope and limitations</h3><ul id="limitations"></ul>
+      <p class="section-intro" id="judge-limit"></p>
+      <details><summary>Reproduce and extend</summary><p>Run from the repository root:</p><p><code>python3 scripts/run_dimension_ablation.py</code></p><p>To re-evaluate all six diagrams with the configured GPT judge and SVG evaluator, install the project dependencies, configure <code>OPENAI_API_KEY</code>, then run:</p><p><code>PYTHONPATH=src python3 scripts/run_dimension_ablation.py --live</code></p><p class="section-intro">The live run writes to a separate <code>ablation-live</code> folder. It needs six candidate-scoring calls and reuses the frozen description inventory.</p></details>
+    </div></div>
+  </section>
+  <footer id="provenance"></footer>
+  <noscript>This report requires JavaScript to display the embedded measured results. The accompanying scores.csv and summary.json contain the same data.</noscript>
+</main>
+<dialog class="preview-dialog" id="example-preview" aria-labelledby="preview-title" aria-describedby="preview-description">
+  <div class="preview-heading"><h2 id="preview-title"></h2><form method="dialog"><button type="submit" autofocus>Close</button></form></div>
+  <p id="preview-description"></p>
+  <p class="preview-note">Original size: 1100 × 900 px. Scroll within the image to inspect it on smaller screens.</p>
+  <div class="preview-image-scroll"><img id="preview-image" alt=""></div>
+</dialog>
+<script id="experiment-data" type="application/json">__EXPERIMENT_DATA__</script>
+<script>
+(() => {
+  'use strict';
+  const data = JSON.parse(document.getElementById('experiment-data').textContent);
+  const dims = data.dimensions, rows = data.rows, baseline = rows[0];
+  const $ = id => document.getElementById(id);
+  const title = text => text[0].toUpperCase() + text.slice(1);
+  const fmt = value => value == null ? 'N/A' : (value * 100).toFixed(2);
+  const change = value => value == null ? 'N/A' : Math.abs(value) < 1e-9 ? '0.00' : (value > 0 ? '+' : '−') + Math.abs(value * 100).toFixed(2);
+  const escape = text => String(text).replace(/[&<>"']/g, chr => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[chr]));
+  $('examples').innerHTML = rows.map(row => {
+    const description = row.target ? row.intervention.description : 'The unmodified Transformer diagram used as the starting point for every intervention. All expected components, labels, and arrows are retained.';
+    const score = row.target ? title(row.target) + ': ' + fmt(baseline.scores[row.target]) + ' → ' + fmt(row.scores[row.target]) + ' (Δ ' + change(row.delta[row.target]) + ' points)' : 'Reference scores: ' + dims.map(d => title(d) + ' ' + fmt(row.scores[d])).join(' · ');
+    return '<figure class="example" id="example-' + row.id + '"><figcaption><h3>' + escape(row.label) + '</h3><p class="example-description">' + escape(description) + '</p><p class="example-score">' + escape(score) + '</p></figcaption><img class="example-image" src="' + data.images[row.id] + '" width="1100" height="900" alt="' + escape(row.label + '. ' + description) + '"><div class="example-actions"><button type="button" data-preview="' + row.id + '" aria-label="View ' + escape(row.label.toLowerCase()) + ' at original size">View at original size</button>' + (row.target ? '<button type="button" data-inspect="' + row.id + '">Inspect ' + title(row.target) + ' scores</button>' : '<span class="field-label">Overall: ' + fmt(row.overall) + '</span>') + '</div></figure>';
+  }).join('');
+  document.querySelectorAll('[data-preview]').forEach(button => button.addEventListener('click', () => {
+    const row = rows.find(r => r.id === button.dataset.preview);
+    $('preview-title').textContent = row.label;
+    $('preview-description').textContent = row.intervention ? row.intervention.description : 'Original diagram, before any degradation.';
+    $('preview-image').src = data.images[row.id];
+    $('preview-image').alt = row.label + '. ' + $('preview-description').textContent;
+    $('example-preview').showModal();
+    $('preview-image').parentElement.scrollTo(0, 0);
+  }));
+  document.querySelectorAll('[data-inspect]').forEach(button => button.addEventListener('click', () => {
+    select(button.dataset.inspect);
+    $('inspect-title').scrollIntoView({behavior:matchMedia('(prefers-reduced-motion: reduce)').matches?'auto':'smooth',block:'start'});
+  }));
+  $('mode').textContent = data.mode;
+  $('baseline-note').innerHTML = data.live
+    ? '<strong>Live GPT + SVG run.</strong> Every comparison uses the original re-scored in this run (' + fmt(baseline.overall) + ' overall). The prior saved baseline is shown separately below.'
+    : '<strong>Completed: deterministic SVG evaluation.</strong> The original scores ' + fmt(baseline.overall) + ' in this run. The saved GPT + SVG baseline was ' + fmt(data.historical.baseline.correctness) + '. These use different evaluator setups, so all changes below use this run’s ' + fmt(baseline.overall) + '-point baseline. No new GPT scoring was run because an API key was unavailable.';
+  $('matrix').querySelector('thead').innerHTML = '<tr><th scope="col">Intentional intervention<small>Original + five variants</small></th>' + dims.map(d => '<th scope="col">' + title(d) + '<small>weight ' + Math.round(100*data.weights[d]) + '%</small></th>').join('') + '<th scope="col">Overall<small>weighted score</small></th></tr>';
+  $('matrix').querySelector('tbody').innerHTML = rows.map(row => '<tr class="' + (row.target ? '' : 'baseline') + '"><th scope="row">' + (row.target ? '<button type="button" class="row-select" data-variant="' + row.id + '" aria-pressed="false">' + row.label + '</button>' : row.label) + '</th>' + dims.map(d => '<td class="' + (row.target === d ? 'target' : row.target && Math.abs(row.delta[d] ?? 0) > 1e-9 ? 'spill' : '') + '">' + fmt(row.scores[d]) + '<small class="' + (row.delta[d] < -1e-9 ? 'drop' : '') + '">' + (row.target ? 'Δ ' + change(row.delta[d]) : 'reference') + '</small></td>').join('') + '<td class="overall">' + fmt(row.overall) + '<small class="' + (row.overall_delta < -1e-9 ? 'drop' : '') + '">' + (row.target ? 'Δ ' + change(row.overall_delta) : 'reference') + '</small></td></tr>').join('');
+  const targetDrops = rows.slice(1).filter(r => r.delta[r.target] < -1e-9).length;
+  const spills = rows.slice(1).flatMap(row => dims.filter(d => d !== row.target && Math.abs(row.delta[d] ?? 0) > 1e-9).map(d => title(row.target) + ' edit → ' + title(d) + ': ' + change(row.delta[d]) + ' points'));
+  $('takeaway').textContent = 'Observed in this run: ' + targetDrops + '/5 intended dimensions decreased. ' + (spills.length ? 'Off-diagonal changes: ' + spills.join('; ') + '.' : 'No off-diagonal changes were detected.');
+  const svgNS = 'http://www.w3.org/2000/svg';
+  function node(tag, attrs, text) { const n = document.createElementNS(svgNS, tag); for (const [key,value] of Object.entries(attrs)) n.setAttribute(key,value); if (text != null) n.textContent = text; return n; }
+  dims.forEach(d => {
+    const panel = document.createElement('div'); panel.className='facet';
+    panel.innerHTML='<h3>' + title(d) + '</h3><p>Original: ' + fmt(baseline.scores[d]) + '</p>';
+    const svg = node('svg', {class:'chart',role:'img','aria-label':title(d) + ' scores for all five interventions; exact scores are in the matrix.'});
+    panel.appendChild(svg); $('plots').appendChild(panel);
+    function draw() {
+      const width = panel.clientWidth, height = 262, left = 83, right = 40, top = 22, bottom = 218;
+      const plotWidth = Math.max(70,width-left-right), x = score => left+score*plotWidth;
+      svg.setAttribute('viewBox','0 0 ' + width + ' ' + height);svg.replaceChildren();
+      svg.appendChild(node('title',{},title(d) + ' scores by intervention'));
+      [0,.5,1].forEach(t => {svg.appendChild(node('line',{x1:x(t),y1:top-5,x2:x(t),y2:bottom,class:'grid'}));svg.appendChild(node('text',{x:x(t),y:239,'text-anchor':'middle',class:'tick'},Math.round(t*100)));});
+      rows.slice(1).forEach((row,i) => {
+        const y = 35+i*39, score = row.scores[d], target=row.target===d, spill=!target&&Math.abs(row.delta[d]??0)>1e-9;
+        svg.appendChild(node('text',{x:left-8,y:y+4,'text-anchor':'end'},title(row.target)));
+        if(score != null){
+          const bar=node('rect',{x:left,y:y-7,width:Math.max(0,score*plotWidth),height:14,rx:2,class:'bar' + (target?' target':spill?' spill':'')});
+          bar.appendChild(node('title',{},row.label + ': ' + fmt(score) + ', change ' + change(row.delta[d]) + ' points'));
+          svg.appendChild(bar);svg.appendChild(node('text',{x:x(1)+5,y:y+4,class:'tick'},(score*100).toFixed(1)));
+        }
+      });
+      if(baseline.scores[d]!=null)svg.appendChild(node('line',{x1:x(baseline.scores[d]),y1:top-5,x2:x(baseline.scores[d]),y2:bottom,class:'baseline-line'}));
+      svg.appendChild(node('text',{x:left+plotWidth/2,y:260,'text-anchor':'middle',class:'tick'},'Score (0–100)'));
+    }
+    new ResizeObserver(draw).observe(panel);draw();
+  });
+  $('variant').innerHTML = rows.slice(1).map(row => '<option value="' + row.id + '">' + row.label + '</option>').join('');
+  $('original').src = data.images.baseline; $('original-download').href = data.images.baseline;
+  function select(id) {
+    const row = rows.find(r => r.id === id); if (!row || !row.target) return;
+    $('variant').value=id; $('edit-title').textContent=row.intervention.title; $('dose').textContent=row.intervention.dose;
+    $('edit-description').textContent=row.intervention.description;
+    const other=dims.filter(d => d!==row.target&&Math.abs(row.delta[d]??0)>1e-9);
+    $('edit-response').textContent=title(row.target) + ': ' + fmt(baseline.scores[row.target]) + ' → ' + fmt(row.scores[row.target]) + ' (' + change(row.delta[row.target]) + ' points). ' + (other.length ? 'Also changed: ' + other.map(d => title(d) + ' ' + change(row.delta[d]) + ' points').join('; ') + '.' : 'The other four dimension scores are unchanged.');
+    $('variant-caption').textContent=row.label; $('edited').src=data.images[id];$('edited').alt=row.label + ': ' + row.intervention.description;
+    $('variant-download').href=data.images[id];$('variant-download').download=id+'.svg';
+    $('evidence').innerHTML=row.criteria.map(m=>'<tr><th scope="row">'+escape(m.id)+'<br><small>'+escape(m.judge)+'</small></th><td class="'+(m.issues?'bad':'')+'">'+m.issues+' / '+m.expected+'</td><td>'+fmt(m.score)+'</td><td>'+ (m.evidence.length ? m.evidence.map(e=>escape(e.description)+(e.element_ids.length?' <small>['+escape(e.element_ids.join(', '))+']</small>':'')).join('<br>') : 'No issues detected') +'</td></tr>').join('');
+    document.querySelectorAll('[data-variant]').forEach(b=>b.setAttribute('aria-pressed',String(b.dataset.variant===id)));
+  }
+  $('variant').addEventListener('change',event=>select(event.target.value));
+  document.querySelectorAll('[data-variant]').forEach(button=>button.addEventListener('click',()=>{select(button.dataset.variant);$('inspect-title').scrollIntoView({behavior:matchMedia('(prefers-reduced-motion: reduce)').matches?'auto':'smooth',block:'start'});}));
+  select('presence');
+  $('formula').textContent='Overall = ' + dims.map(d=>data.weights[d].toFixed(2)+' × '+title(d)).join(' + ');
+  $('limitations').innerHTML=data.limitations.map(s=>'<li>'+escape(s)+'</li>').join('');
+  $('judge-limit').textContent=data.live?'Each variant has one model judgment, combined with deterministic SVG checks. Model variability has not been estimated.':'SVG checks inspect geometry, text, and component matching. They do not establish human-perceived quality. Font bounds are estimated; crossing arrows and nuanced visual ambiguity are not fully assessed.';
+  $('historical').textContent=data.historical.mode + ' · Overall ' + fmt(data.historical.baseline.correctness) + ' · ' + dims.map(d=>title(d)+' '+fmt(data.historical.baseline[d])).join(' · ');
+  $('provenance').textContent='Run: ' + new Date(data.created_at).toISOString().slice(0,16).replace('T',' ') + ' UTC · Original: ' + data.provenance.source_svg + ' · Source SHA-256: ' + data.provenance.source_sha256.slice(0,12) + '… · Frozen inventory: 11 components, 10 directed connections.';
+  function download(name,text,type){const url=URL.createObjectURL(new Blob([text],{type}));const a=document.createElement('a');a.href=url;a.download=name;document.body.appendChild(a);a.click();a.remove();setTimeout(()=>URL.revokeObjectURL(url),1000);}
+  $('csv').addEventListener('click',()=>{const header=['variant','target',...dims,'overall',...dims.map(d=>'delta_'+d),'delta_overall'];const lines=rows.map(r=>[r.id,r.target||'',...dims.map(d=>r.scores[d]??''),r.overall,...dims.map(d=>r.delta[d]??''),r.overall_delta].join(','));download('dimension-ablation-scores.csv',[header.join(','),...lines].join('\n')+'\n','text/csv');});
+  $('json').addEventListener('click',()=>{const {images,...results}=data;download('dimension-ablation-results.json',JSON.stringify(results,null,2),'application/json');});
+})();
+</script>
+</body>
+</html>
