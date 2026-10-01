@@ -108,6 +108,25 @@ Validate the experiment without third-party dependencies:
 python3 -m unittest discover -s tests -p 'test_dimension_ablation.py'
 ```
 
+## Beauty-axis isolation experiment
+
+The [historical Beauty-axis dashboard](examples/beauty_ablation/index.html) and
+[design notes](docs/beauty_axis_experiment.md) cover five visual-quality dimensions:
+Aesthetics, Palette, Ink Balance, Density, and Balance. The experiment compares a
+synthetic baseline flowchart with one targeted intervention per dimension and
+reports off-diagonal score changes.
+
+The portable runner excludes the prototype's internal API transport and uses this
+repository's public OpenAI backend for optional live rescoring. Reproduce the
+historical report without an API call:
+
+```bash
+PYTHONPATH=src python3 scripts/run_beauty_ablation.py
+```
+
+Or set `OPENAI_API_KEY` and pass `--live` to score the generated diagrams with the
+model configured in `config/evaluator.json`.
+
 ## Install
 
 Python 3.11 or newer is required.

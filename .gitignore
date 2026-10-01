@@ -7,3 +7,5 @@ __pycache__/
 build/
 dist/
 correctness-report.json
+examples/beauty_ablation/live/
+examples/beauty_ablation/reproduced/
