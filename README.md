@@ -1,5 +1,8 @@
 # Diagram Correctness Evaluator
 
+For the broader dataset-building mission, research scope, evaluation principles, and
+roadmap, see [`PROJECT_CONTEXT.md`](PROJECT_CONTEXT.md).
+
 This package evaluates how well a rendered diagram aligns with a written description across five dimensions:
 
 | Dimension | What it measures |
