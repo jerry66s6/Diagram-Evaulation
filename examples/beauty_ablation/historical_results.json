@@ -1,0 +1,50 @@
+{
+  "provenance": {
+    "description": "Scores and reasoning imported from the prototype experiment's second run.",
+    "model": "Internal vision-capable judge (deployment metadata intentionally omitted)"
+  },
+  "results": {
+    "baseline": {
+      "aesthetics": {"score": 64, "reasoning": "Clean and coherent with consistent shapes, colors, and typography, giving it a reasonably attractive look. However, the styling is quite basic and flat, with little visual sophistication or richness beyond standard flowchart elements."},
+      "palette": {"score": 95, "reasoning": "The diagram uses a moderate, coordinated palette of blue and green with neutral white and dark gray/black accents. The colors are purposeful and not excessive."},
+      "ink_balance": {"score": 84, "reasoning": "The diagram has clear, substantial filled blocks and text without clutter, but the large surrounding white space makes it feel slightly sparse overall."},
+      "density": {"score": 88, "reasoning": "The boxes are evenly spaced horizontally with comfortable gaps and no overlap or crowding. Content is concentrated in a single central row with substantial empty space above and below, so distribution is not fully balanced across the canvas."},
+      "balance": {"score": 96, "reasoning": "The flow spans the canvas with nearly equal left and right margins, and the main boxes are centered vertically around the canvas midpoint. The title adds slight weight above, but it does not make the composition feel lopsided."}
+    },
+    "degraded_aesthetics": {
+      "aesthetics": {"score": 35, "reasoning": "The diagram uses harsh primary colors, thick black outlines, and basic typography, giving it a crude, amateurish look. Styling is consistent but visually unsophisticated and lacks polish or refinement."},
+      "palette": {"score": 90, "reasoning": "Uses a moderate set of distinct colors in a purposeful alternating scheme. The palette is simple and coordinated, though very high-saturation."},
+      "ink_balance": {"score": 85, "reasoning": "The diagram has a clear, readable amount of visual content with five filled process boxes and arrows. There is substantial whitespace, especially above and below, but it does not feel empty or cluttered."},
+      "density": {"score": 82, "reasoning": "The boxes are evenly spaced horizontally with comfortable gaps and no overlap or cramping. However, most content is concentrated in a single central band with substantial unused vertical space."},
+      "balance": {"score": 95, "reasoning": "The flow spans the canvas with nearly equal left and right margins, and the main row is centered vertically. The title is also centered, with no noticeable lopsidedness."}
+    },
+    "degraded_palette": {
+      "aesthetics": {"score": 55, "reasoning": "The diagram is clean and coherent, but the styling is very basic with highly saturated colors, heavy outlines, and simple typography. It feels functional rather than polished."},
+      "palette": {"score": 72, "reasoning": "The main flow uses five distinct, purposeful block colors, which is near the healthy range. The extra brightly colored arrows add several more hues, making the palette feel slightly rainbow-like."},
+      "ink_balance": {"score": 88, "reasoning": "The diagram has a clear amount of visual content with five filled process blocks and minimal arrows and text, avoiding clutter. There is substantial white space, but it does not feel nearly empty."},
+      "density": {"score": 88, "reasoning": "Elements are evenly spaced across the horizontal flow with comfortable gaps and no overlap. The layout is concentrated in a central band with substantial vertical whitespace, but it is not cramped."},
+      "balance": {"score": 82, "reasoning": "The flow is very well centered horizontally and the main boxes sit near the vertical middle. The title high above and large empty lower area make the composition slightly vertically unbalanced."}
+    },
+    "degraded_ink_balance": {
+      "aesthetics": {"score": 24, "reasoning": "The dense crosshatch patterns across the background and shapes create a harsh, visually noisy effect with little refinement. Styling is consistent but crude and amateurish."},
+      "palette": {"score": 92, "reasoning": "The diagram uses a moderate, coordinated palette with two main chromatic colors plus neutral elements. The colors are purposeful and not excessive or chaotic."},
+      "ink_balance": {"score": 18, "reasoning": "The canvas is heavily covered with dense crosshatching across the entire background and inside shapes, creating an overloaded amount of ink. The process boxes remain readable, but the overall visual density is far too high."},
+      "density": {"score": 72, "reasoning": "The main elements are arranged in a clear horizontal sequence with no overlap, but they are concentrated in a single band with large unused space above and below. Spacing is fairly tight but readable."},
+      "balance": {"score": 94, "reasoning": "The workflow spans almost the full width with roughly equal margins, and the main row is vertically centered. The title adds slight weight near the top without making the composition lopsided."}
+    },
+    "degraded_density": {
+      "aesthetics": {"score": 68, "reasoning": "The diagram has a clean, coherent look with consistent rounded boxes, muted colors, and readable typography. The styling remains plain and basic."},
+      "palette": {"score": 95, "reasoning": "The diagram uses a concise, coordinated palette of two main colors plus neutral text and borders. This is a healthy moderate range without feeling flat or chaotic."},
+      "ink_balance": {"score": 86, "reasoning": "The diagram has a clear, uncluttered amount of ink with five filled nodes, arrows, and a title. It is slightly sparse relative to the large canvas but reads well."},
+      "density": {"score": 78, "reasoning": "The flowchart elements are clustered in the center with large unused margins, so distribution across the canvas is uneven. The boxes still have comfortable spacing and no overlap."},
+      "balance": {"score": 95, "reasoning": "The flowchart is horizontally centered and the main diagram has balanced top and bottom whitespace. The centered title does not make the composition feel lopsided."}
+    },
+    "degraded_balance": {
+      "aesthetics": {"score": 62, "reasoning": "Clean and coherent with consistent rounded shapes and a simple color palette, but the styling is basic and lacks visual richness or polish."},
+      "palette": {"score": 95, "reasoning": "The diagram uses a clean, coordinated palette with two main purposeful colors plus neutral elements. This is a healthy moderate range."},
+      "ink_balance": {"score": 78, "reasoning": "The diagram is readable and uncluttered, with a moderate amount of ink in the flowchart boxes. The large empty upper portion makes it feel somewhat sparse."},
+      "density": {"score": 68, "reasoning": "The flow elements are comfortably spaced horizontally with no overlap, but nearly all content is concentrated in a single row near the bottom with a large empty area above."},
+      "balance": {"score": 45, "reasoning": "The flow is horizontally centered, but the main diagram is positioned very low on the canvas with a large empty area above it. This makes the composition noticeably bottom-heavy."}
+    }
+  }
+}
