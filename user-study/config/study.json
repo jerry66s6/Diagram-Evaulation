@@ -1,0 +1,201 @@
+{
+  "id": "diagram-study-demo-v2",
+  "title": "Diagram Evaluation Study",
+  "mode": "demo",
+  "sampleSize": 24,
+  "difficultyNote": "Illustrative balanced labels for testing the interface only. Researcher review and calibration are required before a real study. Difficulty means rating-task difficulty, not diagram quality.",
+  "diagrams": [
+    {
+      "id": "D001",
+      "image": "/diagrams/3c9b3f771f89bd59c300.svg",
+      "caption": "Order-processing flow. Each request passes through Start, Validate Input, Process Data and Generate Report, in that order, before reaching End.",
+      "difficulty": "easy",
+      "source": "Existing Beauty ablation: baseline",
+      "sha256": "3c9b3f771f89bd59c30070b2d185390bdd8256888ff3a9b8463fe208fc5499e5"
+    },
+    {
+      "id": "D002",
+      "image": "/diagrams/84aaa53b0b07ca39af4d.svg",
+      "caption": "Order-processing flow. Each request passes through Start, Validate Input, Process Data and Generate Report, in that order, before reaching End.",
+      "difficulty": "medium",
+      "source": "Existing Beauty ablation: degraded_palette",
+      "sha256": "84aaa53b0b07ca39af4df24d5973ff1ce206aeefcc061dd0117bd02e449fe95c"
+    },
+    {
+      "id": "D003",
+      "image": "/diagrams/738ff544b859726985ef.svg",
+      "caption": "Order-processing flow. Each request passes through Start, Validate Input, Process Data and Generate Report, in that order, before reaching End.",
+      "difficulty": "hard",
+      "source": "Existing Beauty ablation: degraded_balance",
+      "sha256": "738ff544b859726985efed8e90735666b05742a9a70a698a741c849dd8a17dda"
+    },
+    {
+      "id": "D004",
+      "image": "/diagrams/6b88d3400a118b6ebe3f.svg",
+      "caption": "Architecture of the Transformer encoder. Input tokens are mapped to token embeddings and added to positional encodings. The sum passes through N× stacked encoder blocks, each consisting of multi-head self-attention and a position-wise feed-forward network, each followed by Add & Norm with a residual connection. The final block outputs contextual embeddings.",
+      "difficulty": "easy",
+      "source": "Existing Transformer ablation: baseline",
+      "sha256": "6b88d3400a118b6ebe3f63ac5c2ec67645c5ad5eddfc2ead482e902b8e227478"
+    },
+    {
+      "id": "D005",
+      "image": "/diagrams/d17d036714e5fdece79c.svg",
+      "caption": "Architecture of the Transformer encoder. Input tokens are mapped to token embeddings and added to positional encodings. The sum passes through N× stacked encoder blocks, each consisting of multi-head self-attention and a position-wise feed-forward network, each followed by Add & Norm with a residual connection. The final block outputs contextual embeddings.",
+      "difficulty": "medium",
+      "source": "Existing Transformer ablation: connectivity_partial",
+      "sha256": "d17d036714e5fdece79cfeaaf3b9614ebb9282759a2286390b563f98a04f9224"
+    },
+    {
+      "id": "D006",
+      "image": "/diagrams/9186a0d4b1fc88086b52.svg",
+      "caption": "Architecture of the Transformer encoder. Input tokens are mapped to token embeddings and added to positional encodings. The sum passes through N× stacked encoder blocks, each consisting of multi-head self-attention and a position-wise feed-forward network, each followed by Add & Norm with a residual connection. The final block outputs contextual embeddings.",
+      "difficulty": "hard",
+      "source": "Existing Transformer ablation: connectivity_severe",
+      "sha256": "9186a0d4b1fc88086b5242378d8031ab7bccfce3249674f0c759ae8b6e51bd12"
+    },
+    {
+      "id": "D007",
+      "image": "/diagrams/b591ba739878c24757d5.svg",
+      "caption": "Architecture of the Transformer encoder. Input tokens are mapped to token embeddings and added to positional encodings. The sum passes through N× stacked encoder blocks, each consisting of multi-head self-attention and a position-wise feed-forward network, each followed by Add & Norm with a residual connection. The final block outputs contextual embeddings.",
+      "difficulty": "easy",
+      "source": "Existing Transformer ablation: details_partial",
+      "sha256": "b591ba739878c24757d5e0de79b8ef1ebe418af162c342dbe0b042bac9a88437"
+    },
+    {
+      "id": "D008",
+      "image": "/diagrams/613b41b62f7c088af46c.svg",
+      "caption": "Architecture of the Transformer encoder. Input tokens are mapped to token embeddings and added to positional encodings. The sum passes through N× stacked encoder blocks, each consisting of multi-head self-attention and a position-wise feed-forward network, each followed by Add & Norm with a residual connection. The final block outputs contextual embeddings.",
+      "difficulty": "medium",
+      "source": "Existing Transformer ablation: details_severe",
+      "sha256": "613b41b62f7c088af46c225606695ac7cb8cee595dd3a754a25b3ee74afa6d42"
+    },
+    {
+      "id": "D009",
+      "image": "/diagrams/b39259b31a04ed296d72.svg",
+      "caption": "Architecture of the Transformer encoder. Input tokens are mapped to token embeddings and added to positional encodings. The sum passes through N× stacked encoder blocks, each consisting of multi-head self-attention and a position-wise feed-forward network, each followed by Add & Norm with a residual connection. The final block outputs contextual embeddings.",
+      "difficulty": "hard",
+      "source": "Existing Transformer ablation: layout_partial",
+      "sha256": "b39259b31a04ed296d72830322ab09013f38dc281cbe40bd3b2baf0b84ae1afd"
+    },
+    {
+      "id": "D010",
+      "image": "/diagrams/ea0944bef4c21588512c.svg",
+      "caption": "Architecture of the Transformer encoder. Input tokens are mapped to token embeddings and added to positional encodings. The sum passes through N× stacked encoder blocks, each consisting of multi-head self-attention and a position-wise feed-forward network, each followed by Add & Norm with a residual connection. The final block outputs contextual embeddings.",
+      "difficulty": "easy",
+      "source": "Existing Transformer ablation: layout_severe",
+      "sha256": "ea0944bef4c21588512ccf4793c5db5fb41d9f351ffcca8fc370443ce85d60cb"
+    },
+    {
+      "id": "D011",
+      "image": "/diagrams/cb4d284db4361f0f77d2.svg",
+      "caption": "Architecture of the Transformer encoder. Input tokens are mapped to token embeddings and added to positional encodings. The sum passes through N× stacked encoder blocks, each consisting of multi-head self-attention and a position-wise feed-forward network, each followed by Add & Norm with a residual connection. The final block outputs contextual embeddings.",
+      "difficulty": "medium",
+      "source": "Existing Transformer ablation: legibility_partial",
+      "sha256": "cb4d284db4361f0f77d2f7b315f85fca7770a6bcb474fc4f50ccfd8fabb0c494"
+    },
+    {
+      "id": "D012",
+      "image": "/diagrams/870625fb0212718a638c.svg",
+      "caption": "Architecture of the Transformer encoder. Input tokens are mapped to token embeddings and added to positional encodings. The sum passes through N× stacked encoder blocks, each consisting of multi-head self-attention and a position-wise feed-forward network, each followed by Add & Norm with a residual connection. The final block outputs contextual embeddings.",
+      "difficulty": "hard",
+      "source": "Existing Transformer ablation: legibility_severe",
+      "sha256": "870625fb0212718a638cd3094182a1983300d4482573644f9b361a7063613abc"
+    },
+    {
+      "id": "D013",
+      "image": "/diagrams/e8d1cd1088193d34b5c3.svg",
+      "caption": "Architecture of the Transformer encoder. Input tokens are mapped to token embeddings and added to positional encodings. The sum passes through N× stacked encoder blocks, each consisting of multi-head self-attention and a position-wise feed-forward network, each followed by Add & Norm with a residual connection. The final block outputs contextual embeddings.",
+      "difficulty": "easy",
+      "source": "Existing Transformer ablation: presence_partial",
+      "sha256": "e8d1cd1088193d34b5c35d3a77b0b334e333609ccfcbd1af554275515d6d4d0d"
+    },
+    {
+      "id": "D014",
+      "image": "/diagrams/0d6a737f9c16d94d2713.svg",
+      "caption": "Architecture of the Transformer encoder. Input tokens are mapped to token embeddings and added to positional encodings. The sum passes through N× stacked encoder blocks, each consisting of multi-head self-attention and a position-wise feed-forward network, each followed by Add & Norm with a residual connection. The final block outputs contextual embeddings.",
+      "difficulty": "medium",
+      "source": "Existing Transformer ablation: presence_severe",
+      "sha256": "0d6a737f9c16d94d27130b8a062e029a89d19e2df14447503ab0bf5773baa696"
+    },
+    {
+      "id": "D015",
+      "image": "/diagrams/3d2402df8187bb5f7696.png",
+      "caption": "Cyber-risk assessment framework. Experience data and expert opinion inform KPIs and cause-and-effect relationships, which feed model inference and the final cyber risk assessment. Expert opinion is used to adjust the experience data, and the experience data is used to backtest the assessment.",
+      "difficulty": "hard",
+      "source": "DiagramGen: b718d505-54fa-474a-9186-048370b30948",
+      "sha256": "3d2402df8187bb5f7696027608058f5ff8c7a75cad29c1e909d9d71c1bca2152"
+    },
+    {
+      "id": "D016",
+      "image": "/diagrams/c01101f0d0723cc0e9a1.png",
+      "caption": "Atomic configuration of an Al–Co–Cr–Fe–Ni high-entropy alloy. Each sphere is one atom, colored by element as shown in the legend.",
+      "difficulty": "easy",
+      "source": "DiagramGen: 76eed3be-3b18-4a50-ba20-08597c0c81dd",
+      "sha256": "c01101f0d0723cc0e9a1119113cdf19c0e4967b3a361b65bb9deea30133e67cc"
+    },
+    {
+      "id": "D017",
+      "image": "/diagrams/878a16d8066146bcc904.png",
+      "caption": "State machine for variable a. The states u_(a,+) and u_(a,−) each have a self-loop and transition into each other. Inputs e_(b,a,+) and e_(c,a,+) feed u_(a,+), inputs e_(b,a,−) and e_(c,a,−) feed u_(a,−), and the states output f_a(x) and ¬f_a(x) respectively.",
+      "difficulty": "medium",
+      "source": "DiagramGen: ebbde9f1-f8cc-409f-b106-296dfc45d611",
+      "sha256": "878a16d8066146bcc904a8d6f53e0ca0f1d363be72a00df6e0138c4c2a2fdaa5"
+    },
+    {
+      "id": "D018",
+      "image": "/diagrams/1fe7a9403570e64280c2.png",
+      "caption": "The complex p₀ plane, with axes Re(p₀) and Im(p₀). The branch points −√(p⃗²) and √(p⃗²) lie on the real axis, and zigzag lines mark the branch cuts extending outward from them.",
+      "difficulty": "hard",
+      "source": "DiagramGen: e8731f01-6333-458a-9fee-7480475821f8",
+      "sha256": "1fe7a9403570e64280c2183a6fafb3c83b6b2401387201c22d9159796df237f4"
+    },
+    {
+      "id": "D019",
+      "image": "/diagrams/41d2459910c78e7caa74.png",
+      "caption": "Iterative parameter estimation. After parameter estimation, two intermediate computations and Error Value 1, the parameters are re-estimated and Error Value 1 is checked. The process loops back to parameter estimation when Error 1 ≤ ε₁; otherwise it computes and checks Error Value 2, looping back again when Error 2 ≤ ε₂ and ending otherwise.",
+      "difficulty": "easy",
+      "source": "DiagramGen: f3be07c1-7e40-4dc0-8070-627322958879",
+      "sha256": "41d2459910c78e7caa74354be5b059fba8774c7a7d6ae4e841d00a6ae17817b0"
+    },
+    {
+      "id": "D020",
+      "image": "/diagrams/3164646ec4d7fe05cfac.png",
+      "caption": "Parse graph of a declaration. DCL links to Head through edge 0 and to id through edge 1, and Head links to const through edge 0.",
+      "difficulty": "medium",
+      "source": "DiagramGen: 34fdbbd1-d8f8-45e4-a9aa-46f36ff287f8",
+      "sha256": "3164646ec4d7fe05cfac0b73cb50e89ef13f53fe7d9c220993c309020091b651"
+    },
+    {
+      "id": "D021",
+      "image": "/diagrams/d9b4bfc10c9d4b9439e6.png",
+      "caption": "Example decision flow. After Start and Node #1, Node #2 asks a yes/no question. YES leads to Node #3a and NO to Node #3b, and both paths rejoin at Finish node #4 before End.",
+      "difficulty": "hard",
+      "source": "DiagramGen: 80d9f82c-93e0-4180-905e-f409f55d42ae",
+      "sha256": "d9b4bfc10c9d4b9439e6a0040c34314053017b325f403706c6f77d386b15c6ef"
+    },
+    {
+      "id": "D022",
+      "image": "/diagrams/b8e7b9fb193a700f28ce.png",
+      "caption": "Conversation flow of a stock-price chatbot. START either ends immediately or runs action_session_start. The user intent \"what is TSLA worth\" then triggers action_get_stock_price, which is followed by the intent get_current_stock_price.",
+      "difficulty": "easy",
+      "source": "DiagramGen: d10a1cbf-8aef-43a1-ac8c-68acc1482c37",
+      "sha256": "b8e7b9fb193a700f28ce8b7349f4f40f194025108a9a9bba2e0e13ac777b26b2"
+    },
+    {
+      "id": "D023",
+      "image": "/diagrams/ed23a839eae4af345c67.png",
+      "caption": "Component structure of a client-server game. Game objects, maps, menus and weapons form separate hierarchies, and dotted lines connect CMap, SMap, Connection and Configuration to the Client and Server.",
+      "difficulty": "medium",
+      "source": "DiagramGen: 0f37e4dd-1e95-4a0d-9284-210c778c5d74",
+      "sha256": "ed23a839eae4af345c67c4c5dbfe10ce7423e5364d20e9304164a3a222fcdf6f"
+    },
+    {
+      "id": "D024",
+      "image": "/diagrams/0e8220d7b700e38d4d82.png",
+      "caption": "A densely connected directed network of numbered nodes, from node 0 to beyond node 119. Hub nodes such as 4, 7, 10, 16, 20 and 23 link many branches, and some edges lead back to earlier parts of the network.",
+      "difficulty": "hard",
+      "source": "DiagramGen: ac8b0fb8-9bcf-4d09-8f45-c5a5db5cf5c6",
+      "sha256": "0e8220d7b700e38d4d82a842d932c79786311b43988bd69455944a43eeaa02b5"
+    }
+  ]
+}

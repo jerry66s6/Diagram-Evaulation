@@ -1,0 +1,3 @@
+import {findSession,handleError,json,newSession,payload,publicSession,ApiError} from '../../../lib/server';
+export async function GET(request:Request){try{const session=await findSession(request);return json({session:session?await publicSession(session):null});}catch(e){return handleError(e);}}
+export async function POST(request:Request){try{const body=await payload(request);if(body.consent!==true)throw new ApiError(400,'Consent is required before starting.');const existing=await findSession(request);if(existing)return json({session:await publicSession(existing)});return await newSession(request);}catch(e){return handleError(e);}}

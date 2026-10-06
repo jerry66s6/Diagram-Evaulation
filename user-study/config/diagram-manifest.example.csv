@@ -1,0 +1,4 @@
+id,file,difficulty,source,caption,caption_file
+FC001,images/fc001.svg,easy,"arXiv:2401.01234, Fig. 2","Order-processing flow. Each request passes through Start, Validate Input, Process Data and Generate Report before reaching End.",
+FC002,images/fc002.png,medium,"GPT-generated, prompt 17","Login flow. A ""Password valid?"" check sends the user to the Dashboard on yes and back to Retry on no.",
+FC003,images/fc003.svg,hard,"arXiv:2403.05678, Fig. 4",,captions/fc003.txt

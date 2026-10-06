@@ -1,0 +1,21 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1000 600">
+
+    <defs>
+      <marker id="arrow" markerWidth="10" markerHeight="7" refX="9" refY="3.5" orient="auto">
+        <polygon points="0 0, 10 3.5, 0 7" fill="context-stroke"/>
+      </marker>
+      <pattern id="hatch" width="12" height="12" patternUnits="userSpaceOnUse">
+        <path d="M-3,3 l6,-6 M0,12 l12,-12 M9,15 l6,-6" stroke="#777" stroke-width="2"/>
+      </pattern>
+    </defs>
+<style>
+  .edge { fill:none; stroke-width:4; }
+  text { font-family:Arial,sans-serif; font-size:22px; font-weight:700;
+          text-anchor:middle; dominant-baseline:middle; }
+  .title { fill:#222; font-size:30px; }
+</style>
+<rect width="1000" height="600" fill="white"/>
+<text class="title" x="500" y="45">Order Processing Flow</text>
+<line class="edge" x1="180" y1="300" x2="220" y2="300" stroke="#333333" marker-end="url(#arrow)"/><line class="edge" x1="380" y1="300" x2="420" y2="300" stroke="#333333" marker-end="url(#arrow)"/><line class="edge" x1="580" y1="300" x2="620" y2="300" stroke="#333333" marker-end="url(#arrow)"/><line class="edge" x1="780" y1="300" x2="820" y2="300" stroke="#333333" marker-end="url(#arrow)"/>
+<g class="node" data-node="0"><rect x="20" y="245" width="160" height="110" rx="14" fill="#4c72b0" stroke="#222" stroke-width="3"/><text x="100" y="300" fill="white">Start</text></g><g class="node" data-node="1"><rect x="220" y="245" width="160" height="110" rx="14" fill="#55a868" stroke="#222" stroke-width="3"/><text x="300" y="300" fill="white">Validate Input</text></g><g class="node" data-node="2"><rect x="420" y="245" width="160" height="110" rx="14" fill="#4c72b0" stroke="#222" stroke-width="3"/><text x="500" y="300" fill="white">Process Data</text></g><g class="node" data-node="3"><rect x="620" y="245" width="160" height="110" rx="14" fill="#55a868" stroke="#222" stroke-width="3"/><text x="700" y="300" fill="white">Generate Report</text></g><g class="node" data-node="4"><rect x="820" y="245" width="160" height="110" rx="14" fill="#4c72b0" stroke="#222" stroke-width="3"/><text x="900" y="300" fill="white">End</text></g>
+</svg>
