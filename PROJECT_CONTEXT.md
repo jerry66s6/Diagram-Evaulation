@@ -51,6 +51,7 @@ To begin with, we care about two top-level axes:
    - Connectivity - Whether every arrow correctly joins its intended source and target
    - Presence - Whether all diagram elements the LLM expects to see and extract are present
    - Details - Whether labels and content are meaningful rather than missing or placeholder text
+   - Legibility - Whether text is readable, without tiny fonts or text overflowing its box
 2. Beauty - Beauty combines one subjective aesthetic assessment with four objective pixel-based guardrails.
    - Aesthetics - Whether the diagram has polished, professional, coherent, and visually sophisticated styling.
    - Palette - Whether the diagram uses a purposeful, coordinated middle range of perceptually distinct colors.
@@ -74,3 +75,18 @@ that our dimensions evaluate isolated aspects of a flowchart.
 Once we have isolated dimensions, we can start collecting human data and calculate something like RMSE with those scores (lower is better).
 Then, we can modify the prompt to improve that RMSE using a validation set.
 We can keep doing prompt iterations till we stop seeing meaningful improvement.
+
+**UI.** To collect human data, we built a rating UI in `user-study/`. Each participant
+rates 20-30 diagrams (24 by default), balanced across easy, medium and hard and shown
+in random order. Each diagram is shown with its caption, and the participant scores it
+from 1 to 10 on every correctness and beauty dimension. Researchers can export all
+ratings as a CSV with one row per participant and diagram.
+
+**Metrics.** Humans rate on a 1-10 scale and the judge on 0-100, so both are first put
+on the same scale. Then, per dimension:
+
+- RMSE and MAE between human and judge scores (lower is better).
+- Spearman correlation, to check whether the judge ranks diagrams the same way humans do.
+- Inter-rater agreement between humans, e.g. Krippendorff's alpha, to know how much
+  agreement is realistically achievable.
+- The same metrics broken down by difficulty (easy, medium, hard).
