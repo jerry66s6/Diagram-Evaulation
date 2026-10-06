@@ -1,0 +1,108 @@
+{
+  "model": "gpt-5.5",
+  "prompt": "You are stage 1 of a description-to-diagram alignment evaluator. Read only the written diagram description below. There is no candidate image in this stage. Infer a frozen inventory of concrete, countable expectations for all five dimensions. Presence must enumerate every expected component, group, input, output, and repeated block, and nothing else: connections belong under Connectivity only. Details must enumerate exact meaningful labels and content and must explicitly reject missing or placeholder labels. Connectivity must list each intended directed source-to-target connection. Layout must describe sensible ordering, containment, overlap, and canvas expectations. Legibility must describe readable text expectations. Do not score. Do not add decorative requirements not implied by the description. Also return an ordered components list. Give each component a unique snake_case id, its exact expected visible label, and a short kind. Preserve repeated components as separate entries with separate ids. Return connections using only those component ids, directed from source to target. Return explicit forbidden placeholder strings. Use short, atomic strings.\n\nShared rubric:\n[{\"id\": \"presence.elements\", \"dimension\": \"presence\", \"description\": \"Every component, group, input, output, repeated block, and operation expected from the written description is visibly drawn in the candidate, even if its label is imperfect. Connections are judged under Connectivity, not here.\", \"severity\": \"high\"}, {\"id\": \"layout.order\", \"dimension\": \"layout\", \"description\": \"Components follow the sensible reading and processing order implied by the description.\", \"severity\": \"medium\"}, {\"id\": \"layout.canvas\", \"dimension\": \"layout\", \"description\": \"All candidate content remains fully inside the SVG canvas.\", \"severity\": \"high\"}, {\"id\": \"layout.overlap\", \"dimension\": \"layout\", \"description\": \"Candidate components have no unintended overlaps or collisions; intentional container nesting is allowed.\", \"severity\": \"high\"}, {\"id\": \"connectivity.connections\", \"dimension\": \"connectivity\", \"description\": \"Every directed source-to-target connection expected from the description is visibly present in the candidate.\", \"severity\": \"critical\"}, {\"id\": \"connectivity.endpoints\", \"dimension\": \"connectivity\", \"description\": \"Each visible arrow attaches to the correct description-expected source and target components with the correct direction.\", \"severity\": \"critical\"}, {\"id\": \"details.labels\", \"dimension\": \"details\", \"description\": \"Each drawn component carries its complete, accurate, meaningful expected label rather than an abbreviated, generic, missing, or placeholder label. Components that are not drawn are judged under Presence, not here.\", \"severity\": \"high\"}, {\"id\": \"legibility.overflow\", \"dimension\": \"legibility\", \"description\": \"Text stays inside its intended container without clipping, collision, or overflow.\", \"severity\": \"high\"}, {\"id\": \"legibility.minimum_font\", \"dimension\": \"legibility\", \"description\": \"Every text element meets the configured minimum rendered font size.\", \"severity\": \"high\"}]\n\nDiagram description:\nHow can I use DOT to create a comprehensive diagram that illustrates the relationships between various game components, including objects, maps, projectiles, menus, weapons, and their connections to a client-server architecture? I want to ensure that the diagram clearly depicts the interactions and dependencies among these components, with some connections styled differently to highlight specific relationships.\n\nSpecifically, I would like to include the following elements in the diagram:\n1. **Game Objects**: Representing in-game entities such as `IGObject`, which should be connected to `CCharacter` and `SCharacter` to show different character types.\n2. **Maps**: Differentiating between client-side (`CMap`) and server-side (`SMap`) map representations, with clear connections to their respective client and server components.\n3. **Projectiles**: Illustrating the relationship between `Projectile` and `CProjectile`, and ensuring that `IGObject` is connected to `Projectile` to indicate that projectiles are a type of game object.\n4. **Menus**: Displaying various menu interfaces like `IMenu`, which should be linked to specific menus such as `MenuArmas` (weapons menu) and `MenuPrinc` (main menu).\n5. **Weapons**: Showing different weapon types, such as `Pistol` and `Rifle`, and their association with the `Weapons` category.\n6. **Client-Server Architecture**: Highlighting the connections between `Connection`, `Configuration`, `CMap`, and `SMap` to both `Client` and `Server` components, with these connections styled differently (e.g., using a dotted line) to emphasize their distinct nature.\n\nI also want to ensure that the diagram is visually clear and well-organized, making it easy to understand the hierarchical and relational structure of the game components. The styling of certain connections should help in distinguishing between direct interactions and more abstract relationships, such as those involving the client-server architecture. Additionally, I would like the diagram to be scalable and adaptable, allowing for the inclusion of more components or changes in the relationships without compromising the overall clarity and coherence of the representation. This will help in effectively communicating the complex interdependencies within the game's architecture to stakeholders, developers, and other relevant parties.",
+  "schema": {
+    "type": "object",
+    "properties": {
+      "inventory": {
+        "type": "object",
+        "properties": {
+          "presence": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "layout": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "connectivity": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "details": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "legibility": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          }
+        },
+        "required": [
+          "presence",
+          "layout",
+          "connectivity",
+          "details",
+          "legibility"
+        ],
+        "additionalProperties": false
+      },
+      "components": {
+        "type": "array",
+        "items": {
+          "type": "object",
+          "properties": {
+            "id": {
+              "type": "string"
+            },
+            "label": {
+              "type": "string"
+            },
+            "kind": {
+              "type": "string"
+            }
+          },
+          "required": [
+            "id",
+            "label",
+            "kind"
+          ],
+          "additionalProperties": false
+        }
+      },
+      "connections": {
+        "type": "array",
+        "items": {
+          "type": "object",
+          "properties": {
+            "source": {
+              "type": "string"
+            },
+            "target": {
+              "type": "string"
+            }
+          },
+          "required": [
+            "source",
+            "target"
+          ],
+          "additionalProperties": false
+        }
+      },
+      "forbidden_placeholders": {
+        "type": "array",
+        "items": {
+          "type": "string"
+        }
+      }
+    },
+    "required": [
+      "inventory",
+      "components",
+      "connections",
+      "forbidden_placeholders"
+    ],
+    "additionalProperties": false
+  },
+  "images": []
+}

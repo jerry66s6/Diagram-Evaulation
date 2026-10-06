@@ -1,0 +1,82 @@
+{
+  "criteria": [
+    {
+      "id": "presence.elements",
+      "dimension": "presence",
+      "description": "Every component, group, input, output, repeated block, and operation expected from the written description is visibly drawn in the candidate, even if its label is imperfect. Connections are judged under Connectivity, not here.",
+      "severity": "high",
+      "deterministic_metric": "description_presence"
+    },
+    {
+      "id": "layout.order",
+      "dimension": "layout",
+      "description": "For each sequence in spatial_requirements.sequences, check every pair of visibly drawn components against the stated axis and sequence order. Count each pair once; tied or reversed positions fail. Missing components are handled by Presence. With no explicit sequence, return zero opportunities.",
+      "severity": "medium",
+      "deterministic_metric": "description_order"
+    },
+    {
+      "id": "layout.canvas",
+      "dimension": "layout",
+      "description": "All candidate content remains fully inside the SVG canvas.",
+      "severity": "high",
+      "deterministic_metric": "canvas_bounds"
+    },
+    {
+      "id": "layout.overlap",
+      "dimension": "layout",
+      "description": "Count visibly drawn non-container components once each. A component fails if it has any unintended collision with another component. Only explicitly intended groups and the canvas background are exempt as containers.",
+      "severity": "high",
+      "deterministic_metric": "unintended_overlap"
+    },
+    {
+      "id": "connectivity.connections",
+      "dimension": "connectivity",
+      "description": "Every directed source-to-target connection expected from the description is visibly present in the candidate.",
+      "severity": "critical",
+      "deterministic_metric": "description_connections"
+    },
+    {
+      "id": "connectivity.endpoints",
+      "dimension": "connectivity",
+      "description": "Check each visible arrow against the frozen expected source-to-target pairs. Wrong, reversed, unattached, or duplicate pairs fail. Zero visible arrows is zero opportunities; missing expected arrows are judged by connectivity.connections.",
+      "severity": "critical",
+      "deterministic_metric": "connector_attachment"
+    },
+    {
+      "id": "details.labels",
+      "dimension": "details",
+      "description": "Each drawn component carries its complete, accurate, meaningful expected label rather than an abbreviated, generic, missing, or placeholder label. Components that are not drawn are judged under Presence, not here.",
+      "severity": "high",
+      "deterministic_metric": "meaningful_labels"
+    },
+    {
+      "id": "legibility.overflow",
+      "dimension": "legibility",
+      "description": "Text stays inside its intended container without clipping, collision, or overflow.",
+      "severity": "high",
+      "deterministic_metric": "text_overflow"
+    },
+    {
+      "id": "legibility.minimum_font",
+      "dimension": "legibility",
+      "description": "Every text element meets the configured minimum rendered font size.",
+      "severity": "high",
+      "deterministic_metric": "minimum_font_size"
+    },
+    {
+      "id": "layout.relations",
+      "dimension": "layout",
+      "severity": "medium",
+      "deterministic_metric": "spatial_relations",
+      "description": "Check the explicit spatial_requirements.relations (above, left_of, same_row, same_column). Count each relation once when both components are visibly drawn. Do not invent alignment requirements. Zero stated/applicable relations means zero opportunities."
+    },
+    {
+      "id": "layout.containment",
+      "dimension": "layout",
+      "severity": "high",
+      "deterministic_metric": "group_containment",
+      "description": "For each member in spatial_requirements.groups, check that the drawn member is fully contained within its drawn intended group. Count each member once. Missing groups or members are handled by Presence; no applicable groups means zero opportunities."
+    }
+  ],
+  "version": "experimental-v2"
+}

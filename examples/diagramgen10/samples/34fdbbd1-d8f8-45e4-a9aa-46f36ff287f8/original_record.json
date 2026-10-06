@@ -1,0 +1,10 @@
+{
+  "id": "34fdbbd1-d8f8-45e4-a9aa-46f36ff287f8",
+  "category": "flowchart",
+  "images": [
+    "./images/34fdbbd1-d8f8-45e4-a9aa-46f36ff287f8.png"
+  ],
+  "query": "How can I use DOT language to create a directed graph that includes nodes labeled \"DCL,\" \"Head,\" \"const,\" and \"id,\" with edges connecting these nodes and labels indicating the edge connections?",
+  "expanded_query": "How can I use the DOT language to create a directed graph that includes specific nodes and edges with clear labels? I need the graph to have nodes labeled \"DCL,\" \"Head,\" \"const,\" and \"id,\" with directed edges connecting these nodes. Specifically, I want an edge from the \"DCL\" node to the \"Head\" node, labeled \"0,\" to indicate a particular relationship or connection type. Additionally, I need an edge from the \"Head\" node to the \"const\" node, also labeled \"0,\" to represent another specific connection. Furthermore, I require an edge from the \"DCL\" node to the \"id\" node, labeled \"1,\" to denote a different type of relationship.\n\nI would like the graph to be visually structured so that the nodes are clearly distinguishable and the edges are easy to follow, with the labels on the edges providing immediate context for the connections. The layout should be intuitive, making it simple for viewers to understand the relationships between the nodes at a glance. Additionally, I want to ensure that the graph is scalable and can be easily modified to include more nodes and edges if needed, while maintaining the clarity and organization of the existing structure. The final graph should be suitable for inclusion in documentation or presentations, providing a clear and concise visual representation of the relationships between the labeled nodes.",
+  "reference": "digraph G {\n\t0 [label=DCL]\n\t1 [label=Head]\n\t0 -> 1 [label=0]\n\t2 [label=const]\n\t1 -> 2 [label=0]\n\t3 [label=id]\n\t0 -> 3 [label=1]\n}"
+}

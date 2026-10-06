@@ -1,0 +1,80 @@
+<!doctype html>
+<html lang="en">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>DiagramGen · 10-example pilot</title>
+<style>
+:root{color-scheme:light;--ink:#172e36;--muted:#526972;--line:#d6e1e3;--teal:#176b62;--paper:#f4f7f6}*{box-sizing:border-box}body{margin:0;background:var(--paper);color:var(--ink);font:15px/1.55 system-ui,-apple-system,sans-serif}header{background:#123d3c;color:white;padding:44px max(24px,calc((100vw - 1200px)/2))}header p{max-width:820px;color:#c5ded9;margin-bottom:0}.eyebrow{text-transform:uppercase;font-size:12px;letter-spacing:.15em;color:#99cec0}h1{font-size:clamp(30px,4vw,44px);letter-spacing:-.04em;line-height:1.15;margin:12px 0}h2{font-size:24px;letter-spacing:-.025em;margin:0 0 10px}h3{font-size:17px;margin:0 0 8px}main{max-width:1248px;margin:auto;padding:24px}section{margin:28px 0}a{color:var(--teal)}button{font:inherit;cursor:pointer;padding:9px 14px;border:1px solid #afc9c2;border-radius:8px;background:white;color:var(--teal)}button:hover{background:#e7f2ee}button:focus-visible,summary:focus-visible,a:focus-visible{outline:3px solid #dd9500;outline-offset:3px}.actions{display:flex;gap:10px;flex-wrap:wrap;margin:20px 0}.notice{border:1px solid #e1bd76;border-radius:12px;background:#fff5de;padding:18px 22px}.notice p{margin:5px 0 0}.stats{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin:20px 0}.stat{background:white;border:1px solid var(--line);border-radius:10px;padding:17px}.stat strong{font-size:26px;display:block}.muted,.stat span{color:var(--muted)}.tablewrap{overflow:auto;border:1px solid var(--line);border-radius:12px;background:white}table{border-collapse:collapse;width:100%;font-size:14px}th,td{padding:13px 12px;border-bottom:1px solid var(--line);text-align:right;white-space:nowrap}th{background:#e8eeec}th:first-child,td:first-child,th:nth-child(2),td:nth-child(2){text-align:left}tr:last-child td{border-bottom:none}.status{color:#95650b;font-size:12px}.grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:18px}.card{border:1px solid var(--line);border-radius:12px;background:white;overflow:hidden}.cardtop{padding:18px 20px 12px}.id{font-family:ui-monospace,monospace;font-size:11px;overflow-wrap:anywhere;color:var(--muted)}.preview{padding:12px;width:100%;border:0;border-top:1px solid var(--line);border-bottom:1px solid var(--line);border-radius:0;background:white;display:block}.preview img{height:240px;width:100%;object-fit:contain}.preview span{display:block;color:var(--muted);font-size:12px}.cardbody{padding:16px 20px}details{margin:12px 0}summary{cursor:pointer;font-weight:600}pre{white-space:pre-wrap;overflow-wrap:anywhere;font:13px/1.6 ui-monospace,monospace;background:#f4f7f6;border-radius:8px;padding:14px}.caption{font:14px/1.7 system-ui,sans-serif}#plot{display:grid;gap:12px}.plotrow{display:grid;grid-template-columns:50px 1fr 65px;gap:12px;align-items:center}.track{background:#e1ebe7;height:16px;border-radius:5px;overflow:hidden}.bar{height:100%;background:var(--teal)}.method{background:white;border:1px solid var(--line);padding:22px;border-radius:12px}.method li{margin:8px 0}dialog{border:1px solid var(--line);border-radius:12px;max-width:95vw;width:1100px;max-height:94vh;padding:20px}dialog::backdrop{background:#102627bb}.dialogtools{display:flex;justify-content:space-between;align-items:center;gap:16px;position:sticky;top:0;background:white;padding-bottom:12px}.imageviewport{overflow:auto;max-height:76vh;background:#f4f7f6}#largeimage{display:block;max-width:100%;height:auto;margin:auto}#largeimage.native{max-width:none}footer{color:var(--muted);font-size:13px;padding:20px 0 35px}@media(max-width:700px){.grid{grid-template-columns:1fr}.stats{grid-template-columns:repeat(2,1fr)}main{padding:18px}.preview img{height:210px}}
+</style>
+<header>
+  <div class="eyebrow">Diagram correctness · external dataset</div>
+  <h1>DiagramGen, ten examples.</h1>
+  <p>Original diagram images paired with their detailed source descriptions. A small pilot for our five-dimension evaluator: Layout, Connectivity, Presence, Details, and Legibility.</p>
+</header>
+<main>
+  <div id="notice" class="notice" role="status"></div>
+  <div class="stats">
+    <div class="stat"><strong>10</strong><span>Original image / description pairs</span></div>
+    <div class="stat"><strong id="completed">0 / 10</strong><span>Examples scored</span></div>
+    <div class="stat"><strong id="mean">—</strong><span>Mean overall score / 100</span></div>
+    <div class="stat"><strong>20</strong><span>Planned model calls for a fresh run</span></div>
+  </div>
+  <div class="actions"><button id="download">Download embedded data</button><a href="#examples">Inspect the ten examples ↓</a></div>
+  <section aria-labelledby="scores-title"><h2 id="scores-title">Score table</h2><p class="muted">Scores are computed by our existing evaluator and displayed on a 0–100 scale. An em dash means no score is available; it does not mean zero.</p>
+    <div class="tablewrap"><table><thead><tr><th>Example</th><th>Status</th><th>Layout</th><th>Connectivity</th><th>Presence</th><th>Details</th><th>Legibility</th><th>Overall</th></tr></thead><tbody id="scores"></tbody></table></div>
+  </section>
+  <section><h2>Overall scores</h2><div id="plot"></div></section>
+  <section class="method"><h2>What this run measures</h2>
+    <ul>
+      <li><strong>Input:</strong> the dataset’s <code>expanded_query</code>, unchanged, and its original PNG. The PNG is the candidate being assessed; no new diagram is generated.</li>
+      <li><strong>Expectation stage:</strong> one text-only call per example freezes the required components and connections. The image and reference code are withheld from this stage.</li>
+      <li><strong>Scoring stage:</strong> one image call per example evaluates all five dimensions together using that frozen inventory. This is two planned calls per example, not five calls per image.</li>
+      <li><strong>Mode:</strong> GPT image evaluation only. DiagramGen supplies PNGs and LaTeX/DOT code, so this pilot omits the SVG geometry judge and VFIG conversion.</li>
+      <li><strong>Selection:</strong> 4 model-architecture-labeled examples, 4 flowcharts, and 2 directed graphs; seed 20260930, sorted by SHA256(seed + ':' + id) within each category. The dataset category labels are retained even where their meanings are broad.</li>
+      <li><strong>Interpretation:</strong> reference images are not guaranteed perfect matches to expanded descriptions. Ten examples do not establish evaluator accuracy. Human review and controlled degradations would be needed to test sensitivity and compare judges.</li>
+    </ul>
+    <p id="modelinfo"></p>
+    <details><summary>Run or resume locally</summary><p>Configure <code>OPENAI_API_KEY</code> in your local environment, then run this from the repository folder:</p><pre>.venv/bin/python scripts/run_diagramgen10.py --live</pre><p>Completed reports and frozen inventories are reused. The HTML is regenerated after each example. A changed evaluator configuration requires a fresh output directory.</p></details>
+    <details><summary>Score calculation and limits</summary><p>Presence is drawn components divided by decided components. Details is correctly labeled components divided by drawn components. Uncertain components are excluded from these denominators. Other criteria use (expected opportunities − detected issues) / expected opportunities. Zero opportunities are N/A. Criterion scores are averaged within each dimension, then the configured weights produce the overall score; available dimensions are renormalized. These weights come from this project’s existing sample issue history.</p><p>Descriptions that leave node counts or exact connections unspecified may yield ambiguous inventories. All source descriptions are retained for review. This run does not include the other team’s beauty metrics, repeated-judge uncertainty, or human accuracy labels.</p></details>
+  </section>
+  <section id="examples"><h2>The ten source examples</h2><p class="muted">Open an image to inspect it at full size. Each card includes the exact description used for scoring and, when available, the complete criterion evidence.</p><div class="grid" id="cards"></div></section>
+  <footer>Source: <a href="https://huggingface.co/datasets/OpenRaiser/DiagramGen">OpenRaiser / DiagramGen</a> · Downloaded from its <a href="https://modelscope.cn/datasets/opendatalab-raiser/DiagramGen">public ModelScope mirror</a>. Dataset card: Apache-2.0; underlying sources described as CC BY 4.0 or MIT. Original card and source code are retained with the local samples.<p>This HTML contains all ten images, descriptions, and available results. Copy index.html to save or share it; no local server or internet connection is required to inspect it.</p></footer>
+</main>
+<dialog id="viewer"><div class="dialogtools"><strong id="viewtitle"></strong><div><button id="native">Original size</button> <button id="close">Close</button></div></div><div class="imageviewport"><img id="largeimage" alt="Selected DiagramGen source diagram"></div></dialog>
+<script id="data" type="application/json">__REPORT_DATA__</script>
+<script>
+const data=JSON.parse(document.getElementById('data').textContent), rows=data.examples, dims=['layout','connectivity','presence','details','legibility'];
+const el=(tag,content,cls)=>{const n=document.createElement(tag);if(content!==undefined)n.textContent=content;if(cls)n.className=cls;return n};
+const score=n=>typeof n==='number'?(100*n).toFixed(1):'—';
+const finished=rows.filter(r=>r.report), blocked=rows.filter(r=>r.state.status==='blocked');
+document.getElementById('completed').textContent=`${finished.length} / ${rows.length}`;
+document.getElementById('mean').textContent=finished.length?score(finished.reduce((sum,r)=>sum+r.report.correctness,0)/finished.length):'—';
+const notice=document.getElementById('notice');
+notice.append(el('strong',finished.length===rows.length?'Evaluation complete':blocked.length?'Prepared; live scoring is blocked':'Dataset prepared; scoring is incomplete'));
+notice.append(el('p',blocked.length?'OPENAI_API_KEY is not configured locally. The ten images and descriptions are saved, but the model has not scored the blocked examples. No numeric scores are invented.':`${finished.length} of ${rows.length} examples have saved evaluation reports. This page records actual available results only.`));
+document.getElementById('modelinfo').textContent=`Configured model: ${data.protocol.settings.models.judge}. Deterministic SVG judge: omitted. Last report update: ${new Date(data.updated_utc).toLocaleString()}.`;
+for(const row of rows){
+  const tr=el('tr'), label=`${String(row.number).padStart(2,'0')}`;
+  const td=el('td'), anchor=el('a',`#${label}`);anchor.href=`#sample-${row.number}`;td.append(anchor);tr.append(td,el('td',row.state.status,'status'));
+  for(const d of dims)tr.append(el('td',score(row.report?.dimensions[d]?.score)));
+  tr.append(el('td',score(row.report?.correctness)));document.getElementById('scores').append(tr);
+  const card=el('article',undefined,'card');card.id=`sample-${row.number}`;
+  const top=el('div',undefined,'cardtop');top.append(el('h3',`#${label} · ${row.category}`),el('div',row.id,'id'));card.append(top);
+  const preview=el('button',undefined,'preview');preview.setAttribute('aria-label',`Inspect example ${row.number} at full size`);
+  const img=el('img');img.src=row.image_data;img.alt=`DiagramGen example ${row.number}, ${row.category}`;img.loading='lazy';
+  preview.append(img,el('span',`${row.image_size[0]} × ${row.image_size[1]} pixels · click to inspect`));
+  preview.onclick=()=>{document.getElementById('viewtitle').textContent=`#${label} · ${row.category}`;const large=document.getElementById('largeimage');large.src=row.image_data;large.classList.remove('native');document.getElementById('native').textContent='Original size';document.getElementById('viewer').showModal()};card.append(preview);
+  const body=el('div',undefined,'cardbody');body.append(el('p',row.query),el('p',row.state.message,'status'));
+  const cap=el('details');cap.append(el('summary','Exact description used for evaluation'),el('pre',row.description,'caption'));body.append(cap);
+  if(row.report){const report=el('details');report.append(el('summary','Full scores, frozen inventory, and evidence'),el('pre',JSON.stringify(row.report,null,2)));body.append(report)}
+  const provenance=el('details');provenance.append(el('summary','Source and provenance'),el('pre',JSON.stringify({id:row.id,description_field:row.description_field,source_format:row.source_format,image_sha256:row.image_sha256,description_sha256:row.description_sha256},null,2)));body.append(provenance);
+  card.append(body);document.getElementById('cards').append(card);
+}
+const plot=document.getElementById('plot');
+if(!finished.length)plot.append(el('p','The plot will populate after evaluation. There are no measured scores to chart yet.','muted'));
+for(const row of finished){const item=el('div',undefined,'plotrow'),track=el('div',undefined,'track'),bar=el('div',undefined,'bar');bar.style.width=`${100*row.report.correctness}%`;track.append(bar);item.append(el('span',`#${String(row.number).padStart(2,'0')}`),track,el('strong',score(row.report.correctness)));plot.append(item)}
+document.getElementById('close').onclick=()=>document.getElementById('viewer').close();
+document.getElementById('native').onclick=()=>{const large=document.getElementById('largeimage');large.classList.toggle('native');document.getElementById('native').textContent=large.classList.contains('native')?'Fit image':'Original size'};
+document.getElementById('download').onclick=()=>{const url=URL.createObjectURL(new Blob([JSON.stringify(data,null,2)],{type:'application/json'}));const a=el('a');a.href=url;a.download='diagramgen10-data.json';a.click();setTimeout(()=>URL.revokeObjectURL(url),1000)};
+</script>
+</html>

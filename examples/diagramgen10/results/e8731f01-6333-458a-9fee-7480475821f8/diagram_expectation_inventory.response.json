@@ -1,0 +1,112 @@
+{
+  "inventory": {
+    "presence": [
+      "horizontal real axis",
+      "vertical imaginary axis",
+      "blue zigzag styling on the real axis",
+      "straight styling on the imaginary axis",
+      "left filled-circle point marker on the real axis",
+      "right filled-circle point marker on the real axis",
+      "label for the left point",
+      "label for the right point",
+      "real-axis label",
+      "imaginary-axis label"
+    ],
+    "layout": [
+      "real axis is horizontal",
+      "imaginary axis is vertical",
+      "axes cross to form a complex plane",
+      "left point is on the negative side of the real axis",
+      "right point is on the positive side of the real axis",
+      "point labels are adjacent to their corresponding markers",
+      "real-axis label is placed at an appropriate location along or near the real axis",
+      "imaginary-axis label is placed near the base of the imaginary axis",
+      "layout is balanced and uncluttered",
+      "all content is fully inside the canvas",
+      "no unintended overlaps or collisions"
+    ],
+    "connectivity": [
+      "no directed source-to-target connections are specified"
+    ],
+    "details": [
+      "left point label is exactly $-\\sqrt{\\vec{p}^2}$",
+      "right point label is exactly $\\sqrt{\\vec{p}^2}$",
+      "real-axis label is exactly $\\Re(p_0)$",
+      "imaginary-axis label is exactly $\\Im(p_0)$",
+      "real axis is blue",
+      "real axis has a zigzag pattern",
+      "zigzag pattern has visually controlled length and amplitude",
+      "imaginary axis is a standard straight line",
+      "point markers are filled circles",
+      "mathematical notation uses proper LaTeX-style square root, vector, real-part, and imaginary-part formatting",
+      "labels are not missing",
+      "labels are not generic placeholders"
+    ],
+    "legibility": [
+      "all mathematical labels are readable",
+      "text does not clip",
+      "text does not overflow its intended area",
+      "labels do not collide with axes or markers",
+      "font size is large enough to read",
+      "math notation is visually consistent"
+    ]
+  },
+  "components": [
+    {
+      "id": "real_axis",
+      "label": "",
+      "kind": "blue zigzag horizontal axis"
+    },
+    {
+      "id": "imaginary_axis",
+      "label": "",
+      "kind": "straight vertical axis"
+    },
+    {
+      "id": "left_point_marker",
+      "label": "",
+      "kind": "filled circle point marker"
+    },
+    {
+      "id": "left_point_label",
+      "label": "$-\\sqrt{\\vec{p}^2}$",
+      "kind": "math text label"
+    },
+    {
+      "id": "right_point_marker",
+      "label": "",
+      "kind": "filled circle point marker"
+    },
+    {
+      "id": "right_point_label",
+      "label": "$\\sqrt{\\vec{p}^2}$",
+      "kind": "math text label"
+    },
+    {
+      "id": "real_axis_label",
+      "label": "$\\Re(p_0)$",
+      "kind": "axis text label"
+    },
+    {
+      "id": "imaginary_axis_label",
+      "label": "$\\Im(p_0)$",
+      "kind": "axis text label"
+    }
+  ],
+  "connections": [],
+  "forbidden_placeholders": [
+    "label",
+    "Label",
+    "point",
+    "Point",
+    "axis",
+    "Axis",
+    "text",
+    "Text",
+    "placeholder",
+    "Placeholder",
+    "TODO",
+    "???",
+    "..."
+  ]
+}

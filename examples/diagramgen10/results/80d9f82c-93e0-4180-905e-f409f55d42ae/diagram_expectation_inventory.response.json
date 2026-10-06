@@ -1,0 +1,139 @@
+{
+  "inventory": {
+    "presence": [
+      "directed graph",
+      "start node",
+      "end node",
+      "Node #1 intermediate node",
+      "Node #2 decision node",
+      "Node #3a YES choice node",
+      "Node #3b NO choice node",
+      "Node #4 final step node"
+    ],
+    "layout": [
+      "logical reading order from Start to End",
+      "Start appears before Node #1",
+      "Node #1 appears before Node #2",
+      "Node #2 branches to Node #3a and Node #3b",
+      "Node #3a and Node #3b converge before Node #4",
+      "Node #4 appears before End",
+      "all content fully inside canvas",
+      "no unintended overlaps or collisions",
+      "intentional node-edge contact only at endpoints"
+    ],
+    "connectivity": [
+      "Start -> Node #1",
+      "Node #1 -> Node #2",
+      "Node #2 -> Node #3a",
+      "Node #2 -> Node #3b",
+      "Node #3a -> Node #4",
+      "Node #3b -> Node #4",
+      "Node #4 -> End"
+    ],
+    "details": [
+      "start node label is exactly \"Start\"",
+      "start node has green fill color",
+      "end node label is exactly \"End\"",
+      "end node has green fill color",
+      "Node #1 label is exactly \"Node #1\"",
+      "Node #2 label is exactly \"Node #2\"",
+      "Node #2 has yellow fill color",
+      "Node #3a label is exactly \"Node #3a\"",
+      "Node #3a indicates user chose \"YES\"",
+      "Node #3b label is exactly \"Node #3b\"",
+      "Node #3b indicates user chose \"NO\"",
+      "Node #4 label is exactly \"Finish node #4\"",
+      "edge from Node #2 to Node #3a is labeled exactly \"YES\"",
+      "edge from Node #2 to Node #3b is labeled exactly \"NO\"",
+      "labels are meaningful and not missing",
+      "labels are not placeholder text"
+    ],
+    "legibility": [
+      "all node labels are readable",
+      "all edge labels are readable",
+      "text stays inside intended node or edge-label area",
+      "text is not clipped",
+      "text does not collide with other text or shapes",
+      "text meets minimum rendered font size"
+    ]
+  },
+  "components": [
+    {
+      "id": "start_node",
+      "label": "Start",
+      "kind": "start node"
+    },
+    {
+      "id": "node_1",
+      "label": "Node #1",
+      "kind": "intermediate node"
+    },
+    {
+      "id": "node_2",
+      "label": "Node #2",
+      "kind": "decision node"
+    },
+    {
+      "id": "node_3a",
+      "label": "Node #3a",
+      "kind": "choice node"
+    },
+    {
+      "id": "node_3b",
+      "label": "Node #3b",
+      "kind": "choice node"
+    },
+    {
+      "id": "node_4",
+      "label": "Finish node #4",
+      "kind": "final step node"
+    },
+    {
+      "id": "end_node",
+      "label": "End",
+      "kind": "end node"
+    }
+  ],
+  "connections": [
+    {
+      "source": "start_node",
+      "target": "node_1"
+    },
+    {
+      "source": "node_1",
+      "target": "node_2"
+    },
+    {
+      "source": "node_2",
+      "target": "node_3a"
+    },
+    {
+      "source": "node_2",
+      "target": "node_3b"
+    },
+    {
+      "source": "node_3a",
+      "target": "node_4"
+    },
+    {
+      "source": "node_3b",
+      "target": "node_4"
+    },
+    {
+      "source": "node_4",
+      "target": "end_node"
+    }
+  ],
+  "forbidden_placeholders": [
+    "Lorem ipsum",
+    "placeholder",
+    "TODO",
+    "TBD",
+    "Node",
+    "Label",
+    "Text",
+    "Example",
+    "Untitled",
+    "?"
+  ]
+}

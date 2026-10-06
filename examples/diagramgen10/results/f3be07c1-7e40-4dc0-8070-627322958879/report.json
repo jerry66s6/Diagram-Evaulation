@@ -1,0 +1,593 @@
+{
+  "correctness": 0.8991919191919193,
+  "formula": "0.200000*presence + 0.100000*layout + 0.400000*connectivity + 0.100000*details + 0.200000*legibility",
+  "weights": {
+    "presence": 0.2,
+    "layout": 0.1,
+    "connectivity": 0.4,
+    "details": 0.1,
+    "legibility": 0.2
+  },
+  "dimensions": {
+    "presence": {
+      "dimension": "presence",
+      "score": 1.0,
+      "criteria": {
+        "presence.elements": 1.0
+      },
+      "participating_judges": [
+        "gpt-5.5"
+      ]
+    },
+    "layout": {
+      "dimension": "layout",
+      "score": 0.6666666666666666,
+      "criteria": {
+        "layout.order": 0.0,
+        "layout.canvas": 1.0,
+        "layout.overlap": 1.0
+      },
+      "participating_judges": [
+        "gpt-5.5"
+      ]
+    },
+    "connectivity": {
+      "dimension": "connectivity",
+      "score": 0.8590909090909091,
+      "criteria": {
+        "connectivity.connections": 0.9,
+        "connectivity.endpoints": 0.8181818181818182
+      },
+      "participating_judges": [
+        "gpt-5.5"
+      ]
+    },
+    "details": {
+      "dimension": "details",
+      "score": 0.8888888888888888,
+      "criteria": {
+        "details.labels": 0.8888888888888888
+      },
+      "participating_judges": [
+        "gpt-5.5"
+      ]
+    },
+    "legibility": {
+      "dimension": "legibility",
+      "score": 1.0,
+      "criteria": {
+        "legibility.overflow": 1.0,
+        "legibility.minimum_font": 1.0
+      },
+      "participating_judges": [
+        "gpt-5.5"
+      ]
+    }
+  },
+  "metrics": [
+    {
+      "criterion_id": "layout.order",
+      "dimension": "layout",
+      "judge": "gpt-5.5",
+      "expected_count": 1,
+      "detected_issues": 1,
+      "issues": [
+        {
+          "description": "The visible flow begins with an extra top 'Parameter Estimation' box feeding another 'Parameter Estimation' box before the compute steps, disrupting the described start-to-compute ordering.",
+          "severity": "medium",
+          "element_ids": [
+            "parameter_estimation_1"
+          ]
+        }
+      ],
+      "notes": "Main vertical sequence is mostly top-to-bottom, but an extra initial parameter-estimation node is inserted before the mapped first process step.",
+      "measurable": true,
+      "component_verdicts": [],
+      "score": 0.0
+    },
+    {
+      "criterion_id": "layout.canvas",
+      "dimension": "layout",
+      "judge": "gpt-5.5",
+      "expected_count": 1,
+      "detected_issues": 0,
+      "issues": [],
+      "notes": "All visible nodes, labels, and arrows appear within the image bounds.",
+      "measurable": true,
+      "component_verdicts": [],
+      "score": 1.0
+    },
+    {
+      "criterion_id": "layout.overlap",
+      "dimension": "layout",
+      "judge": "gpt-5.5",
+      "expected_count": 1,
+      "detected_issues": 0,
+      "issues": [],
+      "notes": "No obvious unintended node overlap is visible.",
+      "measurable": true,
+      "component_verdicts": [],
+      "score": 1.0
+    },
+    {
+      "criterion_id": "connectivity.connections",
+      "dimension": "connectivity",
+      "judge": "gpt-5.5",
+      "expected_count": 10,
+      "detected_issues": 1,
+      "issues": [
+        {
+          "description": "The expected loopback from 'Check Error Value 2' to the first 'Parameter Estimation' is not visibly connected from the second diamond; the tall right-side return line instead appears associated with the End/top parameter-estimation area.",
+          "severity": "critical",
+          "element_ids": [
+            "check_error_value_2",
+            "parameter_estimation_1"
+          ]
+        }
+      ],
+      "notes": "The other expected main-chain connections and the first decision loopback are visible.",
+      "measurable": true,
+      "component_verdicts": [],
+      "score": 0.9
+    },
+    {
+      "criterion_id": "connectivity.endpoints",
+      "dimension": "connectivity",
+      "judge": "gpt-5.5",
+      "expected_count": 11,
+      "detected_issues": 2,
+      "issues": [
+        {
+          "description": "An extra arrow connects the top 'Parameter Estimation' box to the mapped first 'Parameter Estimation' box; this source-to-target connection is not in the description.",
+          "severity": "critical",
+          "element_ids": [
+            "parameter_estimation_1"
+          ]
+        },
+        {
+          "description": "The tall right-side upward arrow terminates at the extra top 'Parameter Estimation' and appears to originate near/at the End box, rather than visibly attaching from 'Check Error Value 2' to the first 'Parameter Estimation'.",
+          "severity": "critical",
+          "element_ids": [
+            "check_error_value_2",
+            "end",
+            "parameter_estimation_1"
+          ]
+        }
+      ],
+      "notes": "Count includes visible directed arrows; two have endpoints/direction not matching expected connections.",
+      "measurable": true,
+      "component_verdicts": [],
+      "score": 0.8181818181818182
+    },
+    {
+      "criterion_id": "legibility.overflow",
+      "dimension": "legibility",
+      "judge": "gpt-5.5",
+      "expected_count": 12,
+      "detected_issues": 0,
+      "issues": [],
+      "notes": "Visible node and edge-label text appears readable and not clipped.",
+      "measurable": true,
+      "component_verdicts": [],
+      "score": 1.0
+    },
+    {
+      "criterion_id": "legibility.minimum_font",
+      "dimension": "legibility",
+      "judge": "gpt-5.5",
+      "expected_count": 12,
+      "detected_issues": 0,
+      "issues": [],
+      "notes": "All visible text appears large enough to read.",
+      "measurable": true,
+      "component_verdicts": [],
+      "score": 1.0
+    },
+    {
+      "criterion_id": "presence.elements",
+      "dimension": "presence",
+      "judge": "gpt-5.5",
+      "expected_count": 9,
+      "detected_issues": 0,
+      "issues": [],
+      "notes": "",
+      "measurable": true,
+      "component_verdicts": [
+        {
+          "component_id": "parameter_estimation_1",
+          "verdict": "present",
+          "judge": "gpt-5.5",
+          "visible_text": "Parameter Estimation",
+          "evidence": "Middle upper rectangular process box labeled 'Parameter Estimation' feeds the first 'Compute Sth.' and receives the visible loopback from the first decision.",
+          "bounds": [
+            0.23,
+            0.106,
+            0.78,
+            0.175
+          ],
+          "notes": ""
+        },
+        {
+          "component_id": "compute_sth_1",
+          "verdict": "present",
+          "judge": "gpt-5.5",
+          "visible_text": "Compute Sth.",
+          "evidence": "First rectangular compute box below the mapped first parameter-estimation step is labeled 'Compute Sth.'.",
+          "bounds": [
+            0.009,
+            0.209,
+            0.559,
+            0.278
+          ],
+          "notes": ""
+        },
+        {
+          "component_id": "compute_sth_2",
+          "verdict": "present",
+          "judge": "gpt-5.5",
+          "visible_text": "Compute Sth.",
+          "evidence": "Second rectangular compute box directly below the first compute box is labeled 'Compute Sth.'.",
+          "bounds": [
+            0.009,
+            0.312,
+            0.559,
+            0.38
+          ],
+          "notes": ""
+        },
+        {
+          "component_id": "compute_error_value_1",
+          "verdict": "present",
+          "judge": "gpt-5.5",
+          "visible_text": "Compute Error Value 1",
+          "evidence": "Rectangular process box below the two compute steps is labeled 'Compute Error Value 1'.",
+          "bounds": [
+            0.009,
+            0.415,
+            0.559,
+            0.483
+          ],
+          "notes": ""
+        },
+        {
+          "component_id": "parameter_estimation_2",
+          "verdict": "present",
+          "judge": "gpt-5.5",
+          "visible_text": "Parameter Estimation",
+          "evidence": "Lower rectangular process box after 'Compute Error Value 1' is labeled 'Parameter Estimation' and leads to the first decision diamond.",
+          "bounds": [
+            0.009,
+            0.518,
+            0.559,
+            0.586
+          ],
+          "notes": ""
+        },
+        {
+          "component_id": "check_error_value_1",
+          "verdict": "present",
+          "judge": "gpt-5.5",
+          "visible_text": "Check Error Value 1",
+          "evidence": "First diamond-shaped decision node is labeled 'Check Error Value 1'.",
+          "bounds": [
+            0.23,
+            0.62,
+            0.78,
+            0.688
+          ],
+          "notes": ""
+        },
+        {
+          "component_id": "compute_error_value_2",
+          "verdict": "mislabeled",
+          "judge": "gpt-5.5",
+          "visible_text": "Computer Error Value 2",
+          "evidence": "Rectangular process step between the first and second decision nodes plays this role, but its label reads 'Computer Error Value 2' instead of 'Compute Error Value 2'.",
+          "bounds": [
+            0.23,
+            0.723,
+            0.78,
+            0.792
+          ],
+          "notes": ""
+        },
+        {
+          "component_id": "check_error_value_2",
+          "verdict": "present",
+          "judge": "gpt-5.5",
+          "visible_text": "Check Error Value 2",
+          "evidence": "Second diamond-shaped decision node is labeled 'Check Error Value 2'.",
+          "bounds": [
+            0.23,
+            0.825,
+            0.78,
+            0.894
+          ],
+          "notes": ""
+        },
+        {
+          "component_id": "end",
+          "verdict": "present",
+          "judge": "gpt-5.5",
+          "visible_text": "End",
+          "evidence": "Bottom terminal/process box is labeled 'End'.",
+          "bounds": [
+            0.404,
+            0.928,
+            0.952,
+            0.996
+          ],
+          "notes": ""
+        }
+      ],
+      "score": 1.0
+    },
+    {
+      "criterion_id": "details.labels",
+      "dimension": "details",
+      "judge": "gpt-5.5",
+      "expected_count": 9,
+      "detected_issues": 1,
+      "issues": [
+        {
+          "description": "Drawn component has an abbreviated, incorrect, missing, or placeholder label: compute_error_value_2 (visible text: 'Computer Error Value 2')",
+          "severity": "high",
+          "element_ids": [
+            "compute_error_value_2"
+          ]
+        }
+      ],
+      "notes": "Scored only over drawn components; missing components are scored under Presence.",
+      "measurable": true,
+      "component_verdicts": [],
+      "score": 0.8888888888888888
+    }
+  ],
+  "inventory": {
+    "inventory": {
+      "presence": [
+        "parameter_estimation_1 process step is present",
+        "compute_sth_1 process step is present",
+        "compute_sth_2 process step is present",
+        "compute_error_value_1 process step is present",
+        "parameter_estimation_2 process step is present",
+        "check_error_value_1 decision point is present",
+        "compute_error_value_2 process step is present",
+        "check_error_value_2 decision point is present",
+        "end terminal step is present",
+        "two separate Compute Sth. steps are present",
+        "two separate Parameter Estimation steps are present"
+      ],
+      "layout": [
+        "components follow the main processing order from parameter_estimation_1 to end",
+        "loopback from check_error_value_1 returns to parameter_estimation_1",
+        "loopback from check_error_value_2 returns to parameter_estimation_1",
+        "edges use a clean orthogonal layout",
+        "process nodes use consistent sizing",
+        "decision nodes are visually distinct from process nodes",
+        "all content is fully inside the canvas",
+        "no unintended overlaps or collisions",
+        "no container nesting is required"
+      ],
+      "connectivity": [
+        "parameter_estimation_1 -> compute_sth_1",
+        "compute_sth_1 -> compute_sth_2",
+        "compute_sth_2 -> compute_error_value_1",
+        "compute_error_value_1 -> parameter_estimation_2",
+        "parameter_estimation_2 -> check_error_value_1",
+        "check_error_value_1 -> compute_error_value_2",
+        "check_error_value_1 -> parameter_estimation_1",
+        "compute_error_value_2 -> check_error_value_2",
+        "check_error_value_2 -> end",
+        "check_error_value_2 -> parameter_estimation_1"
+      ],
+      "details": [
+        "parameter_estimation_1 label is exactly Parameter Estimation",
+        "compute_sth_1 label is exactly Compute Sth.",
+        "compute_sth_2 label is exactly Compute Sth.",
+        "compute_error_value_1 label is exactly Compute Error Value 1",
+        "parameter_estimation_2 label is exactly Parameter Estimation",
+        "check_error_value_1 label is exactly Check Error Value 1",
+        "check_error_value_1 is diamond-shaped",
+        "compute_error_value_2 label is exactly Compute Error Value 2",
+        "check_error_value_2 label is exactly Check Error Value 2",
+        "check_error_value_2 is diamond-shaped",
+        "end label is exactly End",
+        "check_error_value_1 to parameter_estimation_1 edge label is Error 1 ≤ ε₁",
+        "check_error_value_1 to compute_error_value_2 edge label is Error 1 > ε₁",
+        "check_error_value_2 to parameter_estimation_1 edge label is Error 2 ≤ ε₂",
+        "check_error_value_2 to end edge label is Error 2 > ε₂",
+        "labels are not missing",
+        "labels are not generic",
+        "labels are not placeholders"
+      ],
+      "legibility": [
+        "all node labels are readable",
+        "all edge labels are readable",
+        "text stays inside its intended node or edge-label area",
+        "text is not clipped",
+        "text does not collide with other text or shapes",
+        "every text element meets the minimum rendered font size"
+      ]
+    },
+    "components": [
+      {
+        "id": "parameter_estimation_1",
+        "label": "Parameter Estimation",
+        "kind": "process step"
+      },
+      {
+        "id": "compute_sth_1",
+        "label": "Compute Sth.",
+        "kind": "process step"
+      },
+      {
+        "id": "compute_sth_2",
+        "label": "Compute Sth.",
+        "kind": "process step"
+      },
+      {
+        "id": "compute_error_value_1",
+        "label": "Compute Error Value 1",
+        "kind": "process step"
+      },
+      {
+        "id": "parameter_estimation_2",
+        "label": "Parameter Estimation",
+        "kind": "process step"
+      },
+      {
+        "id": "check_error_value_1",
+        "label": "Check Error Value 1",
+        "kind": "decision diamond"
+      },
+      {
+        "id": "compute_error_value_2",
+        "label": "Compute Error Value 2",
+        "kind": "process step"
+      },
+      {
+        "id": "check_error_value_2",
+        "label": "Check Error Value 2",
+        "kind": "decision diamond"
+      },
+      {
+        "id": "end",
+        "label": "End",
+        "kind": "terminal step"
+      }
+    ],
+    "connections": [
+      {
+        "source": "parameter_estimation_1",
+        "target": "compute_sth_1"
+      },
+      {
+        "source": "compute_sth_1",
+        "target": "compute_sth_2"
+      },
+      {
+        "source": "compute_sth_2",
+        "target": "compute_error_value_1"
+      },
+      {
+        "source": "compute_error_value_1",
+        "target": "parameter_estimation_2"
+      },
+      {
+        "source": "parameter_estimation_2",
+        "target": "check_error_value_1"
+      },
+      {
+        "source": "check_error_value_1",
+        "target": "compute_error_value_2"
+      },
+      {
+        "source": "check_error_value_1",
+        "target": "parameter_estimation_1"
+      },
+      {
+        "source": "compute_error_value_2",
+        "target": "check_error_value_2"
+      },
+      {
+        "source": "check_error_value_2",
+        "target": "end"
+      },
+      {
+        "source": "check_error_value_2",
+        "target": "parameter_estimation_1"
+      }
+    ],
+    "forbidden_placeholders": [
+      "",
+      "TODO",
+      "TBD",
+      "Placeholder",
+      "placeholder",
+      "Lorem ipsum",
+      "Node",
+      "Step",
+      "Process",
+      "Decision",
+      "Label",
+      "Text",
+      "???",
+      "..."
+    ]
+  },
+  "metadata": {
+    "vlm_judges": [
+      "gpt-5.5"
+    ],
+    "expectation_model": "gpt-5.5",
+    "expectations_from": "description",
+    "deterministic_judge": false,
+    "component_verdicts": [
+      {
+        "component_id": "parameter_estimation_1",
+        "verdicts": {
+          "gpt-5.5": "present"
+        },
+        "agree": true
+      },
+      {
+        "component_id": "compute_sth_1",
+        "verdicts": {
+          "gpt-5.5": "present"
+        },
+        "agree": true
+      },
+      {
+        "component_id": "compute_sth_2",
+        "verdicts": {
+          "gpt-5.5": "present"
+        },
+        "agree": true
+      },
+      {
+        "component_id": "compute_error_value_1",
+        "verdicts": {
+          "gpt-5.5": "present"
+        },
+        "agree": true
+      },
+      {
+        "component_id": "parameter_estimation_2",
+        "verdicts": {
+          "gpt-5.5": "present"
+        },
+        "agree": true
+      },
+      {
+        "component_id": "check_error_value_1",
+        "verdicts": {
+          "gpt-5.5": "present"
+        },
+        "agree": true
+      },
+      {
+        "component_id": "compute_error_value_2",
+        "verdicts": {
+          "gpt-5.5": "mislabeled"
+        },
+        "agree": true
+      },
+      {
+        "component_id": "check_error_value_2",
+        "verdicts": {
+          "gpt-5.5": "present"
+        },
+        "agree": true
+      },
+      {
+        "component_id": "end",
+        "verdicts": {
+          "gpt-5.5": "present"
+        },
+        "agree": true
+      }
+    ],
+    "component_disagreements": 0
+  }
+}

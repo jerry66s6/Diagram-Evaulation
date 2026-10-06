@@ -340,7 +340,7 @@ class DeterministicJudge:
         criteria: list[Criterion],
         expectations: dict[str, Any],
     ) -> list[MetricScore]:
-        matched = _match_components(candidate, expectations, self.config, self.policy)
+        matched = self.match_components(candidate, expectations)
         verdicts = self.component_verdicts(candidate, expectations, matched)
         by_metric = {criterion.deterministic_metric: criterion for criterion in criteria}
         atomic = {
@@ -388,6 +388,9 @@ class DeterministicJudge:
             results.append(result)
         return results
 
+    def match_components(self, candidate: SvgDocument, expectations: dict[str, Any]) -> dict[str, ComponentMatch]:
+        return _match_components(candidate, expectations, self.config, self.policy)
+
     def _score(
         self,
         expected: int,
@@ -412,7 +415,7 @@ class DeterministicJudge:
     ) -> list[ComponentVerdict]:
         """One verdict per inventory component, using the same IDs as the GPT judge."""
         if matched is None:
-            matched = _match_components(candidate, expectations, self.config, self.policy)
+            matched = self.match_components(candidate, expectations)
         width = candidate.width or 1.0
         height = candidate.height or 1.0
         verdicts: list[ComponentVerdict] = []

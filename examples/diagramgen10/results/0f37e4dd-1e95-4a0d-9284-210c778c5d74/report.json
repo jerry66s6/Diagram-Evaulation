@@ -1,0 +1,825 @@
+{
+  "correctness": 0.9500000000000001,
+  "formula": "0.200000*presence + 0.100000*layout + 0.400000*connectivity + 0.100000*details + 0.200000*legibility",
+  "weights": {
+    "presence": 0.2,
+    "layout": 0.1,
+    "connectivity": 0.4,
+    "details": 0.1,
+    "legibility": 0.2
+  },
+  "dimensions": {
+    "presence": {
+      "dimension": "presence",
+      "score": 1.0,
+      "criteria": {
+        "presence.elements": 1.0
+      },
+      "participating_judges": [
+        "gpt-5.5"
+      ]
+    },
+    "layout": {
+      "dimension": "layout",
+      "score": 1.0,
+      "criteria": {
+        "layout.order": 1.0,
+        "layout.canvas": 1.0,
+        "layout.overlap": 1.0
+      },
+      "participating_judges": [
+        "gpt-5.5"
+      ]
+    },
+    "connectivity": {
+      "dimension": "connectivity",
+      "score": 0.875,
+      "criteria": {
+        "connectivity.connections": 0.875,
+        "connectivity.endpoints": 0.875
+      },
+      "participating_judges": [
+        "gpt-5.5"
+      ]
+    },
+    "details": {
+      "dimension": "details",
+      "score": 1.0,
+      "criteria": {
+        "details.labels": 1.0
+      },
+      "participating_judges": [
+        "gpt-5.5"
+      ]
+    },
+    "legibility": {
+      "dimension": "legibility",
+      "score": 1.0,
+      "criteria": {
+        "legibility.overflow": 1.0,
+        "legibility.minimum_font": 1.0
+      },
+      "participating_judges": [
+        "gpt-5.5"
+      ]
+    }
+  },
+  "metrics": [
+    {
+      "criterion_id": "layout.order",
+      "dimension": "layout",
+      "judge": "gpt-5.5",
+      "expected_count": 6,
+      "detected_issues": 0,
+      "issues": [],
+      "notes": "Major groups are arranged in readable hierarchical clusters: game objects, maps/client-server, menus, and weapons.",
+      "measurable": true,
+      "component_verdicts": [],
+      "score": 1.0
+    },
+    {
+      "criterion_id": "layout.canvas",
+      "dimension": "layout",
+      "judge": "gpt-5.5",
+      "expected_count": 1,
+      "detected_issues": 0,
+      "issues": [],
+      "notes": "All visible content appears inside the canvas.",
+      "measurable": true,
+      "component_verdicts": [],
+      "score": 1.0
+    },
+    {
+      "criterion_id": "layout.overlap",
+      "dimension": "layout",
+      "judge": "gpt-5.5",
+      "expected_count": 18,
+      "detected_issues": 0,
+      "issues": [],
+      "notes": "No visible node collisions or unintended overlaps are apparent.",
+      "measurable": true,
+      "component_verdicts": [],
+      "score": 1.0
+    },
+    {
+      "criterion_id": "connectivity.connections",
+      "dimension": "connectivity",
+      "judge": "gpt-5.5",
+      "expected_count": 16,
+      "detected_issues": 2,
+      "issues": [
+        {
+          "description": "Expected dotted connection CMap -> Server is not visible.",
+          "severity": "critical",
+          "element_ids": [
+            "c_map",
+            "server"
+          ]
+        },
+        {
+          "description": "Expected dotted connection SMap -> Client is not visible.",
+          "severity": "critical",
+          "element_ids": [
+            "s_map",
+            "client"
+          ]
+        }
+      ],
+      "notes": "The other expected hierarchical and client-server connections are visibly present.",
+      "measurable": true,
+      "component_verdicts": [],
+      "score": 0.875
+    },
+    {
+      "criterion_id": "connectivity.endpoints",
+      "dimension": "connectivity",
+      "judge": "gpt-5.5",
+      "expected_count": 16,
+      "detected_issues": 2,
+      "issues": [
+        {
+          "description": "Visible solid connection from extra node Map to CMap uses a non-inventory source rather than a description-expected source-target pair.",
+          "severity": "critical",
+          "element_ids": [
+            "c_map"
+          ]
+        },
+        {
+          "description": "Visible solid connection from extra node Map to SMap uses a non-inventory source rather than a description-expected source-target pair.",
+          "severity": "critical",
+          "element_ids": [
+            "s_map"
+          ]
+        }
+      ],
+      "notes": "Direction is inferred from the hierarchical layout; arrowheads are not visually prominent.",
+      "measurable": true,
+      "component_verdicts": [],
+      "score": 0.875
+    },
+    {
+      "criterion_id": "legibility.overflow",
+      "dimension": "legibility",
+      "judge": "gpt-5.5",
+      "expected_count": 18,
+      "detected_issues": 0,
+      "issues": [],
+      "notes": "All visible labels fit inside their ellipse nodes.",
+      "measurable": true,
+      "component_verdicts": [],
+      "score": 1.0
+    },
+    {
+      "criterion_id": "legibility.minimum_font",
+      "dimension": "legibility",
+      "judge": "gpt-5.5",
+      "expected_count": 18,
+      "detected_issues": 0,
+      "issues": [],
+      "notes": "All text appears readable at the rendered size.",
+      "measurable": true,
+      "component_verdicts": [],
+      "score": 1.0
+    },
+    {
+      "criterion_id": "presence.elements",
+      "dimension": "presence",
+      "judge": "gpt-5.5",
+      "expected_count": 17,
+      "detected_issues": 0,
+      "issues": [],
+      "notes": "",
+      "measurable": true,
+      "component_verdicts": [
+        {
+          "component_id": "ig_object",
+          "verdict": "present",
+          "judge": "gpt-5.5",
+          "visible_text": "IGObject",
+          "evidence": "Top-left cluster root ellipse labeled IGObject.",
+          "bounds": [
+            0.107,
+            0.022,
+            0.183,
+            0.212
+          ],
+          "notes": ""
+        },
+        {
+          "component_id": "c_character",
+          "verdict": "present",
+          "judge": "gpt-5.5",
+          "visible_text": "CCharacter",
+          "evidence": "Left child ellipse under IGObject labeled CCharacter.",
+          "bounds": [
+            0.003,
+            0.405,
+            0.091,
+            0.595
+          ],
+          "notes": ""
+        },
+        {
+          "component_id": "s_character",
+          "verdict": "present",
+          "judge": "gpt-5.5",
+          "visible_text": "SCharacter",
+          "evidence": "Right child ellipse under IGObject labeled SCharacter.",
+          "bounds": [
+            0.198,
+            0.405,
+            0.286,
+            0.595
+          ],
+          "notes": ""
+        },
+        {
+          "component_id": "c_map",
+          "verdict": "present",
+          "judge": "gpt-5.5",
+          "visible_text": "CMap",
+          "evidence": "Map/client-server cluster contains ellipse labeled CMap.",
+          "bounds": [
+            0.299,
+            0.405,
+            0.359,
+            0.595
+          ],
+          "notes": ""
+        },
+        {
+          "component_id": "s_map",
+          "verdict": "present",
+          "judge": "gpt-5.5",
+          "visible_text": "SMap",
+          "evidence": "Map/client-server cluster contains ellipse labeled SMap.",
+          "bounds": [
+            0.596,
+            0.405,
+            0.652,
+            0.595
+          ],
+          "notes": ""
+        },
+        {
+          "component_id": "projectile",
+          "verdict": "present",
+          "judge": "gpt-5.5",
+          "visible_text": "Projectile",
+          "evidence": "Middle child ellipse under IGObject labeled Projectile.",
+          "bounds": [
+            0.106,
+            0.405,
+            0.184,
+            0.595
+          ],
+          "notes": ""
+        },
+        {
+          "component_id": "c_projectile",
+          "verdict": "present",
+          "judge": "gpt-5.5",
+          "visible_text": "CProjectile",
+          "evidence": "Ellipse below Projectile labeled CProjectile.",
+          "bounds": [
+            0.102,
+            0.788,
+            0.189,
+            0.981
+          ],
+          "notes": ""
+        },
+        {
+          "component_id": "i_menu",
+          "verdict": "present",
+          "judge": "gpt-5.5",
+          "visible_text": "IMenu",
+          "evidence": "Menu cluster root ellipse labeled IMenu.",
+          "bounds": [
+            0.738,
+            0.022,
+            0.798,
+            0.212
+          ],
+          "notes": ""
+        },
+        {
+          "component_id": "menu_armas",
+          "verdict": "present",
+          "judge": "gpt-5.5",
+          "visible_text": "MenuArmas",
+          "evidence": "Left child ellipse under IMenu labeled MenuArmas.",
+          "bounds": [
+            0.665,
+            0.405,
+            0.764,
+            0.595
+          ],
+          "notes": ""
+        },
+        {
+          "component_id": "menu_princ",
+          "verdict": "present",
+          "judge": "gpt-5.5",
+          "visible_text": "MenuPrinc",
+          "evidence": "Right child ellipse under IMenu labeled MenuPrinc.",
+          "bounds": [
+            0.777,
+            0.405,
+            0.879,
+            0.595
+          ],
+          "notes": ""
+        },
+        {
+          "component_id": "weapons",
+          "verdict": "present",
+          "judge": "gpt-5.5",
+          "visible_text": "Weapons",
+          "evidence": "Weapons cluster root ellipse labeled Weapons.",
+          "bounds": [
+            0.902,
+            0.022,
+            0.976,
+            0.212
+          ],
+          "notes": ""
+        },
+        {
+          "component_id": "pistol",
+          "verdict": "present",
+          "judge": "gpt-5.5",
+          "visible_text": "Pistol",
+          "evidence": "Left child ellipse under Weapons labeled Pistol.",
+          "bounds": [
+            0.88,
+            0.405,
+            0.933,
+            0.595
+          ],
+          "notes": ""
+        },
+        {
+          "component_id": "rifle",
+          "verdict": "present",
+          "judge": "gpt-5.5",
+          "visible_text": "Rifle",
+          "evidence": "Right child ellipse under Weapons labeled Rifle.",
+          "bounds": [
+            0.948,
+            0.405,
+            0.997,
+            0.595
+          ],
+          "notes": ""
+        },
+        {
+          "component_id": "connection",
+          "verdict": "present",
+          "judge": "gpt-5.5",
+          "visible_text": "Connection",
+          "evidence": "Client-server cluster contains ellipse labeled Connection.",
+          "bounds": [
+            0.372,
+            0.405,
+            0.461,
+            0.595
+          ],
+          "notes": ""
+        },
+        {
+          "component_id": "configuration",
+          "verdict": "present",
+          "judge": "gpt-5.5",
+          "visible_text": "Configuration",
+          "evidence": "Client-server cluster contains ellipse labeled Configuration.",
+          "bounds": [
+            0.477,
+            0.405,
+            0.584,
+            0.595
+          ],
+          "notes": ""
+        },
+        {
+          "component_id": "client",
+          "verdict": "present",
+          "judge": "gpt-5.5",
+          "visible_text": "Client",
+          "evidence": "Lower client-server ellipse labeled Client.",
+          "bounds": [
+            0.389,
+            0.788,
+            0.445,
+            0.981
+          ],
+          "notes": ""
+        },
+        {
+          "component_id": "server",
+          "verdict": "present",
+          "judge": "gpt-5.5",
+          "visible_text": "Server",
+          "evidence": "Lower client-server ellipse labeled Server.",
+          "bounds": [
+            0.5,
+            0.788,
+            0.558,
+            0.981
+          ],
+          "notes": ""
+        }
+      ],
+      "score": 1.0
+    },
+    {
+      "criterion_id": "details.labels",
+      "dimension": "details",
+      "judge": "gpt-5.5",
+      "expected_count": 17,
+      "detected_issues": 0,
+      "issues": [],
+      "notes": "Scored only over drawn components; missing components are scored under Presence.",
+      "measurable": true,
+      "component_verdicts": [],
+      "score": 1.0
+    }
+  ],
+  "inventory": {
+    "inventory": {
+      "presence": [
+        "Visible node IGObject",
+        "Visible node CCharacter",
+        "Visible node SCharacter",
+        "Visible node CMap",
+        "Visible node SMap",
+        "Visible node Projectile",
+        "Visible node CProjectile",
+        "Visible node IMenu",
+        "Visible node MenuArmas",
+        "Visible node MenuPrinc",
+        "Visible node Weapons",
+        "Visible node Pistol",
+        "Visible node Rifle",
+        "Visible node Connection",
+        "Visible node Configuration",
+        "Visible node Client",
+        "Visible node Server"
+      ],
+      "layout": [
+        "Hierarchical relationships read from general component to specific component",
+        "IGObject is placed logically near CCharacter, SCharacter, and Projectile",
+        "Projectile is placed logically near CProjectile",
+        "IMenu is placed logically near MenuArmas and MenuPrinc",
+        "Weapons is placed logically near Pistol and Rifle",
+        "Client-server architecture nodes are visually organized near Client and Server",
+        "All content remains fully inside the canvas",
+        "No unintended overlaps or collisions",
+        "Intentional grouping or nesting remains clear"
+      ],
+      "connectivity": [
+        "IGObject -> CCharacter",
+        "IGObject -> SCharacter",
+        "IGObject -> Projectile",
+        "Projectile -> CProjectile",
+        "IMenu -> MenuArmas",
+        "IMenu -> MenuPrinc",
+        "Weapons -> Pistol",
+        "Weapons -> Rifle",
+        "Connection -> Client, dotted style",
+        "Connection -> Server, dotted style",
+        "Configuration -> Client, dotted style",
+        "Configuration -> Server, dotted style",
+        "CMap -> Client, dotted style",
+        "CMap -> Server, dotted style",
+        "SMap -> Client, dotted style",
+        "SMap -> Server, dotted style"
+      ],
+      "details": [
+        "Node label exactly IGObject",
+        "Node label exactly CCharacter",
+        "Node label exactly SCharacter",
+        "Node label exactly CMap",
+        "Node label exactly SMap",
+        "Node label exactly Projectile",
+        "Node label exactly CProjectile",
+        "Node label exactly IMenu",
+        "Node label exactly MenuArmas",
+        "Node label exactly MenuPrinc",
+        "Node label exactly Weapons",
+        "Node label exactly Pistol",
+        "Node label exactly Rifle",
+        "Node label exactly Connection",
+        "Node label exactly Configuration",
+        "Node label exactly Client",
+        "Node label exactly Server",
+        "Client-server architecture connections are visually distinguished with dotted styling",
+        "No missing labels",
+        "No generic labels",
+        "No placeholder labels"
+      ],
+      "legibility": [
+        "All node labels are readable",
+        "All text stays inside its intended node or container",
+        "No text clipping",
+        "No text collision",
+        "No text overflow",
+        "All text meets minimum rendered font size"
+      ]
+    },
+    "components": [
+      {
+        "id": "ig_object",
+        "label": "IGObject",
+        "kind": "game object interface"
+      },
+      {
+        "id": "c_character",
+        "label": "CCharacter",
+        "kind": "client character"
+      },
+      {
+        "id": "s_character",
+        "label": "SCharacter",
+        "kind": "server character"
+      },
+      {
+        "id": "c_map",
+        "label": "CMap",
+        "kind": "client map"
+      },
+      {
+        "id": "s_map",
+        "label": "SMap",
+        "kind": "server map"
+      },
+      {
+        "id": "projectile",
+        "label": "Projectile",
+        "kind": "projectile"
+      },
+      {
+        "id": "c_projectile",
+        "label": "CProjectile",
+        "kind": "client projectile"
+      },
+      {
+        "id": "i_menu",
+        "label": "IMenu",
+        "kind": "menu interface"
+      },
+      {
+        "id": "menu_armas",
+        "label": "MenuArmas",
+        "kind": "weapons menu"
+      },
+      {
+        "id": "menu_princ",
+        "label": "MenuPrinc",
+        "kind": "main menu"
+      },
+      {
+        "id": "weapons",
+        "label": "Weapons",
+        "kind": "weapon category"
+      },
+      {
+        "id": "pistol",
+        "label": "Pistol",
+        "kind": "weapon type"
+      },
+      {
+        "id": "rifle",
+        "label": "Rifle",
+        "kind": "weapon type"
+      },
+      {
+        "id": "connection",
+        "label": "Connection",
+        "kind": "architecture component"
+      },
+      {
+        "id": "configuration",
+        "label": "Configuration",
+        "kind": "architecture component"
+      },
+      {
+        "id": "client",
+        "label": "Client",
+        "kind": "client component"
+      },
+      {
+        "id": "server",
+        "label": "Server",
+        "kind": "server component"
+      }
+    ],
+    "connections": [
+      {
+        "source": "ig_object",
+        "target": "c_character"
+      },
+      {
+        "source": "ig_object",
+        "target": "s_character"
+      },
+      {
+        "source": "ig_object",
+        "target": "projectile"
+      },
+      {
+        "source": "projectile",
+        "target": "c_projectile"
+      },
+      {
+        "source": "i_menu",
+        "target": "menu_armas"
+      },
+      {
+        "source": "i_menu",
+        "target": "menu_princ"
+      },
+      {
+        "source": "weapons",
+        "target": "pistol"
+      },
+      {
+        "source": "weapons",
+        "target": "rifle"
+      },
+      {
+        "source": "connection",
+        "target": "client"
+      },
+      {
+        "source": "connection",
+        "target": "server"
+      },
+      {
+        "source": "configuration",
+        "target": "client"
+      },
+      {
+        "source": "configuration",
+        "target": "server"
+      },
+      {
+        "source": "c_map",
+        "target": "client"
+      },
+      {
+        "source": "c_map",
+        "target": "server"
+      },
+      {
+        "source": "s_map",
+        "target": "client"
+      },
+      {
+        "source": "s_map",
+        "target": "server"
+      }
+    ],
+    "forbidden_placeholders": [
+      "TBD",
+      "TODO",
+      "placeholder",
+      "label",
+      "node",
+      "component",
+      "unknown",
+      "N/A",
+      "Lorem ipsum"
+    ]
+  },
+  "metadata": {
+    "vlm_judges": [
+      "gpt-5.5"
+    ],
+    "expectation_model": "gpt-5.5",
+    "expectations_from": "description",
+    "deterministic_judge": false,
+    "component_verdicts": [
+      {
+        "component_id": "ig_object",
+        "verdicts": {
+          "gpt-5.5": "present"
+        },
+        "agree": true
+      },
+      {
+        "component_id": "c_character",
+        "verdicts": {
+          "gpt-5.5": "present"
+        },
+        "agree": true
+      },
+      {
+        "component_id": "s_character",
+        "verdicts": {
+          "gpt-5.5": "present"
+        },
+        "agree": true
+      },
+      {
+        "component_id": "c_map",
+        "verdicts": {
+          "gpt-5.5": "present"
+        },
+        "agree": true
+      },
+      {
+        "component_id": "s_map",
+        "verdicts": {
+          "gpt-5.5": "present"
+        },
+        "agree": true
+      },
+      {
+        "component_id": "projectile",
+        "verdicts": {
+          "gpt-5.5": "present"
+        },
+        "agree": true
+      },
+      {
+        "component_id": "c_projectile",
+        "verdicts": {
+          "gpt-5.5": "present"
+        },
+        "agree": true
+      },
+      {
+        "component_id": "i_menu",
+        "verdicts": {
+          "gpt-5.5": "present"
+        },
+        "agree": true
+      },
+      {
+        "component_id": "menu_armas",
+        "verdicts": {
+          "gpt-5.5": "present"
+        },
+        "agree": true
+      },
+      {
+        "component_id": "menu_princ",
+        "verdicts": {
+          "gpt-5.5": "present"
+        },
+        "agree": true
+      },
+      {
+        "component_id": "weapons",
+        "verdicts": {
+          "gpt-5.5": "present"
+        },
+        "agree": true
+      },
+      {
+        "component_id": "pistol",
+        "verdicts": {
+          "gpt-5.5": "present"
+        },
+        "agree": true
+      },
+      {
+        "component_id": "rifle",
+        "verdicts": {
+          "gpt-5.5": "present"
+        },
+        "agree": true
+      },
+      {
+        "component_id": "connection",
+        "verdicts": {
+          "gpt-5.5": "present"
+        },
+        "agree": true
+      },
+      {
+        "component_id": "configuration",
+        "verdicts": {
+          "gpt-5.5": "present"
+        },
+        "agree": true
+      },
+      {
+        "component_id": "client",
+        "verdicts": {
+          "gpt-5.5": "present"
+        },
+        "agree": true
+      },
+      {
+        "component_id": "server",
+        "verdicts": {
+          "gpt-5.5": "present"
+        },
+        "agree": true
+      }
+    ],
+    "component_disagreements": 0
+  }
+}

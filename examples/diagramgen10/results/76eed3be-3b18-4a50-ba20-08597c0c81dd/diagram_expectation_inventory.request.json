@@ -1,0 +1,108 @@
+{
+  "model": "gpt-5.5",
+  "prompt": "You are stage 1 of a description-to-diagram alignment evaluator. Read only the written diagram description below. There is no candidate image in this stage. Infer a frozen inventory of concrete, countable expectations for all five dimensions. Presence must enumerate every expected component, group, input, output, and repeated block, and nothing else: connections belong under Connectivity only. Details must enumerate exact meaningful labels and content and must explicitly reject missing or placeholder labels. Connectivity must list each intended directed source-to-target connection. Layout must describe sensible ordering, containment, overlap, and canvas expectations. Legibility must describe readable text expectations. Do not score. Do not add decorative requirements not implied by the description. Also return an ordered components list. Give each component a unique snake_case id, its exact expected visible label, and a short kind. Preserve repeated components as separate entries with separate ids. Return connections using only those component ids, directed from source to target. Return explicit forbidden placeholder strings. Use short, atomic strings.\n\nShared rubric:\n[{\"id\": \"presence.elements\", \"dimension\": \"presence\", \"description\": \"Every component, group, input, output, repeated block, and operation expected from the written description is visibly drawn in the candidate, even if its label is imperfect. Connections are judged under Connectivity, not here.\", \"severity\": \"high\"}, {\"id\": \"layout.order\", \"dimension\": \"layout\", \"description\": \"Components follow the sensible reading and processing order implied by the description.\", \"severity\": \"medium\"}, {\"id\": \"layout.canvas\", \"dimension\": \"layout\", \"description\": \"All candidate content remains fully inside the SVG canvas.\", \"severity\": \"high\"}, {\"id\": \"layout.overlap\", \"dimension\": \"layout\", \"description\": \"Candidate components have no unintended overlaps or collisions; intentional container nesting is allowed.\", \"severity\": \"high\"}, {\"id\": \"connectivity.connections\", \"dimension\": \"connectivity\", \"description\": \"Every directed source-to-target connection expected from the description is visibly present in the candidate.\", \"severity\": \"critical\"}, {\"id\": \"connectivity.endpoints\", \"dimension\": \"connectivity\", \"description\": \"Each visible arrow attaches to the correct description-expected source and target components with the correct direction.\", \"severity\": \"critical\"}, {\"id\": \"details.labels\", \"dimension\": \"details\", \"description\": \"Each drawn component carries its complete, accurate, meaningful expected label rather than an abbreviated, generic, missing, or placeholder label. Components that are not drawn are judged under Presence, not here.\", \"severity\": \"high\"}, {\"id\": \"legibility.overflow\", \"dimension\": \"legibility\", \"description\": \"Text stays inside its intended container without clipping, collision, or overflow.\", \"severity\": \"high\"}, {\"id\": \"legibility.minimum_font\", \"dimension\": \"legibility\", \"description\": \"Every text element meets the configured minimum rendered font size.\", \"severity\": \"high\"}]\n\nDiagram description:\nHow can I use TikZ to create a diagram that consists of multiple rows and columns of shaded circles with random colors from a predefined list, and also include a separate row of labeled circles with specific colors? I need the diagram to be structured in such a way that it visually represents a grid-like pattern with varying arrangements of circles.\n\nSpecifically, I want to create a grid where each cell contains a shaded circle, and the color of each circle is randomly selected from a predefined list of colors, such as red, teal, blue, and orange shades. The grid should have multiple rows and columns, with each row containing a different number of circles to create a staggered effect. For instance, some rows might have 4 circles while others have 3, arranged in a way that maintains visual balance.\n\nAdditionally, I want to include a separate row above the grid that consists of labeled circles, each with a specific color corresponding to a particular label. This row should clearly display the labels (e.g., Al, Co, Cr, Fe, Ni) next to each circle, with the colors of these circles predefined and distinct from the random colors used in the grid.\n\nI also need the ability to adjust the size and spacing of the circles to ensure the diagram is both aesthetically pleasing and easy to interpret. The circles should be shaded to give a three-dimensional appearance, enhancing the visual appeal of the diagram.\n\nFurthermore, I want to ensure that the random color selection for the grid circles is consistent and reproducible, meaning that the same random sequence can be generated if needed. The overall layout should be flexible enough to accommodate different numbers of rows and columns, allowing for various configurations of the grid and labeled row.\n\nIn summary, I am looking for a detailed guide on how to create a TikZ diagram that combines a grid of randomly colored circles with a separate row of labeled, specifically colored circles, ensuring the diagram is visually engaging and clearly conveys the intended information.",
+  "schema": {
+    "type": "object",
+    "properties": {
+      "inventory": {
+        "type": "object",
+        "properties": {
+          "presence": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "layout": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "connectivity": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "details": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "legibility": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          }
+        },
+        "required": [
+          "presence",
+          "layout",
+          "connectivity",
+          "details",
+          "legibility"
+        ],
+        "additionalProperties": false
+      },
+      "components": {
+        "type": "array",
+        "items": {
+          "type": "object",
+          "properties": {
+            "id": {
+              "type": "string"
+            },
+            "label": {
+              "type": "string"
+            },
+            "kind": {
+              "type": "string"
+            }
+          },
+          "required": [
+            "id",
+            "label",
+            "kind"
+          ],
+          "additionalProperties": false
+        }
+      },
+      "connections": {
+        "type": "array",
+        "items": {
+          "type": "object",
+          "properties": {
+            "source": {
+              "type": "string"
+            },
+            "target": {
+              "type": "string"
+            }
+          },
+          "required": [
+            "source",
+            "target"
+          ],
+          "additionalProperties": false
+        }
+      },
+      "forbidden_placeholders": {
+        "type": "array",
+        "items": {
+          "type": "string"
+        }
+      }
+    },
+    "required": [
+      "inventory",
+      "components",
+      "connections",
+      "forbidden_placeholders"
+    ],
+    "additionalProperties": false
+  },
+  "images": []
+}

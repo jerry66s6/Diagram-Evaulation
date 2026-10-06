@@ -1,0 +1,108 @@
+{
+  "inventory": {
+    "presence": [
+      "node labeled \"DCL\"",
+      "node labeled \"Head\"",
+      "node labeled \"const\"",
+      "node labeled \"id\"",
+      "directed edge from \"DCL\" to \"Head\"",
+      "directed edge from \"Head\" to \"const\"",
+      "directed edge from \"DCL\" to \"id\""
+    ],
+    "layout": [
+      "nodes are clearly distinguishable",
+      "graph follows intuitive directed-graph reading order from DCL to its targets and from Head to const",
+      "edges are easy to follow",
+      "all content is fully inside the canvas",
+      "no unintended overlaps or collisions"
+    ],
+    "connectivity": [
+      "dcl_node -> head_node",
+      "head_node -> const_node",
+      "dcl_node -> id_node"
+    ],
+    "details": [
+      "DCL node label is exactly \"DCL\"",
+      "Head node label is exactly \"Head\"",
+      "const node label is exactly \"const\"",
+      "id node label is exactly \"id\"",
+      "edge dcl_node -> head_node label is exactly \"0\"",
+      "edge head_node -> const_node label is exactly \"0\"",
+      "edge dcl_node -> id_node label is exactly \"1\"",
+      "missing labels are not acceptable",
+      "generic labels are not acceptable",
+      "placeholder labels are not acceptable"
+    ],
+    "legibility": [
+      "all node labels are readable",
+      "all edge labels are readable",
+      "text stays inside intended node or label area without clipping",
+      "text does not collide with nodes or edges",
+      "all text meets minimum rendered font size"
+    ]
+  },
+  "components": [
+    {
+      "id": "dcl_node",
+      "label": "DCL",
+      "kind": "node"
+    },
+    {
+      "id": "head_node",
+      "label": "Head",
+      "kind": "node"
+    },
+    {
+      "id": "const_node",
+      "label": "const",
+      "kind": "node"
+    },
+    {
+      "id": "id_node",
+      "label": "id",
+      "kind": "node"
+    },
+    {
+      "id": "dcl_to_head_edge",
+      "label": "0",
+      "kind": "directed edge"
+    },
+    {
+      "id": "head_to_const_edge",
+      "label": "0",
+      "kind": "directed edge"
+    },
+    {
+      "id": "dcl_to_id_edge",
+      "label": "1",
+      "kind": "directed edge"
+    }
+  ],
+  "connections": [
+    {
+      "source": "dcl_node",
+      "target": "head_node"
+    },
+    {
+      "source": "head_node",
+      "target": "const_node"
+    },
+    {
+      "source": "dcl_node",
+      "target": "id_node"
+    }
+  ],
+  "forbidden_placeholders": [
+    "Node",
+    "Edge",
+    "Label",
+    "Placeholder",
+    "TODO",
+    "TBD",
+    "undefined",
+    "null",
+    "?",
+    "...",
+    "lorem ipsum"
+  ]
+}

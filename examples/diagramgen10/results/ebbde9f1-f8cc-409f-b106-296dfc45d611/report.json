@@ -1,0 +1,694 @@
+{
+  "correctness": 0.8961111111111112,
+  "formula": "0.200000*presence + 0.100000*layout + 0.400000*connectivity + 0.100000*details + 0.200000*legibility",
+  "weights": {
+    "presence": 0.2,
+    "layout": 0.1,
+    "connectivity": 0.4,
+    "details": 0.1,
+    "legibility": 0.2
+  },
+  "dimensions": {
+    "presence": {
+      "dimension": "presence",
+      "score": 1.0,
+      "criteria": {
+        "presence.elements": 1.0
+      },
+      "participating_judges": [
+        "gpt-5.5"
+      ]
+    },
+    "layout": {
+      "dimension": "layout",
+      "score": 0.9444444444444445,
+      "criteria": {
+        "layout.order": 1.0,
+        "layout.canvas": 0.8333333333333334,
+        "layout.overlap": 1.0
+      },
+      "participating_judges": [
+        "gpt-5.5"
+      ]
+    },
+    "connectivity": {
+      "dimension": "connectivity",
+      "score": 0.9,
+      "criteria": {
+        "connectivity.connections": 1.0,
+        "connectivity.endpoints": 0.8
+      },
+      "participating_judges": [
+        "gpt-5.5"
+      ]
+    },
+    "details": {
+      "dimension": "details",
+      "score": 0.6666666666666666,
+      "criteria": {
+        "details.labels": 0.6666666666666666
+      },
+      "participating_judges": [
+        "gpt-5.5"
+      ]
+    },
+    "legibility": {
+      "dimension": "legibility",
+      "score": 0.875,
+      "criteria": {
+        "legibility.overflow": 0.75,
+        "legibility.minimum_font": 1.0
+      },
+      "participating_judges": [
+        "gpt-5.5"
+      ]
+    }
+  },
+  "metrics": [
+    {
+      "criterion_id": "layout.order",
+      "dimension": "layout",
+      "judge": "gpt-5.5",
+      "expected_count": 1,
+      "detected_issues": 0,
+      "issues": [],
+      "notes": "The two states are arranged horizontally with u_{a,+} on the left and u_{a,-} on the right, with condition labels below and inputs outside the states.",
+      "measurable": true,
+      "component_verdicts": [],
+      "score": 1.0
+    },
+    {
+      "criterion_id": "layout.canvas",
+      "dimension": "layout",
+      "judge": "gpt-5.5",
+      "expected_count": 12,
+      "detected_issues": 2,
+      "issues": [
+        {
+          "description": "The top-right external input label is clipped at the right canvas edge.",
+          "severity": "high",
+          "element_ids": [
+            "external_input_e_b_a_minus"
+          ]
+        },
+        {
+          "description": "The bottom-right external input label is clipped at the right canvas edge.",
+          "severity": "high",
+          "element_ids": [
+            "external_input_e_c_a_minus"
+          ]
+        }
+      ],
+      "notes": "Most content is inside the canvas, but the right-side external input text extends to the image boundary.",
+      "measurable": true,
+      "component_verdicts": [],
+      "score": 0.8333333333333334
+    },
+    {
+      "criterion_id": "layout.overlap",
+      "dimension": "layout",
+      "judge": "gpt-5.5",
+      "expected_count": 1,
+      "detected_issues": 0,
+      "issues": [],
+      "notes": "No unintended overlaps or collisions are visible.",
+      "measurable": true,
+      "component_verdicts": [],
+      "score": 1.0
+    },
+    {
+      "criterion_id": "connectivity.connections",
+      "dimension": "connectivity",
+      "judge": "gpt-5.5",
+      "expected_count": 8,
+      "detected_issues": 0,
+      "issues": [],
+      "notes": "The expected self-loops, bidirectional state transitions, and four external-input arrows to the two states are visibly present.",
+      "measurable": true,
+      "component_verdicts": [],
+      "score": 1.0
+    },
+    {
+      "criterion_id": "connectivity.endpoints",
+      "dimension": "connectivity",
+      "judge": "gpt-5.5",
+      "expected_count": 10,
+      "detected_issues": 2,
+      "issues": [
+        {
+          "description": "An extra downward arrow connects state u_{a,+} toward the condition label f_a(x), which is not an expected directed connection.",
+          "severity": "critical",
+          "element_ids": [
+            "state_u_a_plus",
+            "condition_f_a_x"
+          ]
+        },
+        {
+          "description": "An extra downward arrow connects state u_{a,-} toward the condition label ¬f_a(x), which is not an expected directed connection.",
+          "severity": "critical",
+          "element_ids": [
+            "state_u_a_minus",
+            "condition_not_f_a_x"
+          ]
+        }
+      ],
+      "notes": "The eight expected arrows have correct directions; the two downward arrows are extra unexpected directed endpoints.",
+      "measurable": true,
+      "component_verdicts": [],
+      "score": 0.8
+    },
+    {
+      "criterion_id": "legibility.overflow",
+      "dimension": "legibility",
+      "judge": "gpt-5.5",
+      "expected_count": 8,
+      "detected_issues": 2,
+      "issues": [
+        {
+          "description": "The top-right external input label is clipped/overflowing at the canvas edge.",
+          "severity": "high",
+          "element_ids": [
+            "external_input_e_b_a_minus"
+          ]
+        },
+        {
+          "description": "The bottom-right external input label is clipped/overflowing at the canvas edge.",
+          "severity": "high",
+          "element_ids": [
+            "external_input_e_c_a_minus"
+          ]
+        }
+      ],
+      "notes": "State and condition text is readable; right-side external labels are partially clipped.",
+      "measurable": true,
+      "component_verdicts": [],
+      "score": 0.75
+    },
+    {
+      "criterion_id": "legibility.minimum_font",
+      "dimension": "legibility",
+      "judge": "gpt-5.5",
+      "expected_count": 8,
+      "detected_issues": 0,
+      "issues": [],
+      "notes": "All visible text appears large enough to read.",
+      "measurable": true,
+      "component_verdicts": [],
+      "score": 1.0
+    },
+    {
+      "criterion_id": "presence.elements",
+      "dimension": "presence",
+      "judge": "gpt-5.5",
+      "expected_count": 12,
+      "detected_issues": 0,
+      "issues": [],
+      "notes": "",
+      "measurable": true,
+      "component_verdicts": [
+        {
+          "component_id": "state_u_a_plus",
+          "verdict": "present",
+          "judge": "gpt-5.5",
+          "visible_text": "u_{a,+}",
+          "evidence": "Left circular state is labeled u_{a,+}.",
+          "bounds": [
+            0.252,
+            0.229,
+            0.424,
+            0.606
+          ],
+          "notes": ""
+        },
+        {
+          "component_id": "state_u_a_minus",
+          "verdict": "present",
+          "judge": "gpt-5.5",
+          "visible_text": "u_{a,-}",
+          "evidence": "Right circular state is labeled u_{a,-}.",
+          "bounds": [
+            0.63,
+            0.229,
+            0.798,
+            0.606
+          ],
+          "notes": ""
+        },
+        {
+          "component_id": "u_a_plus_self_loop",
+          "verdict": "mislabeled",
+          "judge": "gpt-5.5",
+          "visible_text": "",
+          "evidence": "A self-loop is drawn above the left state, but it has no visible label.",
+          "bounds": [
+            0.306,
+            0.0,
+            0.371,
+            0.233
+          ],
+          "notes": ""
+        },
+        {
+          "component_id": "u_a_minus_self_loop",
+          "verdict": "mislabeled",
+          "judge": "gpt-5.5",
+          "visible_text": "",
+          "evidence": "A self-loop is drawn above the right state, but it has no visible label.",
+          "bounds": [
+            0.683,
+            0.0,
+            0.751,
+            0.233
+          ],
+          "notes": ""
+        },
+        {
+          "component_id": "transition_u_a_plus_to_u_a_minus",
+          "verdict": "mislabeled",
+          "judge": "gpt-5.5",
+          "visible_text": "",
+          "evidence": "A curved arrow runs from the left state toward the right state, but it has no visible transition label.",
+          "bounds": [
+            0.407,
+            0.244,
+            0.637,
+            0.423
+          ],
+          "notes": ""
+        },
+        {
+          "component_id": "transition_u_a_minus_to_u_a_plus",
+          "verdict": "mislabeled",
+          "judge": "gpt-5.5",
+          "visible_text": "",
+          "evidence": "A curved arrow runs from the right state toward the left state, but it has no visible transition label.",
+          "bounds": [
+            0.407,
+            0.405,
+            0.637,
+            0.591
+          ],
+          "notes": ""
+        },
+        {
+          "component_id": "external_input_e_b_a_plus",
+          "verdict": "present",
+          "judge": "gpt-5.5",
+          "visible_text": "e_{b,a,+}",
+          "evidence": "Top-left external input label and arrow point into u_{a,+}.",
+          "bounds": [
+            0.0,
+            0.183,
+            0.263,
+            0.341
+          ],
+          "notes": ""
+        },
+        {
+          "component_id": "external_input_e_c_a_plus",
+          "verdict": "present",
+          "judge": "gpt-5.5",
+          "visible_text": "e_{c,a,+}",
+          "evidence": "Bottom-left external input label and arrow point into u_{a,+}.",
+          "bounds": [
+            0.0,
+            0.509,
+            0.263,
+            0.627
+          ],
+          "notes": ""
+        },
+        {
+          "component_id": "external_input_e_b_a_minus",
+          "verdict": "present",
+          "judge": "gpt-5.5",
+          "visible_text": "e_{b,a,-}",
+          "evidence": "Top-right external input label and arrow point into u_{a,-}, though the label is clipped at the right edge.",
+          "bounds": [
+            0.795,
+            0.183,
+            1.0,
+            0.341
+          ],
+          "notes": ""
+        },
+        {
+          "component_id": "external_input_e_c_a_minus",
+          "verdict": "present",
+          "judge": "gpt-5.5",
+          "visible_text": "e_{c,a,-}",
+          "evidence": "Bottom-right external input label and arrow point into u_{a,-}, though the label is clipped at the right edge.",
+          "bounds": [
+            0.795,
+            0.509,
+            1.0,
+            0.627
+          ],
+          "notes": ""
+        },
+        {
+          "component_id": "condition_f_a_x",
+          "verdict": "present",
+          "judge": "gpt-5.5",
+          "visible_text": "f_a(x)",
+          "evidence": "Condition label f_a(x) is below the left state.",
+          "bounds": [
+            0.26,
+            0.738,
+            0.411,
+            0.986
+          ],
+          "notes": ""
+        },
+        {
+          "component_id": "condition_not_f_a_x",
+          "verdict": "present",
+          "judge": "gpt-5.5",
+          "visible_text": "¬ f_a(x)",
+          "evidence": "Condition label ¬ f_a(x) is below the right state.",
+          "bounds": [
+            0.616,
+            0.742,
+            0.806,
+            0.989
+          ],
+          "notes": ""
+        }
+      ],
+      "score": 1.0
+    },
+    {
+      "criterion_id": "details.labels",
+      "dimension": "details",
+      "judge": "gpt-5.5",
+      "expected_count": 12,
+      "detected_issues": 4,
+      "issues": [
+        {
+          "description": "Drawn component has an abbreviated, incorrect, missing, or placeholder label: u_a_plus_self_loop (visible text: '')",
+          "severity": "high",
+          "element_ids": [
+            "u_a_plus_self_loop"
+          ]
+        },
+        {
+          "description": "Drawn component has an abbreviated, incorrect, missing, or placeholder label: u_a_minus_self_loop (visible text: '')",
+          "severity": "high",
+          "element_ids": [
+            "u_a_minus_self_loop"
+          ]
+        },
+        {
+          "description": "Drawn component has an abbreviated, incorrect, missing, or placeholder label: transition_u_a_plus_to_u_a_minus (visible text: '')",
+          "severity": "high",
+          "element_ids": [
+            "transition_u_a_plus_to_u_a_minus"
+          ]
+        },
+        {
+          "description": "Drawn component has an abbreviated, incorrect, missing, or placeholder label: transition_u_a_minus_to_u_a_plus (visible text: '')",
+          "severity": "high",
+          "element_ids": [
+            "transition_u_a_minus_to_u_a_plus"
+          ]
+        }
+      ],
+      "notes": "Scored only over drawn components; missing components are scored under Presence.",
+      "measurable": true,
+      "component_verdicts": [],
+      "score": 0.6666666666666666
+    }
+  ],
+  "inventory": {
+    "inventory": {
+      "presence": [
+        "state u_{a, +}",
+        "state u_{a, -}",
+        "self-loop on state u_{a, +}",
+        "self-loop on state u_{a, -}",
+        "directed transition from u_{a, +} to u_{a, -}",
+        "directed transition from u_{a, -} to u_{a, +}",
+        "external input e_{b, a, +}",
+        "external input e_{c, a, +}",
+        "external input e_{b, a, -}",
+        "external input e_{c, a, -}",
+        "condition label f_a(x) below u_{a, +}",
+        "condition label \\neg f_a(x) below u_{a, -}"
+      ],
+      "layout": [
+        "u_{a, +} is positioned horizontally left of u_{a, -}",
+        "states are spaced clearly apart",
+        "transition arrows between states are visibly bent to the left",
+        "each self-loop is above its corresponding state",
+        "external inputs originate outside the state machine area",
+        "e_{b, a, +} and e_{c, a, +} are placed outside and point toward u_{a, +}",
+        "e_{b, a, -} and e_{c, a, -} are placed outside and point toward u_{a, -}",
+        "f_a(x) is below u_{a, +}",
+        "\\neg f_a(x) is below u_{a, -}",
+        "all content is fully inside the canvas",
+        "no unintended overlaps or collisions"
+      ],
+      "connectivity": [
+        "u_a_plus_self_loop connects from state_u_a_plus to state_u_a_plus",
+        "u_a_minus_self_loop connects from state_u_a_minus to state_u_a_minus",
+        "transition_u_a_plus_to_u_a_minus connects from state_u_a_plus to state_u_a_minus",
+        "transition_u_a_minus_to_u_a_plus connects from state_u_a_minus to state_u_a_plus",
+        "external_input_e_b_a_plus connects to state_u_a_plus",
+        "external_input_e_c_a_plus connects to state_u_a_plus",
+        "external_input_e_b_a_minus connects to state_u_a_minus",
+        "external_input_e_c_a_minus connects to state_u_a_minus"
+      ],
+      "details": [
+        "state label must be exactly u_{a, +}",
+        "state label must be exactly u_{a, -}",
+        "external input label must be exactly e_{b, a, +}",
+        "external input label must be exactly e_{c, a, +}",
+        "external input label must be exactly e_{b, a, -}",
+        "external input label must be exactly e_{c, a, -}",
+        "condition label below u_{a, +} must be exactly f_a(x)",
+        "condition label below u_{a, -} must be exactly \\neg f_a(x)",
+        "transition arrows between states must be clearly labeled",
+        "self-loops must be clearly labeled if transition labels are shown",
+        "labels must not be missing",
+        "labels must not be generic placeholders",
+        "labels must not be abbreviated placeholders"
+      ],
+      "legibility": [
+        "all labels are readable",
+        "text stays inside intended nodes or near intended arrows",
+        "text is not clipped",
+        "text does not collide with other text or shapes",
+        "font size is legible"
+      ]
+    },
+    "components": [
+      {
+        "id": "state_u_a_plus",
+        "label": "u_{a, +}",
+        "kind": "state"
+      },
+      {
+        "id": "state_u_a_minus",
+        "label": "u_{a, -}",
+        "kind": "state"
+      },
+      {
+        "id": "u_a_plus_self_loop",
+        "label": "self-loop",
+        "kind": "self_loop"
+      },
+      {
+        "id": "u_a_minus_self_loop",
+        "label": "self-loop",
+        "kind": "self_loop"
+      },
+      {
+        "id": "transition_u_a_plus_to_u_a_minus",
+        "label": "transition",
+        "kind": "directed_transition"
+      },
+      {
+        "id": "transition_u_a_minus_to_u_a_plus",
+        "label": "transition",
+        "kind": "directed_transition"
+      },
+      {
+        "id": "external_input_e_b_a_plus",
+        "label": "e_{b, a, +}",
+        "kind": "external_input"
+      },
+      {
+        "id": "external_input_e_c_a_plus",
+        "label": "e_{c, a, +}",
+        "kind": "external_input"
+      },
+      {
+        "id": "external_input_e_b_a_minus",
+        "label": "e_{b, a, -}",
+        "kind": "external_input"
+      },
+      {
+        "id": "external_input_e_c_a_minus",
+        "label": "e_{c, a, -}",
+        "kind": "external_input"
+      },
+      {
+        "id": "condition_f_a_x",
+        "label": "f_a(x)",
+        "kind": "condition_label"
+      },
+      {
+        "id": "condition_not_f_a_x",
+        "label": "\\neg f_a(x)",
+        "kind": "condition_label"
+      }
+    ],
+    "connections": [
+      {
+        "source": "state_u_a_plus",
+        "target": "state_u_a_plus"
+      },
+      {
+        "source": "state_u_a_minus",
+        "target": "state_u_a_minus"
+      },
+      {
+        "source": "state_u_a_plus",
+        "target": "state_u_a_minus"
+      },
+      {
+        "source": "state_u_a_minus",
+        "target": "state_u_a_plus"
+      },
+      {
+        "source": "external_input_e_b_a_plus",
+        "target": "state_u_a_plus"
+      },
+      {
+        "source": "external_input_e_c_a_plus",
+        "target": "state_u_a_plus"
+      },
+      {
+        "source": "external_input_e_b_a_minus",
+        "target": "state_u_a_minus"
+      },
+      {
+        "source": "external_input_e_c_a_minus",
+        "target": "state_u_a_minus"
+      }
+    ],
+    "forbidden_placeholders": [
+      "state",
+      "node",
+      "input",
+      "output",
+      "label",
+      "transition",
+      "self-loop",
+      "placeholder",
+      "text",
+      "arrow",
+      "A",
+      "B",
+      "S1",
+      "S2",
+      "?",
+      "TODO"
+    ]
+  },
+  "metadata": {
+    "vlm_judges": [
+      "gpt-5.5"
+    ],
+    "expectation_model": "gpt-5.5",
+    "expectations_from": "description",
+    "deterministic_judge": false,
+    "component_verdicts": [
+      {
+        "component_id": "state_u_a_plus",
+        "verdicts": {
+          "gpt-5.5": "present"
+        },
+        "agree": true
+      },
+      {
+        "component_id": "state_u_a_minus",
+        "verdicts": {
+          "gpt-5.5": "present"
+        },
+        "agree": true
+      },
+      {
+        "component_id": "u_a_plus_self_loop",
+        "verdicts": {
+          "gpt-5.5": "mislabeled"
+        },
+        "agree": true
+      },
+      {
+        "component_id": "u_a_minus_self_loop",
+        "verdicts": {
+          "gpt-5.5": "mislabeled"
+        },
+        "agree": true
+      },
+      {
+        "component_id": "transition_u_a_plus_to_u_a_minus",
+        "verdicts": {
+          "gpt-5.5": "mislabeled"
+        },
+        "agree": true
+      },
+      {
+        "component_id": "transition_u_a_minus_to_u_a_plus",
+        "verdicts": {
+          "gpt-5.5": "mislabeled"
+        },
+        "agree": true
+      },
+      {
+        "component_id": "external_input_e_b_a_plus",
+        "verdicts": {
+          "gpt-5.5": "present"
+        },
+        "agree": true
+      },
+      {
+        "component_id": "external_input_e_c_a_plus",
+        "verdicts": {
+          "gpt-5.5": "present"
+        },
+        "agree": true
+      },
+      {
+        "component_id": "external_input_e_b_a_minus",
+        "verdicts": {
+          "gpt-5.5": "present"
+        },
+        "agree": true
+      },
+      {
+        "component_id": "external_input_e_c_a_minus",
+        "verdicts": {
+          "gpt-5.5": "present"
+        },
+        "agree": true
+      },
+      {
+        "component_id": "condition_f_a_x",
+        "verdicts": {
+          "gpt-5.5": "present"
+        },
+        "agree": true
+      },
+      {
+        "component_id": "condition_not_f_a_x",
+        "verdicts": {
+          "gpt-5.5": "present"
+        },
+        "agree": true
+      }
+    ],
+    "component_disagreements": 0
+  }
+}

@@ -1,0 +1,444 @@
+{
+  "correctness": 1.0,
+  "formula": "0.200000*presence + 0.100000*layout + 0.400000*connectivity + 0.100000*details + 0.200000*legibility",
+  "weights": {
+    "presence": 0.2,
+    "layout": 0.1,
+    "connectivity": 0.4,
+    "details": 0.1,
+    "legibility": 0.2
+  },
+  "dimensions": {
+    "presence": {
+      "dimension": "presence",
+      "score": 1.0,
+      "criteria": {
+        "presence.elements": 1.0
+      },
+      "participating_judges": [
+        "gpt-5.5"
+      ]
+    },
+    "layout": {
+      "dimension": "layout",
+      "score": 1.0,
+      "criteria": {
+        "layout.order": 1.0,
+        "layout.canvas": 1.0,
+        "layout.overlap": 1.0
+      },
+      "participating_judges": [
+        "gpt-5.5"
+      ]
+    },
+    "connectivity": {
+      "dimension": "connectivity",
+      "score": 1.0,
+      "criteria": {
+        "connectivity.connections": 1.0,
+        "connectivity.endpoints": 1.0
+      },
+      "participating_judges": [
+        "gpt-5.5"
+      ]
+    },
+    "details": {
+      "dimension": "details",
+      "score": 1.0,
+      "criteria": {
+        "details.labels": 1.0
+      },
+      "participating_judges": [
+        "gpt-5.5"
+      ]
+    },
+    "legibility": {
+      "dimension": "legibility",
+      "score": 1.0,
+      "criteria": {
+        "legibility.overflow": 1.0,
+        "legibility.minimum_font": 1.0
+      },
+      "participating_judges": [
+        "gpt-5.5"
+      ]
+    }
+  },
+  "metrics": [
+    {
+      "criterion_id": "layout.order",
+      "dimension": "layout",
+      "judge": "gpt-5.5",
+      "expected_count": 3,
+      "detected_issues": 0,
+      "issues": [],
+      "notes": "DCL is above its targets, Head is above const, and id is placed as the other DCL target.",
+      "measurable": true,
+      "component_verdicts": [],
+      "score": 1.0
+    },
+    {
+      "criterion_id": "layout.canvas",
+      "dimension": "layout",
+      "judge": "gpt-5.5",
+      "expected_count": 7,
+      "detected_issues": 0,
+      "issues": [],
+      "notes": "All nodes, edge labels, and arrowheads appear fully inside the canvas.",
+      "measurable": true,
+      "component_verdicts": [],
+      "score": 1.0
+    },
+    {
+      "criterion_id": "layout.overlap",
+      "dimension": "layout",
+      "judge": "gpt-5.5",
+      "expected_count": 7,
+      "detected_issues": 0,
+      "issues": [],
+      "notes": "No unintended overlaps or collisions are visible.",
+      "measurable": true,
+      "component_verdicts": [],
+      "score": 1.0
+    },
+    {
+      "criterion_id": "connectivity.connections",
+      "dimension": "connectivity",
+      "judge": "gpt-5.5",
+      "expected_count": 3,
+      "detected_issues": 0,
+      "issues": [],
+      "notes": "All three expected directed connections are visible.",
+      "measurable": true,
+      "component_verdicts": [],
+      "score": 1.0
+    },
+    {
+      "criterion_id": "connectivity.endpoints",
+      "dimension": "connectivity",
+      "judge": "gpt-5.5",
+      "expected_count": 3,
+      "detected_issues": 0,
+      "issues": [],
+      "notes": "Each arrow points from the expected source node to the expected target node.",
+      "measurable": true,
+      "component_verdicts": [],
+      "score": 1.0
+    },
+    {
+      "criterion_id": "legibility.overflow",
+      "dimension": "legibility",
+      "judge": "gpt-5.5",
+      "expected_count": 7,
+      "detected_issues": 0,
+      "issues": [],
+      "notes": "Text is readable and not clipped.",
+      "measurable": true,
+      "component_verdicts": [],
+      "score": 1.0
+    },
+    {
+      "criterion_id": "legibility.minimum_font",
+      "dimension": "legibility",
+      "judge": "gpt-5.5",
+      "expected_count": 7,
+      "detected_issues": 0,
+      "issues": [],
+      "notes": "All visible labels are rendered at a large readable size.",
+      "measurable": true,
+      "component_verdicts": [],
+      "score": 1.0
+    },
+    {
+      "criterion_id": "presence.elements",
+      "dimension": "presence",
+      "judge": "gpt-5.5",
+      "expected_count": 7,
+      "detected_issues": 0,
+      "issues": [],
+      "notes": "",
+      "measurable": true,
+      "component_verdicts": [
+        {
+          "component_id": "dcl_node",
+          "verdict": "present",
+          "judge": "gpt-5.5",
+          "visible_text": "DCL",
+          "evidence": "Top ellipse is labeled \"DCL\".",
+          "bounds": [
+            0.303,
+            0.016,
+            0.726,
+            0.182
+          ],
+          "notes": ""
+        },
+        {
+          "component_id": "head_node",
+          "verdict": "present",
+          "judge": "gpt-5.5",
+          "visible_text": "Head",
+          "evidence": "Lower-left ellipse is labeled \"Head\".",
+          "bounds": [
+            0.026,
+            0.419,
+            0.465,
+            0.583
+          ],
+          "notes": ""
+        },
+        {
+          "component_id": "const_node",
+          "verdict": "present",
+          "judge": "gpt-5.5",
+          "visible_text": "const",
+          "evidence": "Bottom-left ellipse is labeled \"const\".",
+          "bounds": [
+            0.027,
+            0.819,
+            0.465,
+            0.983
+          ],
+          "notes": ""
+        },
+        {
+          "component_id": "id_node",
+          "verdict": "present",
+          "judge": "gpt-5.5",
+          "visible_text": "id",
+          "evidence": "Lower-right ellipse is labeled \"id\".",
+          "bounds": [
+            0.585,
+            0.419,
+            0.974,
+            0.583
+          ],
+          "notes": ""
+        },
+        {
+          "component_id": "dcl_to_head_edge",
+          "verdict": "present",
+          "judge": "gpt-5.5",
+          "visible_text": "0",
+          "evidence": "A directed diagonal edge runs from DCL toward Head with label \"0\".",
+          "bounds": [
+            0.296,
+            0.177,
+            0.466,
+            0.417
+          ],
+          "notes": ""
+        },
+        {
+          "component_id": "head_to_const_edge",
+          "verdict": "present",
+          "judge": "gpt-5.5",
+          "visible_text": "0",
+          "evidence": "A vertical directed edge runs from Head down to const with label \"0\".",
+          "bounds": [
+            0.216,
+            0.581,
+            0.287,
+            0.817
+          ],
+          "notes": ""
+        },
+        {
+          "component_id": "dcl_to_id_edge",
+          "verdict": "present",
+          "judge": "gpt-5.5",
+          "visible_text": "1",
+          "evidence": "A directed diagonal edge runs from DCL toward id with label \"1\".",
+          "bounds": [
+            0.562,
+            0.178,
+            0.728,
+            0.416
+          ],
+          "notes": ""
+        }
+      ],
+      "score": 1.0
+    },
+    {
+      "criterion_id": "details.labels",
+      "dimension": "details",
+      "judge": "gpt-5.5",
+      "expected_count": 7,
+      "detected_issues": 0,
+      "issues": [],
+      "notes": "Scored only over drawn components; missing components are scored under Presence.",
+      "measurable": true,
+      "component_verdicts": [],
+      "score": 1.0
+    }
+  ],
+  "inventory": {
+    "inventory": {
+      "presence": [
+        "node labeled \"DCL\"",
+        "node labeled \"Head\"",
+        "node labeled \"const\"",
+        "node labeled \"id\"",
+        "directed edge from \"DCL\" to \"Head\"",
+        "directed edge from \"Head\" to \"const\"",
+        "directed edge from \"DCL\" to \"id\""
+      ],
+      "layout": [
+        "nodes are clearly distinguishable",
+        "graph follows intuitive directed-graph reading order from DCL to its targets and from Head to const",
+        "edges are easy to follow",
+        "all content is fully inside the canvas",
+        "no unintended overlaps or collisions"
+      ],
+      "connectivity": [
+        "dcl_node -> head_node",
+        "head_node -> const_node",
+        "dcl_node -> id_node"
+      ],
+      "details": [
+        "DCL node label is exactly \"DCL\"",
+        "Head node label is exactly \"Head\"",
+        "const node label is exactly \"const\"",
+        "id node label is exactly \"id\"",
+        "edge dcl_node -> head_node label is exactly \"0\"",
+        "edge head_node -> const_node label is exactly \"0\"",
+        "edge dcl_node -> id_node label is exactly \"1\"",
+        "missing labels are not acceptable",
+        "generic labels are not acceptable",
+        "placeholder labels are not acceptable"
+      ],
+      "legibility": [
+        "all node labels are readable",
+        "all edge labels are readable",
+        "text stays inside intended node or label area without clipping",
+        "text does not collide with nodes or edges",
+        "all text meets minimum rendered font size"
+      ]
+    },
+    "components": [
+      {
+        "id": "dcl_node",
+        "label": "DCL",
+        "kind": "node"
+      },
+      {
+        "id": "head_node",
+        "label": "Head",
+        "kind": "node"
+      },
+      {
+        "id": "const_node",
+        "label": "const",
+        "kind": "node"
+      },
+      {
+        "id": "id_node",
+        "label": "id",
+        "kind": "node"
+      },
+      {
+        "id": "dcl_to_head_edge",
+        "label": "0",
+        "kind": "directed edge"
+      },
+      {
+        "id": "head_to_const_edge",
+        "label": "0",
+        "kind": "directed edge"
+      },
+      {
+        "id": "dcl_to_id_edge",
+        "label": "1",
+        "kind": "directed edge"
+      }
+    ],
+    "connections": [
+      {
+        "source": "dcl_node",
+        "target": "head_node"
+      },
+      {
+        "source": "head_node",
+        "target": "const_node"
+      },
+      {
+        "source": "dcl_node",
+        "target": "id_node"
+      }
+    ],
+    "forbidden_placeholders": [
+      "Node",
+      "Edge",
+      "Label",
+      "Placeholder",
+      "TODO",
+      "TBD",
+      "undefined",
+      "null",
+      "?",
+      "...",
+      "lorem ipsum"
+    ]
+  },
+  "metadata": {
+    "vlm_judges": [
+      "gpt-5.5"
+    ],
+    "expectation_model": "gpt-5.5",
+    "expectations_from": "description",
+    "deterministic_judge": false,
+    "component_verdicts": [
+      {
+        "component_id": "dcl_node",
+        "verdicts": {
+          "gpt-5.5": "present"
+        },
+        "agree": true
+      },
+      {
+        "component_id": "head_node",
+        "verdicts": {
+          "gpt-5.5": "present"
+        },
+        "agree": true
+      },
+      {
+        "component_id": "const_node",
+        "verdicts": {
+          "gpt-5.5": "present"
+        },
+        "agree": true
+      },
+      {
+        "component_id": "id_node",
+        "verdicts": {
+          "gpt-5.5": "present"
+        },
+        "agree": true
+      },
+      {
+        "component_id": "dcl_to_head_edge",
+        "verdicts": {
+          "gpt-5.5": "present"
+        },
+        "agree": true
+      },
+      {
+        "component_id": "head_to_const_edge",
+        "verdicts": {
+          "gpt-5.5": "present"
+        },
+        "agree": true
+      },
+      {
+        "component_id": "dcl_to_id_edge",
+        "verdicts": {
+          "gpt-5.5": "present"
+        },
+        "agree": true
+      }
+    ],
+    "component_disagreements": 0
+  }
+}

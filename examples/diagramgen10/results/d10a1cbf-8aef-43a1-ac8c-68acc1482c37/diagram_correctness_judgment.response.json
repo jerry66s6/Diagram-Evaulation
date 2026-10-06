@@ -1,0 +1,200 @@
+{
+  "metrics": [
+    {
+      "criterion_id": "layout.order",
+      "expected_count": 5,
+      "detected_issues": 2,
+      "issues": [
+        {
+          "description": "get_current_stock_price is placed after/below action_get_stock_price, reversing the expected get_current_stock_price -> action_get_stock_price order.",
+          "severity": "medium",
+          "element_ids": [
+            "get_current_stock_price_intent",
+            "action_get_stock_price_action"
+          ]
+        },
+        {
+          "description": "END appears near the start of the diagram instead of after action_get_stock_price at the end of the process flow.",
+          "severity": "medium",
+          "element_ids": [
+            "end_node",
+            "action_get_stock_price_action"
+          ]
+        }
+      ],
+      "notes": "The visible top-to-bottom flow is START/action_session_start, what is TSLA worth, action_get_stock_price, duplicate what is TSLA worth, get_current_stock_price, with END as an early side branch."
+    },
+    {
+      "criterion_id": "layout.canvas",
+      "expected_count": 1,
+      "detected_issues": 0,
+      "issues": [],
+      "notes": "All visible content appears inside the image canvas."
+    },
+    {
+      "criterion_id": "layout.overlap",
+      "expected_count": 1,
+      "detected_issues": 0,
+      "issues": [],
+      "notes": "No unintended component overlaps are visible."
+    },
+    {
+      "criterion_id": "connectivity.connections",
+      "expected_count": 5,
+      "detected_issues": 3,
+      "issues": [
+        {
+          "description": "Expected connection what is TSLA worth -> get_current_stock_price is not visibly present from the assigned what is TSLA worth node to get_current_stock_price.",
+          "severity": "critical",
+          "element_ids": [
+            "what_is_tsla_worth_intent",
+            "get_current_stock_price_intent"
+          ]
+        },
+        {
+          "description": "Expected connection get_current_stock_price -> action_get_stock_price is not present; the visible direction/order is not from get_current_stock_price to action_get_stock_price.",
+          "severity": "critical",
+          "element_ids": [
+            "get_current_stock_price_intent",
+            "action_get_stock_price_action"
+          ]
+        },
+        {
+          "description": "Expected connection action_get_stock_price -> END is not present.",
+          "severity": "critical",
+          "element_ids": [
+            "action_get_stock_price_action",
+            "end_node"
+          ]
+        }
+      ],
+      "notes": "Visible expected connections START -> action_session_start and action_session_start -> what is TSLA worth are present."
+    },
+    {
+      "criterion_id": "connectivity.endpoints",
+      "expected_count": 6,
+      "detected_issues": 4,
+      "issues": [
+        {
+          "description": "A visible arrow goes from START to END, which is not an expected transition.",
+          "severity": "critical",
+          "element_ids": [
+            "start_node",
+            "end_node"
+          ]
+        },
+        {
+          "description": "A visible arrow goes from what is TSLA worth to action_get_stock_price, but the expected target after what is TSLA worth is get_current_stock_price.",
+          "severity": "critical",
+          "element_ids": [
+            "what_is_tsla_worth_intent",
+            "action_get_stock_price_action"
+          ]
+        },
+        {
+          "description": "A visible arrow goes from action_get_stock_price to a duplicate what is TSLA worth node, not to END.",
+          "severity": "critical",
+          "element_ids": [
+            "action_get_stock_price_action"
+          ]
+        },
+        {
+          "description": "A visible arrow goes from the duplicate lower what is TSLA worth node to get_current_stock_price rather than from the assigned expected what is TSLA worth node.",
+          "severity": "critical",
+          "element_ids": [
+            "get_current_stock_price_intent"
+          ]
+        }
+      ],
+      "notes": "The correctly attached visible arrows are START -> action_session_start and action_session_start -> what is TSLA worth."
+    },
+    {
+      "criterion_id": "legibility.overflow",
+      "expected_count": 7,
+      "detected_issues": 0,
+      "issues": [],
+      "notes": "Visible labels remain inside their node containers without apparent clipping."
+    },
+    {
+      "criterion_id": "legibility.minimum_font",
+      "expected_count": 7,
+      "detected_issues": 0,
+      "issues": [],
+      "notes": "All visible text is rendered at a large readable size."
+    }
+  ],
+  "components": [
+    {
+      "component_id": "start_node",
+      "verdict": "present",
+      "visible_text": "START",
+      "location": {
+        "x0": 0.237,
+        "y0": 0.01,
+        "x1": 0.53,
+        "y1": 0.099
+      },
+      "evidence": "Green oval at the top labeled START."
+    },
+    {
+      "component_id": "action_session_start_action",
+      "verdict": "present",
+      "visible_text": "action_session_start",
+      "location": {
+        "x0": 0.331,
+        "y0": 0.188,
+        "x1": 0.942,
+        "y1": 0.278
+      },
+      "evidence": "Large oval to the upper right labeled action_session_start."
+    },
+    {
+      "component_id": "what_is_tsla_worth_intent",
+      "verdict": "present",
+      "visible_text": "what is TSLA worth",
+      "location": {
+        "x0": 0.36,
+        "y0": 0.366,
+        "x1": 0.912,
+        "y1": 0.456
+      },
+      "evidence": "First light-blue rectangle below action_session_start labeled what is TSLA worth."
+    },
+    {
+      "component_id": "get_current_stock_price_intent",
+      "verdict": "present",
+      "visible_text": "get_current_stock_price",
+      "location": {
+        "x0": 0.316,
+        "y0": 0.901,
+        "x1": 0.955,
+        "y1": 0.991
+      },
+      "evidence": "Bottom rectangle labeled get_current_stock_price."
+    },
+    {
+      "component_id": "action_get_stock_price_action",
+      "verdict": "present",
+      "visible_text": "action_get_stock_price",
+      "location": {
+        "x0": 0.289,
+        "y0": 0.545,
+        "x1": 0.983,
+        "y1": 0.634
+      },
+      "evidence": "Large oval in the middle labeled action_get_stock_price."
+    },
+    {
+      "component_id": "end_node",
+      "verdict": "present",
+      "visible_text": "END",
+      "location": {
+        "x0": 0.017,
+        "y0": 0.187,
+        "x1": 0.254,
+        "y1": 0.278
+      },
+      "evidence": "Red oval on the left labeled END."
+    }
+  ]
+}

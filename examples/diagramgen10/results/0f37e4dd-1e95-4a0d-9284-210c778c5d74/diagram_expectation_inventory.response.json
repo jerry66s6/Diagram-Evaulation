@@ -1,0 +1,247 @@
+{
+  "inventory": {
+    "presence": [
+      "Visible node IGObject",
+      "Visible node CCharacter",
+      "Visible node SCharacter",
+      "Visible node CMap",
+      "Visible node SMap",
+      "Visible node Projectile",
+      "Visible node CProjectile",
+      "Visible node IMenu",
+      "Visible node MenuArmas",
+      "Visible node MenuPrinc",
+      "Visible node Weapons",
+      "Visible node Pistol",
+      "Visible node Rifle",
+      "Visible node Connection",
+      "Visible node Configuration",
+      "Visible node Client",
+      "Visible node Server"
+    ],
+    "layout": [
+      "Hierarchical relationships read from general component to specific component",
+      "IGObject is placed logically near CCharacter, SCharacter, and Projectile",
+      "Projectile is placed logically near CProjectile",
+      "IMenu is placed logically near MenuArmas and MenuPrinc",
+      "Weapons is placed logically near Pistol and Rifle",
+      "Client-server architecture nodes are visually organized near Client and Server",
+      "All content remains fully inside the canvas",
+      "No unintended overlaps or collisions",
+      "Intentional grouping or nesting remains clear"
+    ],
+    "connectivity": [
+      "IGObject -> CCharacter",
+      "IGObject -> SCharacter",
+      "IGObject -> Projectile",
+      "Projectile -> CProjectile",
+      "IMenu -> MenuArmas",
+      "IMenu -> MenuPrinc",
+      "Weapons -> Pistol",
+      "Weapons -> Rifle",
+      "Connection -> Client, dotted style",
+      "Connection -> Server, dotted style",
+      "Configuration -> Client, dotted style",
+      "Configuration -> Server, dotted style",
+      "CMap -> Client, dotted style",
+      "CMap -> Server, dotted style",
+      "SMap -> Client, dotted style",
+      "SMap -> Server, dotted style"
+    ],
+    "details": [
+      "Node label exactly IGObject",
+      "Node label exactly CCharacter",
+      "Node label exactly SCharacter",
+      "Node label exactly CMap",
+      "Node label exactly SMap",
+      "Node label exactly Projectile",
+      "Node label exactly CProjectile",
+      "Node label exactly IMenu",
+      "Node label exactly MenuArmas",
+      "Node label exactly MenuPrinc",
+      "Node label exactly Weapons",
+      "Node label exactly Pistol",
+      "Node label exactly Rifle",
+      "Node label exactly Connection",
+      "Node label exactly Configuration",
+      "Node label exactly Client",
+      "Node label exactly Server",
+      "Client-server architecture connections are visually distinguished with dotted styling",
+      "No missing labels",
+      "No generic labels",
+      "No placeholder labels"
+    ],
+    "legibility": [
+      "All node labels are readable",
+      "All text stays inside its intended node or container",
+      "No text clipping",
+      "No text collision",
+      "No text overflow",
+      "All text meets minimum rendered font size"
+    ]
+  },
+  "components": [
+    {
+      "id": "ig_object",
+      "label": "IGObject",
+      "kind": "game object interface"
+    },
+    {
+      "id": "c_character",
+      "label": "CCharacter",
+      "kind": "client character"
+    },
+    {
+      "id": "s_character",
+      "label": "SCharacter",
+      "kind": "server character"
+    },
+    {
+      "id": "c_map",
+      "label": "CMap",
+      "kind": "client map"
+    },
+    {
+      "id": "s_map",
+      "label": "SMap",
+      "kind": "server map"
+    },
+    {
+      "id": "projectile",
+      "label": "Projectile",
+      "kind": "projectile"
+    },
+    {
+      "id": "c_projectile",
+      "label": "CProjectile",
+      "kind": "client projectile"
+    },
+    {
+      "id": "i_menu",
+      "label": "IMenu",
+      "kind": "menu interface"
+    },
+    {
+      "id": "menu_armas",
+      "label": "MenuArmas",
+      "kind": "weapons menu"
+    },
+    {
+      "id": "menu_princ",
+      "label": "MenuPrinc",
+      "kind": "main menu"
+    },
+    {
+      "id": "weapons",
+      "label": "Weapons",
+      "kind": "weapon category"
+    },
+    {
+      "id": "pistol",
+      "label": "Pistol",
+      "kind": "weapon type"
+    },
+    {
+      "id": "rifle",
+      "label": "Rifle",
+      "kind": "weapon type"
+    },
+    {
+      "id": "connection",
+      "label": "Connection",
+      "kind": "architecture component"
+    },
+    {
+      "id": "configuration",
+      "label": "Configuration",
+      "kind": "architecture component"
+    },
+    {
+      "id": "client",
+      "label": "Client",
+      "kind": "client component"
+    },
+    {
+      "id": "server",
+      "label": "Server",
+      "kind": "server component"
+    }
+  ],
+  "connections": [
+    {
+      "source": "ig_object",
+      "target": "c_character"
+    },
+    {
+      "source": "ig_object",
+      "target": "s_character"
+    },
+    {
+      "source": "ig_object",
+      "target": "projectile"
+    },
+    {
+      "source": "projectile",
+      "target": "c_projectile"
+    },
+    {
+      "source": "i_menu",
+      "target": "menu_armas"
+    },
+    {
+      "source": "i_menu",
+      "target": "menu_princ"
+    },
+    {
+      "source": "weapons",
+      "target": "pistol"
+    },
+    {
+      "source": "weapons",
+      "target": "rifle"
+    },
+    {
+      "source": "connection",
+      "target": "client"
+    },
+    {
+      "source": "connection",
+      "target": "server"
+    },
+    {
+      "source": "configuration",
+      "target": "client"
+    },
+    {
+      "source": "configuration",
+      "target": "server"
+    },
+    {
+      "source": "c_map",
+      "target": "client"
+    },
+    {
+      "source": "c_map",
+      "target": "server"
+    },
+    {
+      "source": "s_map",
+      "target": "client"
+    },
+    {
+      "source": "s_map",
+      "target": "server"
+    }
+  ],
+  "forbidden_placeholders": [
+    "TBD",
+    "TODO",
+    "placeholder",
+    "label",
+    "node",
+    "component",
+    "unknown",
+    "N/A",
+    "Lorem ipsum"
+  ]
+}

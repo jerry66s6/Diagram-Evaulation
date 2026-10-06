@@ -1,0 +1,218 @@
+{
+  "metrics": [
+    {
+      "criterion_id": "layout.order",
+      "expected_count": 6,
+      "detected_issues": 0,
+      "issues": [],
+      "notes": "The four internal block components are drawn in the required top-to-bottom order."
+    },
+    {
+      "criterion_id": "layout.canvas",
+      "expected_count": 1,
+      "detected_issues": 0,
+      "issues": [],
+      "notes": "All visible content appears inside the canvas."
+    },
+    {
+      "criterion_id": "layout.overlap",
+      "expected_count": 10,
+      "detected_issues": 0,
+      "issues": [],
+      "notes": "No unintended collisions among drawn non-container components were observed."
+    },
+    {
+      "criterion_id": "connectivity.connections",
+      "expected_count": 10,
+      "detected_issues": 1,
+      "issues": [
+        {
+          "description": "The residual/skip connection from the first Add & Norm to the second Add & Norm is not visibly present; the dashed line into the second Add & Norm appears to continue from the Add-side skip path rather than originate at the first Add & Norm.",
+          "severity": "critical",
+          "element_ids": [
+            "add_norm_1",
+            "add_norm_2"
+          ]
+        }
+      ],
+      "notes": "Other expected directed connections are visibly represented."
+    },
+    {
+      "criterion_id": "connectivity.endpoints",
+      "expected_count": 10,
+      "detected_issues": 1,
+      "issues": [
+        {
+          "description": "A dashed arrow enters the second Add & Norm from the left skip path, but its source endpoint is not the first Add & Norm, so it does not match an expected source-to-target pair.",
+          "severity": "critical",
+          "element_ids": [
+            "add_norm_2"
+          ]
+        }
+      ],
+      "notes": "Visible arrows otherwise have expected endpoints."
+    },
+    {
+      "criterion_id": "legibility.overflow",
+      "expected_count": 12,
+      "detected_issues": 0,
+      "issues": [],
+      "notes": "All visible text appears contained without clipping or overflow."
+    },
+    {
+      "criterion_id": "legibility.minimum_font",
+      "expected_count": 12,
+      "detected_issues": 0,
+      "issues": [],
+      "notes": "All text appears to meet the 12 px minimum."
+    },
+    {
+      "criterion_id": "layout.relations",
+      "expected_count": 7,
+      "detected_issues": 0,
+      "issues": [],
+      "notes": "All explicit spatial relations are satisfied by the drawn components."
+    },
+    {
+      "criterion_id": "layout.containment",
+      "expected_count": 4,
+      "detected_issues": 0,
+      "issues": [],
+      "notes": "All four internal encoder block components are contained within the Transformer Encoder Block container."
+    }
+  ],
+  "components": [
+    {
+      "component_id": "input_tokens",
+      "verdict": "mislabeled",
+      "visible_text": "TBD",
+      "location": {
+        "x0": 0.386,
+        "y0": 0.073,
+        "x1": 0.615,
+        "y1": 0.138
+      },
+      "evidence": "Top input-like rounded rectangle is labeled with placeholder text instead of \"Input Tokens\"."
+    },
+    {
+      "component_id": "token_embeddings",
+      "verdict": "mislabeled",
+      "visible_text": "TBD",
+      "location": {
+        "x0": 0.186,
+        "y0": 0.184,
+        "x1": 0.442,
+        "y1": 0.254
+      },
+      "evidence": "Left component beneath the top input is labeled placeholder \"TBD\" instead of \"Token Embeddings\"."
+    },
+    {
+      "component_id": "positional_encoding",
+      "verdict": "mislabeled",
+      "visible_text": "TBD",
+      "location": {
+        "x0": 0.558,
+        "y0": 0.184,
+        "x1": 0.815,
+        "y1": 0.254
+      },
+      "evidence": "Right parallel component beneath the input is labeled placeholder \"TBD\" instead of \"Positional Encoding\"."
+    },
+    {
+      "component_id": "add",
+      "verdict": "mislabeled",
+      "visible_text": "TBD",
+      "location": {
+        "x0": 0.472,
+        "y0": 0.283,
+        "x1": 0.528,
+        "y1": 0.352
+      },
+      "evidence": "Circular combining node between embeddings and encoder block is labeled \"TBD\" instead of \"Add\"."
+    },
+    {
+      "component_id": "transformer_encoder_block",
+      "verdict": "present",
+      "visible_text": "Transformer Encoder Block",
+      "location": {
+        "x0": 0.167,
+        "y0": 0.379,
+        "x1": 0.832,
+        "y1": 0.873
+      },
+      "evidence": "Large rounded container is visibly labeled \"Transformer Encoder Block\"."
+    },
+    {
+      "component_id": "repetition_marker_n_times",
+      "verdict": "mislabeled",
+      "visible_text": "Nx",
+      "location": {
+        "x0": 0.752,
+        "y0": 0.393,
+        "x1": 0.807,
+        "y1": 0.434
+      },
+      "evidence": "Repetition marker is present on the block, but text is \"Nx\" rather than exact \"N×\"."
+    },
+    {
+      "component_id": "multi_head_self_attention",
+      "verdict": "mislabeled",
+      "visible_text": "TBD",
+      "location": {
+        "x0": 0.291,
+        "y0": 0.446,
+        "x1": 0.71,
+        "y1": 0.516
+      },
+      "evidence": "Top internal encoder component is labeled placeholder \"TBD\" instead of \"Multi-Head Self-Attention\"."
+    },
+    {
+      "component_id": "add_norm_1",
+      "verdict": "mislabeled",
+      "visible_text": "TBD",
+      "location": {
+        "x0": 0.35,
+        "y0": 0.557,
+        "x1": 0.651,
+        "y1": 0.62
+      },
+      "evidence": "First red internal normalization component is labeled \"TBD\" instead of \"Add & Norm\"."
+    },
+    {
+      "component_id": "position_wise_feed_forward_network",
+      "verdict": "mislabeled",
+      "visible_text": "TBD",
+      "location": {
+        "x0": 0.291,
+        "y0": 0.661,
+        "x1": 0.71,
+        "y1": 0.731
+      },
+      "evidence": "Middle feed-forward-position component is labeled \"TBD\" instead of \"Position-wise Feed-Forward Network\"."
+    },
+    {
+      "component_id": "add_norm_2",
+      "verdict": "mislabeled",
+      "visible_text": "TBD",
+      "location": {
+        "x0": 0.35,
+        "y0": 0.772,
+        "x1": 0.651,
+        "y1": 0.836
+      },
+      "evidence": "Second red internal normalization component is labeled \"TBD\" instead of \"Add & Norm\"."
+    },
+    {
+      "component_id": "contextual_embeddings",
+      "verdict": "mislabeled",
+      "visible_text": "TBD",
+      "location": {
+        "x0": 0.364,
+        "y0": 0.913,
+        "x1": 0.637,
+        "y1": 0.979
+      },
+      "evidence": "Bottom output-like rounded rectangle is labeled \"TBD\" instead of \"Contextual Embeddings\"."
+    }
+  ]
+}

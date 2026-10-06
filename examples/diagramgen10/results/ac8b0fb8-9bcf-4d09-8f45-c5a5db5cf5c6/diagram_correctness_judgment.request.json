@@ -1,0 +1,140 @@
+{
+  "model": "gpt-5.5",
+  "prompt": "You are stage 2 of a description-to-diagram alignment evaluator. The attached image is the only CANDIDATE. Evaluate it against the written description and the frozen stage-1 inventory. Do not invent a different target. Evidence must refer to visible candidate elements.\n\nPART A - component checklist (field 'components'). Return exactly one entry for every component_id below, in any order, and no other ids. Answer each item on its own:\n- present: a visible element plays this component's role and its label matches the expected label (ignore case, punctuation, and line breaks).\n- mislabeled: a visible element plays this role (recognizable from its label, position, grouping, or arrows), but its label is abbreviated, incomplete, different, missing, or a placeholder.\n- absent: no visible element plays this role.\n- uncertain: the image does not allow a decision.\nAn abbreviation of the expected label (for example 'FFN' for 'Feed-Forward Network') counts as mislabeled. An element in the component's position whose label is a placeholder (such as 'Layer', 'TBD', '???') or is missing counts as mislabeled.\nRules: quote the element's visible text exactly as drawn in visible_text ('' if it has none). Give location as the element's bounding box in normalized image coordinates from 0 to 1 (x0, y0 top-left; x1, y1 bottom-right); use all zeros when absent. Each drawn element may be used for at most one component_id. Judge only whether the component itself is drawn and labeled; arrows and connections are judged in Part B, not here.\n\nPART B - counted criteria (field 'metrics'). For every criterion listed here, expected_count is the number of relevant countable opportunities and detected_issues is the number that fail. If no opportunity exists, return both counts as zero. Count each failing opportunity once. Layout must penalize overlap and off-canvas content. Connectivity must verify visible source and target endpoints, not merely arrow count.\n\nComponent checklist (Part A):\n[{\"component_id\": \"directed_graph_network\", \"expected_label\": \"directed graph network\", \"kind\": \"graph\", \"context\": \"\"}, {\"component_id\": \"node_0\", \"expected_label\": \"0\", \"kind\": \"node\", \"context\": \"feeds 1, 2, 3\"}, {\"component_id\": \"node_1\", \"expected_label\": \"1\", \"kind\": \"node\", \"context\": \"receives from 0\"}, {\"component_id\": \"node_2\", \"expected_label\": \"2\", \"kind\": \"node\", \"context\": \"receives from 0\"}, {\"component_id\": \"node_3\", \"expected_label\": \"3\", \"kind\": \"node\", \"context\": \"receives from 0\"}, {\"component_id\": \"node_4\", \"expected_label\": \"4\", \"kind\": \"hub node\", \"context\": \"\"}, {\"component_id\": \"node_7\", \"expected_label\": \"7\", \"kind\": \"hub node\", \"context\": \"\"}, {\"component_id\": \"node_10\", \"expected_label\": \"10\", \"kind\": \"hub node\", \"context\": \"\"}, {\"component_id\": \"node_16\", \"expected_label\": \"16\", \"kind\": \"key node\", \"context\": \"\"}, {\"component_id\": \"node_20\", \"expected_label\": \"20\", \"kind\": \"key node\", \"context\": \"\"}, {\"component_id\": \"node_23\", \"expected_label\": \"23\", \"kind\": \"key node\", \"context\": \"\"}, {\"component_id\": \"node_33\", \"expected_label\": \"33\", \"kind\": \"later node\", \"context\": \"\"}, {\"component_id\": \"node_37\", \"expected_label\": \"37\", \"kind\": \"later node\", \"context\": \"\"}, {\"component_id\": \"node_40\", \"expected_label\": \"40\", \"kind\": \"later node\", \"context\": \"\"}, {\"component_id\": \"node_113\", \"expected_label\": \"113\", \"kind\": \"final node\", \"context\": \"\"}, {\"component_id\": \"node_116\", \"expected_label\": \"116\", \"kind\": \"final node\", \"context\": \"\"}, {\"component_id\": \"node_119\", \"expected_label\": \"119\", \"kind\": \"final node\", \"context\": \"\"}]\n\nCounted criteria (Part B):\n[{\"id\": \"layout.order\", \"dimension\": \"layout\", \"description\": \"Components follow the sensible reading and processing order implied by the description.\", \"severity\": \"medium\"}, {\"id\": \"layout.canvas\", \"dimension\": \"layout\", \"description\": \"All candidate content remains fully inside the SVG canvas.\", \"severity\": \"high\"}, {\"id\": \"layout.overlap\", \"dimension\": \"layout\", \"description\": \"Candidate components have no unintended overlaps or collisions; intentional container nesting is allowed.\", \"severity\": \"high\"}, {\"id\": \"connectivity.connections\", \"dimension\": \"connectivity\", \"description\": \"Every directed source-to-target connection expected from the description is visibly present in the candidate.\", \"severity\": \"critical\"}, {\"id\": \"connectivity.endpoints\", \"dimension\": \"connectivity\", \"description\": \"Each visible arrow attaches to the correct description-expected source and target components with the correct direction.\", \"severity\": \"critical\"}, {\"id\": \"legibility.overflow\", \"dimension\": \"legibility\", \"description\": \"Text stays inside its intended container without clipping, collision, or overflow.\", \"severity\": \"high\"}, {\"id\": \"legibility.minimum_font\", \"dimension\": \"legibility\", \"description\": \"Every text element meets the configured minimum rendered font size.\", \"severity\": \"high\"}]\n\nDiagram description:\nHow can I use DOT to create a complex directed graph with multiple interconnected nodes, where each node leads to several others, forming a detailed network structure? I need the graph to illustrate a highly interconnected network with nodes that have multiple outgoing and incoming edges, showcasing a intricate web of relationships.\n\nSpecifically, I want to start with an initial node (node 0) that branches out to several other nodes, creating a foundational structure. From this initial node, I want to ensure that subsequent nodes (such as nodes 1, 2, and 3) are interconnected, demonstrating a cascading effect where each node influences multiple others. This pattern should continue throughout the graph, with each new set of nodes expanding the network's complexity.\n\nI also want to include intermediate nodes that act as hubs, connecting various branches of the network. For example, nodes like 4, 7, 10, and so on, should serve as critical junctions that link different parts of the graph, ensuring a cohesive and interconnected structure.\n\nFurthermore, I want to highlight certain key nodes that have a higher degree of connectivity, such as nodes 16, 20, 23, and others, which should have multiple incoming and outgoing edges to emphasize their significance in the network.\n\nAs the graph progresses, I want to maintain this level of complexity, with each new set of nodes (e.g., nodes 33, 37, 40, etc.) continuing the pattern of interconnectivity. This should include nodes that branch out to form new sub-networks, as well as nodes that connect back to earlier parts of the graph, creating a recursive and highly intertwined structure.\n\nAdditionally, I want to ensure that the final nodes in the graph (such as nodes 113, 116, 119, and beyond) culminate in a dense network of connections, reinforcing the overall complexity and depth of the graph.\n\nThroughout the graph, I want to be able to customize the layout and appearance of nodes and edges to enhance readability and visual appeal. This includes adjusting the spacing between nodes, the curvature of edges, and potentially adding labels or annotations to highlight specific relationships or pathways.\n\nUltimately, my goal is to create a graph that not only demonstrates a complex network structure but also remains clear and comprehensible, allowing viewers to easily trace the connections and understand the hierarchical and relational dynamics within the network. The graph should serve as a visual representation of a sophisticated system, with each node and edge contributing to the overall narrative of interconnectedness and complexity.\n\nFrozen description-derived inventory:\n{\"inventory\": {\"presence\": [\"one directed graph network is present\", \"node 0 is present\", \"node 1 is present\", \"node 2 is present\", \"node 3 is present\", \"node 4 is present as an intermediate hub\", \"node 7 is present as an intermediate hub\", \"node 10 is present as an intermediate hub\", \"node 16 is present as a high-connectivity key node\", \"node 20 is present as a high-connectivity key node\", \"node 23 is present as a high-connectivity key node\", \"node 33 is present as a later-network node\", \"node 37 is present as a later-network node\", \"node 40 is present as a later-network node\", \"node 113 is present as a final-network node\", \"node 116 is present as a final-network node\", \"node 119 is present as a final-network node\"], \"layout\": [\"node 0 is placed as the initial upstream node\", \"nodes 1, 2, and 3 appear after node 0 in the reading flow\", \"hub nodes 4, 7, and 10 are positioned among branches as junctions\", \"key nodes 16, 20, and 23 are integrated as central high-connectivity nodes\", \"nodes 33, 37, and 40 appear later in the network flow\", \"nodes 113, 116, and 119 appear near the downstream culmination\", \"the graph may use a dense network layout rather than a strict tree\", \"all content stays fully inside the canvas\", \"nodes do not unintentionally overlap\", \"labels do not collide with other labels or nodes\"], \"connectivity\": [\"node 0 connects to node 1\", \"node 0 connects to node 2\", \"node 0 connects to node 3\", \"nodes 1, 2, and 3 have directed interconnections among them\", \"hub nodes 4, 7, and 10 connect multiple branches\", \"key nodes 16, 20, and 23 have multiple incoming and outgoing directed edges\", \"later nodes 33, 37, and 40 continue directed interconnectivity\", \"final nodes 113, 116, and 119 participate in a dense directed connection region\"], \"details\": [\"node 0 label is exactly \\\"0\\\"\", \"node 1 label is exactly \\\"1\\\"\", \"node 2 label is exactly \\\"2\\\"\", \"node 3 label is exactly \\\"3\\\"\", \"node 4 label is exactly \\\"4\\\"\", \"node 7 label is exactly \\\"7\\\"\", \"node 10 label is exactly \\\"10\\\"\", \"node 16 label is exactly \\\"16\\\"\", \"node 20 label is exactly \\\"20\\\"\", \"node 23 label is exactly \\\"23\\\"\", \"node 33 label is exactly \\\"33\\\"\", \"node 37 label is exactly \\\"37\\\"\", \"node 40 label is exactly \\\"40\\\"\", \"node 113 label is exactly \\\"113\\\"\", \"node 116 label is exactly \\\"116\\\"\", \"node 119 label is exactly \\\"119\\\"\", \"missing labels are rejected\", \"generic labels are rejected\", \"placeholder labels are rejected\"], \"legibility\": [\"all numeric node labels are readable\", \"text stays inside its node shape\", \"text is not clipped\", \"text does not overflow its container\", \"text meets the minimum rendered font size\", \"directed connections remain visually traceable\"]}, \"components\": [{\"id\": \"directed_graph_network\", \"label\": \"directed graph network\", \"kind\": \"graph\"}, {\"id\": \"node_0\", \"label\": \"0\", \"kind\": \"node\"}, {\"id\": \"node_1\", \"label\": \"1\", \"kind\": \"node\"}, {\"id\": \"node_2\", \"label\": \"2\", \"kind\": \"node\"}, {\"id\": \"node_3\", \"label\": \"3\", \"kind\": \"node\"}, {\"id\": \"node_4\", \"label\": \"4\", \"kind\": \"hub node\"}, {\"id\": \"node_7\", \"label\": \"7\", \"kind\": \"hub node\"}, {\"id\": \"node_10\", \"label\": \"10\", \"kind\": \"hub node\"}, {\"id\": \"node_16\", \"label\": \"16\", \"kind\": \"key node\"}, {\"id\": \"node_20\", \"label\": \"20\", \"kind\": \"key node\"}, {\"id\": \"node_23\", \"label\": \"23\", \"kind\": \"key node\"}, {\"id\": \"node_33\", \"label\": \"33\", \"kind\": \"later node\"}, {\"id\": \"node_37\", \"label\": \"37\", \"kind\": \"later node\"}, {\"id\": \"node_40\", \"label\": \"40\", \"kind\": \"later node\"}, {\"id\": \"node_113\", \"label\": \"113\", \"kind\": \"final node\"}, {\"id\": \"node_116\", \"label\": \"116\", \"kind\": \"final node\"}, {\"id\": \"node_119\", \"label\": \"119\", \"kind\": \"final node\"}], \"connections\": [{\"source\": \"node_0\", \"target\": \"node_1\"}, {\"source\": \"node_0\", \"target\": \"node_2\"}, {\"source\": \"node_0\", \"target\": \"node_3\"}], \"forbidden_placeholders\": [\"Node\", \"Label\", \"Text\", \"TODO\", \"Placeholder\", \"Untitled\", \"???\", \"...\", \"Lorem ipsum\"]}",
+  "schema": {
+    "type": "object",
+    "properties": {
+      "metrics": {
+        "type": "array",
+        "items": {
+          "type": "object",
+          "properties": {
+            "criterion_id": {
+              "type": "string"
+            },
+            "expected_count": {
+              "type": "integer",
+              "minimum": 0
+            },
+            "detected_issues": {
+              "type": "integer",
+              "minimum": 0
+            },
+            "issues": {
+              "type": "array",
+              "items": {
+                "type": "object",
+                "properties": {
+                  "description": {
+                    "type": "string"
+                  },
+                  "severity": {
+                    "type": "string",
+                    "enum": [
+                      "low",
+                      "medium",
+                      "high",
+                      "critical"
+                    ]
+                  },
+                  "element_ids": {
+                    "type": "array",
+                    "items": {
+                      "type": "string"
+                    }
+                  }
+                },
+                "required": [
+                  "description",
+                  "severity",
+                  "element_ids"
+                ],
+                "additionalProperties": false
+              }
+            },
+            "notes": {
+              "type": "string"
+            }
+          },
+          "required": [
+            "criterion_id",
+            "expected_count",
+            "detected_issues",
+            "issues",
+            "notes"
+          ],
+          "additionalProperties": false
+        }
+      },
+      "components": {
+        "type": "array",
+        "items": {
+          "type": "object",
+          "properties": {
+            "component_id": {
+              "type": "string"
+            },
+            "verdict": {
+              "type": "string",
+              "enum": [
+                "present",
+                "mislabeled",
+                "absent",
+                "uncertain"
+              ]
+            },
+            "visible_text": {
+              "type": "string"
+            },
+            "location": {
+              "type": "object",
+              "properties": {
+                "x0": {
+                  "type": "number"
+                },
+                "y0": {
+                  "type": "number"
+                },
+                "x1": {
+                  "type": "number"
+                },
+                "y1": {
+                  "type": "number"
+                }
+              },
+              "required": [
+                "x0",
+                "y0",
+                "x1",
+                "y1"
+              ],
+              "additionalProperties": false
+            },
+            "evidence": {
+              "type": "string"
+            }
+          },
+          "required": [
+            "component_id",
+            "verdict",
+            "visible_text",
+            "location",
+            "evidence"
+          ],
+          "additionalProperties": false
+        }
+      }
+    },
+    "required": [
+      "metrics",
+      "components"
+    ],
+    "additionalProperties": false
+  },
+  "images": [
+    {
+      "filename": "candidate.png",
+      "sha256": "0e8220d7b700e38d4d82a842d932c79786311b43988bd69455944a43eeaa02b5"
+    }
+  ]
+}

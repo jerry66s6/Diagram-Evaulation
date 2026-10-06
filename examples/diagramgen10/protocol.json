@@ -1,0 +1,156 @@
+{
+  "mode": "GPT-only on original dataset PNGs",
+  "settings": {
+    "models": {
+      "expectation": "gpt-5.5",
+      "judge": "gpt-5.5"
+    },
+    "vfig": {
+      "command": [
+        "python",
+        "/absolute/path/to/VFig/inference/inference.py",
+        "{image}",
+        "--output",
+        "{svg}"
+      ],
+      "timeout_seconds": 600
+    },
+    "geometry": {
+      "endpoint_tolerance": 0.035,
+      "minimum_font_size": 12.0,
+      "overlap_area_threshold": 0.01,
+      "label_similarity_threshold": 0.45,
+      "canvas_tolerance": 0.5,
+      "min_role_links": 2
+    },
+    "presence_policy": {
+      "accept_abbreviations": false,
+      "placeholder_counts_as_present": true
+    },
+    "severity_multipliers": {
+      "low": 1.0,
+      "medium": 2.0,
+      "high": 4.0,
+      "critical": 8.0
+    },
+    "fallback_frequencies": {
+      "presence": 1.0,
+      "layout": 1.0,
+      "connectivity": 1.0,
+      "details": 1.0,
+      "legibility": 1.0
+    },
+    "weight_history": "config/issue_history.json"
+  },
+  "rubric": {
+    "criteria": [
+      {
+        "id": "presence.elements",
+        "dimension": "presence",
+        "description": "Every component, group, input, output, repeated block, and operation expected from the written description is visibly drawn in the candidate, even if its label is imperfect. Connections are judged under Connectivity, not here.",
+        "severity": "high",
+        "deterministic_metric": "description_presence"
+      },
+      {
+        "id": "layout.order",
+        "dimension": "layout",
+        "description": "Components follow the sensible reading and processing order implied by the description.",
+        "severity": "medium",
+        "deterministic_metric": "description_order"
+      },
+      {
+        "id": "layout.canvas",
+        "dimension": "layout",
+        "description": "All candidate content remains fully inside the SVG canvas.",
+        "severity": "high",
+        "deterministic_metric": "canvas_bounds"
+      },
+      {
+        "id": "layout.overlap",
+        "dimension": "layout",
+        "description": "Candidate components have no unintended overlaps or collisions; intentional container nesting is allowed.",
+        "severity": "high",
+        "deterministic_metric": "unintended_overlap"
+      },
+      {
+        "id": "connectivity.connections",
+        "dimension": "connectivity",
+        "description": "Every directed source-to-target connection expected from the description is visibly present in the candidate.",
+        "severity": "critical",
+        "deterministic_metric": "description_connections"
+      },
+      {
+        "id": "connectivity.endpoints",
+        "dimension": "connectivity",
+        "description": "Each visible arrow attaches to the correct description-expected source and target components with the correct direction.",
+        "severity": "critical",
+        "deterministic_metric": "connector_attachment"
+      },
+      {
+        "id": "details.labels",
+        "dimension": "details",
+        "description": "Each drawn component carries its complete, accurate, meaningful expected label rather than an abbreviated, generic, missing, or placeholder label. Components that are not drawn are judged under Presence, not here.",
+        "severity": "high",
+        "deterministic_metric": "meaningful_labels"
+      },
+      {
+        "id": "legibility.overflow",
+        "dimension": "legibility",
+        "description": "Text stays inside its intended container without clipping, collision, or overflow.",
+        "severity": "high",
+        "deterministic_metric": "text_overflow"
+      },
+      {
+        "id": "legibility.minimum_font",
+        "dimension": "legibility",
+        "description": "Every text element meets the configured minimum rendered font size.",
+        "severity": "high",
+        "deterministic_metric": "minimum_font_size"
+      }
+    ]
+  },
+  "issue_history": [
+    {
+      "dimension": "presence",
+      "severity": "high",
+      "count": 1
+    },
+    {
+      "dimension": "layout",
+      "severity": "medium",
+      "count": 1
+    },
+    {
+      "dimension": "connectivity",
+      "severity": "critical",
+      "count": 1
+    },
+    {
+      "dimension": "details",
+      "severity": "medium",
+      "count": 1
+    },
+    {
+      "dimension": "legibility",
+      "severity": "high",
+      "count": 1
+    }
+  ],
+  "deterministic_judge": false,
+  "vfig_used": false,
+  "code_sha256": {
+    "__init__.py": "13bc397ddd2350dd8c52726b73e0986acdd95ac08edc2bcb91e81c47a2fed08f",
+    "cli.py": "b6b8c28c88f768d88793d23e884637416ccfb53ff6c6b9bdd3181cb6555b450b",
+    "deterministic.py": "f1e22422928636b94a18692ec4615b2f537f2a773b91c3a88eb45d99b55ed9bc",
+    "models.py": "711cfafeb136c9c51ace98e736a1b8340375869e8bf2adbdbd6073a0c5c71043",
+    "pipeline.py": "b25f8aa0c0ef1f9eb348e3a9dfb860fed6a5e3b684bed922dc41bb929e99c29f",
+    "rubric.py": "d0bfa32166843612ea41b709b3af60ae7577452f90014163012fb9be14fcbb9f",
+    "svg.py": "9a79bb329b13c44710e42fa429e574f0066d8521e52b175abc027852f03c3919",
+    "vfig.py": "b2f74f83cdab8e774f724590be1da91912e7f7d20eccb043a93915d61654a2f1",
+    "vlm.py": "03696437dca9ed3dd171c33c792be86c64ae9e33e5834a0de3a9e02b275140f1"
+  },
+  "planned_calls": {
+    "expectation": 10,
+    "judge": 10
+  }
+}

@@ -1,0 +1,177 @@
+{
+  "inventory": {
+    "presence": [
+      "state u_{a, +}",
+      "state u_{a, -}",
+      "self-loop on state u_{a, +}",
+      "self-loop on state u_{a, -}",
+      "directed transition from u_{a, +} to u_{a, -}",
+      "directed transition from u_{a, -} to u_{a, +}",
+      "external input e_{b, a, +}",
+      "external input e_{c, a, +}",
+      "external input e_{b, a, -}",
+      "external input e_{c, a, -}",
+      "condition label f_a(x) below u_{a, +}",
+      "condition label \\neg f_a(x) below u_{a, -}"
+    ],
+    "layout": [
+      "u_{a, +} is positioned horizontally left of u_{a, -}",
+      "states are spaced clearly apart",
+      "transition arrows between states are visibly bent to the left",
+      "each self-loop is above its corresponding state",
+      "external inputs originate outside the state machine area",
+      "e_{b, a, +} and e_{c, a, +} are placed outside and point toward u_{a, +}",
+      "e_{b, a, -} and e_{c, a, -} are placed outside and point toward u_{a, -}",
+      "f_a(x) is below u_{a, +}",
+      "\\neg f_a(x) is below u_{a, -}",
+      "all content is fully inside the canvas",
+      "no unintended overlaps or collisions"
+    ],
+    "connectivity": [
+      "u_a_plus_self_loop connects from state_u_a_plus to state_u_a_plus",
+      "u_a_minus_self_loop connects from state_u_a_minus to state_u_a_minus",
+      "transition_u_a_plus_to_u_a_minus connects from state_u_a_plus to state_u_a_minus",
+      "transition_u_a_minus_to_u_a_plus connects from state_u_a_minus to state_u_a_plus",
+      "external_input_e_b_a_plus connects to state_u_a_plus",
+      "external_input_e_c_a_plus connects to state_u_a_plus",
+      "external_input_e_b_a_minus connects to state_u_a_minus",
+      "external_input_e_c_a_minus connects to state_u_a_minus"
+    ],
+    "details": [
+      "state label must be exactly u_{a, +}",
+      "state label must be exactly u_{a, -}",
+      "external input label must be exactly e_{b, a, +}",
+      "external input label must be exactly e_{c, a, +}",
+      "external input label must be exactly e_{b, a, -}",
+      "external input label must be exactly e_{c, a, -}",
+      "condition label below u_{a, +} must be exactly f_a(x)",
+      "condition label below u_{a, -} must be exactly \\neg f_a(x)",
+      "transition arrows between states must be clearly labeled",
+      "self-loops must be clearly labeled if transition labels are shown",
+      "labels must not be missing",
+      "labels must not be generic placeholders",
+      "labels must not be abbreviated placeholders"
+    ],
+    "legibility": [
+      "all labels are readable",
+      "text stays inside intended nodes or near intended arrows",
+      "text is not clipped",
+      "text does not collide with other text or shapes",
+      "font size is legible"
+    ]
+  },
+  "components": [
+    {
+      "id": "state_u_a_plus",
+      "label": "u_{a, +}",
+      "kind": "state"
+    },
+    {
+      "id": "state_u_a_minus",
+      "label": "u_{a, -}",
+      "kind": "state"
+    },
+    {
+      "id": "u_a_plus_self_loop",
+      "label": "self-loop",
+      "kind": "self_loop"
+    },
+    {
+      "id": "u_a_minus_self_loop",
+      "label": "self-loop",
+      "kind": "self_loop"
+    },
+    {
+      "id": "transition_u_a_plus_to_u_a_minus",
+      "label": "transition",
+      "kind": "directed_transition"
+    },
+    {
+      "id": "transition_u_a_minus_to_u_a_plus",
+      "label": "transition",
+      "kind": "directed_transition"
+    },
+    {
+      "id": "external_input_e_b_a_plus",
+      "label": "e_{b, a, +}",
+      "kind": "external_input"
+    },
+    {
+      "id": "external_input_e_c_a_plus",
+      "label": "e_{c, a, +}",
+      "kind": "external_input"
+    },
+    {
+      "id": "external_input_e_b_a_minus",
+      "label": "e_{b, a, -}",
+      "kind": "external_input"
+    },
+    {
+      "id": "external_input_e_c_a_minus",
+      "label": "e_{c, a, -}",
+      "kind": "external_input"
+    },
+    {
+      "id": "condition_f_a_x",
+      "label": "f_a(x)",
+      "kind": "condition_label"
+    },
+    {
+      "id": "condition_not_f_a_x",
+      "label": "\\neg f_a(x)",
+      "kind": "condition_label"
+    }
+  ],
+  "connections": [
+    {
+      "source": "state_u_a_plus",
+      "target": "state_u_a_plus"
+    },
+    {
+      "source": "state_u_a_minus",
+      "target": "state_u_a_minus"
+    },
+    {
+      "source": "state_u_a_plus",
+      "target": "state_u_a_minus"
+    },
+    {
+      "source": "state_u_a_minus",
+      "target": "state_u_a_plus"
+    },
+    {
+      "source": "external_input_e_b_a_plus",
+      "target": "state_u_a_plus"
+    },
+    {
+      "source": "external_input_e_c_a_plus",
+      "target": "state_u_a_plus"
+    },
+    {
+      "source": "external_input_e_b_a_minus",
+      "target": "state_u_a_minus"
+    },
+    {
+      "source": "external_input_e_c_a_minus",
+      "target": "state_u_a_minus"
+    }
+  ],
+  "forbidden_placeholders": [
+    "state",
+    "node",
+    "input",
+    "output",
+    "label",
+    "transition",
+    "self-loop",
+    "placeholder",
+    "text",
+    "arrow",
+    "A",
+    "B",
+    "S1",
+    "S2",
+    "?",
+    "TODO"
+  ]
+}

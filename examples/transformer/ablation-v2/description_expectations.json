@@ -1,0 +1,241 @@
+{
+  "inventory": {
+    "presence": [
+      "Input Tokens component is present at the top.",
+      "Token Embeddings component is present beneath Input Tokens.",
+      "Positional Encoding component is present parallel to Token Embeddings beneath Input Tokens.",
+      "Add operation is present combining Token Embeddings and Positional Encoding.",
+      "Transformer Encoder Block group/container is present.",
+      "Transformer Encoder Block is visibly marked N× to show repetition.",
+      "Multi-Head Self-Attention component is present inside the Transformer Encoder Block.",
+      "First Add & Norm component is present inside the Transformer Encoder Block.",
+      "Position-wise Feed-Forward Network component is present inside the Transformer Encoder Block.",
+      "Second Add & Norm component is present inside the Transformer Encoder Block.",
+      "Contextual Embeddings output component is present beneath the Transformer Encoder Block.",
+      "Residual/skip connection from Add to first Add & Norm is present.",
+      "Residual/skip connection from first Add & Norm to second Add & Norm is present."
+    ],
+    "layout": [
+      "Diagram follows a top-to-bottom processing order.",
+      "Input Tokens is above Token Embeddings and Positional Encoding.",
+      "Token Embeddings and Positional Encoding are parallel components beneath Input Tokens.",
+      "Add is beneath Token Embeddings and Positional Encoding.",
+      "Transformer Encoder Block is beneath Add.",
+      "Internal encoder block order is top-to-bottom: Multi-Head Self-Attention, first Add & Norm, Position-wise Feed-Forward Network, second Add & Norm.",
+      "Contextual Embeddings is beneath the Transformer Encoder Block.",
+      "Transformer Encoder Block visually contains its internal components.",
+      "Transformer Encoder Block is visually distinct from internal components.",
+      "All content remains fully inside the canvas.",
+      "No unintended overlaps or collisions are present.",
+      "Arrows are routed so sources and targets are visually unambiguous."
+    ],
+    "connectivity": [
+      "Directed arrow from Input Tokens to Token Embeddings.",
+      "Directed arrow from Token Embeddings to Add.",
+      "Directed arrow from Positional Encoding to Add.",
+      "Directed arrow from Add to Multi-Head Self-Attention.",
+      "Directed arrow from Multi-Head Self-Attention to first Add & Norm.",
+      "Directed residual/skip arrow from Add to first Add & Norm.",
+      "Directed arrow from first Add & Norm to Position-wise Feed-Forward Network.",
+      "Directed arrow from Position-wise Feed-Forward Network to second Add & Norm.",
+      "Directed residual/skip arrow from first Add & Norm to second Add & Norm.",
+      "Directed arrow from second Add & Norm to Contextual Embeddings."
+    ],
+    "details": [
+      "Exact label \"Input Tokens\" is visible.",
+      "Exact label \"Token Embeddings\" is visible.",
+      "Exact label \"Positional Encoding\" is visible.",
+      "Exact label \"Add\" is visible.",
+      "Exact label \"Transformer Encoder Block\" is visible on the group/container.",
+      "Exact repetition marker \"N×\" is visible on or near the Transformer Encoder Block.",
+      "Exact label \"Multi-Head Self-Attention\" is visible.",
+      "Exact label \"Add & Norm\" is visible for the first normalization component.",
+      "Exact label \"Position-wise Feed-Forward Network\" is visible.",
+      "Exact label \"Add & Norm\" is visible for the second normalization component.",
+      "Exact label \"Contextual Embeddings\" is visible.",
+      "Labels are meaningful and not missing.",
+      "Placeholder label \"Layer\" is not used as a substitute for required labels.",
+      "Placeholder label \"Thing\" is not used.",
+      "Placeholder label \"TBD\" is not used.",
+      "Placeholder label \"???\" is not used.",
+      "Generic or placeholder text is not used in place of required labels."
+    ],
+    "legibility": [
+      "All text is readable.",
+      "All text remains inside its intended box or container.",
+      "Text does not clip, collide, or overflow.",
+      "Every text element uses rendered font size of at least 12 px."
+    ]
+  },
+  "components": [
+    {
+      "id": "input_tokens",
+      "label": "Input Tokens",
+      "kind": "input"
+    },
+    {
+      "id": "token_embeddings",
+      "label": "Token Embeddings",
+      "kind": "component"
+    },
+    {
+      "id": "positional_encoding",
+      "label": "Positional Encoding",
+      "kind": "component"
+    },
+    {
+      "id": "add",
+      "label": "Add",
+      "kind": "operation"
+    },
+    {
+      "id": "transformer_encoder_block",
+      "label": "Transformer Encoder Block",
+      "kind": "group"
+    },
+    {
+      "id": "repetition_marker_n_times",
+      "label": "N×",
+      "kind": "repetition marker"
+    },
+    {
+      "id": "multi_head_self_attention",
+      "label": "Multi-Head Self-Attention",
+      "kind": "component"
+    },
+    {
+      "id": "add_norm_1",
+      "label": "Add & Norm",
+      "kind": "component"
+    },
+    {
+      "id": "position_wise_feed_forward_network",
+      "label": "Position-wise Feed-Forward Network",
+      "kind": "component"
+    },
+    {
+      "id": "add_norm_2",
+      "label": "Add & Norm",
+      "kind": "component"
+    },
+    {
+      "id": "contextual_embeddings",
+      "label": "Contextual Embeddings",
+      "kind": "output"
+    }
+  ],
+  "connections": [
+    {
+      "source": "input_tokens",
+      "target": "token_embeddings"
+    },
+    {
+      "source": "token_embeddings",
+      "target": "add"
+    },
+    {
+      "source": "positional_encoding",
+      "target": "add"
+    },
+    {
+      "source": "add",
+      "target": "multi_head_self_attention"
+    },
+    {
+      "source": "multi_head_self_attention",
+      "target": "add_norm_1"
+    },
+    {
+      "source": "add",
+      "target": "add_norm_1"
+    },
+    {
+      "source": "add_norm_1",
+      "target": "position_wise_feed_forward_network"
+    },
+    {
+      "source": "position_wise_feed_forward_network",
+      "target": "add_norm_2"
+    },
+    {
+      "source": "add_norm_1",
+      "target": "add_norm_2"
+    },
+    {
+      "source": "add_norm_2",
+      "target": "contextual_embeddings"
+    }
+  ],
+  "forbidden_placeholders": [
+    "Layer",
+    "Thing",
+    "TBD",
+    "???"
+  ],
+  "spatial_requirements": {
+    "provenance": {
+      "source": "description.md",
+      "source_sha256": "a0b5ace368904d0dd8b5e75b928dde98c1d11d30120e38e5a9006455e31a6c79",
+      "method": "Manual transcription of explicit written spatial requirements before candidate scoring; existing component IDs retained. No candidate image or source coordinates used to set expected relations."
+    },
+    "sequences": [
+      {
+        "axis": "top_to_bottom",
+        "components": [
+          "multi_head_self_attention",
+          "add_norm_1",
+          "position_wise_feed_forward_network",
+          "add_norm_2"
+        ]
+      }
+    ],
+    "relations": [
+      {
+        "first": "input_tokens",
+        "relation": "above",
+        "second": "token_embeddings"
+      },
+      {
+        "first": "input_tokens",
+        "relation": "above",
+        "second": "positional_encoding"
+      },
+      {
+        "first": "token_embeddings",
+        "relation": "same_row",
+        "second": "positional_encoding"
+      },
+      {
+        "first": "token_embeddings",
+        "relation": "above",
+        "second": "add"
+      },
+      {
+        "first": "positional_encoding",
+        "relation": "above",
+        "second": "add"
+      },
+      {
+        "first": "add",
+        "relation": "above",
+        "second": "transformer_encoder_block"
+      },
+      {
+        "first": "transformer_encoder_block",
+        "relation": "above",
+        "second": "contextual_embeddings"
+      }
+    ],
+    "groups": [
+      {
+        "container": "transformer_encoder_block",
+        "members": [
+          "multi_head_self_attention",
+          "add_norm_1",
+          "position_wise_feed_forward_network",
+          "add_norm_2"
+        ]
+      }
+    ]
+  }
+}

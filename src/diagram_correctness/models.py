@@ -169,12 +169,15 @@ class EvaluationReport:
 def aggregate_panel(
     metrics: Iterable[MetricScore],
     criteria: Iterable[Criterion],
+    reducer: str = "mean",
 ) -> dict[Dimension, DimensionScore]:
     """Aggregate compatible judge signals criterion-first, using the median.
 
     A deterministic result is only combined with VLM results when it has the same
     criterion id. Missing/non-measurable results do not become perfect scores.
     """
+    if reducer not in {"mean", "minimum"}:
+        raise ValueError(f"Unknown dimension reducer: {reducer}")
     metric_list = list(metrics)
     criterion_list = list(criteria)
     dimensions: dict[Dimension, DimensionScore] = {}
@@ -195,7 +198,8 @@ def aggregate_panel(
         if criterion_scores:
             dimensions[dimension] = DimensionScore(
                 dimension=dimension,
-                score=sum(criterion_scores.values()) / len(criterion_scores),
+                score=(min(criterion_scores.values()) if reducer == "minimum"
+                       else sum(criterion_scores.values()) / len(criterion_scores)),
                 criteria=criterion_scores,
                 participating_judges=sorted(judges),
             )

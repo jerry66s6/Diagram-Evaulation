@@ -1,0 +1,140 @@
+{
+  "model": "gpt-5.5",
+  "prompt": "You are stage 2 of a description-to-diagram alignment evaluator. The attached image is the only CANDIDATE. Evaluate it against the written description and the frozen stage-1 inventory. Do not invent a different target. Evidence must refer to visible candidate elements.\n\nPART A - component checklist (field 'components'). Return exactly one entry for every component_id below, in any order, and no other ids. Answer each item on its own:\n- present: a visible element plays this component's role and its label matches the expected label (ignore case, punctuation, and line breaks).\n- mislabeled: a visible element plays this role (recognizable from its label, position, grouping, or arrows), but its label is abbreviated, incomplete, different, missing, or a placeholder.\n- absent: no visible element plays this role.\n- uncertain: the image does not allow a decision.\nAn abbreviation of the expected label (for example 'FFN' for 'Feed-Forward Network') counts as mislabeled. An element in the component's position whose label is a placeholder (such as 'Layer', 'TBD', '???') or is missing counts as mislabeled.\nRules: quote the element's visible text exactly as drawn in visible_text ('' if it has none). Give location as the element's bounding box in normalized image coordinates from 0 to 1 (x0, y0 top-left; x1, y1 bottom-right); use all zeros when absent. Each drawn element may be used for at most one component_id. Judge only whether the component itself is drawn and labeled; arrows and connections are judged in Part B, not here.\n\nPART B - counted criteria (field 'metrics'). For every criterion listed here, expected_count is the number of relevant countable opportunities and detected_issues is the number that fail. If no opportunity exists, return both counts as zero. Count each failing opportunity once. Layout must penalize overlap and off-canvas content. Connectivity must verify visible source and target endpoints, not merely arrow count.\n\nComponent checklist (Part A):\n[{\"component_id\": \"dcl_node\", \"expected_label\": \"DCL\", \"kind\": \"node\", \"context\": \"feeds Head, id\"}, {\"component_id\": \"head_node\", \"expected_label\": \"Head\", \"kind\": \"node\", \"context\": \"receives from DCL; feeds const\"}, {\"component_id\": \"const_node\", \"expected_label\": \"const\", \"kind\": \"node\", \"context\": \"receives from Head\"}, {\"component_id\": \"id_node\", \"expected_label\": \"id\", \"kind\": \"node\", \"context\": \"receives from DCL\"}, {\"component_id\": \"dcl_to_head_edge\", \"expected_label\": \"0\", \"kind\": \"directed edge\", \"context\": \"one of 2 components with this label; judge it separately and use a different drawn element\"}, {\"component_id\": \"head_to_const_edge\", \"expected_label\": \"0\", \"kind\": \"directed edge\", \"context\": \"one of 2 components with this label; judge it separately and use a different drawn element\"}, {\"component_id\": \"dcl_to_id_edge\", \"expected_label\": \"1\", \"kind\": \"directed edge\", \"context\": \"\"}]\n\nCounted criteria (Part B):\n[{\"id\": \"layout.order\", \"dimension\": \"layout\", \"description\": \"Components follow the sensible reading and processing order implied by the description.\", \"severity\": \"medium\"}, {\"id\": \"layout.canvas\", \"dimension\": \"layout\", \"description\": \"All candidate content remains fully inside the SVG canvas.\", \"severity\": \"high\"}, {\"id\": \"layout.overlap\", \"dimension\": \"layout\", \"description\": \"Candidate components have no unintended overlaps or collisions; intentional container nesting is allowed.\", \"severity\": \"high\"}, {\"id\": \"connectivity.connections\", \"dimension\": \"connectivity\", \"description\": \"Every directed source-to-target connection expected from the description is visibly present in the candidate.\", \"severity\": \"critical\"}, {\"id\": \"connectivity.endpoints\", \"dimension\": \"connectivity\", \"description\": \"Each visible arrow attaches to the correct description-expected source and target components with the correct direction.\", \"severity\": \"critical\"}, {\"id\": \"legibility.overflow\", \"dimension\": \"legibility\", \"description\": \"Text stays inside its intended container without clipping, collision, or overflow.\", \"severity\": \"high\"}, {\"id\": \"legibility.minimum_font\", \"dimension\": \"legibility\", \"description\": \"Every text element meets the configured minimum rendered font size.\", \"severity\": \"high\"}]\n\nDiagram description:\nHow can I use the DOT language to create a directed graph that includes specific nodes and edges with clear labels? I need the graph to have nodes labeled \"DCL,\" \"Head,\" \"const,\" and \"id,\" with directed edges connecting these nodes. Specifically, I want an edge from the \"DCL\" node to the \"Head\" node, labeled \"0,\" to indicate a particular relationship or connection type. Additionally, I need an edge from the \"Head\" node to the \"const\" node, also labeled \"0,\" to represent another specific connection. Furthermore, I require an edge from the \"DCL\" node to the \"id\" node, labeled \"1,\" to denote a different type of relationship.\n\nI would like the graph to be visually structured so that the nodes are clearly distinguishable and the edges are easy to follow, with the labels on the edges providing immediate context for the connections. The layout should be intuitive, making it simple for viewers to understand the relationships between the nodes at a glance. Additionally, I want to ensure that the graph is scalable and can be easily modified to include more nodes and edges if needed, while maintaining the clarity and organization of the existing structure. The final graph should be suitable for inclusion in documentation or presentations, providing a clear and concise visual representation of the relationships between the labeled nodes.\n\nFrozen description-derived inventory:\n{\"inventory\": {\"presence\": [\"node labeled \\\"DCL\\\"\", \"node labeled \\\"Head\\\"\", \"node labeled \\\"const\\\"\", \"node labeled \\\"id\\\"\", \"directed edge from \\\"DCL\\\" to \\\"Head\\\"\", \"directed edge from \\\"Head\\\" to \\\"const\\\"\", \"directed edge from \\\"DCL\\\" to \\\"id\\\"\"], \"layout\": [\"nodes are clearly distinguishable\", \"graph follows intuitive directed-graph reading order from DCL to its targets and from Head to const\", \"edges are easy to follow\", \"all content is fully inside the canvas\", \"no unintended overlaps or collisions\"], \"connectivity\": [\"dcl_node -> head_node\", \"head_node -> const_node\", \"dcl_node -> id_node\"], \"details\": [\"DCL node label is exactly \\\"DCL\\\"\", \"Head node label is exactly \\\"Head\\\"\", \"const node label is exactly \\\"const\\\"\", \"id node label is exactly \\\"id\\\"\", \"edge dcl_node -> head_node label is exactly \\\"0\\\"\", \"edge head_node -> const_node label is exactly \\\"0\\\"\", \"edge dcl_node -> id_node label is exactly \\\"1\\\"\", \"missing labels are not acceptable\", \"generic labels are not acceptable\", \"placeholder labels are not acceptable\"], \"legibility\": [\"all node labels are readable\", \"all edge labels are readable\", \"text stays inside intended node or label area without clipping\", \"text does not collide with nodes or edges\", \"all text meets minimum rendered font size\"]}, \"components\": [{\"id\": \"dcl_node\", \"label\": \"DCL\", \"kind\": \"node\"}, {\"id\": \"head_node\", \"label\": \"Head\", \"kind\": \"node\"}, {\"id\": \"const_node\", \"label\": \"const\", \"kind\": \"node\"}, {\"id\": \"id_node\", \"label\": \"id\", \"kind\": \"node\"}, {\"id\": \"dcl_to_head_edge\", \"label\": \"0\", \"kind\": \"directed edge\"}, {\"id\": \"head_to_const_edge\", \"label\": \"0\", \"kind\": \"directed edge\"}, {\"id\": \"dcl_to_id_edge\", \"label\": \"1\", \"kind\": \"directed edge\"}], \"connections\": [{\"source\": \"dcl_node\", \"target\": \"head_node\"}, {\"source\": \"head_node\", \"target\": \"const_node\"}, {\"source\": \"dcl_node\", \"target\": \"id_node\"}], \"forbidden_placeholders\": [\"Node\", \"Edge\", \"Label\", \"Placeholder\", \"TODO\", \"TBD\", \"undefined\", \"null\", \"?\", \"...\", \"lorem ipsum\"]}",
+  "schema": {
+    "type": "object",
+    "properties": {
+      "metrics": {
+        "type": "array",
+        "items": {
+          "type": "object",
+          "properties": {
+            "criterion_id": {
+              "type": "string"
+            },
+            "expected_count": {
+              "type": "integer",
+              "minimum": 0
+            },
+            "detected_issues": {
+              "type": "integer",
+              "minimum": 0
+            },
+            "issues": {
+              "type": "array",
+              "items": {
+                "type": "object",
+                "properties": {
+                  "description": {
+                    "type": "string"
+                  },
+                  "severity": {
+                    "type": "string",
+                    "enum": [
+                      "low",
+                      "medium",
+                      "high",
+                      "critical"
+                    ]
+                  },
+                  "element_ids": {
+                    "type": "array",
+                    "items": {
+                      "type": "string"
+                    }
+                  }
+                },
+                "required": [
+                  "description",
+                  "severity",
+                  "element_ids"
+                ],
+                "additionalProperties": false
+              }
+            },
+            "notes": {
+              "type": "string"
+            }
+          },
+          "required": [
+            "criterion_id",
+            "expected_count",
+            "detected_issues",
+            "issues",
+            "notes"
+          ],
+          "additionalProperties": false
+        }
+      },
+      "components": {
+        "type": "array",
+        "items": {
+          "type": "object",
+          "properties": {
+            "component_id": {
+              "type": "string"
+            },
+            "verdict": {
+              "type": "string",
+              "enum": [
+                "present",
+                "mislabeled",
+                "absent",
+                "uncertain"
+              ]
+            },
+            "visible_text": {
+              "type": "string"
+            },
+            "location": {
+              "type": "object",
+              "properties": {
+                "x0": {
+                  "type": "number"
+                },
+                "y0": {
+                  "type": "number"
+                },
+                "x1": {
+                  "type": "number"
+                },
+                "y1": {
+                  "type": "number"
+                }
+              },
+              "required": [
+                "x0",
+                "y0",
+                "x1",
+                "y1"
+              ],
+              "additionalProperties": false
+            },
+            "evidence": {
+              "type": "string"
+            }
+          },
+          "required": [
+            "component_id",
+            "verdict",
+            "visible_text",
+            "location",
+            "evidence"
+          ],
+          "additionalProperties": false
+        }
+      }
+    },
+    "required": [
+      "metrics",
+      "components"
+    ],
+    "additionalProperties": false
+  },
+  "images": [
+    {
+      "filename": "candidate.png",
+      "sha256": "3164646ec4d7fe05cfac0b73cb50e89ef13f53fe7d9c220993c309020091b651"
+    }
+  ]
+}

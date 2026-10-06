@@ -1,0 +1,109 @@
+{
+  "inventory": {
+    "presence": [
+      "block for Experience Data",
+      "block for Expert Opinion",
+      "block for KPIs",
+      "block for Cause--And--Effect Relationships",
+      "block for Model Inference",
+      "block for Cyber Risk Assessment",
+      "matrix-format arrangement containing the process blocks"
+    ],
+    "layout": [
+      "components are arranged in a clean matrix format",
+      "components have appropriate spacing and alignment",
+      "components follow a sensible process-flow reading order",
+      "all content is fully inside the canvas",
+      "no unintended overlaps or collisions",
+      "Cyber Risk Assessment may visually combine green and orange styling"
+    ],
+    "connectivity": [
+      "directed arrow from experience_data to expert_opinion",
+      "directed arrow from experience_data to cyber_risk_assessment",
+      "experience_data to expert_opinion arrow is labeled Adjustment",
+      "experience_data to cyber_risk_assessment arrow is labeled Backtesting"
+    ],
+    "details": [
+      "Experience Data label is exact and meaningful",
+      "Expert Opinion label is exact and meaningful",
+      "KPIs label is exact and meaningful",
+      "Cause--And--Effect Relationships label is exact and meaningful",
+      "Model Inference label is exact and meaningful",
+      "Cyber Risk Assessment label is exact and meaningful",
+      "Adjustment arrow label is exact and meaningful",
+      "Backtesting arrow label is exact and meaningful",
+      "Experience Data block is blue",
+      "Expert Opinion block is blue",
+      "KPIs block is red",
+      "Cause--And--Effect Relationships block is red",
+      "Model Inference block is orange",
+      "Cyber Risk Assessment block uses both green and orange",
+      "block text is bold",
+      "block text is centered",
+      "labels are not missing, generic, abbreviated, or placeholder text"
+    ],
+    "legibility": [
+      "all text is readable",
+      "all text stays inside its intended block or arrow-label area",
+      "no text clipping",
+      "no text collisions",
+      "font style is consistent",
+      "text remains clear when scaled"
+    ]
+  },
+  "components": [
+    {
+      "id": "experience_data",
+      "label": "Experience Data",
+      "kind": "block"
+    },
+    {
+      "id": "expert_opinion",
+      "label": "Expert Opinion",
+      "kind": "block"
+    },
+    {
+      "id": "kpis",
+      "label": "KPIs",
+      "kind": "block"
+    },
+    {
+      "id": "cause_and_effect_relationships",
+      "label": "Cause--And--Effect Relationships",
+      "kind": "block"
+    },
+    {
+      "id": "model_inference",
+      "label": "Model Inference",
+      "kind": "block"
+    },
+    {
+      "id": "cyber_risk_assessment",
+      "label": "Cyber Risk Assessment",
+      "kind": "block"
+    }
+  ],
+  "connections": [
+    {
+      "source": "experience_data",
+      "target": "expert_opinion"
+    },
+    {
+      "source": "experience_data",
+      "target": "cyber_risk_assessment"
+    }
+  ],
+  "forbidden_placeholders": [
+    "Lorem ipsum",
+    "Placeholder",
+    "TODO",
+    "TBD",
+    "Label",
+    "Text",
+    "Block",
+    "Node",
+    "Arrow",
+    "Untitled",
+    "Sample"
+  ]
+}

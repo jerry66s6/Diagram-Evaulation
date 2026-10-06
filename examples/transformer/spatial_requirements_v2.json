@@ -1,0 +1,66 @@
+{
+  "provenance": {
+    "source": "description.md",
+    "source_sha256": "a0b5ace368904d0dd8b5e75b928dde98c1d11d30120e38e5a9006455e31a6c79",
+    "method": "Manual transcription of explicit written spatial requirements before candidate scoring; existing component IDs retained. No candidate image or source coordinates used to set expected relations."
+  },
+  "sequences": [
+    {
+      "axis": "top_to_bottom",
+      "components": [
+        "multi_head_self_attention",
+        "add_norm_1",
+        "position_wise_feed_forward_network",
+        "add_norm_2"
+      ]
+    }
+  ],
+  "relations": [
+    {
+      "first": "input_tokens",
+      "relation": "above",
+      "second": "token_embeddings"
+    },
+    {
+      "first": "input_tokens",
+      "relation": "above",
+      "second": "positional_encoding"
+    },
+    {
+      "first": "token_embeddings",
+      "relation": "same_row",
+      "second": "positional_encoding"
+    },
+    {
+      "first": "token_embeddings",
+      "relation": "above",
+      "second": "add"
+    },
+    {
+      "first": "positional_encoding",
+      "relation": "above",
+      "second": "add"
+    },
+    {
+      "first": "add",
+      "relation": "above",
+      "second": "transformer_encoder_block"
+    },
+    {
+      "first": "transformer_encoder_block",
+      "relation": "above",
+      "second": "contextual_embeddings"
+    }
+  ],
+  "groups": [
+    {
+      "container": "transformer_encoder_block",
+      "members": [
+        "multi_head_self_attention",
+        "add_norm_1",
+        "position_wise_feed_forward_network",
+        "add_norm_2"
+      ]
+    }
+  ]
+}

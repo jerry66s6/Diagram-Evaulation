@@ -1,0 +1,472 @@
+{
+  "layout_partial": [
+    {
+      "element_id": "attention-s",
+      "before": "<rect xmlns=\"http://www.w3.org/2000/svg\" id=\"attention-s\" x=\"320\" y=\"401\" width=\"460\" height=\"62\" rx=\"12\" fill=\"#ede9fe\" stroke=\"#7c3aed\" stroke-width=\"2\" />\n  ",
+      "after": "<rect xmlns=\"http://www.w3.org/2000/svg\" id=\"attention-s\" x=\"320\" y=\"595.0\" width=\"460\" height=\"62\" rx=\"12\" fill=\"#ede9fe\" stroke=\"#7c3aed\" stroke-width=\"2\" />\n  "
+    },
+    {
+      "element_id": "attention-label-s",
+      "before": "<text xmlns=\"http://www.w3.org/2000/svg\" id=\"attention-label-s\" x=\"550\" y=\"439\" text-anchor=\"middle\" font-size=\"18\" fill=\"#111827\">Multi-Head Self-Attention</text>\n  ",
+      "after": "<text xmlns=\"http://www.w3.org/2000/svg\" id=\"attention-label-s\" x=\"550\" y=\"633.0\" text-anchor=\"middle\" font-size=\"18\" fill=\"#111827\">Multi-Head Self-Attention</text>\n  "
+    },
+    {
+      "element_id": "ffn-s",
+      "before": "<rect xmlns=\"http://www.w3.org/2000/svg\" id=\"ffn-s\" x=\"320\" y=\"595\" width=\"460\" height=\"62\" rx=\"12\" fill=\"#ccfbf1\" stroke=\"#0f766e\" stroke-width=\"2\" />\n  ",
+      "after": "<rect xmlns=\"http://www.w3.org/2000/svg\" id=\"ffn-s\" x=\"320\" y=\"401.0\" width=\"460\" height=\"62\" rx=\"12\" fill=\"#ccfbf1\" stroke=\"#0f766e\" stroke-width=\"2\" />\n  "
+    },
+    {
+      "element_id": "ffn-label-s",
+      "before": "<text xmlns=\"http://www.w3.org/2000/svg\" id=\"ffn-label-s\" x=\"550\" y=\"633\" text-anchor=\"middle\" font-size=\"18\" fill=\"#111827\">Position-wise Feed-Forward Network</text>\n  ",
+      "after": "<text xmlns=\"http://www.w3.org/2000/svg\" id=\"ffn-label-s\" x=\"550\" y=\"439.0\" text-anchor=\"middle\" font-size=\"18\" fill=\"#111827\">Position-wise Feed-Forward Network</text>\n  "
+    },
+    {
+      "element_id": "s4",
+      "before": "<line xmlns=\"http://www.w3.org/2000/svg\" id=\"s4\" x1=\"550\" y1=\"317\" x2=\"550\" y2=\"401\" stroke=\"#334155\" stroke-width=\"3\" marker-end=\"url(#arrow)\" />\n  ",
+      "after": "<polyline xmlns=\"http://www.w3.org/2000/svg\" id=\"s4\" stroke=\"#334155\" stroke-width=\"3\" marker-end=\"url(#arrow)\" points=\"581,286 960,286 960,626 780,626\" fill=\"none\" />\n  "
+    },
+    {
+      "element_id": "s5",
+      "before": "<line xmlns=\"http://www.w3.org/2000/svg\" id=\"s5\" x1=\"550\" y1=\"463\" x2=\"550\" y2=\"501\" stroke=\"#334155\" stroke-width=\"3\" marker-end=\"url(#arrow)\" />\n  ",
+      "after": "<polyline xmlns=\"http://www.w3.org/2000/svg\" id=\"s5\" stroke=\"#334155\" stroke-width=\"3\" marker-end=\"url(#arrow)\" points=\"780,642 980,642 980,529 715,529\" fill=\"none\" />\n  "
+    },
+    {
+      "element_id": "s7",
+      "before": "<line xmlns=\"http://www.w3.org/2000/svg\" id=\"s7\" x1=\"550\" y1=\"557\" x2=\"550\" y2=\"595\" stroke=\"#334155\" stroke-width=\"3\" marker-end=\"url(#arrow)\" />\n  ",
+      "after": "<polyline xmlns=\"http://www.w3.org/2000/svg\" id=\"s7\" stroke=\"#334155\" stroke-width=\"3\" marker-end=\"url(#arrow)\" points=\"715,529 940,529 940,432 780,432\" fill=\"none\" />\n  "
+    },
+    {
+      "element_id": "s8",
+      "before": "<line xmlns=\"http://www.w3.org/2000/svg\" id=\"s8\" x1=\"550\" y1=\"657\" x2=\"550\" y2=\"695\" stroke=\"#334155\" stroke-width=\"3\" marker-end=\"url(#arrow)\" />\n  ",
+      "after": "<polyline xmlns=\"http://www.w3.org/2000/svg\" id=\"s8\" stroke=\"#334155\" stroke-width=\"3\" marker-end=\"url(#arrow)\" points=\"780,449 1000,449 1000,723 715,723\" fill=\"none\" />\n  "
+    }
+  ],
+  "connectivity_partial": [
+    {
+      "element_id": "s3",
+      "before": "<line xmlns=\"http://www.w3.org/2000/svg\" id=\"s3\" x1=\"690\" y1=\"228\" x2=\"573\" y2=\"265\" stroke=\"#334155\" stroke-width=\"3\" marker-end=\"url(#arrow)\" />\n  ",
+      "after": null
+    },
+    {
+      "element_id": "s6",
+      "before": "<polyline xmlns=\"http://www.w3.org/2000/svg\" id=\"s6\" points=\"519,307 255,307 255,529 385,529\" fill=\"none\" stroke=\"#2563eb\" stroke-width=\"3\" stroke-dasharray=\"7 5\" marker-end=\"url(#arrow)\" />\n  ",
+      "after": null
+    },
+    {
+      "element_id": "s9",
+      "before": "<polyline xmlns=\"http://www.w3.org/2000/svg\" id=\"s9\" points=\"385,529 260,529 260,723 385,723\" fill=\"none\" stroke=\"#2563eb\" stroke-width=\"3\" stroke-dasharray=\"7 5\" marker-end=\"url(#arrow)\" />\n  ",
+      "after": null
+    }
+  ],
+  "presence_partial": [
+    {
+      "element_id": "position-s",
+      "before": "<rect xmlns=\"http://www.w3.org/2000/svg\" id=\"position-s\" x=\"615\" y=\"166\" width=\"280\" height=\"62\" rx=\"12\" fill=\"#fef3c7\" stroke=\"#d97706\" stroke-width=\"2\" />\n  ",
+      "after": null
+    },
+    {
+      "element_id": "position-label-s",
+      "before": "<text xmlns=\"http://www.w3.org/2000/svg\" id=\"position-label-s\" x=\"755\" y=\"204\" text-anchor=\"middle\" font-size=\"17\" fill=\"#111827\">Positional Encoding</text>\n  ",
+      "after": null
+    },
+    {
+      "element_id": "badge-s",
+      "before": "<rect xmlns=\"http://www.w3.org/2000/svg\" id=\"badge-s\" x=\"828\" y=\"354\" width=\"60\" height=\"36\" rx=\"18\" fill=\"#4f46e5\" stroke=\"#312e81\" />\n  ",
+      "after": null
+    },
+    {
+      "element_id": "repeat-s",
+      "before": "<text xmlns=\"http://www.w3.org/2000/svg\" id=\"repeat-s\" x=\"858\" y=\"378\" text-anchor=\"middle\" font-size=\"16\" fill=\"#ffffff\">N×</text>\n  ",
+      "after": null
+    }
+  ],
+  "details_partial": [
+    {
+      "element_id": "token-label-s",
+      "before": "<text xmlns=\"http://www.w3.org/2000/svg\" id=\"token-label-s\" x=\"345\" y=\"204\" text-anchor=\"middle\" font-size=\"17\" fill=\"#111827\">Token Embeddings</text>\n  ",
+      "after": "<text xmlns=\"http://www.w3.org/2000/svg\" id=\"token-label-s\" x=\"345\" y=\"204\" text-anchor=\"middle\" font-size=\"17\" fill=\"#111827\">Embeddings</text>\n  "
+    },
+    {
+      "element_id": "attention-label-s",
+      "before": "<text xmlns=\"http://www.w3.org/2000/svg\" id=\"attention-label-s\" x=\"550\" y=\"439\" text-anchor=\"middle\" font-size=\"18\" fill=\"#111827\">Multi-Head Self-Attention</text>\n  ",
+      "after": "<text xmlns=\"http://www.w3.org/2000/svg\" id=\"attention-label-s\" x=\"550\" y=\"439\" text-anchor=\"middle\" font-size=\"18\" fill=\"#111827\">Layer</text>\n  "
+    },
+    {
+      "element_id": "ffn-label-s",
+      "before": "<text xmlns=\"http://www.w3.org/2000/svg\" id=\"ffn-label-s\" x=\"550\" y=\"633\" text-anchor=\"middle\" font-size=\"18\" fill=\"#111827\">Position-wise Feed-Forward Network</text>\n  ",
+      "after": "<text xmlns=\"http://www.w3.org/2000/svg\" id=\"ffn-label-s\" x=\"550\" y=\"633\" text-anchor=\"middle\" font-size=\"18\" fill=\"#111827\">TBD</text>\n  "
+    }
+  ],
+  "legibility_partial": [
+    {
+      "element_id": "input-label-s",
+      "before": "<text xmlns=\"http://www.w3.org/2000/svg\" id=\"input-label-s\" x=\"550\" y=\"102\" text-anchor=\"middle\" font-size=\"17\" fill=\"#111827\">Input Tokens</text>\n  ",
+      "after": "<text xmlns=\"http://www.w3.org/2000/svg\" id=\"input-label-s\" x=\"550\" y=\"102\" text-anchor=\"middle\" font-size=\"8\" fill=\"#111827\">Input Tokens</text>\n  "
+    },
+    {
+      "element_id": "token-label-s",
+      "before": "<text xmlns=\"http://www.w3.org/2000/svg\" id=\"token-label-s\" x=\"345\" y=\"204\" text-anchor=\"middle\" font-size=\"17\" fill=\"#111827\">Token Embeddings</text>\n  ",
+      "after": "<text xmlns=\"http://www.w3.org/2000/svg\" id=\"token-label-s\" x=\"345\" y=\"204\" text-anchor=\"middle\" font-size=\"8\" fill=\"#111827\">Token Embeddings</text>\n  "
+    },
+    {
+      "element_id": "attention-label-s",
+      "before": "<text xmlns=\"http://www.w3.org/2000/svg\" id=\"attention-label-s\" x=\"550\" y=\"439\" text-anchor=\"middle\" font-size=\"18\" fill=\"#111827\">Multi-Head Self-Attention</text>\n  ",
+      "after": "<text xmlns=\"http://www.w3.org/2000/svg\" id=\"attention-label-s\" x=\"550\" y=\"439\" text-anchor=\"middle\" font-size=\"8\" fill=\"#111827\">Multi-Head Self-Attention</text>\n  "
+    },
+    {
+      "element_id": "ffn-label-s",
+      "before": "<text xmlns=\"http://www.w3.org/2000/svg\" id=\"ffn-label-s\" x=\"550\" y=\"633\" text-anchor=\"middle\" font-size=\"18\" fill=\"#111827\">Position-wise Feed-Forward Network</text>\n  ",
+      "after": "<text xmlns=\"http://www.w3.org/2000/svg\" id=\"ffn-label-s\" x=\"550\" y=\"633\" text-anchor=\"middle\" font-size=\"8\" fill=\"#111827\">Position-wise Feed-Forward Network</text>\n  "
+    }
+  ],
+  "layout_severe": [
+    {
+      "element_id": "attention-s",
+      "before": "<rect xmlns=\"http://www.w3.org/2000/svg\" id=\"attention-s\" x=\"320\" y=\"401\" width=\"460\" height=\"62\" rx=\"12\" fill=\"#ede9fe\" stroke=\"#7c3aed\" stroke-width=\"2\" />\n  ",
+      "after": "<rect xmlns=\"http://www.w3.org/2000/svg\" id=\"attention-s\" x=\"320\" y=\"695\" width=\"460\" height=\"62\" rx=\"12\" fill=\"#ede9fe\" stroke=\"#7c3aed\" stroke-width=\"2\" />\n  "
+    },
+    {
+      "element_id": "attention-label-s",
+      "before": "<text xmlns=\"http://www.w3.org/2000/svg\" id=\"attention-label-s\" x=\"550\" y=\"439\" text-anchor=\"middle\" font-size=\"18\" fill=\"#111827\">Multi-Head Self-Attention</text>\n  ",
+      "after": "<text xmlns=\"http://www.w3.org/2000/svg\" id=\"attention-label-s\" x=\"550\" y=\"733.0\" text-anchor=\"middle\" font-size=\"18\" fill=\"#111827\">Multi-Head Self-Attention</text>\n  "
+    },
+    {
+      "element_id": "norm1-s",
+      "before": "<rect xmlns=\"http://www.w3.org/2000/svg\" id=\"norm1-s\" x=\"385\" y=\"501\" width=\"330\" height=\"56\" rx=\"12\" fill=\"#ffe4e6\" stroke=\"#e11d48\" stroke-width=\"2\" />\n  ",
+      "after": "<rect xmlns=\"http://www.w3.org/2000/svg\" id=\"norm1-s\" x=\"385\" y=\"595\" width=\"330\" height=\"56\" rx=\"12\" fill=\"#ffe4e6\" stroke=\"#e11d48\" stroke-width=\"2\" />\n  "
+    },
+    {
+      "element_id": "norm1-label-s",
+      "before": "<text xmlns=\"http://www.w3.org/2000/svg\" id=\"norm1-label-s\" x=\"550\" y=\"536\" text-anchor=\"middle\" font-size=\"17\" fill=\"#111827\">Add &amp; Norm</text>\n  ",
+      "after": "<text xmlns=\"http://www.w3.org/2000/svg\" id=\"norm1-label-s\" x=\"550\" y=\"630.0\" text-anchor=\"middle\" font-size=\"17\" fill=\"#111827\">Add &amp; Norm</text>\n  "
+    },
+    {
+      "element_id": "ffn-s",
+      "before": "<rect xmlns=\"http://www.w3.org/2000/svg\" id=\"ffn-s\" x=\"320\" y=\"595\" width=\"460\" height=\"62\" rx=\"12\" fill=\"#ccfbf1\" stroke=\"#0f766e\" stroke-width=\"2\" />\n  ",
+      "after": "<rect xmlns=\"http://www.w3.org/2000/svg\" id=\"ffn-s\" x=\"320\" y=\"501\" width=\"460\" height=\"62\" rx=\"12\" fill=\"#ccfbf1\" stroke=\"#0f766e\" stroke-width=\"2\" />\n  "
+    },
+    {
+      "element_id": "ffn-label-s",
+      "before": "<text xmlns=\"http://www.w3.org/2000/svg\" id=\"ffn-label-s\" x=\"550\" y=\"633\" text-anchor=\"middle\" font-size=\"18\" fill=\"#111827\">Position-wise Feed-Forward Network</text>\n  ",
+      "after": "<text xmlns=\"http://www.w3.org/2000/svg\" id=\"ffn-label-s\" x=\"550\" y=\"539.0\" text-anchor=\"middle\" font-size=\"18\" fill=\"#111827\">Position-wise Feed-Forward Network</text>\n  "
+    },
+    {
+      "element_id": "norm2-s",
+      "before": "<rect xmlns=\"http://www.w3.org/2000/svg\" id=\"norm2-s\" x=\"385\" y=\"695\" width=\"330\" height=\"56\" rx=\"12\" fill=\"#ffe4e6\" stroke=\"#e11d48\" stroke-width=\"2\" />\n  ",
+      "after": "<rect xmlns=\"http://www.w3.org/2000/svg\" id=\"norm2-s\" x=\"385\" y=\"401\" width=\"330\" height=\"56\" rx=\"12\" fill=\"#ffe4e6\" stroke=\"#e11d48\" stroke-width=\"2\" />\n  "
+    },
+    {
+      "element_id": "norm2-label-s",
+      "before": "<text xmlns=\"http://www.w3.org/2000/svg\" id=\"norm2-label-s\" x=\"550\" y=\"730\" text-anchor=\"middle\" font-size=\"17\" fill=\"#111827\">Add &amp; Norm</text>\n  ",
+      "after": "<text xmlns=\"http://www.w3.org/2000/svg\" id=\"norm2-label-s\" x=\"550\" y=\"436.0\" text-anchor=\"middle\" font-size=\"17\" fill=\"#111827\">Add &amp; Norm</text>\n  "
+    },
+    {
+      "element_id": "s4",
+      "before": "<line xmlns=\"http://www.w3.org/2000/svg\" id=\"s4\" x1=\"550\" y1=\"317\" x2=\"550\" y2=\"401\" stroke=\"#334155\" stroke-width=\"3\" marker-end=\"url(#arrow)\" />\n  ",
+      "after": "<polyline xmlns=\"http://www.w3.org/2000/svg\" id=\"s4\" stroke=\"#334155\" stroke-width=\"3\" marker-end=\"url(#arrow)\" points=\"581.0,286.0 940,286.0 940,726.0 780.0,726.0\" fill=\"none\" />\n  "
+    },
+    {
+      "element_id": "s5",
+      "before": "<line xmlns=\"http://www.w3.org/2000/svg\" id=\"s5\" x1=\"550\" y1=\"463\" x2=\"550\" y2=\"501\" stroke=\"#334155\" stroke-width=\"3\" marker-end=\"url(#arrow)\" />\n  ",
+      "after": "<polyline xmlns=\"http://www.w3.org/2000/svg\" id=\"s5\" stroke=\"#334155\" stroke-width=\"3\" marker-end=\"url(#arrow)\" points=\"780.0,726.0 958,726.0 958,623.0 715.0,623.0\" fill=\"none\" />\n  "
+    },
+    {
+      "element_id": "s6",
+      "before": "<polyline xmlns=\"http://www.w3.org/2000/svg\" id=\"s6\" points=\"519,307 255,307 255,529 385,529\" fill=\"none\" stroke=\"#2563eb\" stroke-width=\"3\" stroke-dasharray=\"7 5\" marker-end=\"url(#arrow)\" />\n  ",
+      "after": "<polyline xmlns=\"http://www.w3.org/2000/svg\" id=\"s6\" points=\"581.0,286.0 976,286.0 976,623.0 715.0,623.0\" fill=\"none\" stroke=\"#2563eb\" stroke-width=\"3\" stroke-dasharray=\"7 5\" marker-end=\"url(#arrow)\" />\n  "
+    },
+    {
+      "element_id": "s7",
+      "before": "<line xmlns=\"http://www.w3.org/2000/svg\" id=\"s7\" x1=\"550\" y1=\"557\" x2=\"550\" y2=\"595\" stroke=\"#334155\" stroke-width=\"3\" marker-end=\"url(#arrow)\" />\n  ",
+      "after": "<polyline xmlns=\"http://www.w3.org/2000/svg\" id=\"s7\" stroke=\"#334155\" stroke-width=\"3\" marker-end=\"url(#arrow)\" points=\"715.0,623.0 994,623.0 994,532.0 780.0,532.0\" fill=\"none\" />\n  "
+    },
+    {
+      "element_id": "s8",
+      "before": "<line xmlns=\"http://www.w3.org/2000/svg\" id=\"s8\" x1=\"550\" y1=\"657\" x2=\"550\" y2=\"695\" stroke=\"#334155\" stroke-width=\"3\" marker-end=\"url(#arrow)\" />\n  ",
+      "after": "<polyline xmlns=\"http://www.w3.org/2000/svg\" id=\"s8\" stroke=\"#334155\" stroke-width=\"3\" marker-end=\"url(#arrow)\" points=\"780.0,532.0 1012,532.0 1012,429.0 715.0,429.0\" fill=\"none\" />\n  "
+    },
+    {
+      "element_id": "s9",
+      "before": "<polyline xmlns=\"http://www.w3.org/2000/svg\" id=\"s9\" points=\"385,529 260,529 260,723 385,723\" fill=\"none\" stroke=\"#2563eb\" stroke-width=\"3\" stroke-dasharray=\"7 5\" marker-end=\"url(#arrow)\" />\n  ",
+      "after": "<polyline xmlns=\"http://www.w3.org/2000/svg\" id=\"s9\" points=\"715.0,623.0 1030,623.0 1030,429.0 715.0,429.0\" fill=\"none\" stroke=\"#2563eb\" stroke-width=\"3\" stroke-dasharray=\"7 5\" marker-end=\"url(#arrow)\" />\n  "
+    },
+    {
+      "element_id": "s10",
+      "before": "<line xmlns=\"http://www.w3.org/2000/svg\" id=\"s10\" x1=\"550\" y1=\"751\" x2=\"550\" y2=\"822\" stroke=\"#334155\" stroke-width=\"3\" marker-end=\"url(#arrow)\" />\n",
+      "after": "<polyline xmlns=\"http://www.w3.org/2000/svg\" id=\"s10\" stroke=\"#334155\" stroke-width=\"3\" marker-end=\"url(#arrow)\" points=\"715.0,429.0 1048,429.0 1048,851.0 700.0,851.0\" fill=\"none\" />\n"
+    }
+  ],
+  "connectivity_severe": [
+    {
+      "element_id": "s1",
+      "before": "<line xmlns=\"http://www.w3.org/2000/svg\" id=\"s1\" x1=\"505\" y1=\"124\" x2=\"390\" y2=\"166\" stroke=\"#334155\" stroke-width=\"3\" marker-end=\"url(#arrow)\" />\n  ",
+      "after": null
+    },
+    {
+      "element_id": "s2",
+      "before": "<line xmlns=\"http://www.w3.org/2000/svg\" id=\"s2\" x1=\"410\" y1=\"228\" x2=\"527\" y2=\"265\" stroke=\"#334155\" stroke-width=\"3\" marker-end=\"url(#arrow)\" />\n  ",
+      "after": null
+    },
+    {
+      "element_id": "s3",
+      "before": "<line xmlns=\"http://www.w3.org/2000/svg\" id=\"s3\" x1=\"690\" y1=\"228\" x2=\"573\" y2=\"265\" stroke=\"#334155\" stroke-width=\"3\" marker-end=\"url(#arrow)\" />\n  ",
+      "after": null
+    },
+    {
+      "element_id": "s4",
+      "before": "<line xmlns=\"http://www.w3.org/2000/svg\" id=\"s4\" x1=\"550\" y1=\"317\" x2=\"550\" y2=\"401\" stroke=\"#334155\" stroke-width=\"3\" marker-end=\"url(#arrow)\" />\n  ",
+      "after": null
+    },
+    {
+      "element_id": "s5",
+      "before": "<line xmlns=\"http://www.w3.org/2000/svg\" id=\"s5\" x1=\"550\" y1=\"463\" x2=\"550\" y2=\"501\" stroke=\"#334155\" stroke-width=\"3\" marker-end=\"url(#arrow)\" />\n  ",
+      "after": null
+    },
+    {
+      "element_id": "s6",
+      "before": "<polyline xmlns=\"http://www.w3.org/2000/svg\" id=\"s6\" points=\"519,307 255,307 255,529 385,529\" fill=\"none\" stroke=\"#2563eb\" stroke-width=\"3\" stroke-dasharray=\"7 5\" marker-end=\"url(#arrow)\" />\n  ",
+      "after": null
+    },
+    {
+      "element_id": "s7",
+      "before": "<line xmlns=\"http://www.w3.org/2000/svg\" id=\"s7\" x1=\"550\" y1=\"557\" x2=\"550\" y2=\"595\" stroke=\"#334155\" stroke-width=\"3\" marker-end=\"url(#arrow)\" />\n  ",
+      "after": null
+    },
+    {
+      "element_id": "s8",
+      "before": "<line xmlns=\"http://www.w3.org/2000/svg\" id=\"s8\" x1=\"550\" y1=\"657\" x2=\"550\" y2=\"695\" stroke=\"#334155\" stroke-width=\"3\" marker-end=\"url(#arrow)\" />\n  ",
+      "after": null
+    },
+    {
+      "element_id": "s9",
+      "before": "<polyline xmlns=\"http://www.w3.org/2000/svg\" id=\"s9\" points=\"385,529 260,529 260,723 385,723\" fill=\"none\" stroke=\"#2563eb\" stroke-width=\"3\" stroke-dasharray=\"7 5\" marker-end=\"url(#arrow)\" />\n  ",
+      "after": null
+    },
+    {
+      "element_id": "s10",
+      "before": "<line xmlns=\"http://www.w3.org/2000/svg\" id=\"s10\" x1=\"550\" y1=\"751\" x2=\"550\" y2=\"822\" stroke=\"#334155\" stroke-width=\"3\" marker-end=\"url(#arrow)\" />\n",
+      "after": null
+    }
+  ],
+  "presence_severe": [
+    {
+      "element_id": "input-s",
+      "before": "<rect xmlns=\"http://www.w3.org/2000/svg\" id=\"input-s\" x=\"425\" y=\"66\" width=\"250\" height=\"58\" rx=\"12\" fill=\"#dbeafe\" stroke=\"#2563eb\" stroke-width=\"2\" />\n  ",
+      "after": null
+    },
+    {
+      "element_id": "input-label-s",
+      "before": "<text xmlns=\"http://www.w3.org/2000/svg\" id=\"input-label-s\" x=\"550\" y=\"102\" text-anchor=\"middle\" font-size=\"17\" fill=\"#111827\">Input Tokens</text>\n  ",
+      "after": null
+    },
+    {
+      "element_id": "token-s",
+      "before": "<rect xmlns=\"http://www.w3.org/2000/svg\" id=\"token-s\" x=\"205\" y=\"166\" width=\"280\" height=\"62\" rx=\"12\" fill=\"#dcfce7\" stroke=\"#16a34a\" stroke-width=\"2\" />\n  ",
+      "after": null
+    },
+    {
+      "element_id": "token-label-s",
+      "before": "<text xmlns=\"http://www.w3.org/2000/svg\" id=\"token-label-s\" x=\"345\" y=\"204\" text-anchor=\"middle\" font-size=\"17\" fill=\"#111827\">Token Embeddings</text>\n  ",
+      "after": null
+    },
+    {
+      "element_id": "position-s",
+      "before": "<rect xmlns=\"http://www.w3.org/2000/svg\" id=\"position-s\" x=\"615\" y=\"166\" width=\"280\" height=\"62\" rx=\"12\" fill=\"#fef3c7\" stroke=\"#d97706\" stroke-width=\"2\" />\n  ",
+      "after": null
+    },
+    {
+      "element_id": "position-label-s",
+      "before": "<text xmlns=\"http://www.w3.org/2000/svg\" id=\"position-label-s\" x=\"755\" y=\"204\" text-anchor=\"middle\" font-size=\"17\" fill=\"#111827\">Positional Encoding</text>\n  ",
+      "after": null
+    },
+    {
+      "element_id": "add-s",
+      "before": "<circle xmlns=\"http://www.w3.org/2000/svg\" id=\"add-s\" cx=\"550\" cy=\"286\" r=\"31\" fill=\"#f1f5f9\" stroke=\"#475569\" stroke-width=\"2\" />\n  ",
+      "after": null
+    },
+    {
+      "element_id": "add-label-s",
+      "before": "<text xmlns=\"http://www.w3.org/2000/svg\" id=\"add-label-s\" x=\"550\" y=\"292\" text-anchor=\"middle\" font-size=\"16\" fill=\"#111827\">Add</text>\n  ",
+      "after": null
+    },
+    {
+      "element_id": "encoder-s",
+      "before": "<rect xmlns=\"http://www.w3.org/2000/svg\" id=\"encoder-s\" x=\"185\" y=\"341\" width=\"730\" height=\"444\" rx=\"22\" fill=\"#eef2ff\" stroke=\"#4f46e5\" stroke-width=\"3\" />\n  ",
+      "after": null
+    },
+    {
+      "element_id": "encoder-label-s",
+      "before": "<text xmlns=\"http://www.w3.org/2000/svg\" id=\"encoder-label-s\" x=\"215\" y=\"375\" font-size=\"19\" fill=\"#312e81\">Transformer Encoder Block</text>\n  ",
+      "after": null
+    },
+    {
+      "element_id": "badge-s",
+      "before": "<rect xmlns=\"http://www.w3.org/2000/svg\" id=\"badge-s\" x=\"828\" y=\"354\" width=\"60\" height=\"36\" rx=\"18\" fill=\"#4f46e5\" stroke=\"#312e81\" />\n  ",
+      "after": null
+    },
+    {
+      "element_id": "repeat-s",
+      "before": "<text xmlns=\"http://www.w3.org/2000/svg\" id=\"repeat-s\" x=\"858\" y=\"378\" text-anchor=\"middle\" font-size=\"16\" fill=\"#ffffff\">N×</text>\n  ",
+      "after": null
+    },
+    {
+      "element_id": "attention-s",
+      "before": "<rect xmlns=\"http://www.w3.org/2000/svg\" id=\"attention-s\" x=\"320\" y=\"401\" width=\"460\" height=\"62\" rx=\"12\" fill=\"#ede9fe\" stroke=\"#7c3aed\" stroke-width=\"2\" />\n  ",
+      "after": null
+    },
+    {
+      "element_id": "attention-label-s",
+      "before": "<text xmlns=\"http://www.w3.org/2000/svg\" id=\"attention-label-s\" x=\"550\" y=\"439\" text-anchor=\"middle\" font-size=\"18\" fill=\"#111827\">Multi-Head Self-Attention</text>\n  ",
+      "after": null
+    },
+    {
+      "element_id": "norm1-s",
+      "before": "<rect xmlns=\"http://www.w3.org/2000/svg\" id=\"norm1-s\" x=\"385\" y=\"501\" width=\"330\" height=\"56\" rx=\"12\" fill=\"#ffe4e6\" stroke=\"#e11d48\" stroke-width=\"2\" />\n  ",
+      "after": null
+    },
+    {
+      "element_id": "norm1-label-s",
+      "before": "<text xmlns=\"http://www.w3.org/2000/svg\" id=\"norm1-label-s\" x=\"550\" y=\"536\" text-anchor=\"middle\" font-size=\"17\" fill=\"#111827\">Add &amp; Norm</text>\n  ",
+      "after": null
+    },
+    {
+      "element_id": "ffn-s",
+      "before": "<rect xmlns=\"http://www.w3.org/2000/svg\" id=\"ffn-s\" x=\"320\" y=\"595\" width=\"460\" height=\"62\" rx=\"12\" fill=\"#ccfbf1\" stroke=\"#0f766e\" stroke-width=\"2\" />\n  ",
+      "after": null
+    },
+    {
+      "element_id": "ffn-label-s",
+      "before": "<text xmlns=\"http://www.w3.org/2000/svg\" id=\"ffn-label-s\" x=\"550\" y=\"633\" text-anchor=\"middle\" font-size=\"18\" fill=\"#111827\">Position-wise Feed-Forward Network</text>\n  ",
+      "after": null
+    },
+    {
+      "element_id": "norm2-s",
+      "before": "<rect xmlns=\"http://www.w3.org/2000/svg\" id=\"norm2-s\" x=\"385\" y=\"695\" width=\"330\" height=\"56\" rx=\"12\" fill=\"#ffe4e6\" stroke=\"#e11d48\" stroke-width=\"2\" />\n  ",
+      "after": null
+    },
+    {
+      "element_id": "norm2-label-s",
+      "before": "<text xmlns=\"http://www.w3.org/2000/svg\" id=\"norm2-label-s\" x=\"550\" y=\"730\" text-anchor=\"middle\" font-size=\"17\" fill=\"#111827\">Add &amp; Norm</text>\n  ",
+      "after": null
+    },
+    {
+      "element_id": "output-s",
+      "before": "<rect xmlns=\"http://www.w3.org/2000/svg\" id=\"output-s\" x=\"400\" y=\"822\" width=\"300\" height=\"58\" rx=\"12\" fill=\"#dbeafe\" stroke=\"#2563eb\" stroke-width=\"2\" />\n  ",
+      "after": null
+    },
+    {
+      "element_id": "output-label-s",
+      "before": "<text xmlns=\"http://www.w3.org/2000/svg\" id=\"output-label-s\" x=\"550\" y=\"858\" text-anchor=\"middle\" font-size=\"17\" fill=\"#111827\">Contextual Embeddings</text>\n  ",
+      "after": null
+    }
+  ],
+  "details_severe": [
+    {
+      "element_id": "input-label-s",
+      "before": "<text xmlns=\"http://www.w3.org/2000/svg\" id=\"input-label-s\" x=\"550\" y=\"102\" text-anchor=\"middle\" font-size=\"17\" fill=\"#111827\">Input Tokens</text>\n  ",
+      "after": "<text xmlns=\"http://www.w3.org/2000/svg\" id=\"input-label-s\" x=\"550\" y=\"102\" text-anchor=\"middle\" font-size=\"17\" fill=\"#111827\">TBD</text>\n  "
+    },
+    {
+      "element_id": "token-label-s",
+      "before": "<text xmlns=\"http://www.w3.org/2000/svg\" id=\"token-label-s\" x=\"345\" y=\"204\" text-anchor=\"middle\" font-size=\"17\" fill=\"#111827\">Token Embeddings</text>\n  ",
+      "after": "<text xmlns=\"http://www.w3.org/2000/svg\" id=\"token-label-s\" x=\"345\" y=\"204\" text-anchor=\"middle\" font-size=\"17\" fill=\"#111827\">TBD</text>\n  "
+    },
+    {
+      "element_id": "position-label-s",
+      "before": "<text xmlns=\"http://www.w3.org/2000/svg\" id=\"position-label-s\" x=\"755\" y=\"204\" text-anchor=\"middle\" font-size=\"17\" fill=\"#111827\">Positional Encoding</text>\n  ",
+      "after": "<text xmlns=\"http://www.w3.org/2000/svg\" id=\"position-label-s\" x=\"755\" y=\"204\" text-anchor=\"middle\" font-size=\"17\" fill=\"#111827\">TBD</text>\n  "
+    },
+    {
+      "element_id": "add-label-s",
+      "before": "<text xmlns=\"http://www.w3.org/2000/svg\" id=\"add-label-s\" x=\"550\" y=\"292\" text-anchor=\"middle\" font-size=\"16\" fill=\"#111827\">Add</text>\n  ",
+      "after": "<text xmlns=\"http://www.w3.org/2000/svg\" id=\"add-label-s\" x=\"550\" y=\"292\" text-anchor=\"middle\" font-size=\"16\" fill=\"#111827\">TBD</text>\n  "
+    },
+    {
+      "element_id": "attention-label-s",
+      "before": "<text xmlns=\"http://www.w3.org/2000/svg\" id=\"attention-label-s\" x=\"550\" y=\"439\" text-anchor=\"middle\" font-size=\"18\" fill=\"#111827\">Multi-Head Self-Attention</text>\n  ",
+      "after": "<text xmlns=\"http://www.w3.org/2000/svg\" id=\"attention-label-s\" x=\"550\" y=\"439\" text-anchor=\"middle\" font-size=\"18\" fill=\"#111827\">TBD</text>\n  "
+    },
+    {
+      "element_id": "norm1-label-s",
+      "before": "<text xmlns=\"http://www.w3.org/2000/svg\" id=\"norm1-label-s\" x=\"550\" y=\"536\" text-anchor=\"middle\" font-size=\"17\" fill=\"#111827\">Add &amp; Norm</text>\n  ",
+      "after": "<text xmlns=\"http://www.w3.org/2000/svg\" id=\"norm1-label-s\" x=\"550\" y=\"536\" text-anchor=\"middle\" font-size=\"17\" fill=\"#111827\">TBD</text>\n  "
+    },
+    {
+      "element_id": "ffn-label-s",
+      "before": "<text xmlns=\"http://www.w3.org/2000/svg\" id=\"ffn-label-s\" x=\"550\" y=\"633\" text-anchor=\"middle\" font-size=\"18\" fill=\"#111827\">Position-wise Feed-Forward Network</text>\n  ",
+      "after": "<text xmlns=\"http://www.w3.org/2000/svg\" id=\"ffn-label-s\" x=\"550\" y=\"633\" text-anchor=\"middle\" font-size=\"18\" fill=\"#111827\">TBD</text>\n  "
+    },
+    {
+      "element_id": "norm2-label-s",
+      "before": "<text xmlns=\"http://www.w3.org/2000/svg\" id=\"norm2-label-s\" x=\"550\" y=\"730\" text-anchor=\"middle\" font-size=\"17\" fill=\"#111827\">Add &amp; Norm</text>\n  ",
+      "after": "<text xmlns=\"http://www.w3.org/2000/svg\" id=\"norm2-label-s\" x=\"550\" y=\"730\" text-anchor=\"middle\" font-size=\"17\" fill=\"#111827\">TBD</text>\n  "
+    },
+    {
+      "element_id": "output-label-s",
+      "before": "<text xmlns=\"http://www.w3.org/2000/svg\" id=\"output-label-s\" x=\"550\" y=\"858\" text-anchor=\"middle\" font-size=\"17\" fill=\"#111827\">Contextual Embeddings</text>\n  ",
+      "after": "<text xmlns=\"http://www.w3.org/2000/svg\" id=\"output-label-s\" x=\"550\" y=\"858\" text-anchor=\"middle\" font-size=\"17\" fill=\"#111827\">TBD</text>\n  "
+    }
+  ],
+  "legibility_severe": [
+    {
+      "element_id": "title-s",
+      "before": "<text xmlns=\"http://www.w3.org/2000/svg\" id=\"title-s\" x=\"550\" y=\"42\" text-anchor=\"middle\" font-size=\"24\" fill=\"#111827\">Transformer Encoder Architecture</text>\n  ",
+      "after": "<text xmlns=\"http://www.w3.org/2000/svg\" id=\"title-s\" x=\"550\" y=\"42\" text-anchor=\"middle\" font-size=\"1\" fill=\"#111827\">Transformer Encoder Architecture</text>\n  "
+    },
+    {
+      "element_id": "input-label-s",
+      "before": "<text xmlns=\"http://www.w3.org/2000/svg\" id=\"input-label-s\" x=\"550\" y=\"102\" text-anchor=\"middle\" font-size=\"17\" fill=\"#111827\">Input Tokens</text>\n  ",
+      "after": "<text xmlns=\"http://www.w3.org/2000/svg\" id=\"input-label-s\" x=\"550\" y=\"102\" text-anchor=\"middle\" font-size=\"1\" fill=\"#111827\">Input Tokens</text>\n  "
+    },
+    {
+      "element_id": "token-label-s",
+      "before": "<text xmlns=\"http://www.w3.org/2000/svg\" id=\"token-label-s\" x=\"345\" y=\"204\" text-anchor=\"middle\" font-size=\"17\" fill=\"#111827\">Token Embeddings</text>\n  ",
+      "after": "<text xmlns=\"http://www.w3.org/2000/svg\" id=\"token-label-s\" x=\"345\" y=\"204\" text-anchor=\"middle\" font-size=\"1\" fill=\"#111827\">Token Embeddings</text>\n  "
+    },
+    {
+      "element_id": "position-label-s",
+      "before": "<text xmlns=\"http://www.w3.org/2000/svg\" id=\"position-label-s\" x=\"755\" y=\"204\" text-anchor=\"middle\" font-size=\"17\" fill=\"#111827\">Positional Encoding</text>\n  ",
+      "after": "<text xmlns=\"http://www.w3.org/2000/svg\" id=\"position-label-s\" x=\"755\" y=\"204\" text-anchor=\"middle\" font-size=\"1\" fill=\"#111827\">Positional Encoding</text>\n  "
+    },
+    {
+      "element_id": "add-label-s",
+      "before": "<text xmlns=\"http://www.w3.org/2000/svg\" id=\"add-label-s\" x=\"550\" y=\"292\" text-anchor=\"middle\" font-size=\"16\" fill=\"#111827\">Add</text>\n  ",
+      "after": "<text xmlns=\"http://www.w3.org/2000/svg\" id=\"add-label-s\" x=\"550\" y=\"292\" text-anchor=\"middle\" font-size=\"1\" fill=\"#111827\">Add</text>\n  "
+    },
+    {
+      "element_id": "encoder-label-s",
+      "before": "<text xmlns=\"http://www.w3.org/2000/svg\" id=\"encoder-label-s\" x=\"215\" y=\"375\" font-size=\"19\" fill=\"#312e81\">Transformer Encoder Block</text>\n  ",
+      "after": "<text xmlns=\"http://www.w3.org/2000/svg\" id=\"encoder-label-s\" x=\"215\" y=\"375\" font-size=\"1\" fill=\"#312e81\">Transformer Encoder Block</text>\n  "
+    },
+    {
+      "element_id": "repeat-s",
+      "before": "<text xmlns=\"http://www.w3.org/2000/svg\" id=\"repeat-s\" x=\"858\" y=\"378\" text-anchor=\"middle\" font-size=\"16\" fill=\"#ffffff\">N×</text>\n  ",
+      "after": "<text xmlns=\"http://www.w3.org/2000/svg\" id=\"repeat-s\" x=\"858\" y=\"378\" text-anchor=\"middle\" font-size=\"1\" fill=\"#ffffff\">N×</text>\n  "
+    },
+    {
+      "element_id": "attention-label-s",
+      "before": "<text xmlns=\"http://www.w3.org/2000/svg\" id=\"attention-label-s\" x=\"550\" y=\"439\" text-anchor=\"middle\" font-size=\"18\" fill=\"#111827\">Multi-Head Self-Attention</text>\n  ",
+      "after": "<text xmlns=\"http://www.w3.org/2000/svg\" id=\"attention-label-s\" x=\"550\" y=\"439\" text-anchor=\"middle\" font-size=\"1\" fill=\"#111827\">Multi-Head Self-Attention</text>\n  "
+    },
+    {
+      "element_id": "norm1-label-s",
+      "before": "<text xmlns=\"http://www.w3.org/2000/svg\" id=\"norm1-label-s\" x=\"550\" y=\"536\" text-anchor=\"middle\" font-size=\"17\" fill=\"#111827\">Add &amp; Norm</text>\n  ",
+      "after": "<text xmlns=\"http://www.w3.org/2000/svg\" id=\"norm1-label-s\" x=\"550\" y=\"536\" text-anchor=\"middle\" font-size=\"1\" fill=\"#111827\">Add &amp; Norm</text>\n  "
+    },
+    {
+      "element_id": "ffn-label-s",
+      "before": "<text xmlns=\"http://www.w3.org/2000/svg\" id=\"ffn-label-s\" x=\"550\" y=\"633\" text-anchor=\"middle\" font-size=\"18\" fill=\"#111827\">Position-wise Feed-Forward Network</text>\n  ",
+      "after": "<text xmlns=\"http://www.w3.org/2000/svg\" id=\"ffn-label-s\" x=\"550\" y=\"633\" text-anchor=\"middle\" font-size=\"1\" fill=\"#111827\">Position-wise Feed-Forward Network</text>\n  "
+    },
+    {
+      "element_id": "norm2-label-s",
+      "before": "<text xmlns=\"http://www.w3.org/2000/svg\" id=\"norm2-label-s\" x=\"550\" y=\"730\" text-anchor=\"middle\" font-size=\"17\" fill=\"#111827\">Add &amp; Norm</text>\n  ",
+      "after": "<text xmlns=\"http://www.w3.org/2000/svg\" id=\"norm2-label-s\" x=\"550\" y=\"730\" text-anchor=\"middle\" font-size=\"1\" fill=\"#111827\">Add &amp; Norm</text>\n  "
+    },
+    {
+      "element_id": "output-label-s",
+      "before": "<text xmlns=\"http://www.w3.org/2000/svg\" id=\"output-label-s\" x=\"550\" y=\"858\" text-anchor=\"middle\" font-size=\"17\" fill=\"#111827\">Contextual Embeddings</text>\n  ",
+      "after": "<text xmlns=\"http://www.w3.org/2000/svg\" id=\"output-label-s\" x=\"550\" y=\"858\" text-anchor=\"middle\" font-size=\"1\" fill=\"#111827\">Contextual Embeddings</text>\n  "
+    }
+  ]
+}

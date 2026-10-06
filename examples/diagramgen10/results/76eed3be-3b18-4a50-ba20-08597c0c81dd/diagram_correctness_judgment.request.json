@@ -1,0 +1,140 @@
+{
+  "model": "gpt-5.5",
+  "prompt": "You are stage 2 of a description-to-diagram alignment evaluator. The attached image is the only CANDIDATE. Evaluate it against the written description and the frozen stage-1 inventory. Do not invent a different target. Evidence must refer to visible candidate elements.\n\nPART A - component checklist (field 'components'). Return exactly one entry for every component_id below, in any order, and no other ids. Answer each item on its own:\n- present: a visible element plays this component's role and its label matches the expected label (ignore case, punctuation, and line breaks).\n- mislabeled: a visible element plays this role (recognizable from its label, position, grouping, or arrows), but its label is abbreviated, incomplete, different, missing, or a placeholder.\n- absent: no visible element plays this role.\n- uncertain: the image does not allow a decision.\nAn abbreviation of the expected label (for example 'FFN' for 'Feed-Forward Network') counts as mislabeled. An element in the component's position whose label is a placeholder (such as 'Layer', 'TBD', '???') or is missing counts as mislabeled.\nRules: quote the element's visible text exactly as drawn in visible_text ('' if it has none). Give location as the element's bounding box in normalized image coordinates from 0 to 1 (x0, y0 top-left; x1, y1 bottom-right); use all zeros when absent. Each drawn element may be used for at most one component_id. Judge only whether the component itself is drawn and labeled; arrows and connections are judged in Part B, not here.\n\nPART B - counted criteria (field 'metrics'). For every criterion listed here, expected_count is the number of relevant countable opportunities and detected_issues is the number that fail. If no opportunity exists, return both counts as zero. Count each failing opportunity once. Layout must penalize overlap and off-canvas content. Connectivity must verify visible source and target endpoints, not merely arrow count.\n\nComponent checklist (Part A):\n[{\"component_id\": \"labeled_row\", \"expected_label\": \"Al Co Cr Fe Ni\", \"kind\": \"group\", \"context\": \"\"}, {\"component_id\": \"al_labeled_circle\", \"expected_label\": \"Al\", \"kind\": \"labeled_circle\", \"context\": \"\"}, {\"component_id\": \"co_labeled_circle\", \"expected_label\": \"Co\", \"kind\": \"labeled_circle\", \"context\": \"\"}, {\"component_id\": \"cr_labeled_circle\", \"expected_label\": \"Cr\", \"kind\": \"labeled_circle\", \"context\": \"\"}, {\"component_id\": \"fe_labeled_circle\", \"expected_label\": \"Fe\", \"kind\": \"labeled_circle\", \"context\": \"\"}, {\"component_id\": \"ni_labeled_circle\", \"expected_label\": \"Ni\", \"kind\": \"labeled_circle\", \"context\": \"\"}, {\"component_id\": \"random_circle_grid\", \"expected_label\": \"\", \"kind\": \"grid_group\", \"context\": \"one of 19 components with this label; judge it separately and use a different drawn element\"}, {\"component_id\": \"grid_row_1\", \"expected_label\": \"\", \"kind\": \"row_4_circles\", \"context\": \"one of 19 components with this label; judge it separately and use a different drawn element\"}, {\"component_id\": \"grid_r1_c1\", \"expected_label\": \"\", \"kind\": \"shaded_circle\", \"context\": \"one of 19 components with this label; judge it separately and use a different drawn element\"}, {\"component_id\": \"grid_r1_c2\", \"expected_label\": \"\", \"kind\": \"shaded_circle\", \"context\": \"one of 19 components with this label; judge it separately and use a different drawn element\"}, {\"component_id\": \"grid_r1_c3\", \"expected_label\": \"\", \"kind\": \"shaded_circle\", \"context\": \"one of 19 components with this label; judge it separately and use a different drawn element\"}, {\"component_id\": \"grid_r1_c4\", \"expected_label\": \"\", \"kind\": \"shaded_circle\", \"context\": \"one of 19 components with this label; judge it separately and use a different drawn element\"}, {\"component_id\": \"grid_row_2\", \"expected_label\": \"\", \"kind\": \"row_3_circles\", \"context\": \"one of 19 components with this label; judge it separately and use a different drawn element\"}, {\"component_id\": \"grid_r2_c1\", \"expected_label\": \"\", \"kind\": \"shaded_circle\", \"context\": \"one of 19 components with this label; judge it separately and use a different drawn element\"}, {\"component_id\": \"grid_r2_c2\", \"expected_label\": \"\", \"kind\": \"shaded_circle\", \"context\": \"one of 19 components with this label; judge it separately and use a different drawn element\"}, {\"component_id\": \"grid_r2_c3\", \"expected_label\": \"\", \"kind\": \"shaded_circle\", \"context\": \"one of 19 components with this label; judge it separately and use a different drawn element\"}, {\"component_id\": \"grid_row_3\", \"expected_label\": \"\", \"kind\": \"row_4_circles\", \"context\": \"one of 19 components with this label; judge it separately and use a different drawn element\"}, {\"component_id\": \"grid_r3_c1\", \"expected_label\": \"\", \"kind\": \"shaded_circle\", \"context\": \"one of 19 components with this label; judge it separately and use a different drawn element\"}, {\"component_id\": \"grid_r3_c2\", \"expected_label\": \"\", \"kind\": \"shaded_circle\", \"context\": \"one of 19 components with this label; judge it separately and use a different drawn element\"}, {\"component_id\": \"grid_r3_c3\", \"expected_label\": \"\", \"kind\": \"shaded_circle\", \"context\": \"one of 19 components with this label; judge it separately and use a different drawn element\"}, {\"component_id\": \"grid_r3_c4\", \"expected_label\": \"\", \"kind\": \"shaded_circle\", \"context\": \"one of 19 components with this label; judge it separately and use a different drawn element\"}, {\"component_id\": \"grid_row_4\", \"expected_label\": \"\", \"kind\": \"row_3_circles\", \"context\": \"one of 19 components with this label; judge it separately and use a different drawn element\"}, {\"component_id\": \"grid_r4_c1\", \"expected_label\": \"\", \"kind\": \"shaded_circle\", \"context\": \"one of 19 components with this label; judge it separately and use a different drawn element\"}, {\"component_id\": \"grid_r4_c2\", \"expected_label\": \"\", \"kind\": \"shaded_circle\", \"context\": \"one of 19 components with this label; judge it separately and use a different drawn element\"}, {\"component_id\": \"grid_r4_c3\", \"expected_label\": \"\", \"kind\": \"shaded_circle\", \"context\": \"one of 19 components with this label; judge it separately and use a different drawn element\"}]\n\nCounted criteria (Part B):\n[{\"id\": \"layout.order\", \"dimension\": \"layout\", \"description\": \"Components follow the sensible reading and processing order implied by the description.\", \"severity\": \"medium\"}, {\"id\": \"layout.canvas\", \"dimension\": \"layout\", \"description\": \"All candidate content remains fully inside the SVG canvas.\", \"severity\": \"high\"}, {\"id\": \"layout.overlap\", \"dimension\": \"layout\", \"description\": \"Candidate components have no unintended overlaps or collisions; intentional container nesting is allowed.\", \"severity\": \"high\"}, {\"id\": \"connectivity.connections\", \"dimension\": \"connectivity\", \"description\": \"Every directed source-to-target connection expected from the description is visibly present in the candidate.\", \"severity\": \"critical\"}, {\"id\": \"connectivity.endpoints\", \"dimension\": \"connectivity\", \"description\": \"Each visible arrow attaches to the correct description-expected source and target components with the correct direction.\", \"severity\": \"critical\"}, {\"id\": \"legibility.overflow\", \"dimension\": \"legibility\", \"description\": \"Text stays inside its intended container without clipping, collision, or overflow.\", \"severity\": \"high\"}, {\"id\": \"legibility.minimum_font\", \"dimension\": \"legibility\", \"description\": \"Every text element meets the configured minimum rendered font size.\", \"severity\": \"high\"}]\n\nDiagram description:\nHow can I use TikZ to create a diagram that consists of multiple rows and columns of shaded circles with random colors from a predefined list, and also include a separate row of labeled circles with specific colors? I need the diagram to be structured in such a way that it visually represents a grid-like pattern with varying arrangements of circles.\n\nSpecifically, I want to create a grid where each cell contains a shaded circle, and the color of each circle is randomly selected from a predefined list of colors, such as red, teal, blue, and orange shades. The grid should have multiple rows and columns, with each row containing a different number of circles to create a staggered effect. For instance, some rows might have 4 circles while others have 3, arranged in a way that maintains visual balance.\n\nAdditionally, I want to include a separate row above the grid that consists of labeled circles, each with a specific color corresponding to a particular label. This row should clearly display the labels (e.g., Al, Co, Cr, Fe, Ni) next to each circle, with the colors of these circles predefined and distinct from the random colors used in the grid.\n\nI also need the ability to adjust the size and spacing of the circles to ensure the diagram is both aesthetically pleasing and easy to interpret. The circles should be shaded to give a three-dimensional appearance, enhancing the visual appeal of the diagram.\n\nFurthermore, I want to ensure that the random color selection for the grid circles is consistent and reproducible, meaning that the same random sequence can be generated if needed. The overall layout should be flexible enough to accommodate different numbers of rows and columns, allowing for various configurations of the grid and labeled row.\n\nIn summary, I am looking for a detailed guide on how to create a TikZ diagram that combines a grid of randomly colored circles with a separate row of labeled, specifically colored circles, ensuring the diagram is visually engaging and clearly conveys the intended information.\n\nFrozen description-derived inventory:\n{\"inventory\": {\"presence\": [\"One separate labeled-circle row is present above the grid.\", \"Five labeled circles are present in the labeled row.\", \"Labeled circle for Al is present.\", \"Labeled circle for Co is present.\", \"Labeled circle for Cr is present.\", \"Labeled circle for Fe is present.\", \"Labeled circle for Ni is present.\", \"One random shaded-circle grid group is present below the labeled row.\", \"Four staggered grid rows are present.\", \"Grid row 1 contains four shaded circles.\", \"Grid row 2 contains three shaded circles.\", \"Grid row 3 contains four shaded circles.\", \"Grid row 4 contains three shaded circles.\", \"Fourteen unlabeled shaded grid circles are present.\"], \"layout\": [\"The labeled row is positioned above the random circle grid.\", \"The five labeled circles are arranged horizontally in a single row.\", \"The random grid rows are arranged below in sensible top-to-bottom order.\", \"Rows with four circles and rows with three circles alternate to create a staggered pattern.\", \"Three-circle rows are horizontally offset relative to four-circle rows for visual balance.\", \"All circles remain fully inside the canvas.\", \"No unintended overlaps occur between circles or labels.\"], \"connectivity\": [\"No directed connections or arrows are expected.\"], \"details\": [\"The labeled row uses exact labels: Al, Co, Cr, Fe, Ni.\", \"Each label is visibly associated with its corresponding circle.\", \"The grid circles have no text labels.\", \"Grid circle colors are selected from a predefined palette including red, teal, blue, and orange shades.\", \"The labeled-row circles use predefined specific colors distinct from the random grid palette behavior.\", \"All circles are shaded to suggest a three-dimensional appearance.\", \"Missing labels are not acceptable for the five labeled circles.\", \"Generic or placeholder labels are not acceptable.\"], \"legibility\": [\"Labels Al, Co, Cr, Fe, and Ni are readable.\", \"Text stays inside or next to its intended circle without clipping.\", \"Text does not collide with neighboring circles or labels.\", \"All text meets the minimum readable font size.\"]}, \"components\": [{\"id\": \"labeled_row\", \"label\": \"Al Co Cr Fe Ni\", \"kind\": \"group\"}, {\"id\": \"al_labeled_circle\", \"label\": \"Al\", \"kind\": \"labeled_circle\"}, {\"id\": \"co_labeled_circle\", \"label\": \"Co\", \"kind\": \"labeled_circle\"}, {\"id\": \"cr_labeled_circle\", \"label\": \"Cr\", \"kind\": \"labeled_circle\"}, {\"id\": \"fe_labeled_circle\", \"label\": \"Fe\", \"kind\": \"labeled_circle\"}, {\"id\": \"ni_labeled_circle\", \"label\": \"Ni\", \"kind\": \"labeled_circle\"}, {\"id\": \"random_circle_grid\", \"label\": \"\", \"kind\": \"grid_group\"}, {\"id\": \"grid_row_1\", \"label\": \"\", \"kind\": \"row_4_circles\"}, {\"id\": \"grid_r1_c1\", \"label\": \"\", \"kind\": \"shaded_circle\"}, {\"id\": \"grid_r1_c2\", \"label\": \"\", \"kind\": \"shaded_circle\"}, {\"id\": \"grid_r1_c3\", \"label\": \"\", \"kind\": \"shaded_circle\"}, {\"id\": \"grid_r1_c4\", \"label\": \"\", \"kind\": \"shaded_circle\"}, {\"id\": \"grid_row_2\", \"label\": \"\", \"kind\": \"row_3_circles\"}, {\"id\": \"grid_r2_c1\", \"label\": \"\", \"kind\": \"shaded_circle\"}, {\"id\": \"grid_r2_c2\", \"label\": \"\", \"kind\": \"shaded_circle\"}, {\"id\": \"grid_r2_c3\", \"label\": \"\", \"kind\": \"shaded_circle\"}, {\"id\": \"grid_row_3\", \"label\": \"\", \"kind\": \"row_4_circles\"}, {\"id\": \"grid_r3_c1\", \"label\": \"\", \"kind\": \"shaded_circle\"}, {\"id\": \"grid_r3_c2\", \"label\": \"\", \"kind\": \"shaded_circle\"}, {\"id\": \"grid_r3_c3\", \"label\": \"\", \"kind\": \"shaded_circle\"}, {\"id\": \"grid_r3_c4\", \"label\": \"\", \"kind\": \"shaded_circle\"}, {\"id\": \"grid_row_4\", \"label\": \"\", \"kind\": \"row_3_circles\"}, {\"id\": \"grid_r4_c1\", \"label\": \"\", \"kind\": \"shaded_circle\"}, {\"id\": \"grid_r4_c2\", \"label\": \"\", \"kind\": \"shaded_circle\"}, {\"id\": \"grid_r4_c3\", \"label\": \"\", \"kind\": \"shaded_circle\"}], \"connections\": [], \"forbidden_placeholders\": [\"Label\", \"Text\", \"Placeholder\", \"???\", \"Lorem ipsum\", \"A\", \"B\", \"C\", \"circle\", \"atom\"]}",
+  "schema": {
+    "type": "object",
+    "properties": {
+      "metrics": {
+        "type": "array",
+        "items": {
+          "type": "object",
+          "properties": {
+            "criterion_id": {
+              "type": "string"
+            },
+            "expected_count": {
+              "type": "integer",
+              "minimum": 0
+            },
+            "detected_issues": {
+              "type": "integer",
+              "minimum": 0
+            },
+            "issues": {
+              "type": "array",
+              "items": {
+                "type": "object",
+                "properties": {
+                  "description": {
+                    "type": "string"
+                  },
+                  "severity": {
+                    "type": "string",
+                    "enum": [
+                      "low",
+                      "medium",
+                      "high",
+                      "critical"
+                    ]
+                  },
+                  "element_ids": {
+                    "type": "array",
+                    "items": {
+                      "type": "string"
+                    }
+                  }
+                },
+                "required": [
+                  "description",
+                  "severity",
+                  "element_ids"
+                ],
+                "additionalProperties": false
+              }
+            },
+            "notes": {
+              "type": "string"
+            }
+          },
+          "required": [
+            "criterion_id",
+            "expected_count",
+            "detected_issues",
+            "issues",
+            "notes"
+          ],
+          "additionalProperties": false
+        }
+      },
+      "components": {
+        "type": "array",
+        "items": {
+          "type": "object",
+          "properties": {
+            "component_id": {
+              "type": "string"
+            },
+            "verdict": {
+              "type": "string",
+              "enum": [
+                "present",
+                "mislabeled",
+                "absent",
+                "uncertain"
+              ]
+            },
+            "visible_text": {
+              "type": "string"
+            },
+            "location": {
+              "type": "object",
+              "properties": {
+                "x0": {
+                  "type": "number"
+                },
+                "y0": {
+                  "type": "number"
+                },
+                "x1": {
+                  "type": "number"
+                },
+                "y1": {
+                  "type": "number"
+                }
+              },
+              "required": [
+                "x0",
+                "y0",
+                "x1",
+                "y1"
+              ],
+              "additionalProperties": false
+            },
+            "evidence": {
+              "type": "string"
+            }
+          },
+          "required": [
+            "component_id",
+            "verdict",
+            "visible_text",
+            "location",
+            "evidence"
+          ],
+          "additionalProperties": false
+        }
+      }
+    },
+    "required": [
+      "metrics",
+      "components"
+    ],
+    "additionalProperties": false
+  },
+  "images": [
+    {
+      "filename": "candidate.png",
+      "sha256": "c01101f0d0723cc0e9a1119113cdf19c0e4967b3a361b65bb9deea30133e67cc"
+    }
+  ]
+}

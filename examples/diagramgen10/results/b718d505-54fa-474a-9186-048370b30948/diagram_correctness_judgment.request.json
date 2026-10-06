@@ -1,0 +1,140 @@
+{
+  "model": "gpt-5.5",
+  "prompt": "You are stage 2 of a description-to-diagram alignment evaluator. The attached image is the only CANDIDATE. Evaluate it against the written description and the frozen stage-1 inventory. Do not invent a different target. Evidence must refer to visible candidate elements.\n\nPART A - component checklist (field 'components'). Return exactly one entry for every component_id below, in any order, and no other ids. Answer each item on its own:\n- present: a visible element plays this component's role and its label matches the expected label (ignore case, punctuation, and line breaks).\n- mislabeled: a visible element plays this role (recognizable from its label, position, grouping, or arrows), but its label is abbreviated, incomplete, different, missing, or a placeholder.\n- absent: no visible element plays this role.\n- uncertain: the image does not allow a decision.\nAn abbreviation of the expected label (for example 'FFN' for 'Feed-Forward Network') counts as mislabeled. An element in the component's position whose label is a placeholder (such as 'Layer', 'TBD', '???') or is missing counts as mislabeled.\nRules: quote the element's visible text exactly as drawn in visible_text ('' if it has none). Give location as the element's bounding box in normalized image coordinates from 0 to 1 (x0, y0 top-left; x1, y1 bottom-right); use all zeros when absent. Each drawn element may be used for at most one component_id. Judge only whether the component itself is drawn and labeled; arrows and connections are judged in Part B, not here.\n\nPART B - counted criteria (field 'metrics'). For every criterion listed here, expected_count is the number of relevant countable opportunities and detected_issues is the number that fail. If no opportunity exists, return both counts as zero. Count each failing opportunity once. Layout must penalize overlap and off-canvas content. Connectivity must verify visible source and target endpoints, not merely arrow count.\n\nComponent checklist (Part A):\n[{\"component_id\": \"experience_data\", \"expected_label\": \"Experience Data\", \"kind\": \"block\", \"context\": \"feeds Expert Opinion, Cyber Risk Assessment\"}, {\"component_id\": \"expert_opinion\", \"expected_label\": \"Expert Opinion\", \"kind\": \"block\", \"context\": \"receives from Experience Data\"}, {\"component_id\": \"kpis\", \"expected_label\": \"KPIs\", \"kind\": \"block\", \"context\": \"\"}, {\"component_id\": \"cause_and_effect_relationships\", \"expected_label\": \"Cause--And--Effect Relationships\", \"kind\": \"block\", \"context\": \"\"}, {\"component_id\": \"model_inference\", \"expected_label\": \"Model Inference\", \"kind\": \"block\", \"context\": \"\"}, {\"component_id\": \"cyber_risk_assessment\", \"expected_label\": \"Cyber Risk Assessment\", \"kind\": \"block\", \"context\": \"receives from Experience Data\"}]\n\nCounted criteria (Part B):\n[{\"id\": \"layout.order\", \"dimension\": \"layout\", \"description\": \"Components follow the sensible reading and processing order implied by the description.\", \"severity\": \"medium\"}, {\"id\": \"layout.canvas\", \"dimension\": \"layout\", \"description\": \"All candidate content remains fully inside the SVG canvas.\", \"severity\": \"high\"}, {\"id\": \"layout.overlap\", \"dimension\": \"layout\", \"description\": \"Candidate components have no unintended overlaps or collisions; intentional container nesting is allowed.\", \"severity\": \"high\"}, {\"id\": \"connectivity.connections\", \"dimension\": \"connectivity\", \"description\": \"Every directed source-to-target connection expected from the description is visibly present in the candidate.\", \"severity\": \"critical\"}, {\"id\": \"connectivity.endpoints\", \"dimension\": \"connectivity\", \"description\": \"Each visible arrow attaches to the correct description-expected source and target components with the correct direction.\", \"severity\": \"critical\"}, {\"id\": \"legibility.overflow\", \"dimension\": \"legibility\", \"description\": \"Text stays inside its intended container without clipping, collision, or overflow.\", \"severity\": \"high\"}, {\"id\": \"legibility.minimum_font\", \"dimension\": \"legibility\", \"description\": \"Every text element meets the configured minimum rendered font size.\", \"severity\": \"high\"}]\n\nDiagram description:\nHow can I use LaTeX and TikZ to create a detailed diagram that represents a process flow, incorporating distinct colored blocks for \"Experience Data,\" \"Expert Opinion,\" \"KPIs,\" \"Cause--And--Effect Relationships,\" and \"Cyber Risk Assessment\"? I need to ensure that each block is clearly defined and visually distinct, with specific colors assigned to each category: blue for \"Experience Data\" and \"Expert Opinion,\" red for \"KPIs\" and \"Cause--And--Effect Relationships,\" orange for \"Model Inference,\" and a combination of green and orange for \"Cyber Risk Assessment.\"\n\nAdditionally, I want to include directional arrows to indicate the flow and progression of the process, ensuring that the connections between different stages are intuitively understood. These arrows should be labeled to specify key interactions such as \"Adjustment\" and \"Backtesting.\" For instance, an arrow should connect \"Experience Data\" to \"Expert Opinion\" with a label indicating \"Adjustment,\" and another arrow should link \"Experience Data\" to \"Cyber Risk Assessment\" with a label for \"Backtesting.\"\n\nFurthermore, I need the layout to be organized in a matrix format, with appropriate spacing and alignment to maintain a clean and professional appearance. The text within each block should be bold and centered, with a consistent font style to enhance readability. I also want to ensure that the diagram is scalable and can be easily adjusted to fit different document sizes without losing clarity.\n\nLastly, I would like to incorporate additional visual elements, such as different line styles for the arrows and possibly shading or patterns within the blocks, to further distinguish between the various stages and enhance the overall visual impact of the diagram. The goal is to create a comprehensive and visually appealing representation of the process flow that effectively communicates the relationships and interactions between the different components.\n\nFrozen description-derived inventory:\n{\"inventory\": {\"presence\": [\"block for Experience Data\", \"block for Expert Opinion\", \"block for KPIs\", \"block for Cause--And--Effect Relationships\", \"block for Model Inference\", \"block for Cyber Risk Assessment\", \"matrix-format arrangement containing the process blocks\"], \"layout\": [\"components are arranged in a clean matrix format\", \"components have appropriate spacing and alignment\", \"components follow a sensible process-flow reading order\", \"all content is fully inside the canvas\", \"no unintended overlaps or collisions\", \"Cyber Risk Assessment may visually combine green and orange styling\"], \"connectivity\": [\"directed arrow from experience_data to expert_opinion\", \"directed arrow from experience_data to cyber_risk_assessment\", \"experience_data to expert_opinion arrow is labeled Adjustment\", \"experience_data to cyber_risk_assessment arrow is labeled Backtesting\"], \"details\": [\"Experience Data label is exact and meaningful\", \"Expert Opinion label is exact and meaningful\", \"KPIs label is exact and meaningful\", \"Cause--And--Effect Relationships label is exact and meaningful\", \"Model Inference label is exact and meaningful\", \"Cyber Risk Assessment label is exact and meaningful\", \"Adjustment arrow label is exact and meaningful\", \"Backtesting arrow label is exact and meaningful\", \"Experience Data block is blue\", \"Expert Opinion block is blue\", \"KPIs block is red\", \"Cause--And--Effect Relationships block is red\", \"Model Inference block is orange\", \"Cyber Risk Assessment block uses both green and orange\", \"block text is bold\", \"block text is centered\", \"labels are not missing, generic, abbreviated, or placeholder text\"], \"legibility\": [\"all text is readable\", \"all text stays inside its intended block or arrow-label area\", \"no text clipping\", \"no text collisions\", \"font style is consistent\", \"text remains clear when scaled\"]}, \"components\": [{\"id\": \"experience_data\", \"label\": \"Experience Data\", \"kind\": \"block\"}, {\"id\": \"expert_opinion\", \"label\": \"Expert Opinion\", \"kind\": \"block\"}, {\"id\": \"kpis\", \"label\": \"KPIs\", \"kind\": \"block\"}, {\"id\": \"cause_and_effect_relationships\", \"label\": \"Cause--And--Effect Relationships\", \"kind\": \"block\"}, {\"id\": \"model_inference\", \"label\": \"Model Inference\", \"kind\": \"block\"}, {\"id\": \"cyber_risk_assessment\", \"label\": \"Cyber Risk Assessment\", \"kind\": \"block\"}], \"connections\": [{\"source\": \"experience_data\", \"target\": \"expert_opinion\"}, {\"source\": \"experience_data\", \"target\": \"cyber_risk_assessment\"}], \"forbidden_placeholders\": [\"Lorem ipsum\", \"Placeholder\", \"TODO\", \"TBD\", \"Label\", \"Text\", \"Block\", \"Node\", \"Arrow\", \"Untitled\", \"Sample\"]}",
+  "schema": {
+    "type": "object",
+    "properties": {
+      "metrics": {
+        "type": "array",
+        "items": {
+          "type": "object",
+          "properties": {
+            "criterion_id": {
+              "type": "string"
+            },
+            "expected_count": {
+              "type": "integer",
+              "minimum": 0
+            },
+            "detected_issues": {
+              "type": "integer",
+              "minimum": 0
+            },
+            "issues": {
+              "type": "array",
+              "items": {
+                "type": "object",
+                "properties": {
+                  "description": {
+                    "type": "string"
+                  },
+                  "severity": {
+                    "type": "string",
+                    "enum": [
+                      "low",
+                      "medium",
+                      "high",
+                      "critical"
+                    ]
+                  },
+                  "element_ids": {
+                    "type": "array",
+                    "items": {
+                      "type": "string"
+                    }
+                  }
+                },
+                "required": [
+                  "description",
+                  "severity",
+                  "element_ids"
+                ],
+                "additionalProperties": false
+              }
+            },
+            "notes": {
+              "type": "string"
+            }
+          },
+          "required": [
+            "criterion_id",
+            "expected_count",
+            "detected_issues",
+            "issues",
+            "notes"
+          ],
+          "additionalProperties": false
+        }
+      },
+      "components": {
+        "type": "array",
+        "items": {
+          "type": "object",
+          "properties": {
+            "component_id": {
+              "type": "string"
+            },
+            "verdict": {
+              "type": "string",
+              "enum": [
+                "present",
+                "mislabeled",
+                "absent",
+                "uncertain"
+              ]
+            },
+            "visible_text": {
+              "type": "string"
+            },
+            "location": {
+              "type": "object",
+              "properties": {
+                "x0": {
+                  "type": "number"
+                },
+                "y0": {
+                  "type": "number"
+                },
+                "x1": {
+                  "type": "number"
+                },
+                "y1": {
+                  "type": "number"
+                }
+              },
+              "required": [
+                "x0",
+                "y0",
+                "x1",
+                "y1"
+              ],
+              "additionalProperties": false
+            },
+            "evidence": {
+              "type": "string"
+            }
+          },
+          "required": [
+            "component_id",
+            "verdict",
+            "visible_text",
+            "location",
+            "evidence"
+          ],
+          "additionalProperties": false
+        }
+      }
+    },
+    "required": [
+      "metrics",
+      "components"
+    ],
+    "additionalProperties": false
+  },
+  "images": [
+    {
+      "filename": "candidate.png",
+      "sha256": "3d2402df8187bb5f7696027608058f5ff8c7a75cad29c1e909d9d71c1bca2152"
+    }
+  ]
+}

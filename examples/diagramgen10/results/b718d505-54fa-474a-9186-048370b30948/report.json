@@ -1,0 +1,432 @@
+{
+  "correctness": 0.9666666666666667,
+  "formula": "0.200000*presence + 0.100000*layout + 0.400000*connectivity + 0.100000*details + 0.200000*legibility",
+  "weights": {
+    "presence": 0.2,
+    "layout": 0.1,
+    "connectivity": 0.4,
+    "details": 0.1,
+    "legibility": 0.2
+  },
+  "dimensions": {
+    "presence": {
+      "dimension": "presence",
+      "score": 1.0,
+      "criteria": {
+        "presence.elements": 1.0
+      },
+      "participating_judges": [
+        "gpt-5.5"
+      ]
+    },
+    "layout": {
+      "dimension": "layout",
+      "score": 0.6666666666666666,
+      "criteria": {
+        "layout.order": 1.0,
+        "layout.canvas": 0.0,
+        "layout.overlap": 1.0
+      },
+      "participating_judges": [
+        "gpt-5.5"
+      ]
+    },
+    "connectivity": {
+      "dimension": "connectivity",
+      "score": 1.0,
+      "criteria": {
+        "connectivity.connections": 1.0,
+        "connectivity.endpoints": 1.0
+      },
+      "participating_judges": [
+        "gpt-5.5"
+      ]
+    },
+    "details": {
+      "dimension": "details",
+      "score": 1.0,
+      "criteria": {
+        "details.labels": 1.0
+      },
+      "participating_judges": [
+        "gpt-5.5"
+      ]
+    },
+    "legibility": {
+      "dimension": "legibility",
+      "score": 1.0,
+      "criteria": {
+        "legibility.overflow": 1.0,
+        "legibility.minimum_font": 1.0
+      },
+      "participating_judges": [
+        "gpt-5.5"
+      ]
+    }
+  },
+  "metrics": [
+    {
+      "criterion_id": "layout.order",
+      "dimension": "layout",
+      "judge": "gpt-5.5",
+      "expected_count": 1,
+      "detected_issues": 0,
+      "issues": [],
+      "notes": "Blocks are arranged in a readable matrix-like flow from top to middle to lower stages.",
+      "measurable": true,
+      "component_verdicts": [],
+      "score": 1.0
+    },
+    {
+      "criterion_id": "layout.canvas",
+      "dimension": "layout",
+      "judge": "gpt-5.5",
+      "expected_count": 1,
+      "detected_issues": 1,
+      "issues": [
+        {
+          "description": "The Backtesting connector runs along the extreme left canvas edge, so its stroke appears clipped/on the boundary rather than fully inside the canvas.",
+          "severity": "high",
+          "element_ids": [
+            "backtesting_arrow_path"
+          ]
+        }
+      ],
+      "notes": "Main blocks are visible, but one connector is not comfortably inside the canvas.",
+      "measurable": true,
+      "component_verdicts": [],
+      "score": 0.0
+    },
+    {
+      "criterion_id": "layout.overlap",
+      "dimension": "layout",
+      "judge": "gpt-5.5",
+      "expected_count": 15,
+      "detected_issues": 0,
+      "issues": [],
+      "notes": "No unintended overlaps among the six component blocks are visible.",
+      "measurable": true,
+      "component_verdicts": [],
+      "score": 1.0
+    },
+    {
+      "criterion_id": "connectivity.connections",
+      "dimension": "connectivity",
+      "judge": "gpt-5.5",
+      "expected_count": 2,
+      "detected_issues": 0,
+      "issues": [],
+      "notes": "Both expected directed connections are visible: Experience Data to Expert Opinion and Experience Data to Cyber Risk Assessment.",
+      "measurable": true,
+      "component_verdicts": [],
+      "score": 1.0
+    },
+    {
+      "criterion_id": "connectivity.endpoints",
+      "dimension": "connectivity",
+      "judge": "gpt-5.5",
+      "expected_count": 2,
+      "detected_issues": 0,
+      "issues": [],
+      "notes": "The visible arrowheads terminate at Expert Opinion and Cyber Risk Assessment, with paths originating from Experience Data.",
+      "measurable": true,
+      "component_verdicts": [],
+      "score": 1.0
+    },
+    {
+      "criterion_id": "legibility.overflow",
+      "dimension": "legibility",
+      "judge": "gpt-5.5",
+      "expected_count": 8,
+      "detected_issues": 0,
+      "issues": [],
+      "notes": "The six block labels and two arrow labels remain readable without visible text overflow.",
+      "measurable": true,
+      "component_verdicts": [],
+      "score": 1.0
+    },
+    {
+      "criterion_id": "legibility.minimum_font",
+      "dimension": "legibility",
+      "judge": "gpt-5.5",
+      "expected_count": 8,
+      "detected_issues": 0,
+      "issues": [],
+      "notes": "All visible text is large and readable.",
+      "measurable": true,
+      "component_verdicts": [],
+      "score": 1.0
+    },
+    {
+      "criterion_id": "presence.elements",
+      "dimension": "presence",
+      "judge": "gpt-5.5",
+      "expected_count": 6,
+      "detected_issues": 0,
+      "issues": [],
+      "notes": "",
+      "measurable": true,
+      "component_verdicts": [
+        {
+          "component_id": "experience_data",
+          "verdict": "present",
+          "judge": "gpt-5.5",
+          "visible_text": "Experience Data",
+          "evidence": "Blue block at upper left labeled “Experience Data”.",
+          "bounds": [
+            0.039,
+            0.101,
+            0.36,
+            0.235
+          ],
+          "notes": ""
+        },
+        {
+          "component_id": "expert_opinion",
+          "verdict": "present",
+          "judge": "gpt-5.5",
+          "visible_text": "Expert Opinion",
+          "evidence": "Blue block at upper right labeled “Expert Opinion”.",
+          "bounds": [
+            0.679,
+            0.101,
+            1.0,
+            0.235
+          ],
+          "notes": ""
+        },
+        {
+          "component_id": "kpis",
+          "verdict": "present",
+          "judge": "gpt-5.5",
+          "visible_text": "KPIs",
+          "evidence": "Red block at middle left labeled “KPIs”.",
+          "bounds": [
+            0.039,
+            0.368,
+            0.36,
+            0.501
+          ],
+          "notes": ""
+        },
+        {
+          "component_id": "cause_and_effect_relationships",
+          "verdict": "present",
+          "judge": "gpt-5.5",
+          "visible_text": "Cause–And–Effect\nRelationships",
+          "evidence": "Red block at middle right labeled “Cause–And–Effect Relationships” across two lines.",
+          "bounds": [
+            0.679,
+            0.368,
+            1.0,
+            0.501
+          ],
+          "notes": ""
+        },
+        {
+          "component_id": "model_inference",
+          "verdict": "present",
+          "judge": "gpt-5.5",
+          "visible_text": "Model Inference",
+          "evidence": "Orange block below the middle row labeled “Model Inference”.",
+          "bounds": [
+            0.36,
+            0.634,
+            0.679,
+            0.767
+          ],
+          "notes": ""
+        },
+        {
+          "component_id": "cyber_risk_assessment",
+          "verdict": "present",
+          "judge": "gpt-5.5",
+          "visible_text": "Cyber Risk\nAssessment",
+          "evidence": "Green block at bottom center labeled “Cyber Risk Assessment” across two lines.",
+          "bounds": [
+            0.36,
+            0.867,
+            0.679,
+            1.0
+          ],
+          "notes": ""
+        }
+      ],
+      "score": 1.0
+    },
+    {
+      "criterion_id": "details.labels",
+      "dimension": "details",
+      "judge": "gpt-5.5",
+      "expected_count": 6,
+      "detected_issues": 0,
+      "issues": [],
+      "notes": "Scored only over drawn components; missing components are scored under Presence.",
+      "measurable": true,
+      "component_verdicts": [],
+      "score": 1.0
+    }
+  ],
+  "inventory": {
+    "inventory": {
+      "presence": [
+        "block for Experience Data",
+        "block for Expert Opinion",
+        "block for KPIs",
+        "block for Cause--And--Effect Relationships",
+        "block for Model Inference",
+        "block for Cyber Risk Assessment",
+        "matrix-format arrangement containing the process blocks"
+      ],
+      "layout": [
+        "components are arranged in a clean matrix format",
+        "components have appropriate spacing and alignment",
+        "components follow a sensible process-flow reading order",
+        "all content is fully inside the canvas",
+        "no unintended overlaps or collisions",
+        "Cyber Risk Assessment may visually combine green and orange styling"
+      ],
+      "connectivity": [
+        "directed arrow from experience_data to expert_opinion",
+        "directed arrow from experience_data to cyber_risk_assessment",
+        "experience_data to expert_opinion arrow is labeled Adjustment",
+        "experience_data to cyber_risk_assessment arrow is labeled Backtesting"
+      ],
+      "details": [
+        "Experience Data label is exact and meaningful",
+        "Expert Opinion label is exact and meaningful",
+        "KPIs label is exact and meaningful",
+        "Cause--And--Effect Relationships label is exact and meaningful",
+        "Model Inference label is exact and meaningful",
+        "Cyber Risk Assessment label is exact and meaningful",
+        "Adjustment arrow label is exact and meaningful",
+        "Backtesting arrow label is exact and meaningful",
+        "Experience Data block is blue",
+        "Expert Opinion block is blue",
+        "KPIs block is red",
+        "Cause--And--Effect Relationships block is red",
+        "Model Inference block is orange",
+        "Cyber Risk Assessment block uses both green and orange",
+        "block text is bold",
+        "block text is centered",
+        "labels are not missing, generic, abbreviated, or placeholder text"
+      ],
+      "legibility": [
+        "all text is readable",
+        "all text stays inside its intended block or arrow-label area",
+        "no text clipping",
+        "no text collisions",
+        "font style is consistent",
+        "text remains clear when scaled"
+      ]
+    },
+    "components": [
+      {
+        "id": "experience_data",
+        "label": "Experience Data",
+        "kind": "block"
+      },
+      {
+        "id": "expert_opinion",
+        "label": "Expert Opinion",
+        "kind": "block"
+      },
+      {
+        "id": "kpis",
+        "label": "KPIs",
+        "kind": "block"
+      },
+      {
+        "id": "cause_and_effect_relationships",
+        "label": "Cause--And--Effect Relationships",
+        "kind": "block"
+      },
+      {
+        "id": "model_inference",
+        "label": "Model Inference",
+        "kind": "block"
+      },
+      {
+        "id": "cyber_risk_assessment",
+        "label": "Cyber Risk Assessment",
+        "kind": "block"
+      }
+    ],
+    "connections": [
+      {
+        "source": "experience_data",
+        "target": "expert_opinion"
+      },
+      {
+        "source": "experience_data",
+        "target": "cyber_risk_assessment"
+      }
+    ],
+    "forbidden_placeholders": [
+      "Lorem ipsum",
+      "Placeholder",
+      "TODO",
+      "TBD",
+      "Label",
+      "Text",
+      "Block",
+      "Node",
+      "Arrow",
+      "Untitled",
+      "Sample"
+    ]
+  },
+  "metadata": {
+    "vlm_judges": [
+      "gpt-5.5"
+    ],
+    "expectation_model": "gpt-5.5",
+    "expectations_from": "description",
+    "deterministic_judge": false,
+    "component_verdicts": [
+      {
+        "component_id": "experience_data",
+        "verdicts": {
+          "gpt-5.5": "present"
+        },
+        "agree": true
+      },
+      {
+        "component_id": "expert_opinion",
+        "verdicts": {
+          "gpt-5.5": "present"
+        },
+        "agree": true
+      },
+      {
+        "component_id": "kpis",
+        "verdicts": {
+          "gpt-5.5": "present"
+        },
+        "agree": true
+      },
+      {
+        "component_id": "cause_and_effect_relationships",
+        "verdicts": {
+          "gpt-5.5": "present"
+        },
+        "agree": true
+      },
+      {
+        "component_id": "model_inference",
+        "verdicts": {
+          "gpt-5.5": "present"
+        },
+        "agree": true
+      },
+      {
+        "component_id": "cyber_risk_assessment",
+        "verdicts": {
+          "gpt-5.5": "present"
+        },
+        "agree": true
+      }
+    ],
+    "component_disagreements": 0
+  }
+}

@@ -1,0 +1,140 @@
+{
+  "model": "gpt-5.5",
+  "prompt": "You are stage 2 of a description-to-diagram alignment evaluator. The attached image is the only CANDIDATE. Evaluate it against the written description and the frozen stage-1 inventory. Do not invent a different target. Evidence must refer to visible candidate elements.\n\nPART A - component checklist (field 'components'). Return exactly one entry for every component_id below, in any order, and no other ids. Answer each item on its own:\n- present: a visible element plays this component's role and its label matches the expected label (ignore case, punctuation, and line breaks).\n- mislabeled: a visible element plays this role (recognizable from its label, position, grouping, or arrows), but its label is abbreviated, incomplete, different, missing, or a placeholder.\n- absent: no visible element plays this role.\n- uncertain: the image does not allow a decision.\nAn abbreviation of the expected label (for example 'FFN' for 'Feed-Forward Network') counts as mislabeled. An element in the component's position whose label is a placeholder (such as 'Layer', 'TBD', '???') or is missing counts as mislabeled.\nRules: quote the element's visible text exactly as drawn in visible_text ('' if it has none). Give location as the element's bounding box in normalized image coordinates from 0 to 1 (x0, y0 top-left; x1, y1 bottom-right); use all zeros when absent. Each drawn element may be used for at most one component_id. Judge only whether the component itself is drawn and labeled; arrows and connections are judged in Part B, not here.\n\nPART B - counted criteria (field 'metrics'). For every criterion listed here, expected_count is the number of relevant countable opportunities and detected_issues is the number that fail. If no opportunity exists, return both counts as zero. Count each failing opportunity once. Layout must penalize overlap and off-canvas content. Connectivity must verify visible source and target endpoints, not merely arrow count.\n\nComponent checklist (Part A):\n[{\"component_id\": \"start_node\", \"expected_label\": \"Start\", \"kind\": \"start node\", \"context\": \"feeds Node #1\"}, {\"component_id\": \"node_1\", \"expected_label\": \"Node #1\", \"kind\": \"intermediate node\", \"context\": \"receives from Start; feeds Node #2\"}, {\"component_id\": \"node_2\", \"expected_label\": \"Node #2\", \"kind\": \"decision node\", \"context\": \"receives from Node #1; feeds Node #3a, Node #3b\"}, {\"component_id\": \"node_3a\", \"expected_label\": \"Node #3a\", \"kind\": \"choice node\", \"context\": \"receives from Node #2; feeds Finish node #4\"}, {\"component_id\": \"node_3b\", \"expected_label\": \"Node #3b\", \"kind\": \"choice node\", \"context\": \"receives from Node #2; feeds Finish node #4\"}, {\"component_id\": \"node_4\", \"expected_label\": \"Finish node #4\", \"kind\": \"final step node\", \"context\": \"receives from Node #3a, Node #3b; feeds End\"}, {\"component_id\": \"end_node\", \"expected_label\": \"End\", \"kind\": \"end node\", \"context\": \"receives from Finish node #4\"}]\n\nCounted criteria (Part B):\n[{\"id\": \"layout.order\", \"dimension\": \"layout\", \"description\": \"Components follow the sensible reading and processing order implied by the description.\", \"severity\": \"medium\"}, {\"id\": \"layout.canvas\", \"dimension\": \"layout\", \"description\": \"All candidate content remains fully inside the SVG canvas.\", \"severity\": \"high\"}, {\"id\": \"layout.overlap\", \"dimension\": \"layout\", \"description\": \"Candidate components have no unintended overlaps or collisions; intentional container nesting is allowed.\", \"severity\": \"high\"}, {\"id\": \"connectivity.connections\", \"dimension\": \"connectivity\", \"description\": \"Every directed source-to-target connection expected from the description is visibly present in the candidate.\", \"severity\": \"critical\"}, {\"id\": \"connectivity.endpoints\", \"dimension\": \"connectivity\", \"description\": \"Each visible arrow attaches to the correct description-expected source and target components with the correct direction.\", \"severity\": \"critical\"}, {\"id\": \"legibility.overflow\", \"dimension\": \"legibility\", \"description\": \"Text stays inside its intended container without clipping, collision, or overflow.\", \"severity\": \"high\"}, {\"id\": \"legibility.minimum_font\", \"dimension\": \"legibility\", \"description\": \"Every text element meets the configured minimum rendered font size.\", \"severity\": \"high\"}]\n\nDiagram description:\nHow can I use the DOT language to create a directed graph that effectively represents a decision-making process with clearly labeled nodes and edges? The graph should include a designated start and end node, multiple decision points with various choices, and paths that accurately reflect the chosen options. Specifically, I would like the start and end nodes to be distinctly marked with a green fill color and labeled as \"Start\" and \"End\" respectively. \n\nFor the decision-making process, I need to include intermediate nodes that represent different stages. The first node, labeled \"Node #1,\" should indicate a straightforward path with no branching. Following this, I want a decision node, labeled \"Node #2,\" which presents a question and offers multiple choices. This node should be highlighted with a yellow fill color to emphasize the decision point.\n\nFrom \"Node #2,\" the graph should branch into two paths based on the user's choice. One path should lead to \"Node #3a,\" labeled to indicate that the user chose \"YES,\" and the other path should lead to \"Node #3b,\" labeled to indicate that the user chose \"NO.\" Both of these nodes should clearly reflect the decision made at \"Node #2.\"\n\nAfterward, both \"Node #3a\" and \"Node #3b\" should converge at \"Node #4,\" labeled as \"Finish node #4,\" which represents the final step before reaching the end. Each edge leading from the decision node to the subsequent nodes should be labeled with the corresponding choice (\"YES\" or \"NO\") to make the decision paths explicitly clear.\n\nAdditionally, I want to ensure that the overall layout of the graph is visually coherent and easy to follow, with nodes and edges arranged in a logical sequence that aids in understanding the decision-making process. The graph should be designed to be both informative and visually appealing, making it suitable for presentations or documentation where clarity and ease of interpretation are crucial.\n\nFrozen description-derived inventory:\n{\"inventory\": {\"presence\": [\"directed graph\", \"start node\", \"end node\", \"Node #1 intermediate node\", \"Node #2 decision node\", \"Node #3a YES choice node\", \"Node #3b NO choice node\", \"Node #4 final step node\"], \"layout\": [\"logical reading order from Start to End\", \"Start appears before Node #1\", \"Node #1 appears before Node #2\", \"Node #2 branches to Node #3a and Node #3b\", \"Node #3a and Node #3b converge before Node #4\", \"Node #4 appears before End\", \"all content fully inside canvas\", \"no unintended overlaps or collisions\", \"intentional node-edge contact only at endpoints\"], \"connectivity\": [\"Start -> Node #1\", \"Node #1 -> Node #2\", \"Node #2 -> Node #3a\", \"Node #2 -> Node #3b\", \"Node #3a -> Node #4\", \"Node #3b -> Node #4\", \"Node #4 -> End\"], \"details\": [\"start node label is exactly \\\"Start\\\"\", \"start node has green fill color\", \"end node label is exactly \\\"End\\\"\", \"end node has green fill color\", \"Node #1 label is exactly \\\"Node #1\\\"\", \"Node #2 label is exactly \\\"Node #2\\\"\", \"Node #2 has yellow fill color\", \"Node #3a label is exactly \\\"Node #3a\\\"\", \"Node #3a indicates user chose \\\"YES\\\"\", \"Node #3b label is exactly \\\"Node #3b\\\"\", \"Node #3b indicates user chose \\\"NO\\\"\", \"Node #4 label is exactly \\\"Finish node #4\\\"\", \"edge from Node #2 to Node #3a is labeled exactly \\\"YES\\\"\", \"edge from Node #2 to Node #3b is labeled exactly \\\"NO\\\"\", \"labels are meaningful and not missing\", \"labels are not placeholder text\"], \"legibility\": [\"all node labels are readable\", \"all edge labels are readable\", \"text stays inside intended node or edge-label area\", \"text is not clipped\", \"text does not collide with other text or shapes\", \"text meets minimum rendered font size\"]}, \"components\": [{\"id\": \"start_node\", \"label\": \"Start\", \"kind\": \"start node\"}, {\"id\": \"node_1\", \"label\": \"Node #1\", \"kind\": \"intermediate node\"}, {\"id\": \"node_2\", \"label\": \"Node #2\", \"kind\": \"decision node\"}, {\"id\": \"node_3a\", \"label\": \"Node #3a\", \"kind\": \"choice node\"}, {\"id\": \"node_3b\", \"label\": \"Node #3b\", \"kind\": \"choice node\"}, {\"id\": \"node_4\", \"label\": \"Finish node #4\", \"kind\": \"final step node\"}, {\"id\": \"end_node\", \"label\": \"End\", \"kind\": \"end node\"}], \"connections\": [{\"source\": \"start_node\", \"target\": \"node_1\"}, {\"source\": \"node_1\", \"target\": \"node_2\"}, {\"source\": \"node_2\", \"target\": \"node_3a\"}, {\"source\": \"node_2\", \"target\": \"node_3b\"}, {\"source\": \"node_3a\", \"target\": \"node_4\"}, {\"source\": \"node_3b\", \"target\": \"node_4\"}, {\"source\": \"node_4\", \"target\": \"end_node\"}], \"forbidden_placeholders\": [\"Lorem ipsum\", \"placeholder\", \"TODO\", \"TBD\", \"Node\", \"Label\", \"Text\", \"Example\", \"Untitled\", \"?\"]}",
+  "schema": {
+    "type": "object",
+    "properties": {
+      "metrics": {
+        "type": "array",
+        "items": {
+          "type": "object",
+          "properties": {
+            "criterion_id": {
+              "type": "string"
+            },
+            "expected_count": {
+              "type": "integer",
+              "minimum": 0
+            },
+            "detected_issues": {
+              "type": "integer",
+              "minimum": 0
+            },
+            "issues": {
+              "type": "array",
+              "items": {
+                "type": "object",
+                "properties": {
+                  "description": {
+                    "type": "string"
+                  },
+                  "severity": {
+                    "type": "string",
+                    "enum": [
+                      "low",
+                      "medium",
+                      "high",
+                      "critical"
+                    ]
+                  },
+                  "element_ids": {
+                    "type": "array",
+                    "items": {
+                      "type": "string"
+                    }
+                  }
+                },
+                "required": [
+                  "description",
+                  "severity",
+                  "element_ids"
+                ],
+                "additionalProperties": false
+              }
+            },
+            "notes": {
+              "type": "string"
+            }
+          },
+          "required": [
+            "criterion_id",
+            "expected_count",
+            "detected_issues",
+            "issues",
+            "notes"
+          ],
+          "additionalProperties": false
+        }
+      },
+      "components": {
+        "type": "array",
+        "items": {
+          "type": "object",
+          "properties": {
+            "component_id": {
+              "type": "string"
+            },
+            "verdict": {
+              "type": "string",
+              "enum": [
+                "present",
+                "mislabeled",
+                "absent",
+                "uncertain"
+              ]
+            },
+            "visible_text": {
+              "type": "string"
+            },
+            "location": {
+              "type": "object",
+              "properties": {
+                "x0": {
+                  "type": "number"
+                },
+                "y0": {
+                  "type": "number"
+                },
+                "x1": {
+                  "type": "number"
+                },
+                "y1": {
+                  "type": "number"
+                }
+              },
+              "required": [
+                "x0",
+                "y0",
+                "x1",
+                "y1"
+              ],
+              "additionalProperties": false
+            },
+            "evidence": {
+              "type": "string"
+            }
+          },
+          "required": [
+            "component_id",
+            "verdict",
+            "visible_text",
+            "location",
+            "evidence"
+          ],
+          "additionalProperties": false
+        }
+      }
+    },
+    "required": [
+      "metrics",
+      "components"
+    ],
+    "additionalProperties": false
+  },
+  "images": [
+    {
+      "filename": "candidate.png",
+      "sha256": "d9b4bfc10c9d4b9439e6a0040c34314053017b325f403706c6f77d386b15c6ef"
+    }
+  ]
+}

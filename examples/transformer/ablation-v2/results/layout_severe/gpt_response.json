@@ -1,0 +1,323 @@
+{
+  "metrics": [
+    {
+      "criterion_id": "layout.order",
+      "expected_count": 6,
+      "detected_issues": 6,
+      "issues": [
+        {
+          "description": "Multi-Head Self-Attention is visibly below the first Add & Norm instead of above it in the required top-to-bottom sequence.",
+          "severity": "medium",
+          "element_ids": [
+            "multi_head_self_attention",
+            "add_norm_1"
+          ]
+        },
+        {
+          "description": "Multi-Head Self-Attention is visibly below Position-wise Feed-Forward Network instead of above it.",
+          "severity": "medium",
+          "element_ids": [
+            "multi_head_self_attention",
+            "position_wise_feed_forward_network"
+          ]
+        },
+        {
+          "description": "Multi-Head Self-Attention is visibly below the second Add & Norm instead of above it.",
+          "severity": "medium",
+          "element_ids": [
+            "multi_head_self_attention",
+            "add_norm_2"
+          ]
+        },
+        {
+          "description": "The first Add & Norm is visibly below Position-wise Feed-Forward Network instead of above it.",
+          "severity": "medium",
+          "element_ids": [
+            "add_norm_1",
+            "position_wise_feed_forward_network"
+          ]
+        },
+        {
+          "description": "The first Add & Norm is visibly below the second Add & Norm instead of above it.",
+          "severity": "medium",
+          "element_ids": [
+            "add_norm_1",
+            "add_norm_2"
+          ]
+        },
+        {
+          "description": "Position-wise Feed-Forward Network is visibly below the second Add & Norm instead of above it.",
+          "severity": "medium",
+          "element_ids": [
+            "position_wise_feed_forward_network",
+            "add_norm_2"
+          ]
+        }
+      ],
+      "notes": "Internal block content is arranged bottom-to-top relative to the expected encoder order."
+    },
+    {
+      "criterion_id": "layout.canvas",
+      "expected_count": 1,
+      "detected_issues": 0,
+      "issues": [],
+      "notes": "All visible content appears inside the canvas."
+    },
+    {
+      "criterion_id": "layout.overlap",
+      "expected_count": 10,
+      "detected_issues": 0,
+      "issues": [],
+      "notes": "No unintended collisions between non-container components are visible."
+    },
+    {
+      "criterion_id": "connectivity.connections",
+      "expected_count": 10,
+      "detected_issues": 5,
+      "issues": [
+        {
+          "description": "No unambiguous directed connection from Multi-Head Self-Attention to the first Add & Norm is visible.",
+          "severity": "critical",
+          "element_ids": [
+            "multi_head_self_attention",
+            "add_norm_1"
+          ]
+        },
+        {
+          "description": "No unambiguous directed connection from the first Add & Norm to Position-wise Feed-Forward Network is visible.",
+          "severity": "critical",
+          "element_ids": [
+            "add_norm_1",
+            "position_wise_feed_forward_network"
+          ]
+        },
+        {
+          "description": "No unambiguous directed connection from Position-wise Feed-Forward Network to the second Add & Norm is visible.",
+          "severity": "critical",
+          "element_ids": [
+            "position_wise_feed_forward_network",
+            "add_norm_2"
+          ]
+        },
+        {
+          "description": "No unambiguous residual/skip connection from the first Add & Norm to the second Add & Norm is visible.",
+          "severity": "critical",
+          "element_ids": [
+            "add_norm_1",
+            "add_norm_2"
+          ]
+        },
+        {
+          "description": "No unambiguous directed connection from the second Add & Norm to Contextual Embeddings is visible.",
+          "severity": "critical",
+          "element_ids": [
+            "add_norm_2",
+            "contextual_embeddings"
+          ]
+        }
+      ],
+      "notes": "The visible right-side routing creates several arrows into components from a bus-like line, but the required sources are not visually clear."
+    },
+    {
+      "criterion_id": "connectivity.endpoints",
+      "expected_count": 9,
+      "detected_issues": 4,
+      "issues": [
+        {
+          "description": "A right-side arrow terminates at the upper Add & Norm, but its source is not visibly the required preceding component.",
+          "severity": "critical",
+          "element_ids": [
+            "add_norm_2"
+          ]
+        },
+        {
+          "description": "A right-side arrow terminates at Position-wise Feed-Forward Network, but its source endpoint is ambiguous/not visibly attached to the first Add & Norm.",
+          "severity": "critical",
+          "element_ids": [
+            "position_wise_feed_forward_network",
+            "add_norm_1"
+          ]
+        },
+        {
+          "description": "A right-side solid arrow terminates at the lower Add & Norm, but its source endpoint is ambiguous and not visibly Multi-Head Self-Attention.",
+          "severity": "critical",
+          "element_ids": [
+            "add_norm_1",
+            "multi_head_self_attention"
+          ]
+        },
+        {
+          "description": "A right-side arrow terminates at Contextual Embeddings, but its source is not visibly attached to the second Add & Norm.",
+          "severity": "critical",
+          "element_ids": [
+            "contextual_embeddings",
+            "add_norm_2"
+          ]
+        }
+      ],
+      "notes": "Five visible arrows have acceptable expected endpoints; four right-side arrows are ambiguous or wrong."
+    },
+    {
+      "criterion_id": "legibility.overflow",
+      "expected_count": 12,
+      "detected_issues": 0,
+      "issues": [],
+      "notes": "All visible text appears contained within its intended box or container."
+    },
+    {
+      "criterion_id": "legibility.minimum_font",
+      "expected_count": 12,
+      "detected_issues": 0,
+      "issues": [],
+      "notes": "All text appears to meet the minimum readable font size."
+    },
+    {
+      "criterion_id": "layout.relations",
+      "expected_count": 7,
+      "detected_issues": 0,
+      "issues": [],
+      "notes": "The explicit external spatial relations are satisfied."
+    },
+    {
+      "criterion_id": "layout.containment",
+      "expected_count": 4,
+      "detected_issues": 0,
+      "issues": [],
+      "notes": "All four internal encoder components are contained within the Transformer Encoder Block container."
+    }
+  ],
+  "components": [
+    {
+      "component_id": "input_tokens",
+      "verdict": "present",
+      "visible_text": "Input Tokens",
+      "location": {
+        "x0": 0.385,
+        "y0": 0.073,
+        "x1": 0.615,
+        "y1": 0.139
+      },
+      "evidence": "A top blue rounded rectangle is labeled “Input Tokens”."
+    },
+    {
+      "component_id": "token_embeddings",
+      "verdict": "present",
+      "visible_text": "Token Embeddings",
+      "location": {
+        "x0": 0.185,
+        "y0": 0.184,
+        "x1": 0.442,
+        "y1": 0.254
+      },
+      "evidence": "A green rounded rectangle beneath Input Tokens is labeled “Token Embeddings”."
+    },
+    {
+      "component_id": "positional_encoding",
+      "verdict": "present",
+      "visible_text": "Positional Encoding",
+      "location": {
+        "x0": 0.558,
+        "y0": 0.184,
+        "x1": 0.815,
+        "y1": 0.254
+      },
+      "evidence": "A yellow rounded rectangle parallel to Token Embeddings is labeled “Positional Encoding”."
+    },
+    {
+      "component_id": "add",
+      "verdict": "present",
+      "visible_text": "Add",
+      "location": {
+        "x0": 0.471,
+        "y0": 0.282,
+        "x1": 0.529,
+        "y1": 0.354
+      },
+      "evidence": "A circular operation below the embedding boxes is labeled “Add”."
+    },
+    {
+      "component_id": "transformer_encoder_block",
+      "verdict": "present",
+      "visible_text": "Transformer Encoder Block",
+      "location": {
+        "x0": 0.167,
+        "y0": 0.379,
+        "x1": 0.833,
+        "y1": 0.873
+      },
+      "evidence": "A large outlined container is labeled “Transformer Encoder Block”."
+    },
+    {
+      "component_id": "repetition_marker_n_times",
+      "verdict": "mislabeled",
+      "visible_text": "Nx",
+      "location": {
+        "x0": 0.752,
+        "y0": 0.393,
+        "x1": 0.807,
+        "y1": 0.434
+      },
+      "evidence": "A purple repetition marker is visible on the block, but it reads “Nx” rather than the expected “N×”."
+    },
+    {
+      "component_id": "multi_head_self_attention",
+      "verdict": "present",
+      "visible_text": "Multi-Head Self-Attention",
+      "location": {
+        "x0": 0.29,
+        "y0": 0.772,
+        "x1": 0.71,
+        "y1": 0.842
+      },
+      "evidence": "A purple rounded rectangle inside the encoder block is labeled “Multi-Head Self-Attention”."
+    },
+    {
+      "component_id": "add_norm_1",
+      "verdict": "present",
+      "visible_text": "Add & Norm",
+      "location": {
+        "x0": 0.35,
+        "y0": 0.661,
+        "x1": 0.651,
+        "y1": 0.724
+      },
+      "evidence": "The lower of the two pink rounded rectangles inside the block is labeled “Add & Norm”."
+    },
+    {
+      "component_id": "position_wise_feed_forward_network",
+      "verdict": "present",
+      "visible_text": "Position-wise Feed-Forward Network",
+      "location": {
+        "x0": 0.291,
+        "y0": 0.557,
+        "x1": 0.71,
+        "y1": 0.627
+      },
+      "evidence": "A teal rounded rectangle inside the block is labeled “Position-wise Feed-Forward Network”."
+    },
+    {
+      "component_id": "add_norm_2",
+      "verdict": "present",
+      "visible_text": "Add & Norm",
+      "location": {
+        "x0": 0.35,
+        "y0": 0.444,
+        "x1": 0.65,
+        "y1": 0.509
+      },
+      "evidence": "The upper of the two pink rounded rectangles inside the block is labeled “Add & Norm”."
+    },
+    {
+      "component_id": "contextual_embeddings",
+      "verdict": "present",
+      "visible_text": "Contextual Embeddings",
+      "location": {
+        "x0": 0.363,
+        "y0": 0.913,
+        "x1": 0.638,
+        "y1": 0.979
+      },
+      "evidence": "A blue rounded rectangle below the encoder block is labeled “Contextual Embeddings”."
+    }
+  ]
+}

@@ -1,0 +1,108 @@
+{
+  "model": "gpt-5.5",
+  "prompt": "You are stage 1 of a description-to-diagram alignment evaluator. Read only the written diagram description below. There is no candidate image in this stage. Infer a frozen inventory of concrete, countable expectations for all five dimensions. Presence must enumerate every expected component, group, input, output, and repeated block, and nothing else: connections belong under Connectivity only. Details must enumerate exact meaningful labels and content and must explicitly reject missing or placeholder labels. Connectivity must list each intended directed source-to-target connection. Layout must describe sensible ordering, containment, overlap, and canvas expectations. Legibility must describe readable text expectations. Do not score. Do not add decorative requirements not implied by the description. Also return an ordered components list. Give each component a unique snake_case id, its exact expected visible label, and a short kind. Preserve repeated components as separate entries with separate ids. Return connections using only those component ids, directed from source to target. Return explicit forbidden placeholder strings. Use short, atomic strings.\n\nShared rubric:\n[{\"id\": \"presence.elements\", \"dimension\": \"presence\", \"description\": \"Every component, group, input, output, repeated block, and operation expected from the written description is visibly drawn in the candidate, even if its label is imperfect. Connections are judged under Connectivity, not here.\", \"severity\": \"high\"}, {\"id\": \"layout.order\", \"dimension\": \"layout\", \"description\": \"Components follow the sensible reading and processing order implied by the description.\", \"severity\": \"medium\"}, {\"id\": \"layout.canvas\", \"dimension\": \"layout\", \"description\": \"All candidate content remains fully inside the SVG canvas.\", \"severity\": \"high\"}, {\"id\": \"layout.overlap\", \"dimension\": \"layout\", \"description\": \"Candidate components have no unintended overlaps or collisions; intentional container nesting is allowed.\", \"severity\": \"high\"}, {\"id\": \"connectivity.connections\", \"dimension\": \"connectivity\", \"description\": \"Every directed source-to-target connection expected from the description is visibly present in the candidate.\", \"severity\": \"critical\"}, {\"id\": \"connectivity.endpoints\", \"dimension\": \"connectivity\", \"description\": \"Each visible arrow attaches to the correct description-expected source and target components with the correct direction.\", \"severity\": \"critical\"}, {\"id\": \"details.labels\", \"dimension\": \"details\", \"description\": \"Each drawn component carries its complete, accurate, meaningful expected label rather than an abbreviated, generic, missing, or placeholder label. Components that are not drawn are judged under Presence, not here.\", \"severity\": \"high\"}, {\"id\": \"legibility.overflow\", \"dimension\": \"legibility\", \"description\": \"Text stays inside its intended container without clipping, collision, or overflow.\", \"severity\": \"high\"}, {\"id\": \"legibility.minimum_font\", \"dimension\": \"legibility\", \"description\": \"Every text element meets the configured minimum rendered font size.\", \"severity\": \"high\"}]\n\nDiagram description:\nHow can I use the DOT language to create a directed graph that effectively represents a decision-making process with clearly labeled nodes and edges? The graph should include a designated start and end node, multiple decision points with various choices, and paths that accurately reflect the chosen options. Specifically, I would like the start and end nodes to be distinctly marked with a green fill color and labeled as \"Start\" and \"End\" respectively. \n\nFor the decision-making process, I need to include intermediate nodes that represent different stages. The first node, labeled \"Node #1,\" should indicate a straightforward path with no branching. Following this, I want a decision node, labeled \"Node #2,\" which presents a question and offers multiple choices. This node should be highlighted with a yellow fill color to emphasize the decision point.\n\nFrom \"Node #2,\" the graph should branch into two paths based on the user's choice. One path should lead to \"Node #3a,\" labeled to indicate that the user chose \"YES,\" and the other path should lead to \"Node #3b,\" labeled to indicate that the user chose \"NO.\" Both of these nodes should clearly reflect the decision made at \"Node #2.\"\n\nAfterward, both \"Node #3a\" and \"Node #3b\" should converge at \"Node #4,\" labeled as \"Finish node #4,\" which represents the final step before reaching the end. Each edge leading from the decision node to the subsequent nodes should be labeled with the corresponding choice (\"YES\" or \"NO\") to make the decision paths explicitly clear.\n\nAdditionally, I want to ensure that the overall layout of the graph is visually coherent and easy to follow, with nodes and edges arranged in a logical sequence that aids in understanding the decision-making process. The graph should be designed to be both informative and visually appealing, making it suitable for presentations or documentation where clarity and ease of interpretation are crucial.",
+  "schema": {
+    "type": "object",
+    "properties": {
+      "inventory": {
+        "type": "object",
+        "properties": {
+          "presence": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "layout": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "connectivity": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "details": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "legibility": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          }
+        },
+        "required": [
+          "presence",
+          "layout",
+          "connectivity",
+          "details",
+          "legibility"
+        ],
+        "additionalProperties": false
+      },
+      "components": {
+        "type": "array",
+        "items": {
+          "type": "object",
+          "properties": {
+            "id": {
+              "type": "string"
+            },
+            "label": {
+              "type": "string"
+            },
+            "kind": {
+              "type": "string"
+            }
+          },
+          "required": [
+            "id",
+            "label",
+            "kind"
+          ],
+          "additionalProperties": false
+        }
+      },
+      "connections": {
+        "type": "array",
+        "items": {
+          "type": "object",
+          "properties": {
+            "source": {
+              "type": "string"
+            },
+            "target": {
+              "type": "string"
+            }
+          },
+          "required": [
+            "source",
+            "target"
+          ],
+          "additionalProperties": false
+        }
+      },
+      "forbidden_placeholders": {
+        "type": "array",
+        "items": {
+          "type": "string"
+        }
+      }
+    },
+    "required": [
+      "inventory",
+      "components",
+      "connections",
+      "forbidden_placeholders"
+    ],
+    "additionalProperties": false
+  },
+  "images": []
+}

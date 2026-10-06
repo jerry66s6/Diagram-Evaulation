@@ -1,0 +1,1029 @@
+{
+  "correctness": 0.58,
+  "formula": "0.333333*presence + 0.166667*layout + 0.000000*connectivity + 0.166667*details + 0.333333*legibility",
+  "weights": {
+    "presence": 0.3333333333333333,
+    "layout": 0.16666666666666666,
+    "details": 0.16666666666666666,
+    "legibility": 0.3333333333333333
+  },
+  "dimensions": {
+    "presence": {
+      "dimension": "presence",
+      "score": 0.24,
+      "criteria": {
+        "presence.elements": 0.24
+      },
+      "participating_judges": [
+        "gpt-5.5"
+      ]
+    },
+    "layout": {
+      "dimension": "layout",
+      "score": 0.0,
+      "criteria": {
+        "layout.order": 0.0,
+        "layout.canvas": 0.0,
+        "layout.overlap": 0.0
+      },
+      "participating_judges": [
+        "gpt-5.5"
+      ]
+    },
+    "details": {
+      "dimension": "details",
+      "score": 1.0,
+      "criteria": {
+        "details.labels": 1.0
+      },
+      "participating_judges": [
+        "gpt-5.5"
+      ]
+    },
+    "legibility": {
+      "dimension": "legibility",
+      "score": 1.0,
+      "criteria": {
+        "legibility.overflow": 1.0,
+        "legibility.minimum_font": 1.0
+      },
+      "participating_judges": [
+        "gpt-5.5"
+      ]
+    }
+  },
+  "metrics": [
+    {
+      "criterion_id": "layout.order",
+      "dimension": "layout",
+      "judge": "gpt-5.5",
+      "expected_count": 1,
+      "detected_issues": 1,
+      "issues": [
+        {
+          "description": "The labeled circles appear as a vertical legend at the right, not as a separate horizontal row above the grid.",
+          "severity": "medium",
+          "element_ids": [
+            "labeled_row",
+            "random_circle_grid"
+          ]
+        }
+      ],
+      "notes": "Reading/processing order does not match the described top labeled row followed by grid below.",
+      "measurable": true,
+      "component_verdicts": [],
+      "score": 0.0
+    },
+    {
+      "criterion_id": "layout.canvas",
+      "dimension": "layout",
+      "judge": "gpt-5.5",
+      "expected_count": 1,
+      "detected_issues": 1,
+      "issues": [
+        {
+          "description": "Several spheres in the dense grid are clipped at the left and bottom canvas edges.",
+          "severity": "high",
+          "element_ids": [
+            "random_circle_grid"
+          ]
+        }
+      ],
+      "notes": "Candidate content is not fully inside the canvas.",
+      "measurable": true,
+      "component_verdicts": [],
+      "score": 0.0
+    },
+    {
+      "criterion_id": "layout.overlap",
+      "dimension": "layout",
+      "judge": "gpt-5.5",
+      "expected_count": 1,
+      "detected_issues": 1,
+      "issues": [
+        {
+          "description": "The main grid is a dense packed lattice with many overlapping/colliding circles rather than separated grid cells.",
+          "severity": "high",
+          "element_ids": [
+            "random_circle_grid"
+          ]
+        }
+      ],
+      "notes": "Intentional container nesting is not present; the circles visibly overlap.",
+      "measurable": true,
+      "component_verdicts": [],
+      "score": 0.0
+    },
+    {
+      "criterion_id": "connectivity.connections",
+      "dimension": "connectivity",
+      "judge": "gpt-5.5",
+      "expected_count": 0,
+      "detected_issues": 0,
+      "issues": [],
+      "notes": "No directed connections are expected, and no arrows are visible.",
+      "measurable": false,
+      "component_verdicts": [],
+      "score": null
+    },
+    {
+      "criterion_id": "connectivity.endpoints",
+      "dimension": "connectivity",
+      "judge": "gpt-5.5",
+      "expected_count": 0,
+      "detected_issues": 0,
+      "issues": [],
+      "notes": "No visible arrows exist, so there are no endpoints to evaluate.",
+      "measurable": false,
+      "component_verdicts": [],
+      "score": null
+    },
+    {
+      "criterion_id": "legibility.overflow",
+      "dimension": "legibility",
+      "judge": "gpt-5.5",
+      "expected_count": 5,
+      "detected_issues": 0,
+      "issues": [],
+      "notes": "The five legend labels are readable and not clipped.",
+      "measurable": true,
+      "component_verdicts": [],
+      "score": 1.0
+    },
+    {
+      "criterion_id": "legibility.minimum_font",
+      "dimension": "legibility",
+      "judge": "gpt-5.5",
+      "expected_count": 5,
+      "detected_issues": 0,
+      "issues": [],
+      "notes": "Visible labels meet the minimum readable size.",
+      "measurable": true,
+      "component_verdicts": [],
+      "score": 1.0
+    },
+    {
+      "criterion_id": "presence.elements",
+      "dimension": "presence",
+      "judge": "gpt-5.5",
+      "expected_count": 25,
+      "detected_issues": 19,
+      "issues": [
+        {
+          "description": "Expected component is not drawn: random_circle_grid",
+          "severity": "high",
+          "element_ids": [
+            "random_circle_grid"
+          ]
+        },
+        {
+          "description": "Expected component is not drawn: grid_row_1",
+          "severity": "high",
+          "element_ids": [
+            "grid_row_1"
+          ]
+        },
+        {
+          "description": "Expected component is not drawn: grid_r1_c1",
+          "severity": "high",
+          "element_ids": [
+            "grid_r1_c1"
+          ]
+        },
+        {
+          "description": "Expected component is not drawn: grid_r1_c2",
+          "severity": "high",
+          "element_ids": [
+            "grid_r1_c2"
+          ]
+        },
+        {
+          "description": "Expected component is not drawn: grid_r1_c3",
+          "severity": "high",
+          "element_ids": [
+            "grid_r1_c3"
+          ]
+        },
+        {
+          "description": "Expected component is not drawn: grid_r1_c4",
+          "severity": "high",
+          "element_ids": [
+            "grid_r1_c4"
+          ]
+        },
+        {
+          "description": "Expected component is not drawn: grid_row_2",
+          "severity": "high",
+          "element_ids": [
+            "grid_row_2"
+          ]
+        },
+        {
+          "description": "Expected component is not drawn: grid_r2_c1",
+          "severity": "high",
+          "element_ids": [
+            "grid_r2_c1"
+          ]
+        },
+        {
+          "description": "Expected component is not drawn: grid_r2_c2",
+          "severity": "high",
+          "element_ids": [
+            "grid_r2_c2"
+          ]
+        },
+        {
+          "description": "Expected component is not drawn: grid_r2_c3",
+          "severity": "high",
+          "element_ids": [
+            "grid_r2_c3"
+          ]
+        },
+        {
+          "description": "Expected component is not drawn: grid_row_3",
+          "severity": "high",
+          "element_ids": [
+            "grid_row_3"
+          ]
+        },
+        {
+          "description": "Expected component is not drawn: grid_r3_c1",
+          "severity": "high",
+          "element_ids": [
+            "grid_r3_c1"
+          ]
+        },
+        {
+          "description": "Expected component is not drawn: grid_r3_c2",
+          "severity": "high",
+          "element_ids": [
+            "grid_r3_c2"
+          ]
+        },
+        {
+          "description": "Expected component is not drawn: grid_r3_c3",
+          "severity": "high",
+          "element_ids": [
+            "grid_r3_c3"
+          ]
+        },
+        {
+          "description": "Expected component is not drawn: grid_r3_c4",
+          "severity": "high",
+          "element_ids": [
+            "grid_r3_c4"
+          ]
+        },
+        {
+          "description": "Expected component is not drawn: grid_row_4",
+          "severity": "high",
+          "element_ids": [
+            "grid_row_4"
+          ]
+        },
+        {
+          "description": "Expected component is not drawn: grid_r4_c1",
+          "severity": "high",
+          "element_ids": [
+            "grid_r4_c1"
+          ]
+        },
+        {
+          "description": "Expected component is not drawn: grid_r4_c2",
+          "severity": "high",
+          "element_ids": [
+            "grid_r4_c2"
+          ]
+        },
+        {
+          "description": "Expected component is not drawn: grid_r4_c3",
+          "severity": "high",
+          "element_ids": [
+            "grid_r4_c3"
+          ]
+        }
+      ],
+      "notes": "",
+      "measurable": true,
+      "component_verdicts": [
+        {
+          "component_id": "labeled_row",
+          "verdict": "present",
+          "judge": "gpt-5.5",
+          "visible_text": "Al\nCo\nCr\nFe\nNi",
+          "evidence": "Five labeled colored circles are grouped at the right with visible labels Al, Co, Cr, Fe, and Ni.",
+          "bounds": [
+            0.888,
+            0.021,
+            0.965,
+            0.974
+          ],
+          "notes": ""
+        },
+        {
+          "component_id": "al_labeled_circle",
+          "verdict": "present",
+          "judge": "gpt-5.5",
+          "visible_text": "Al",
+          "evidence": "Top red legend circle is labeled Al.",
+          "bounds": [
+            0.889,
+            0.021,
+            0.963,
+            0.145
+          ],
+          "notes": ""
+        },
+        {
+          "component_id": "co_labeled_circle",
+          "verdict": "present",
+          "judge": "gpt-5.5",
+          "visible_text": "Co",
+          "evidence": "Second blue legend circle is labeled Co.",
+          "bounds": [
+            0.889,
+            0.229,
+            0.963,
+            0.354
+          ],
+          "notes": ""
+        },
+        {
+          "component_id": "cr_labeled_circle",
+          "verdict": "present",
+          "judge": "gpt-5.5",
+          "visible_text": "Cr",
+          "evidence": "Third teal legend circle is labeled Cr.",
+          "bounds": [
+            0.889,
+            0.438,
+            0.963,
+            0.559
+          ],
+          "notes": ""
+        },
+        {
+          "component_id": "fe_labeled_circle",
+          "verdict": "present",
+          "judge": "gpt-5.5",
+          "visible_text": "Fe",
+          "evidence": "Fourth orange legend circle is labeled Fe.",
+          "bounds": [
+            0.889,
+            0.646,
+            0.963,
+            0.768
+          ],
+          "notes": ""
+        },
+        {
+          "component_id": "ni_labeled_circle",
+          "verdict": "present",
+          "judge": "gpt-5.5",
+          "visible_text": "Ni",
+          "evidence": "Bottom pale lavender legend circle is labeled Ni.",
+          "bounds": [
+            0.889,
+            0.852,
+            0.963,
+            0.974
+          ],
+          "notes": ""
+        },
+        {
+          "component_id": "random_circle_grid",
+          "verdict": "absent",
+          "judge": "gpt-5.5",
+          "visible_text": "",
+          "evidence": "A large group of unlabeled shaded colored spheres occupies the left/main area.",
+          "bounds": [
+            0.0,
+            0.0,
+            0.846,
+            1.0
+          ],
+          "notes": "downgraded from present: no quoted text or usable location"
+        },
+        {
+          "component_id": "grid_row_1",
+          "verdict": "absent",
+          "judge": "gpt-5.5",
+          "visible_text": "",
+          "evidence": "No distinct first row containing exactly four shaded circles is visible; the candidate shows a dense many-circle lattice.",
+          "bounds": null,
+          "notes": ""
+        },
+        {
+          "component_id": "grid_r1_c1",
+          "verdict": "absent",
+          "judge": "gpt-5.5",
+          "visible_text": "",
+          "evidence": "An unlabeled shaded grid circle is visible in the main lattice.",
+          "bounds": [
+            0.122,
+            0.111,
+            0.164,
+            0.251
+          ],
+          "notes": "downgraded from present: no quoted text or usable location"
+        },
+        {
+          "component_id": "grid_r1_c2",
+          "verdict": "absent",
+          "judge": "gpt-5.5",
+          "visible_text": "",
+          "evidence": "An unlabeled shaded grid circle is visible in the main lattice.",
+          "bounds": [
+            0.184,
+            0.113,
+            0.225,
+            0.253
+          ],
+          "notes": "downgraded from present: no quoted text or usable location"
+        },
+        {
+          "component_id": "grid_r1_c3",
+          "verdict": "absent",
+          "judge": "gpt-5.5",
+          "visible_text": "",
+          "evidence": "An unlabeled shaded grid circle is visible in the main lattice.",
+          "bounds": [
+            0.252,
+            0.113,
+            0.293,
+            0.253
+          ],
+          "notes": "downgraded from present: no quoted text or usable location"
+        },
+        {
+          "component_id": "grid_r1_c4",
+          "verdict": "absent",
+          "judge": "gpt-5.5",
+          "visible_text": "",
+          "evidence": "An unlabeled shaded grid circle is visible in the main lattice.",
+          "bounds": [
+            0.317,
+            0.113,
+            0.358,
+            0.253
+          ],
+          "notes": "downgraded from present: no quoted text or usable location"
+        },
+        {
+          "component_id": "grid_row_2",
+          "verdict": "absent",
+          "judge": "gpt-5.5",
+          "visible_text": "",
+          "evidence": "No distinct second staggered row containing exactly three shaded circles is visible.",
+          "bounds": null,
+          "notes": ""
+        },
+        {
+          "component_id": "grid_r2_c1",
+          "verdict": "absent",
+          "judge": "gpt-5.5",
+          "visible_text": "",
+          "evidence": "An unlabeled shaded grid circle is visible in the main lattice.",
+          "bounds": [
+            0.086,
+            0.227,
+            0.128,
+            0.367
+          ],
+          "notes": "downgraded from present: no quoted text or usable location"
+        },
+        {
+          "component_id": "grid_r2_c2",
+          "verdict": "absent",
+          "judge": "gpt-5.5",
+          "visible_text": "",
+          "evidence": "An unlabeled shaded grid circle is visible in the main lattice.",
+          "bounds": [
+            0.151,
+            0.227,
+            0.193,
+            0.367
+          ],
+          "notes": "downgraded from present: no quoted text or usable location"
+        },
+        {
+          "component_id": "grid_r2_c3",
+          "verdict": "absent",
+          "judge": "gpt-5.5",
+          "visible_text": "",
+          "evidence": "An unlabeled shaded grid circle is visible in the main lattice.",
+          "bounds": [
+            0.217,
+            0.227,
+            0.259,
+            0.367
+          ],
+          "notes": "downgraded from present: no quoted text or usable location"
+        },
+        {
+          "component_id": "grid_row_3",
+          "verdict": "absent",
+          "judge": "gpt-5.5",
+          "visible_text": "",
+          "evidence": "No distinct third row containing exactly four shaded circles is visible.",
+          "bounds": null,
+          "notes": ""
+        },
+        {
+          "component_id": "grid_r3_c1",
+          "verdict": "absent",
+          "judge": "gpt-5.5",
+          "visible_text": "",
+          "evidence": "An unlabeled shaded grid circle is visible in the main lattice.",
+          "bounds": [
+            0.089,
+            0.479,
+            0.129,
+            0.612
+          ],
+          "notes": "downgraded from present: no quoted text or usable location"
+        },
+        {
+          "component_id": "grid_r3_c2",
+          "verdict": "absent",
+          "judge": "gpt-5.5",
+          "visible_text": "",
+          "evidence": "An unlabeled shaded grid circle is visible in the main lattice.",
+          "bounds": [
+            0.153,
+            0.479,
+            0.194,
+            0.612
+          ],
+          "notes": "downgraded from present: no quoted text or usable location"
+        },
+        {
+          "component_id": "grid_r3_c3",
+          "verdict": "absent",
+          "judge": "gpt-5.5",
+          "visible_text": "",
+          "evidence": "An unlabeled shaded grid circle is visible in the main lattice.",
+          "bounds": [
+            0.219,
+            0.479,
+            0.26,
+            0.612
+          ],
+          "notes": "downgraded from present: no quoted text or usable location"
+        },
+        {
+          "component_id": "grid_r3_c4",
+          "verdict": "absent",
+          "judge": "gpt-5.5",
+          "visible_text": "",
+          "evidence": "An unlabeled shaded grid circle is visible in the main lattice.",
+          "bounds": [
+            0.283,
+            0.479,
+            0.326,
+            0.612
+          ],
+          "notes": "downgraded from present: no quoted text or usable location"
+        },
+        {
+          "component_id": "grid_row_4",
+          "verdict": "absent",
+          "judge": "gpt-5.5",
+          "visible_text": "",
+          "evidence": "No distinct fourth staggered row containing exactly three shaded circles is visible.",
+          "bounds": null,
+          "notes": ""
+        },
+        {
+          "component_id": "grid_r4_c1",
+          "verdict": "absent",
+          "judge": "gpt-5.5",
+          "visible_text": "",
+          "evidence": "An unlabeled shaded grid circle is visible in the main lattice.",
+          "bounds": [
+            0.055,
+            0.733,
+            0.098,
+            0.867
+          ],
+          "notes": "downgraded from present: no quoted text or usable location"
+        },
+        {
+          "component_id": "grid_r4_c2",
+          "verdict": "absent",
+          "judge": "gpt-5.5",
+          "visible_text": "",
+          "evidence": "An unlabeled shaded grid circle is visible in the main lattice.",
+          "bounds": [
+            0.121,
+            0.732,
+            0.162,
+            0.865
+          ],
+          "notes": "downgraded from present: no quoted text or usable location"
+        },
+        {
+          "component_id": "grid_r4_c3",
+          "verdict": "absent",
+          "judge": "gpt-5.5",
+          "visible_text": "",
+          "evidence": "An unlabeled shaded grid circle is visible in the main lattice.",
+          "bounds": [
+            0.187,
+            0.836,
+            0.227,
+            0.967
+          ],
+          "notes": "downgraded from present: no quoted text or usable location"
+        }
+      ],
+      "score": 0.24
+    },
+    {
+      "criterion_id": "details.labels",
+      "dimension": "details",
+      "judge": "gpt-5.5",
+      "expected_count": 6,
+      "detected_issues": 0,
+      "issues": [],
+      "notes": "Scored only over drawn components; missing components are scored under Presence.",
+      "measurable": true,
+      "component_verdicts": [],
+      "score": 1.0
+    }
+  ],
+  "inventory": {
+    "inventory": {
+      "presence": [
+        "One separate labeled-circle row is present above the grid.",
+        "Five labeled circles are present in the labeled row.",
+        "Labeled circle for Al is present.",
+        "Labeled circle for Co is present.",
+        "Labeled circle for Cr is present.",
+        "Labeled circle for Fe is present.",
+        "Labeled circle for Ni is present.",
+        "One random shaded-circle grid group is present below the labeled row.",
+        "Four staggered grid rows are present.",
+        "Grid row 1 contains four shaded circles.",
+        "Grid row 2 contains three shaded circles.",
+        "Grid row 3 contains four shaded circles.",
+        "Grid row 4 contains three shaded circles.",
+        "Fourteen unlabeled shaded grid circles are present."
+      ],
+      "layout": [
+        "The labeled row is positioned above the random circle grid.",
+        "The five labeled circles are arranged horizontally in a single row.",
+        "The random grid rows are arranged below in sensible top-to-bottom order.",
+        "Rows with four circles and rows with three circles alternate to create a staggered pattern.",
+        "Three-circle rows are horizontally offset relative to four-circle rows for visual balance.",
+        "All circles remain fully inside the canvas.",
+        "No unintended overlaps occur between circles or labels."
+      ],
+      "connectivity": [
+        "No directed connections or arrows are expected."
+      ],
+      "details": [
+        "The labeled row uses exact labels: Al, Co, Cr, Fe, Ni.",
+        "Each label is visibly associated with its corresponding circle.",
+        "The grid circles have no text labels.",
+        "Grid circle colors are selected from a predefined palette including red, teal, blue, and orange shades.",
+        "The labeled-row circles use predefined specific colors distinct from the random grid palette behavior.",
+        "All circles are shaded to suggest a three-dimensional appearance.",
+        "Missing labels are not acceptable for the five labeled circles.",
+        "Generic or placeholder labels are not acceptable."
+      ],
+      "legibility": [
+        "Labels Al, Co, Cr, Fe, and Ni are readable.",
+        "Text stays inside or next to its intended circle without clipping.",
+        "Text does not collide with neighboring circles or labels.",
+        "All text meets the minimum readable font size."
+      ]
+    },
+    "components": [
+      {
+        "id": "labeled_row",
+        "label": "Al Co Cr Fe Ni",
+        "kind": "group"
+      },
+      {
+        "id": "al_labeled_circle",
+        "label": "Al",
+        "kind": "labeled_circle"
+      },
+      {
+        "id": "co_labeled_circle",
+        "label": "Co",
+        "kind": "labeled_circle"
+      },
+      {
+        "id": "cr_labeled_circle",
+        "label": "Cr",
+        "kind": "labeled_circle"
+      },
+      {
+        "id": "fe_labeled_circle",
+        "label": "Fe",
+        "kind": "labeled_circle"
+      },
+      {
+        "id": "ni_labeled_circle",
+        "label": "Ni",
+        "kind": "labeled_circle"
+      },
+      {
+        "id": "random_circle_grid",
+        "label": "",
+        "kind": "grid_group"
+      },
+      {
+        "id": "grid_row_1",
+        "label": "",
+        "kind": "row_4_circles"
+      },
+      {
+        "id": "grid_r1_c1",
+        "label": "",
+        "kind": "shaded_circle"
+      },
+      {
+        "id": "grid_r1_c2",
+        "label": "",
+        "kind": "shaded_circle"
+      },
+      {
+        "id": "grid_r1_c3",
+        "label": "",
+        "kind": "shaded_circle"
+      },
+      {
+        "id": "grid_r1_c4",
+        "label": "",
+        "kind": "shaded_circle"
+      },
+      {
+        "id": "grid_row_2",
+        "label": "",
+        "kind": "row_3_circles"
+      },
+      {
+        "id": "grid_r2_c1",
+        "label": "",
+        "kind": "shaded_circle"
+      },
+      {
+        "id": "grid_r2_c2",
+        "label": "",
+        "kind": "shaded_circle"
+      },
+      {
+        "id": "grid_r2_c3",
+        "label": "",
+        "kind": "shaded_circle"
+      },
+      {
+        "id": "grid_row_3",
+        "label": "",
+        "kind": "row_4_circles"
+      },
+      {
+        "id": "grid_r3_c1",
+        "label": "",
+        "kind": "shaded_circle"
+      },
+      {
+        "id": "grid_r3_c2",
+        "label": "",
+        "kind": "shaded_circle"
+      },
+      {
+        "id": "grid_r3_c3",
+        "label": "",
+        "kind": "shaded_circle"
+      },
+      {
+        "id": "grid_r3_c4",
+        "label": "",
+        "kind": "shaded_circle"
+      },
+      {
+        "id": "grid_row_4",
+        "label": "",
+        "kind": "row_3_circles"
+      },
+      {
+        "id": "grid_r4_c1",
+        "label": "",
+        "kind": "shaded_circle"
+      },
+      {
+        "id": "grid_r4_c2",
+        "label": "",
+        "kind": "shaded_circle"
+      },
+      {
+        "id": "grid_r4_c3",
+        "label": "",
+        "kind": "shaded_circle"
+      }
+    ],
+    "connections": [],
+    "forbidden_placeholders": [
+      "Label",
+      "Text",
+      "Placeholder",
+      "???",
+      "Lorem ipsum",
+      "A",
+      "B",
+      "C",
+      "circle",
+      "atom"
+    ]
+  },
+  "metadata": {
+    "vlm_judges": [
+      "gpt-5.5"
+    ],
+    "expectation_model": "gpt-5.5",
+    "expectations_from": "description",
+    "deterministic_judge": false,
+    "component_verdicts": [
+      {
+        "component_id": "labeled_row",
+        "verdicts": {
+          "gpt-5.5": "present"
+        },
+        "agree": true
+      },
+      {
+        "component_id": "al_labeled_circle",
+        "verdicts": {
+          "gpt-5.5": "present"
+        },
+        "agree": true
+      },
+      {
+        "component_id": "co_labeled_circle",
+        "verdicts": {
+          "gpt-5.5": "present"
+        },
+        "agree": true
+      },
+      {
+        "component_id": "cr_labeled_circle",
+        "verdicts": {
+          "gpt-5.5": "present"
+        },
+        "agree": true
+      },
+      {
+        "component_id": "fe_labeled_circle",
+        "verdicts": {
+          "gpt-5.5": "present"
+        },
+        "agree": true
+      },
+      {
+        "component_id": "ni_labeled_circle",
+        "verdicts": {
+          "gpt-5.5": "present"
+        },
+        "agree": true
+      },
+      {
+        "component_id": "random_circle_grid",
+        "verdicts": {
+          "gpt-5.5": "absent"
+        },
+        "agree": true
+      },
+      {
+        "component_id": "grid_row_1",
+        "verdicts": {
+          "gpt-5.5": "absent"
+        },
+        "agree": true
+      },
+      {
+        "component_id": "grid_r1_c1",
+        "verdicts": {
+          "gpt-5.5": "absent"
+        },
+        "agree": true
+      },
+      {
+        "component_id": "grid_r1_c2",
+        "verdicts": {
+          "gpt-5.5": "absent"
+        },
+        "agree": true
+      },
+      {
+        "component_id": "grid_r1_c3",
+        "verdicts": {
+          "gpt-5.5": "absent"
+        },
+        "agree": true
+      },
+      {
+        "component_id": "grid_r1_c4",
+        "verdicts": {
+          "gpt-5.5": "absent"
+        },
+        "agree": true
+      },
+      {
+        "component_id": "grid_row_2",
+        "verdicts": {
+          "gpt-5.5": "absent"
+        },
+        "agree": true
+      },
+      {
+        "component_id": "grid_r2_c1",
+        "verdicts": {
+          "gpt-5.5": "absent"
+        },
+        "agree": true
+      },
+      {
+        "component_id": "grid_r2_c2",
+        "verdicts": {
+          "gpt-5.5": "absent"
+        },
+        "agree": true
+      },
+      {
+        "component_id": "grid_r2_c3",
+        "verdicts": {
+          "gpt-5.5": "absent"
+        },
+        "agree": true
+      },
+      {
+        "component_id": "grid_row_3",
+        "verdicts": {
+          "gpt-5.5": "absent"
+        },
+        "agree": true
+      },
+      {
+        "component_id": "grid_r3_c1",
+        "verdicts": {
+          "gpt-5.5": "absent"
+        },
+        "agree": true
+      },
+      {
+        "component_id": "grid_r3_c2",
+        "verdicts": {
+          "gpt-5.5": "absent"
+        },
+        "agree": true
+      },
+      {
+        "component_id": "grid_r3_c3",
+        "verdicts": {
+          "gpt-5.5": "absent"
+        },
+        "agree": true
+      },
+      {
+        "component_id": "grid_r3_c4",
+        "verdicts": {
+          "gpt-5.5": "absent"
+        },
+        "agree": true
+      },
+      {
+        "component_id": "grid_row_4",
+        "verdicts": {
+          "gpt-5.5": "absent"
+        },
+        "agree": true
+      },
+      {
+        "component_id": "grid_r4_c1",
+        "verdicts": {
+          "gpt-5.5": "absent"
+        },
+        "agree": true
+      },
+      {
+        "component_id": "grid_r4_c2",
+        "verdicts": {
+          "gpt-5.5": "absent"
+        },
+        "agree": true
+      },
+      {
+        "component_id": "grid_r4_c3",
+        "verdicts": {
+          "gpt-5.5": "absent"
+        },
+        "agree": true
+      }
+    ],
+    "component_disagreements": 0
+  }
+}

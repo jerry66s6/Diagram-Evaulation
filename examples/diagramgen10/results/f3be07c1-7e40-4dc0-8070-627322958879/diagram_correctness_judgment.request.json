@@ -1,0 +1,140 @@
+{
+  "model": "gpt-5.5",
+  "prompt": "You are stage 2 of a description-to-diagram alignment evaluator. The attached image is the only CANDIDATE. Evaluate it against the written description and the frozen stage-1 inventory. Do not invent a different target. Evidence must refer to visible candidate elements.\n\nPART A - component checklist (field 'components'). Return exactly one entry for every component_id below, in any order, and no other ids. Answer each item on its own:\n- present: a visible element plays this component's role and its label matches the expected label (ignore case, punctuation, and line breaks).\n- mislabeled: a visible element plays this role (recognizable from its label, position, grouping, or arrows), but its label is abbreviated, incomplete, different, missing, or a placeholder.\n- absent: no visible element plays this role.\n- uncertain: the image does not allow a decision.\nAn abbreviation of the expected label (for example 'FFN' for 'Feed-Forward Network') counts as mislabeled. An element in the component's position whose label is a placeholder (such as 'Layer', 'TBD', '???') or is missing counts as mislabeled.\nRules: quote the element's visible text exactly as drawn in visible_text ('' if it has none). Give location as the element's bounding box in normalized image coordinates from 0 to 1 (x0, y0 top-left; x1, y1 bottom-right); use all zeros when absent. Each drawn element may be used for at most one component_id. Judge only whether the component itself is drawn and labeled; arrows and connections are judged in Part B, not here.\n\nPART B - counted criteria (field 'metrics'). For every criterion listed here, expected_count is the number of relevant countable opportunities and detected_issues is the number that fail. If no opportunity exists, return both counts as zero. Count each failing opportunity once. Layout must penalize overlap and off-canvas content. Connectivity must verify visible source and target endpoints, not merely arrow count.\n\nComponent checklist (Part A):\n[{\"component_id\": \"parameter_estimation_1\", \"expected_label\": \"Parameter Estimation\", \"kind\": \"process step\", \"context\": \"receives from Check Error Value 1, Check Error Value 2; feeds Compute Sth. [compute_sth_1]; one of 2 components with this label; judge it separately and use a different drawn element\"}, {\"component_id\": \"compute_sth_1\", \"expected_label\": \"Compute Sth.\", \"kind\": \"process step\", \"context\": \"receives from Parameter Estimation [parameter_estimation_1]; feeds Compute Sth. [compute_sth_2]; one of 2 components with this label; judge it separately and use a different drawn element\"}, {\"component_id\": \"compute_sth_2\", \"expected_label\": \"Compute Sth.\", \"kind\": \"process step\", \"context\": \"receives from Compute Sth. [compute_sth_1]; feeds Compute Error Value 1; one of 2 components with this label; judge it separately and use a different drawn element\"}, {\"component_id\": \"compute_error_value_1\", \"expected_label\": \"Compute Error Value 1\", \"kind\": \"process step\", \"context\": \"receives from Compute Sth. [compute_sth_2]; feeds Parameter Estimation [parameter_estimation_2]\"}, {\"component_id\": \"parameter_estimation_2\", \"expected_label\": \"Parameter Estimation\", \"kind\": \"process step\", \"context\": \"receives from Compute Error Value 1; feeds Check Error Value 1; one of 2 components with this label; judge it separately and use a different drawn element\"}, {\"component_id\": \"check_error_value_1\", \"expected_label\": \"Check Error Value 1\", \"kind\": \"decision diamond\", \"context\": \"receives from Parameter Estimation [parameter_estimation_2]; feeds Compute Error Value 2, Parameter Estimation [parameter_estimation_1]\"}, {\"component_id\": \"compute_error_value_2\", \"expected_label\": \"Compute Error Value 2\", \"kind\": \"process step\", \"context\": \"receives from Check Error Value 1; feeds Check Error Value 2\"}, {\"component_id\": \"check_error_value_2\", \"expected_label\": \"Check Error Value 2\", \"kind\": \"decision diamond\", \"context\": \"receives from Compute Error Value 2; feeds End, Parameter Estimation [parameter_estimation_1]\"}, {\"component_id\": \"end\", \"expected_label\": \"End\", \"kind\": \"terminal step\", \"context\": \"receives from Check Error Value 2\"}]\n\nCounted criteria (Part B):\n[{\"id\": \"layout.order\", \"dimension\": \"layout\", \"description\": \"Components follow the sensible reading and processing order implied by the description.\", \"severity\": \"medium\"}, {\"id\": \"layout.canvas\", \"dimension\": \"layout\", \"description\": \"All candidate content remains fully inside the SVG canvas.\", \"severity\": \"high\"}, {\"id\": \"layout.overlap\", \"dimension\": \"layout\", \"description\": \"Candidate components have no unintended overlaps or collisions; intentional container nesting is allowed.\", \"severity\": \"high\"}, {\"id\": \"connectivity.connections\", \"dimension\": \"connectivity\", \"description\": \"Every directed source-to-target connection expected from the description is visibly present in the candidate.\", \"severity\": \"critical\"}, {\"id\": \"connectivity.endpoints\", \"dimension\": \"connectivity\", \"description\": \"Each visible arrow attaches to the correct description-expected source and target components with the correct direction.\", \"severity\": \"critical\"}, {\"id\": \"legibility.overflow\", \"dimension\": \"legibility\", \"description\": \"Text stays inside its intended container without clipping, collision, or overflow.\", \"severity\": \"high\"}, {\"id\": \"legibility.minimum_font\", \"dimension\": \"legibility\", \"description\": \"Every text element meets the configured minimum rendered font size.\", \"severity\": \"high\"}]\n\nDiagram description:\nHow can I use DOT to create a detailed flowchart that includes various steps such as parameter estimation and error computation, with decision points and loops indicated by different shapes and labeled edges? I want to ensure that each step in the process is clearly represented and interconnected, with specific labels and conditions for decision-making.\n\nSpecifically, I would like to start with a step labeled \"Parameter Estimation,\" followed by a series of computational steps like \"Compute Sth.\" repeated twice, and then \"Compute Error Value 1.\" After this, another \"Parameter Estimation\" step should be included, leading to a decision point labeled \"Check Error Value 1,\" which should be represented by a diamond shape. Based on the outcome of this decision, the flow should either proceed to \"Compute Error Value 2\" or loop back to the initial \"Parameter Estimation\" step if the error value is less than or equal to a predefined threshold \\( \\epsilon_1 \\).\n\nFollowing \"Compute Error Value 2,\" there should be another decision point labeled \"Check Error Value 2,\" also represented by a diamond shape. Depending on this decision, the flow should either proceed to the \"End\" step or loop back to the first \"Parameter Estimation\" step if the error value is less than or equal to another predefined threshold \\( \\epsilon_2 \\).\n\nI want to ensure that all edges connecting these steps are clearly labeled with the conditions for decision-making, such as \"Error 1 \\leq \\epsilon_1\" and \"Error 2 \\leq \\epsilon_2.\" Additionally, I would like the flowchart to have a clean, orthogonal layout to make the flow of the process easy to follow and understand. The nodes should be of a consistent size, and the decision points should be distinctly shaped to differentiate them from the other steps. This detailed representation will help in visualizing the iterative and conditional nature of the process, making it clear how the steps are interconnected and how decisions affect the flow of the process.\n\nFrozen description-derived inventory:\n{\"inventory\": {\"presence\": [\"parameter_estimation_1 process step is present\", \"compute_sth_1 process step is present\", \"compute_sth_2 process step is present\", \"compute_error_value_1 process step is present\", \"parameter_estimation_2 process step is present\", \"check_error_value_1 decision point is present\", \"compute_error_value_2 process step is present\", \"check_error_value_2 decision point is present\", \"end terminal step is present\", \"two separate Compute Sth. steps are present\", \"two separate Parameter Estimation steps are present\"], \"layout\": [\"components follow the main processing order from parameter_estimation_1 to end\", \"loopback from check_error_value_1 returns to parameter_estimation_1\", \"loopback from check_error_value_2 returns to parameter_estimation_1\", \"edges use a clean orthogonal layout\", \"process nodes use consistent sizing\", \"decision nodes are visually distinct from process nodes\", \"all content is fully inside the canvas\", \"no unintended overlaps or collisions\", \"no container nesting is required\"], \"connectivity\": [\"parameter_estimation_1 -> compute_sth_1\", \"compute_sth_1 -> compute_sth_2\", \"compute_sth_2 -> compute_error_value_1\", \"compute_error_value_1 -> parameter_estimation_2\", \"parameter_estimation_2 -> check_error_value_1\", \"check_error_value_1 -> compute_error_value_2\", \"check_error_value_1 -> parameter_estimation_1\", \"compute_error_value_2 -> check_error_value_2\", \"check_error_value_2 -> end\", \"check_error_value_2 -> parameter_estimation_1\"], \"details\": [\"parameter_estimation_1 label is exactly Parameter Estimation\", \"compute_sth_1 label is exactly Compute Sth.\", \"compute_sth_2 label is exactly Compute Sth.\", \"compute_error_value_1 label is exactly Compute Error Value 1\", \"parameter_estimation_2 label is exactly Parameter Estimation\", \"check_error_value_1 label is exactly Check Error Value 1\", \"check_error_value_1 is diamond-shaped\", \"compute_error_value_2 label is exactly Compute Error Value 2\", \"check_error_value_2 label is exactly Check Error Value 2\", \"check_error_value_2 is diamond-shaped\", \"end label is exactly End\", \"check_error_value_1 to parameter_estimation_1 edge label is Error 1 ≤ ε₁\", \"check_error_value_1 to compute_error_value_2 edge label is Error 1 > ε₁\", \"check_error_value_2 to parameter_estimation_1 edge label is Error 2 ≤ ε₂\", \"check_error_value_2 to end edge label is Error 2 > ε₂\", \"labels are not missing\", \"labels are not generic\", \"labels are not placeholders\"], \"legibility\": [\"all node labels are readable\", \"all edge labels are readable\", \"text stays inside its intended node or edge-label area\", \"text is not clipped\", \"text does not collide with other text or shapes\", \"every text element meets the minimum rendered font size\"]}, \"components\": [{\"id\": \"parameter_estimation_1\", \"label\": \"Parameter Estimation\", \"kind\": \"process step\"}, {\"id\": \"compute_sth_1\", \"label\": \"Compute Sth.\", \"kind\": \"process step\"}, {\"id\": \"compute_sth_2\", \"label\": \"Compute Sth.\", \"kind\": \"process step\"}, {\"id\": \"compute_error_value_1\", \"label\": \"Compute Error Value 1\", \"kind\": \"process step\"}, {\"id\": \"parameter_estimation_2\", \"label\": \"Parameter Estimation\", \"kind\": \"process step\"}, {\"id\": \"check_error_value_1\", \"label\": \"Check Error Value 1\", \"kind\": \"decision diamond\"}, {\"id\": \"compute_error_value_2\", \"label\": \"Compute Error Value 2\", \"kind\": \"process step\"}, {\"id\": \"check_error_value_2\", \"label\": \"Check Error Value 2\", \"kind\": \"decision diamond\"}, {\"id\": \"end\", \"label\": \"End\", \"kind\": \"terminal step\"}], \"connections\": [{\"source\": \"parameter_estimation_1\", \"target\": \"compute_sth_1\"}, {\"source\": \"compute_sth_1\", \"target\": \"compute_sth_2\"}, {\"source\": \"compute_sth_2\", \"target\": \"compute_error_value_1\"}, {\"source\": \"compute_error_value_1\", \"target\": \"parameter_estimation_2\"}, {\"source\": \"parameter_estimation_2\", \"target\": \"check_error_value_1\"}, {\"source\": \"check_error_value_1\", \"target\": \"compute_error_value_2\"}, {\"source\": \"check_error_value_1\", \"target\": \"parameter_estimation_1\"}, {\"source\": \"compute_error_value_2\", \"target\": \"check_error_value_2\"}, {\"source\": \"check_error_value_2\", \"target\": \"end\"}, {\"source\": \"check_error_value_2\", \"target\": \"parameter_estimation_1\"}], \"forbidden_placeholders\": [\"\", \"TODO\", \"TBD\", \"Placeholder\", \"placeholder\", \"Lorem ipsum\", \"Node\", \"Step\", \"Process\", \"Decision\", \"Label\", \"Text\", \"???\", \"...\"]}",
+  "schema": {
+    "type": "object",
+    "properties": {
+      "metrics": {
+        "type": "array",
+        "items": {
+          "type": "object",
+          "properties": {
+            "criterion_id": {
+              "type": "string"
+            },
+            "expected_count": {
+              "type": "integer",
+              "minimum": 0
+            },
+            "detected_issues": {
+              "type": "integer",
+              "minimum": 0
+            },
+            "issues": {
+              "type": "array",
+              "items": {
+                "type": "object",
+                "properties": {
+                  "description": {
+                    "type": "string"
+                  },
+                  "severity": {
+                    "type": "string",
+                    "enum": [
+                      "low",
+                      "medium",
+                      "high",
+                      "critical"
+                    ]
+                  },
+                  "element_ids": {
+                    "type": "array",
+                    "items": {
+                      "type": "string"
+                    }
+                  }
+                },
+                "required": [
+                  "description",
+                  "severity",
+                  "element_ids"
+                ],
+                "additionalProperties": false
+              }
+            },
+            "notes": {
+              "type": "string"
+            }
+          },
+          "required": [
+            "criterion_id",
+            "expected_count",
+            "detected_issues",
+            "issues",
+            "notes"
+          ],
+          "additionalProperties": false
+        }
+      },
+      "components": {
+        "type": "array",
+        "items": {
+          "type": "object",
+          "properties": {
+            "component_id": {
+              "type": "string"
+            },
+            "verdict": {
+              "type": "string",
+              "enum": [
+                "present",
+                "mislabeled",
+                "absent",
+                "uncertain"
+              ]
+            },
+            "visible_text": {
+              "type": "string"
+            },
+            "location": {
+              "type": "object",
+              "properties": {
+                "x0": {
+                  "type": "number"
+                },
+                "y0": {
+                  "type": "number"
+                },
+                "x1": {
+                  "type": "number"
+                },
+                "y1": {
+                  "type": "number"
+                }
+              },
+              "required": [
+                "x0",
+                "y0",
+                "x1",
+                "y1"
+              ],
+              "additionalProperties": false
+            },
+            "evidence": {
+              "type": "string"
+            }
+          },
+          "required": [
+            "component_id",
+            "verdict",
+            "visible_text",
+            "location",
+            "evidence"
+          ],
+          "additionalProperties": false
+        }
+      }
+    },
+    "required": [
+      "metrics",
+      "components"
+    ],
+    "additionalProperties": false
+  },
+  "images": [
+    {
+      "filename": "candidate.png",
+      "sha256": "41d2459910c78e7caa74354be5b059fba8774c7a7d6ae4e841d00a6ae17817b0"
+    }
+  ]
+}

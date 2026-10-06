@@ -1,0 +1,291 @@
+{
+  "metrics": [
+    {
+      "criterion_id": "layout.order",
+      "expected_count": 6,
+      "detected_issues": 0,
+      "issues": [],
+      "notes": "Major groups are arranged in readable hierarchical clusters: game objects, maps/client-server, menus, and weapons."
+    },
+    {
+      "criterion_id": "layout.canvas",
+      "expected_count": 1,
+      "detected_issues": 0,
+      "issues": [],
+      "notes": "All visible content appears inside the canvas."
+    },
+    {
+      "criterion_id": "layout.overlap",
+      "expected_count": 18,
+      "detected_issues": 0,
+      "issues": [],
+      "notes": "No visible node collisions or unintended overlaps are apparent."
+    },
+    {
+      "criterion_id": "connectivity.connections",
+      "expected_count": 16,
+      "detected_issues": 2,
+      "issues": [
+        {
+          "description": "Expected dotted connection CMap -> Server is not visible.",
+          "severity": "critical",
+          "element_ids": [
+            "c_map",
+            "server"
+          ]
+        },
+        {
+          "description": "Expected dotted connection SMap -> Client is not visible.",
+          "severity": "critical",
+          "element_ids": [
+            "s_map",
+            "client"
+          ]
+        }
+      ],
+      "notes": "The other expected hierarchical and client-server connections are visibly present."
+    },
+    {
+      "criterion_id": "connectivity.endpoints",
+      "expected_count": 16,
+      "detected_issues": 2,
+      "issues": [
+        {
+          "description": "Visible solid connection from extra node Map to CMap uses a non-inventory source rather than a description-expected source-target pair.",
+          "severity": "critical",
+          "element_ids": [
+            "c_map"
+          ]
+        },
+        {
+          "description": "Visible solid connection from extra node Map to SMap uses a non-inventory source rather than a description-expected source-target pair.",
+          "severity": "critical",
+          "element_ids": [
+            "s_map"
+          ]
+        }
+      ],
+      "notes": "Direction is inferred from the hierarchical layout; arrowheads are not visually prominent."
+    },
+    {
+      "criterion_id": "legibility.overflow",
+      "expected_count": 18,
+      "detected_issues": 0,
+      "issues": [],
+      "notes": "All visible labels fit inside their ellipse nodes."
+    },
+    {
+      "criterion_id": "legibility.minimum_font",
+      "expected_count": 18,
+      "detected_issues": 0,
+      "issues": [],
+      "notes": "All text appears readable at the rendered size."
+    }
+  ],
+  "components": [
+    {
+      "component_id": "ig_object",
+      "verdict": "present",
+      "visible_text": "IGObject",
+      "location": {
+        "x0": 0.107,
+        "y0": 0.022,
+        "x1": 0.183,
+        "y1": 0.212
+      },
+      "evidence": "Top-left cluster root ellipse labeled IGObject."
+    },
+    {
+      "component_id": "c_character",
+      "verdict": "present",
+      "visible_text": "CCharacter",
+      "location": {
+        "x0": 0.003,
+        "y0": 0.405,
+        "x1": 0.091,
+        "y1": 0.595
+      },
+      "evidence": "Left child ellipse under IGObject labeled CCharacter."
+    },
+    {
+      "component_id": "s_character",
+      "verdict": "present",
+      "visible_text": "SCharacter",
+      "location": {
+        "x0": 0.198,
+        "y0": 0.405,
+        "x1": 0.286,
+        "y1": 0.595
+      },
+      "evidence": "Right child ellipse under IGObject labeled SCharacter."
+    },
+    {
+      "component_id": "c_map",
+      "verdict": "present",
+      "visible_text": "CMap",
+      "location": {
+        "x0": 0.299,
+        "y0": 0.405,
+        "x1": 0.359,
+        "y1": 0.595
+      },
+      "evidence": "Map/client-server cluster contains ellipse labeled CMap."
+    },
+    {
+      "component_id": "s_map",
+      "verdict": "present",
+      "visible_text": "SMap",
+      "location": {
+        "x0": 0.596,
+        "y0": 0.405,
+        "x1": 0.652,
+        "y1": 0.595
+      },
+      "evidence": "Map/client-server cluster contains ellipse labeled SMap."
+    },
+    {
+      "component_id": "projectile",
+      "verdict": "present",
+      "visible_text": "Projectile",
+      "location": {
+        "x0": 0.106,
+        "y0": 0.405,
+        "x1": 0.184,
+        "y1": 0.595
+      },
+      "evidence": "Middle child ellipse under IGObject labeled Projectile."
+    },
+    {
+      "component_id": "c_projectile",
+      "verdict": "present",
+      "visible_text": "CProjectile",
+      "location": {
+        "x0": 0.102,
+        "y0": 0.788,
+        "x1": 0.189,
+        "y1": 0.981
+      },
+      "evidence": "Ellipse below Projectile labeled CProjectile."
+    },
+    {
+      "component_id": "i_menu",
+      "verdict": "present",
+      "visible_text": "IMenu",
+      "location": {
+        "x0": 0.738,
+        "y0": 0.022,
+        "x1": 0.798,
+        "y1": 0.212
+      },
+      "evidence": "Menu cluster root ellipse labeled IMenu."
+    },
+    {
+      "component_id": "menu_armas",
+      "verdict": "present",
+      "visible_text": "MenuArmas",
+      "location": {
+        "x0": 0.665,
+        "y0": 0.405,
+        "x1": 0.764,
+        "y1": 0.595
+      },
+      "evidence": "Left child ellipse under IMenu labeled MenuArmas."
+    },
+    {
+      "component_id": "menu_princ",
+      "verdict": "present",
+      "visible_text": "MenuPrinc",
+      "location": {
+        "x0": 0.777,
+        "y0": 0.405,
+        "x1": 0.879,
+        "y1": 0.595
+      },
+      "evidence": "Right child ellipse under IMenu labeled MenuPrinc."
+    },
+    {
+      "component_id": "weapons",
+      "verdict": "present",
+      "visible_text": "Weapons",
+      "location": {
+        "x0": 0.902,
+        "y0": 0.022,
+        "x1": 0.976,
+        "y1": 0.212
+      },
+      "evidence": "Weapons cluster root ellipse labeled Weapons."
+    },
+    {
+      "component_id": "pistol",
+      "verdict": "present",
+      "visible_text": "Pistol",
+      "location": {
+        "x0": 0.88,
+        "y0": 0.405,
+        "x1": 0.933,
+        "y1": 0.595
+      },
+      "evidence": "Left child ellipse under Weapons labeled Pistol."
+    },
+    {
+      "component_id": "rifle",
+      "verdict": "present",
+      "visible_text": "Rifle",
+      "location": {
+        "x0": 0.948,
+        "y0": 0.405,
+        "x1": 0.997,
+        "y1": 0.595
+      },
+      "evidence": "Right child ellipse under Weapons labeled Rifle."
+    },
+    {
+      "component_id": "connection",
+      "verdict": "present",
+      "visible_text": "Connection",
+      "location": {
+        "x0": 0.372,
+        "y0": 0.405,
+        "x1": 0.461,
+        "y1": 0.595
+      },
+      "evidence": "Client-server cluster contains ellipse labeled Connection."
+    },
+    {
+      "component_id": "configuration",
+      "verdict": "present",
+      "visible_text": "Configuration",
+      "location": {
+        "x0": 0.477,
+        "y0": 0.405,
+        "x1": 0.584,
+        "y1": 0.595
+      },
+      "evidence": "Client-server cluster contains ellipse labeled Configuration."
+    },
+    {
+      "component_id": "client",
+      "verdict": "present",
+      "visible_text": "Client",
+      "location": {
+        "x0": 0.389,
+        "y0": 0.788,
+        "x1": 0.445,
+        "y1": 0.981
+      },
+      "evidence": "Lower client-server ellipse labeled Client."
+    },
+    {
+      "component_id": "server",
+      "verdict": "present",
+      "visible_text": "Server",
+      "location": {
+        "x0": 0.5,
+        "y0": 0.788,
+        "x1": 0.558,
+        "y1": 0.981
+      },
+      "evidence": "Lower client-server ellipse labeled Server."
+    }
+  ]
+}

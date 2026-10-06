@@ -1,0 +1,108 @@
+{
+  "model": "gpt-5.5",
+  "prompt": "You are stage 1 of a description-to-diagram alignment evaluator. Read only the written diagram description below. There is no candidate image in this stage. Infer a frozen inventory of concrete, countable expectations for all five dimensions. Presence must enumerate every expected component, group, input, output, and repeated block, and nothing else: connections belong under Connectivity only. Details must enumerate exact meaningful labels and content and must explicitly reject missing or placeholder labels. Connectivity must list each intended directed source-to-target connection. Layout must describe sensible ordering, containment, overlap, and canvas expectations. Legibility must describe readable text expectations. Do not score. Do not add decorative requirements not implied by the description. Also return an ordered components list. Give each component a unique snake_case id, its exact expected visible label, and a short kind. Preserve repeated components as separate entries with separate ids. Return connections using only those component ids, directed from source to target. Return explicit forbidden placeholder strings. Use short, atomic strings.\n\nShared rubric:\n[{\"id\": \"presence.elements\", \"dimension\": \"presence\", \"description\": \"Every component, group, input, output, repeated block, and operation expected from the written description is visibly drawn in the candidate, even if its label is imperfect. Connections are judged under Connectivity, not here.\", \"severity\": \"high\"}, {\"id\": \"layout.order\", \"dimension\": \"layout\", \"description\": \"Components follow the sensible reading and processing order implied by the description.\", \"severity\": \"medium\"}, {\"id\": \"layout.canvas\", \"dimension\": \"layout\", \"description\": \"All candidate content remains fully inside the SVG canvas.\", \"severity\": \"high\"}, {\"id\": \"layout.overlap\", \"dimension\": \"layout\", \"description\": \"Candidate components have no unintended overlaps or collisions; intentional container nesting is allowed.\", \"severity\": \"high\"}, {\"id\": \"connectivity.connections\", \"dimension\": \"connectivity\", \"description\": \"Every directed source-to-target connection expected from the description is visibly present in the candidate.\", \"severity\": \"critical\"}, {\"id\": \"connectivity.endpoints\", \"dimension\": \"connectivity\", \"description\": \"Each visible arrow attaches to the correct description-expected source and target components with the correct direction.\", \"severity\": \"critical\"}, {\"id\": \"details.labels\", \"dimension\": \"details\", \"description\": \"Each drawn component carries its complete, accurate, meaningful expected label rather than an abbreviated, generic, missing, or placeholder label. Components that are not drawn are judged under Presence, not here.\", \"severity\": \"high\"}, {\"id\": \"legibility.overflow\", \"dimension\": \"legibility\", \"description\": \"Text stays inside its intended container without clipping, collision, or overflow.\", \"severity\": \"high\"}, {\"id\": \"legibility.minimum_font\", \"dimension\": \"legibility\", \"description\": \"Every text element meets the configured minimum rendered font size.\", \"severity\": \"high\"}]\n\nDiagram description:\nHow can I use DOT to create a complex directed graph with multiple interconnected nodes, where each node leads to several others, forming a detailed network structure? I need the graph to illustrate a highly interconnected network with nodes that have multiple outgoing and incoming edges, showcasing a intricate web of relationships.\n\nSpecifically, I want to start with an initial node (node 0) that branches out to several other nodes, creating a foundational structure. From this initial node, I want to ensure that subsequent nodes (such as nodes 1, 2, and 3) are interconnected, demonstrating a cascading effect where each node influences multiple others. This pattern should continue throughout the graph, with each new set of nodes expanding the network's complexity.\n\nI also want to include intermediate nodes that act as hubs, connecting various branches of the network. For example, nodes like 4, 7, 10, and so on, should serve as critical junctions that link different parts of the graph, ensuring a cohesive and interconnected structure.\n\nFurthermore, I want to highlight certain key nodes that have a higher degree of connectivity, such as nodes 16, 20, 23, and others, which should have multiple incoming and outgoing edges to emphasize their significance in the network.\n\nAs the graph progresses, I want to maintain this level of complexity, with each new set of nodes (e.g., nodes 33, 37, 40, etc.) continuing the pattern of interconnectivity. This should include nodes that branch out to form new sub-networks, as well as nodes that connect back to earlier parts of the graph, creating a recursive and highly intertwined structure.\n\nAdditionally, I want to ensure that the final nodes in the graph (such as nodes 113, 116, 119, and beyond) culminate in a dense network of connections, reinforcing the overall complexity and depth of the graph.\n\nThroughout the graph, I want to be able to customize the layout and appearance of nodes and edges to enhance readability and visual appeal. This includes adjusting the spacing between nodes, the curvature of edges, and potentially adding labels or annotations to highlight specific relationships or pathways.\n\nUltimately, my goal is to create a graph that not only demonstrates a complex network structure but also remains clear and comprehensible, allowing viewers to easily trace the connections and understand the hierarchical and relational dynamics within the network. The graph should serve as a visual representation of a sophisticated system, with each node and edge contributing to the overall narrative of interconnectedness and complexity.",
+  "schema": {
+    "type": "object",
+    "properties": {
+      "inventory": {
+        "type": "object",
+        "properties": {
+          "presence": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "layout": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "connectivity": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "details": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "legibility": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          }
+        },
+        "required": [
+          "presence",
+          "layout",
+          "connectivity",
+          "details",
+          "legibility"
+        ],
+        "additionalProperties": false
+      },
+      "components": {
+        "type": "array",
+        "items": {
+          "type": "object",
+          "properties": {
+            "id": {
+              "type": "string"
+            },
+            "label": {
+              "type": "string"
+            },
+            "kind": {
+              "type": "string"
+            }
+          },
+          "required": [
+            "id",
+            "label",
+            "kind"
+          ],
+          "additionalProperties": false
+        }
+      },
+      "connections": {
+        "type": "array",
+        "items": {
+          "type": "object",
+          "properties": {
+            "source": {
+              "type": "string"
+            },
+            "target": {
+              "type": "string"
+            }
+          },
+          "required": [
+            "source",
+            "target"
+          ],
+          "additionalProperties": false
+        }
+      },
+      "forbidden_placeholders": {
+        "type": "array",
+        "items": {
+          "type": "string"
+        }
+      }
+    },
+    "required": [
+      "inventory",
+      "components",
+      "connections",
+      "forbidden_placeholders"
+    ],
+    "additionalProperties": false
+  },
+  "images": []
+}

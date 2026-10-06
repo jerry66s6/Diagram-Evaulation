@@ -1,0 +1,166 @@
+{
+  "metrics": [
+    {
+      "criterion_id": "layout.order",
+      "expected_count": 1,
+      "detected_issues": 0,
+      "issues": [],
+      "notes": "Overall arrangement follows a readable complex-plane layout with negative point left, positive point right, and axes crossing."
+    },
+    {
+      "criterion_id": "layout.canvas",
+      "expected_count": 8,
+      "detected_issues": 2,
+      "issues": [
+        {
+          "description": "The blue zigzag real-axis stroke reaches the left and right canvas edges and appears clipped at the boundaries.",
+          "severity": "high",
+          "element_ids": [
+            "real_axis"
+          ]
+        },
+        {
+          "description": "The vertical imaginary axis arrowhead reaches the top canvas edge, leaving no visible margin and appearing clipped/tangent to the canvas boundary.",
+          "severity": "high",
+          "element_ids": [
+            "imaginary_axis"
+          ]
+        }
+      ],
+      "notes": ""
+    },
+    {
+      "criterion_id": "layout.overlap",
+      "expected_count": 8,
+      "detected_issues": 0,
+      "issues": [],
+      "notes": "No clear unintended collisions are visible; point markers intentionally lie on the real axis."
+    },
+    {
+      "criterion_id": "connectivity.connections",
+      "expected_count": 0,
+      "detected_issues": 0,
+      "issues": [],
+      "notes": "No directed source-to-target connections are specified."
+    },
+    {
+      "criterion_id": "connectivity.endpoints",
+      "expected_count": 0,
+      "detected_issues": 0,
+      "issues": [],
+      "notes": "No directed source-to-target connections are specified."
+    },
+    {
+      "criterion_id": "legibility.overflow",
+      "expected_count": 4,
+      "detected_issues": 0,
+      "issues": [],
+      "notes": "All visible text labels are readable and not clipped."
+    },
+    {
+      "criterion_id": "legibility.minimum_font",
+      "expected_count": 4,
+      "detected_issues": 0,
+      "issues": [],
+      "notes": "All text appears large enough to read."
+    }
+  ],
+  "components": [
+    {
+      "component_id": "real_axis",
+      "verdict": "present",
+      "visible_text": "",
+      "location": {
+        "x0": 0,
+        "y0": 0.45,
+        "x1": 1,
+        "y1": 0.56
+      },
+      "evidence": "A blue zigzag horizontal axis is visible across the real-axis direction."
+    },
+    {
+      "component_id": "imaginary_axis",
+      "verdict": "present",
+      "visible_text": "",
+      "location": {
+        "x0": 0.515,
+        "y0": 0,
+        "x1": 0.523,
+        "y1": 0.994
+      },
+      "evidence": "A straight black vertical axis with an upward arrow is visible through the center."
+    },
+    {
+      "component_id": "left_point_marker",
+      "verdict": "present",
+      "visible_text": "",
+      "location": {
+        "x0": 0.27,
+        "y0": 0.463,
+        "x1": 0.286,
+        "y1": 0.544
+      },
+      "evidence": "A filled black circle appears on the negative side of the real axis."
+    },
+    {
+      "component_id": "left_point_label",
+      "verdict": "present",
+      "visible_text": "$-\\sqrt{\\vec{p}^2}$",
+      "location": {
+        "x0": 0.232,
+        "y0": 0.219,
+        "x1": 0.326,
+        "y1": 0.438
+      },
+      "evidence": "The label above the left marker shows the negative square-root expression with vector p squared."
+    },
+    {
+      "component_id": "right_point_marker",
+      "verdict": "present",
+      "visible_text": "",
+      "location": {
+        "x0": 0.752,
+        "y0": 0.463,
+        "x1": 0.768,
+        "y1": 0.544
+      },
+      "evidence": "A filled black circle appears on the positive side of the real axis."
+    },
+    {
+      "component_id": "right_point_label",
+      "verdict": "present",
+      "visible_text": "$\\sqrt{\\vec{p}^2}$",
+      "location": {
+        "x0": 0.729,
+        "y0": 0.219,
+        "x1": 0.793,
+        "y1": 0.438
+      },
+      "evidence": "The label above the right marker shows the positive square-root expression with vector p squared."
+    },
+    {
+      "component_id": "real_axis_label",
+      "verdict": "present",
+      "visible_text": "$\\Re(p_0)$",
+      "location": {
+        "x0": 0.888,
+        "y0": 0.275,
+        "x1": 0.985,
+        "y1": 0.431
+      },
+      "evidence": "The real-axis label appears near the right side as Re(p_0)."
+    },
+    {
+      "component_id": "imaginary_axis_label",
+      "verdict": "present",
+      "visible_text": "$\\Im(p_0)$",
+      "location": {
+        "x0": 0.405,
+        "y0": 0.075,
+        "x1": 0.505,
+        "y1": 0.219
+      },
+      "evidence": "The imaginary-axis label appears near the top of the vertical axis as Im(p_0)."
+    }
+  ]
+}

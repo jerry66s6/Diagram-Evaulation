@@ -1,0 +1,173 @@
+{
+  "inventory": {
+    "presence": [
+      "parameter_estimation_1 process step is present",
+      "compute_sth_1 process step is present",
+      "compute_sth_2 process step is present",
+      "compute_error_value_1 process step is present",
+      "parameter_estimation_2 process step is present",
+      "check_error_value_1 decision point is present",
+      "compute_error_value_2 process step is present",
+      "check_error_value_2 decision point is present",
+      "end terminal step is present",
+      "two separate Compute Sth. steps are present",
+      "two separate Parameter Estimation steps are present"
+    ],
+    "layout": [
+      "components follow the main processing order from parameter_estimation_1 to end",
+      "loopback from check_error_value_1 returns to parameter_estimation_1",
+      "loopback from check_error_value_2 returns to parameter_estimation_1",
+      "edges use a clean orthogonal layout",
+      "process nodes use consistent sizing",
+      "decision nodes are visually distinct from process nodes",
+      "all content is fully inside the canvas",
+      "no unintended overlaps or collisions",
+      "no container nesting is required"
+    ],
+    "connectivity": [
+      "parameter_estimation_1 -> compute_sth_1",
+      "compute_sth_1 -> compute_sth_2",
+      "compute_sth_2 -> compute_error_value_1",
+      "compute_error_value_1 -> parameter_estimation_2",
+      "parameter_estimation_2 -> check_error_value_1",
+      "check_error_value_1 -> compute_error_value_2",
+      "check_error_value_1 -> parameter_estimation_1",
+      "compute_error_value_2 -> check_error_value_2",
+      "check_error_value_2 -> end",
+      "check_error_value_2 -> parameter_estimation_1"
+    ],
+    "details": [
+      "parameter_estimation_1 label is exactly Parameter Estimation",
+      "compute_sth_1 label is exactly Compute Sth.",
+      "compute_sth_2 label is exactly Compute Sth.",
+      "compute_error_value_1 label is exactly Compute Error Value 1",
+      "parameter_estimation_2 label is exactly Parameter Estimation",
+      "check_error_value_1 label is exactly Check Error Value 1",
+      "check_error_value_1 is diamond-shaped",
+      "compute_error_value_2 label is exactly Compute Error Value 2",
+      "check_error_value_2 label is exactly Check Error Value 2",
+      "check_error_value_2 is diamond-shaped",
+      "end label is exactly End",
+      "check_error_value_1 to parameter_estimation_1 edge label is Error 1 ≤ ε₁",
+      "check_error_value_1 to compute_error_value_2 edge label is Error 1 > ε₁",
+      "check_error_value_2 to parameter_estimation_1 edge label is Error 2 ≤ ε₂",
+      "check_error_value_2 to end edge label is Error 2 > ε₂",
+      "labels are not missing",
+      "labels are not generic",
+      "labels are not placeholders"
+    ],
+    "legibility": [
+      "all node labels are readable",
+      "all edge labels are readable",
+      "text stays inside its intended node or edge-label area",
+      "text is not clipped",
+      "text does not collide with other text or shapes",
+      "every text element meets the minimum rendered font size"
+    ]
+  },
+  "components": [
+    {
+      "id": "parameter_estimation_1",
+      "label": "Parameter Estimation",
+      "kind": "process step"
+    },
+    {
+      "id": "compute_sth_1",
+      "label": "Compute Sth.",
+      "kind": "process step"
+    },
+    {
+      "id": "compute_sth_2",
+      "label": "Compute Sth.",
+      "kind": "process step"
+    },
+    {
+      "id": "compute_error_value_1",
+      "label": "Compute Error Value 1",
+      "kind": "process step"
+    },
+    {
+      "id": "parameter_estimation_2",
+      "label": "Parameter Estimation",
+      "kind": "process step"
+    },
+    {
+      "id": "check_error_value_1",
+      "label": "Check Error Value 1",
+      "kind": "decision diamond"
+    },
+    {
+      "id": "compute_error_value_2",
+      "label": "Compute Error Value 2",
+      "kind": "process step"
+    },
+    {
+      "id": "check_error_value_2",
+      "label": "Check Error Value 2",
+      "kind": "decision diamond"
+    },
+    {
+      "id": "end",
+      "label": "End",
+      "kind": "terminal step"
+    }
+  ],
+  "connections": [
+    {
+      "source": "parameter_estimation_1",
+      "target": "compute_sth_1"
+    },
+    {
+      "source": "compute_sth_1",
+      "target": "compute_sth_2"
+    },
+    {
+      "source": "compute_sth_2",
+      "target": "compute_error_value_1"
+    },
+    {
+      "source": "compute_error_value_1",
+      "target": "parameter_estimation_2"
+    },
+    {
+      "source": "parameter_estimation_2",
+      "target": "check_error_value_1"
+    },
+    {
+      "source": "check_error_value_1",
+      "target": "compute_error_value_2"
+    },
+    {
+      "source": "check_error_value_1",
+      "target": "parameter_estimation_1"
+    },
+    {
+      "source": "compute_error_value_2",
+      "target": "check_error_value_2"
+    },
+    {
+      "source": "check_error_value_2",
+      "target": "end"
+    },
+    {
+      "source": "check_error_value_2",
+      "target": "parameter_estimation_1"
+    }
+  ],
+  "forbidden_placeholders": [
+    "",
+    "TODO",
+    "TBD",
+    "Placeholder",
+    "placeholder",
+    "Lorem ipsum",
+    "Node",
+    "Step",
+    "Process",
+    "Decision",
+    "Label",
+    "Text",
+    "???",
+    "..."
+  ]
+}

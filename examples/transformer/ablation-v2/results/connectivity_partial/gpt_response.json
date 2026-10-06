@@ -1,0 +1,226 @@
+{
+  "metrics": [
+    {
+      "criterion_id": "layout.order",
+      "expected_count": 6,
+      "detected_issues": 0,
+      "issues": [],
+      "notes": "Internal encoder components are in the required top-to-bottom order."
+    },
+    {
+      "criterion_id": "layout.canvas",
+      "expected_count": 1,
+      "detected_issues": 0,
+      "issues": [],
+      "notes": "All visible content is inside the canvas."
+    },
+    {
+      "criterion_id": "layout.overlap",
+      "expected_count": 10,
+      "detected_issues": 0,
+      "issues": [],
+      "notes": "No unintended component collisions are visible."
+    },
+    {
+      "criterion_id": "connectivity.connections",
+      "expected_count": 10,
+      "detected_issues": 3,
+      "issues": [
+        {
+          "description": "Missing directed connection from Positional Encoding to Add.",
+          "severity": "critical",
+          "element_ids": [
+            "positional_encoding",
+            "add"
+          ]
+        },
+        {
+          "description": "Missing residual/skip connection from Add to the first Add & Norm.",
+          "severity": "critical",
+          "element_ids": [
+            "add",
+            "add_norm_1"
+          ]
+        },
+        {
+          "description": "Missing residual/skip connection from the first Add & Norm to the second Add & Norm.",
+          "severity": "critical",
+          "element_ids": [
+            "add_norm_1",
+            "add_norm_2"
+          ]
+        }
+      ],
+      "notes": "Seven required main-path arrows are visible; the positional-encoding input and both skip connections are not visible."
+    },
+    {
+      "criterion_id": "connectivity.endpoints",
+      "expected_count": 7,
+      "detected_issues": 0,
+      "issues": [],
+      "notes": "All visible arrows correspond to expected source-target pairs."
+    },
+    {
+      "criterion_id": "legibility.overflow",
+      "expected_count": 12,
+      "detected_issues": 0,
+      "issues": [],
+      "notes": "Visible text stays within its intended boxes or container areas."
+    },
+    {
+      "criterion_id": "legibility.minimum_font",
+      "expected_count": 12,
+      "detected_issues": 0,
+      "issues": [],
+      "notes": "All visible text appears at least 12 px."
+    },
+    {
+      "criterion_id": "layout.relations",
+      "expected_count": 7,
+      "detected_issues": 0,
+      "issues": [],
+      "notes": "All explicit above/same-row relations are satisfied."
+    },
+    {
+      "criterion_id": "layout.containment",
+      "expected_count": 4,
+      "detected_issues": 0,
+      "issues": [],
+      "notes": "All four internal encoder components are fully contained within the Transformer Encoder Block."
+    }
+  ],
+  "components": [
+    {
+      "component_id": "input_tokens",
+      "verdict": "present",
+      "visible_text": "Input Tokens",
+      "location": {
+        "x0": 0.386,
+        "y0": 0.073,
+        "x1": 0.615,
+        "y1": 0.139
+      },
+      "evidence": "A blue rounded rectangle near the top is labeled \"Input Tokens\"."
+    },
+    {
+      "component_id": "token_embeddings",
+      "verdict": "present",
+      "visible_text": "Token Embeddings",
+      "location": {
+        "x0": 0.185,
+        "y0": 0.184,
+        "x1": 0.442,
+        "y1": 0.254
+      },
+      "evidence": "A green rounded rectangle below-left of the input is labeled \"Token Embeddings\"."
+    },
+    {
+      "component_id": "positional_encoding",
+      "verdict": "present",
+      "visible_text": "Positional Encoding",
+      "location": {
+        "x0": 0.558,
+        "y0": 0.184,
+        "x1": 0.815,
+        "y1": 0.254
+      },
+      "evidence": "A yellow rounded rectangle below-right of the input is labeled \"Positional Encoding\"."
+    },
+    {
+      "component_id": "add",
+      "verdict": "present",
+      "visible_text": "Add",
+      "location": {
+        "x0": 0.471,
+        "y0": 0.282,
+        "x1": 0.529,
+        "y1": 0.353
+      },
+      "evidence": "A circular operation node is labeled \"Add\"."
+    },
+    {
+      "component_id": "transformer_encoder_block",
+      "verdict": "present",
+      "visible_text": "Transformer Encoder Block",
+      "location": {
+        "x0": 0.166,
+        "y0": 0.378,
+        "x1": 0.833,
+        "y1": 0.874
+      },
+      "evidence": "A large outlined container is labeled \"Transformer Encoder Block\"."
+    },
+    {
+      "component_id": "repetition_marker_n_times",
+      "verdict": "present",
+      "visible_text": "N×",
+      "location": {
+        "x0": 0.753,
+        "y0": 0.393,
+        "x1": 0.807,
+        "y1": 0.434
+      },
+      "evidence": "A small purple pill near the top-right of the block is labeled \"N×\"."
+    },
+    {
+      "component_id": "multi_head_self_attention",
+      "verdict": "present",
+      "visible_text": "Multi-Head Self-Attention",
+      "location": {
+        "x0": 0.29,
+        "y0": 0.444,
+        "x1": 0.71,
+        "y1": 0.516
+      },
+      "evidence": "The top internal block is labeled \"Multi-Head Self-Attention\"."
+    },
+    {
+      "component_id": "add_norm_1",
+      "verdict": "present",
+      "visible_text": "Add & Norm",
+      "location": {
+        "x0": 0.349,
+        "y0": 0.557,
+        "x1": 0.651,
+        "y1": 0.62
+      },
+      "evidence": "The first normalization block inside the encoder is labeled \"Add & Norm\"."
+    },
+    {
+      "component_id": "position_wise_feed_forward_network",
+      "verdict": "present",
+      "visible_text": "Position-wise Feed-Forward Network",
+      "location": {
+        "x0": 0.29,
+        "y0": 0.661,
+        "x1": 0.71,
+        "y1": 0.731
+      },
+      "evidence": "The middle feed-forward block is labeled \"Position-wise Feed-Forward Network\"."
+    },
+    {
+      "component_id": "add_norm_2",
+      "verdict": "present",
+      "visible_text": "Add & Norm",
+      "location": {
+        "x0": 0.349,
+        "y0": 0.772,
+        "x1": 0.651,
+        "y1": 0.836
+      },
+      "evidence": "The second normalization block inside the encoder is labeled \"Add & Norm\"."
+    },
+    {
+      "component_id": "contextual_embeddings",
+      "verdict": "present",
+      "visible_text": "Contextual Embeddings",
+      "location": {
+        "x0": 0.364,
+        "y0": 0.913,
+        "x1": 0.637,
+        "y1": 0.979
+      },
+      "evidence": "The output rectangle beneath the encoder block is labeled \"Contextual Embeddings\"."
+    }
+  ]
+}

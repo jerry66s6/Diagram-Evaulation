@@ -1,0 +1,513 @@
+{
+  "correctness": 0.7333333333333334,
+  "formula": "0.200000*presence + 0.100000*layout + 0.400000*connectivity + 0.100000*details + 0.200000*legibility",
+  "weights": {
+    "presence": 0.2,
+    "layout": 0.1,
+    "connectivity": 0.4,
+    "details": 0.1,
+    "legibility": 0.2
+  },
+  "dimensions": {
+    "presence": {
+      "dimension": "presence",
+      "score": 1.0,
+      "criteria": {
+        "presence.elements": 1.0
+      },
+      "participating_judges": [
+        "gpt-5.5"
+      ]
+    },
+    "layout": {
+      "dimension": "layout",
+      "score": 0.8666666666666667,
+      "criteria": {
+        "layout.order": 0.6,
+        "layout.canvas": 1.0,
+        "layout.overlap": 1.0
+      },
+      "participating_judges": [
+        "gpt-5.5"
+      ]
+    },
+    "connectivity": {
+      "dimension": "connectivity",
+      "score": 0.3666666666666667,
+      "criteria": {
+        "connectivity.connections": 0.4,
+        "connectivity.endpoints": 0.3333333333333333
+      },
+      "participating_judges": [
+        "gpt-5.5"
+      ]
+    },
+    "details": {
+      "dimension": "details",
+      "score": 1.0,
+      "criteria": {
+        "details.labels": 1.0
+      },
+      "participating_judges": [
+        "gpt-5.5"
+      ]
+    },
+    "legibility": {
+      "dimension": "legibility",
+      "score": 1.0,
+      "criteria": {
+        "legibility.overflow": 1.0,
+        "legibility.minimum_font": 1.0
+      },
+      "participating_judges": [
+        "gpt-5.5"
+      ]
+    }
+  },
+  "metrics": [
+    {
+      "criterion_id": "layout.order",
+      "dimension": "layout",
+      "judge": "gpt-5.5",
+      "expected_count": 5,
+      "detected_issues": 2,
+      "issues": [
+        {
+          "description": "get_current_stock_price is placed after/below action_get_stock_price, reversing the expected get_current_stock_price -> action_get_stock_price order.",
+          "severity": "medium",
+          "element_ids": [
+            "get_current_stock_price_intent",
+            "action_get_stock_price_action"
+          ]
+        },
+        {
+          "description": "END appears near the start of the diagram instead of after action_get_stock_price at the end of the process flow.",
+          "severity": "medium",
+          "element_ids": [
+            "end_node",
+            "action_get_stock_price_action"
+          ]
+        }
+      ],
+      "notes": "The visible top-to-bottom flow is START/action_session_start, what is TSLA worth, action_get_stock_price, duplicate what is TSLA worth, get_current_stock_price, with END as an early side branch.",
+      "measurable": true,
+      "component_verdicts": [],
+      "score": 0.6
+    },
+    {
+      "criterion_id": "layout.canvas",
+      "dimension": "layout",
+      "judge": "gpt-5.5",
+      "expected_count": 1,
+      "detected_issues": 0,
+      "issues": [],
+      "notes": "All visible content appears inside the image canvas.",
+      "measurable": true,
+      "component_verdicts": [],
+      "score": 1.0
+    },
+    {
+      "criterion_id": "layout.overlap",
+      "dimension": "layout",
+      "judge": "gpt-5.5",
+      "expected_count": 1,
+      "detected_issues": 0,
+      "issues": [],
+      "notes": "No unintended component overlaps are visible.",
+      "measurable": true,
+      "component_verdicts": [],
+      "score": 1.0
+    },
+    {
+      "criterion_id": "connectivity.connections",
+      "dimension": "connectivity",
+      "judge": "gpt-5.5",
+      "expected_count": 5,
+      "detected_issues": 3,
+      "issues": [
+        {
+          "description": "Expected connection what is TSLA worth -> get_current_stock_price is not visibly present from the assigned what is TSLA worth node to get_current_stock_price.",
+          "severity": "critical",
+          "element_ids": [
+            "what_is_tsla_worth_intent",
+            "get_current_stock_price_intent"
+          ]
+        },
+        {
+          "description": "Expected connection get_current_stock_price -> action_get_stock_price is not present; the visible direction/order is not from get_current_stock_price to action_get_stock_price.",
+          "severity": "critical",
+          "element_ids": [
+            "get_current_stock_price_intent",
+            "action_get_stock_price_action"
+          ]
+        },
+        {
+          "description": "Expected connection action_get_stock_price -> END is not present.",
+          "severity": "critical",
+          "element_ids": [
+            "action_get_stock_price_action",
+            "end_node"
+          ]
+        }
+      ],
+      "notes": "Visible expected connections START -> action_session_start and action_session_start -> what is TSLA worth are present.",
+      "measurable": true,
+      "component_verdicts": [],
+      "score": 0.4
+    },
+    {
+      "criterion_id": "connectivity.endpoints",
+      "dimension": "connectivity",
+      "judge": "gpt-5.5",
+      "expected_count": 6,
+      "detected_issues": 4,
+      "issues": [
+        {
+          "description": "A visible arrow goes from START to END, which is not an expected transition.",
+          "severity": "critical",
+          "element_ids": [
+            "start_node",
+            "end_node"
+          ]
+        },
+        {
+          "description": "A visible arrow goes from what is TSLA worth to action_get_stock_price, but the expected target after what is TSLA worth is get_current_stock_price.",
+          "severity": "critical",
+          "element_ids": [
+            "what_is_tsla_worth_intent",
+            "action_get_stock_price_action"
+          ]
+        },
+        {
+          "description": "A visible arrow goes from action_get_stock_price to a duplicate what is TSLA worth node, not to END.",
+          "severity": "critical",
+          "element_ids": [
+            "action_get_stock_price_action"
+          ]
+        },
+        {
+          "description": "A visible arrow goes from the duplicate lower what is TSLA worth node to get_current_stock_price rather than from the assigned expected what is TSLA worth node.",
+          "severity": "critical",
+          "element_ids": [
+            "get_current_stock_price_intent"
+          ]
+        }
+      ],
+      "notes": "The correctly attached visible arrows are START -> action_session_start and action_session_start -> what is TSLA worth.",
+      "measurable": true,
+      "component_verdicts": [],
+      "score": 0.3333333333333333
+    },
+    {
+      "criterion_id": "legibility.overflow",
+      "dimension": "legibility",
+      "judge": "gpt-5.5",
+      "expected_count": 7,
+      "detected_issues": 0,
+      "issues": [],
+      "notes": "Visible labels remain inside their node containers without apparent clipping.",
+      "measurable": true,
+      "component_verdicts": [],
+      "score": 1.0
+    },
+    {
+      "criterion_id": "legibility.minimum_font",
+      "dimension": "legibility",
+      "judge": "gpt-5.5",
+      "expected_count": 7,
+      "detected_issues": 0,
+      "issues": [],
+      "notes": "All visible text is rendered at a large readable size.",
+      "measurable": true,
+      "component_verdicts": [],
+      "score": 1.0
+    },
+    {
+      "criterion_id": "presence.elements",
+      "dimension": "presence",
+      "judge": "gpt-5.5",
+      "expected_count": 6,
+      "detected_issues": 0,
+      "issues": [],
+      "notes": "",
+      "measurable": true,
+      "component_verdicts": [
+        {
+          "component_id": "start_node",
+          "verdict": "present",
+          "judge": "gpt-5.5",
+          "visible_text": "START",
+          "evidence": "Green oval at the top labeled START.",
+          "bounds": [
+            0.237,
+            0.01,
+            0.53,
+            0.099
+          ],
+          "notes": ""
+        },
+        {
+          "component_id": "action_session_start_action",
+          "verdict": "present",
+          "judge": "gpt-5.5",
+          "visible_text": "action_session_start",
+          "evidence": "Large oval to the upper right labeled action_session_start.",
+          "bounds": [
+            0.331,
+            0.188,
+            0.942,
+            0.278
+          ],
+          "notes": ""
+        },
+        {
+          "component_id": "what_is_tsla_worth_intent",
+          "verdict": "present",
+          "judge": "gpt-5.5",
+          "visible_text": "what is TSLA worth",
+          "evidence": "First light-blue rectangle below action_session_start labeled what is TSLA worth.",
+          "bounds": [
+            0.36,
+            0.366,
+            0.912,
+            0.456
+          ],
+          "notes": ""
+        },
+        {
+          "component_id": "get_current_stock_price_intent",
+          "verdict": "present",
+          "judge": "gpt-5.5",
+          "visible_text": "get_current_stock_price",
+          "evidence": "Bottom rectangle labeled get_current_stock_price.",
+          "bounds": [
+            0.316,
+            0.901,
+            0.955,
+            0.991
+          ],
+          "notes": ""
+        },
+        {
+          "component_id": "action_get_stock_price_action",
+          "verdict": "present",
+          "judge": "gpt-5.5",
+          "visible_text": "action_get_stock_price",
+          "evidence": "Large oval in the middle labeled action_get_stock_price.",
+          "bounds": [
+            0.289,
+            0.545,
+            0.983,
+            0.634
+          ],
+          "notes": ""
+        },
+        {
+          "component_id": "end_node",
+          "verdict": "present",
+          "judge": "gpt-5.5",
+          "visible_text": "END",
+          "evidence": "Red oval on the left labeled END.",
+          "bounds": [
+            0.017,
+            0.187,
+            0.254,
+            0.278
+          ],
+          "notes": ""
+        }
+      ],
+      "score": 1.0
+    },
+    {
+      "criterion_id": "details.labels",
+      "dimension": "details",
+      "judge": "gpt-5.5",
+      "expected_count": 6,
+      "detected_issues": 0,
+      "issues": [],
+      "notes": "Scored only over drawn components; missing components are scored under Presence.",
+      "measurable": true,
+      "component_verdicts": [],
+      "score": 1.0
+    }
+  ],
+  "inventory": {
+    "inventory": {
+      "presence": [
+        "START node is present",
+        "END node is present",
+        "action_session_start action node is present",
+        "action_get_stock_price action node is present",
+        "get_current_stock_price intent node is present",
+        "what is TSLA worth intent node is present"
+      ],
+      "layout": [
+        "Process flow follows a logical reading order from START to END",
+        "START appears before action_session_start",
+        "action_session_start appears before the intent nodes",
+        "intent nodes appear before action_get_stock_price",
+        "action_get_stock_price appears before END",
+        "All content is fully inside the SVG canvas",
+        "No unintended component overlaps or text collisions",
+        "No container nesting is required"
+      ],
+      "connectivity": [
+        "start_node -> action_session_start_action",
+        "action_session_start_action -> what_is_tsla_worth_intent",
+        "what_is_tsla_worth_intent -> get_current_stock_price_intent",
+        "get_current_stock_price_intent -> action_get_stock_price_action",
+        "action_get_stock_price_action -> end_node"
+      ],
+      "details": [
+        "START node label is exactly \"START\"",
+        "START node has green fill color",
+        "END node label is exactly \"END\"",
+        "END node has red fill color",
+        "action_session_start action node label is exactly \"action_session_start\"",
+        "action_get_stock_price action node label is exactly \"action_get_stock_price\"",
+        "Action node labels use clear distinct font sizing",
+        "get_current_stock_price intent node label is exactly \"get_current_stock_price\"",
+        "what is TSLA worth intent node label is exactly \"what is TSLA worth\"",
+        "Intent nodes have rectangular shape",
+        "Intent nodes have light blue fill color",
+        "what is TSLA worth intent node has a dashed border",
+        "get_current_stock_price intent node has a solid border",
+        "Edge from START to action_session_start has no visible label",
+        "Edge from action_session_start to what is TSLA worth has a meaningful trigger-condition label",
+        "Labels are not missing, generic, abbreviated, or placeholders"
+      ],
+      "legibility": [
+        "Every node label is readable",
+        "Every edge label is readable",
+        "Text stays inside its intended node or edge-label area",
+        "Text is not clipped or truncated",
+        "Every text element meets the minimum rendered font size"
+      ]
+    },
+    "components": [
+      {
+        "id": "start_node",
+        "label": "START",
+        "kind": "start node"
+      },
+      {
+        "id": "action_session_start_action",
+        "label": "action_session_start",
+        "kind": "action node"
+      },
+      {
+        "id": "what_is_tsla_worth_intent",
+        "label": "what is TSLA worth",
+        "kind": "intent node"
+      },
+      {
+        "id": "get_current_stock_price_intent",
+        "label": "get_current_stock_price",
+        "kind": "intent node"
+      },
+      {
+        "id": "action_get_stock_price_action",
+        "label": "action_get_stock_price",
+        "kind": "action node"
+      },
+      {
+        "id": "end_node",
+        "label": "END",
+        "kind": "end node"
+      }
+    ],
+    "connections": [
+      {
+        "source": "start_node",
+        "target": "action_session_start_action"
+      },
+      {
+        "source": "action_session_start_action",
+        "target": "what_is_tsla_worth_intent"
+      },
+      {
+        "source": "what_is_tsla_worth_intent",
+        "target": "get_current_stock_price_intent"
+      },
+      {
+        "source": "get_current_stock_price_intent",
+        "target": "action_get_stock_price_action"
+      },
+      {
+        "source": "action_get_stock_price_action",
+        "target": "end_node"
+      }
+    ],
+    "forbidden_placeholders": [
+      "placeholder",
+      "Placeholder",
+      "TODO",
+      "TBD",
+      "Label",
+      "label",
+      "Node",
+      "node",
+      "Action",
+      "Intent",
+      "Edge",
+      "text",
+      "Lorem ipsum",
+      "untitled",
+      "Untitled"
+    ]
+  },
+  "metadata": {
+    "vlm_judges": [
+      "gpt-5.5"
+    ],
+    "expectation_model": "gpt-5.5",
+    "expectations_from": "description",
+    "deterministic_judge": false,
+    "component_verdicts": [
+      {
+        "component_id": "start_node",
+        "verdicts": {
+          "gpt-5.5": "present"
+        },
+        "agree": true
+      },
+      {
+        "component_id": "action_session_start_action",
+        "verdicts": {
+          "gpt-5.5": "present"
+        },
+        "agree": true
+      },
+      {
+        "component_id": "what_is_tsla_worth_intent",
+        "verdicts": {
+          "gpt-5.5": "present"
+        },
+        "agree": true
+      },
+      {
+        "component_id": "get_current_stock_price_intent",
+        "verdicts": {
+          "gpt-5.5": "present"
+        },
+        "agree": true
+      },
+      {
+        "component_id": "action_get_stock_price_action",
+        "verdicts": {
+          "gpt-5.5": "present"
+        },
+        "agree": true
+      },
+      {
+        "component_id": "end_node",
+        "verdicts": {
+          "gpt-5.5": "present"
+        },
+        "agree": true
+      }
+    ],
+    "component_disagreements": 0
+  }
+}

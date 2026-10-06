@@ -1,0 +1,108 @@
+{
+  "model": "gpt-5.5",
+  "prompt": "You are stage 1 of a description-to-diagram alignment evaluator. Read only the written diagram description below. There is no candidate image in this stage. Infer a frozen inventory of concrete, countable expectations for all five dimensions. Presence must enumerate every expected component, group, input, output, and repeated block, and nothing else: connections belong under Connectivity only. Details must enumerate exact meaningful labels and content and must explicitly reject missing or placeholder labels. Connectivity must list each intended directed source-to-target connection. Layout must describe sensible ordering, containment, overlap, and canvas expectations. Legibility must describe readable text expectations. Do not score. Do not add decorative requirements not implied by the description. Also return an ordered components list. Give each component a unique snake_case id, its exact expected visible label, and a short kind. Preserve repeated components as separate entries with separate ids. Return connections using only those component ids, directed from source to target. Return explicit forbidden placeholder strings. Use short, atomic strings.\n\nShared rubric:\n[{\"id\": \"presence.elements\", \"dimension\": \"presence\", \"description\": \"Every component, group, input, output, repeated block, and operation expected from the written description is visibly drawn in the candidate, even if its label is imperfect. Connections are judged under Connectivity, not here.\", \"severity\": \"high\"}, {\"id\": \"layout.order\", \"dimension\": \"layout\", \"description\": \"Components follow the sensible reading and processing order implied by the description.\", \"severity\": \"medium\"}, {\"id\": \"layout.canvas\", \"dimension\": \"layout\", \"description\": \"All candidate content remains fully inside the SVG canvas.\", \"severity\": \"high\"}, {\"id\": \"layout.overlap\", \"dimension\": \"layout\", \"description\": \"Candidate components have no unintended overlaps or collisions; intentional container nesting is allowed.\", \"severity\": \"high\"}, {\"id\": \"connectivity.connections\", \"dimension\": \"connectivity\", \"description\": \"Every directed source-to-target connection expected from the description is visibly present in the candidate.\", \"severity\": \"critical\"}, {\"id\": \"connectivity.endpoints\", \"dimension\": \"connectivity\", \"description\": \"Each visible arrow attaches to the correct description-expected source and target components with the correct direction.\", \"severity\": \"critical\"}, {\"id\": \"details.labels\", \"dimension\": \"details\", \"description\": \"Each drawn component carries its complete, accurate, meaningful expected label rather than an abbreviated, generic, missing, or placeholder label. Components that are not drawn are judged under Presence, not here.\", \"severity\": \"high\"}, {\"id\": \"legibility.overflow\", \"dimension\": \"legibility\", \"description\": \"Text stays inside its intended container without clipping, collision, or overflow.\", \"severity\": \"high\"}, {\"id\": \"legibility.minimum_font\", \"dimension\": \"legibility\", \"description\": \"Every text element meets the configured minimum rendered font size.\", \"severity\": \"high\"}]\n\nDiagram description:\nHow can I use LaTeX and TikZ to create a detailed diagram that represents a complex number plane with custom labels and a uniquely styled axis? I want to include specific points on the plane that are labeled with square roots, and I need the axes to be clearly labeled with the real and imaginary parts of a complex number. Specifically, I would like to place two points on the real axis, one labeled as $-\\sqrt{\\vec{p}^2}$ and the other as $\\sqrt{\\vec{p}^2}$, with these points being visually distinct, perhaps by using filled circles.\n\nFor the axes, I want the real axis to be styled with a zigzag pattern to emphasize its distinctiveness, using a blue color scheme to make it stand out. The imaginary axis should be a standard straight line, but clearly labeled with $\\Im(p_0)$ near its base. The real axis should also be labeled with $\\Re(p_0)$ at an appropriate location to indicate the real part of the complex number.\n\nAdditionally, I need the ability to customize the length and amplitude of the zigzag pattern on the real axis to ensure it is visually appealing and does not clutter the diagram. The overall layout should be balanced, with the points and labels placed in a way that makes the diagram easy to interpret and understand, effectively conveying the concept of a complex number plane with its respective components.\n\nFurthermore, I would like to ensure that the mathematical notation used in the labels is correctly formatted and visually consistent with the rest of the diagram. This includes using proper LaTeX commands for mathematical operators like the square root and the imaginary part. The final diagram should be concise, clear, and suitable for inclusion in academic or educational materials, providing an intuitive visual representation of complex numbers and their components.",
+  "schema": {
+    "type": "object",
+    "properties": {
+      "inventory": {
+        "type": "object",
+        "properties": {
+          "presence": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "layout": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "connectivity": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "details": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "legibility": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          }
+        },
+        "required": [
+          "presence",
+          "layout",
+          "connectivity",
+          "details",
+          "legibility"
+        ],
+        "additionalProperties": false
+      },
+      "components": {
+        "type": "array",
+        "items": {
+          "type": "object",
+          "properties": {
+            "id": {
+              "type": "string"
+            },
+            "label": {
+              "type": "string"
+            },
+            "kind": {
+              "type": "string"
+            }
+          },
+          "required": [
+            "id",
+            "label",
+            "kind"
+          ],
+          "additionalProperties": false
+        }
+      },
+      "connections": {
+        "type": "array",
+        "items": {
+          "type": "object",
+          "properties": {
+            "source": {
+              "type": "string"
+            },
+            "target": {
+              "type": "string"
+            }
+          },
+          "required": [
+            "source",
+            "target"
+          ],
+          "additionalProperties": false
+        }
+      },
+      "forbidden_placeholders": {
+        "type": "array",
+        "items": {
+          "type": "string"
+        }
+      }
+    },
+    "required": [
+      "inventory",
+      "components",
+      "connections",
+      "forbidden_placeholders"
+    ],
+    "additionalProperties": false
+  },
+  "images": []
+}

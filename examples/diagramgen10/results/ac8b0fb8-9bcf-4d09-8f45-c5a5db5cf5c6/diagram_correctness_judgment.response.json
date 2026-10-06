@@ -1,0 +1,372 @@
+{
+  "metrics": [
+    {
+      "criterion_id": "layout.order",
+      "expected_count": 6,
+      "detected_issues": 0,
+      "issues": [],
+      "notes": "The visible graph is arranged as a top-to-bottom directed network: node 0 appears near the top, intermediate/later nodes continue downward, and final nodes appear near the bottom."
+    },
+    {
+      "criterion_id": "layout.canvas",
+      "expected_count": 1,
+      "detected_issues": 0,
+      "issues": [],
+      "notes": "The graph content appears contained within the narrow canvas."
+    },
+    {
+      "criterion_id": "layout.overlap",
+      "expected_count": 17,
+      "detected_issues": 0,
+      "issues": [],
+      "notes": "No clear unintended node-to-node overlaps are visible, though the graph is very dense and narrow."
+    },
+    {
+      "criterion_id": "connectivity.connections",
+      "expected_count": 3,
+      "detected_issues": 0,
+      "issues": [],
+      "notes": "The top of the graph visibly shows directed branching from node 0 toward nodes 1, 2, and 3."
+    },
+    {
+      "criterion_id": "connectivity.endpoints",
+      "expected_count": 3,
+      "detected_issues": 0,
+      "issues": [],
+      "notes": "The visible expected arrows at the top attach from node 0 toward nodes 1, 2, and 3."
+    },
+    {
+      "criterion_id": "legibility.overflow",
+      "expected_count": 16,
+      "detected_issues": 0,
+      "issues": [],
+      "notes": "The numeric labels appear contained within their small node shapes."
+    },
+    {
+      "criterion_id": "legibility.minimum_font",
+      "expected_count": 16,
+      "detected_issues": 16,
+      "issues": [
+        {
+          "description": "Node label is rendered extremely small and difficult to read.",
+          "severity": "high",
+          "element_ids": [
+            "node_0"
+          ]
+        },
+        {
+          "description": "Node label is rendered extremely small and difficult to read.",
+          "severity": "high",
+          "element_ids": [
+            "node_1"
+          ]
+        },
+        {
+          "description": "Node label is rendered extremely small and difficult to read.",
+          "severity": "high",
+          "element_ids": [
+            "node_2"
+          ]
+        },
+        {
+          "description": "Node label is rendered extremely small and difficult to read.",
+          "severity": "high",
+          "element_ids": [
+            "node_3"
+          ]
+        },
+        {
+          "description": "Node label is rendered extremely small and difficult to read.",
+          "severity": "high",
+          "element_ids": [
+            "node_4"
+          ]
+        },
+        {
+          "description": "Node label is rendered extremely small and difficult to read.",
+          "severity": "high",
+          "element_ids": [
+            "node_7"
+          ]
+        },
+        {
+          "description": "Node label is rendered extremely small and difficult to read.",
+          "severity": "high",
+          "element_ids": [
+            "node_10"
+          ]
+        },
+        {
+          "description": "Node label is rendered extremely small and difficult to read.",
+          "severity": "high",
+          "element_ids": [
+            "node_16"
+          ]
+        },
+        {
+          "description": "Node label is rendered extremely small and difficult to read.",
+          "severity": "high",
+          "element_ids": [
+            "node_20"
+          ]
+        },
+        {
+          "description": "Node label is rendered extremely small and difficult to read.",
+          "severity": "high",
+          "element_ids": [
+            "node_23"
+          ]
+        },
+        {
+          "description": "Node label is rendered extremely small and difficult to read.",
+          "severity": "high",
+          "element_ids": [
+            "node_33"
+          ]
+        },
+        {
+          "description": "Node label is rendered extremely small and difficult to read.",
+          "severity": "high",
+          "element_ids": [
+            "node_37"
+          ]
+        },
+        {
+          "description": "Node label is rendered extremely small and difficult to read.",
+          "severity": "high",
+          "element_ids": [
+            "node_40"
+          ]
+        },
+        {
+          "description": "Node label is rendered extremely small and difficult to read.",
+          "severity": "high",
+          "element_ids": [
+            "node_113"
+          ]
+        },
+        {
+          "description": "Node label is rendered extremely small and difficult to read.",
+          "severity": "high",
+          "element_ids": [
+            "node_116"
+          ]
+        },
+        {
+          "description": "Node label is rendered extremely small and difficult to read.",
+          "severity": "high",
+          "element_ids": [
+            "node_119"
+          ]
+        }
+      ],
+      "notes": "All checked node labels are tiny in the rendered candidate."
+    }
+  ],
+  "components": [
+    {
+      "component_id": "directed_graph_network",
+      "verdict": "mislabeled",
+      "visible_text": "",
+      "location": {
+        "x0": 0,
+        "y0": 0,
+        "x1": 0.86,
+        "y1": 1
+      },
+      "evidence": "A dense directed graph is visible, but there is no visible graph label reading “directed graph network”."
+    },
+    {
+      "component_id": "node_0",
+      "verdict": "present",
+      "visible_text": "0",
+      "location": {
+        "x0": 0.04,
+        "y0": 0.001,
+        "x1": 0.32,
+        "y1": 0.009
+      },
+      "evidence": "Small circular node labeled 0 appears at the upstream top of the graph."
+    },
+    {
+      "component_id": "node_1",
+      "verdict": "present",
+      "visible_text": "1",
+      "location": {
+        "x0": 0.18,
+        "y0": 0.009,
+        "x1": 0.46,
+        "y1": 0.017
+      },
+      "evidence": "Small node labeled 1 appears below node 0."
+    },
+    {
+      "component_id": "node_2",
+      "verdict": "present",
+      "visible_text": "2",
+      "location": {
+        "x0": 0.02,
+        "y0": 0.017,
+        "x1": 0.3,
+        "y1": 0.026
+      },
+      "evidence": "Small node labeled 2 appears in the initial top cluster."
+    },
+    {
+      "component_id": "node_3",
+      "verdict": "present",
+      "visible_text": "3",
+      "location": {
+        "x0": 0.2,
+        "y0": 0.026,
+        "x1": 0.48,
+        "y1": 0.034
+      },
+      "evidence": "Small node labeled 3 appears in the initial top cluster."
+    },
+    {
+      "component_id": "node_4",
+      "verdict": "present",
+      "visible_text": "4",
+      "location": {
+        "x0": 0.12,
+        "y0": 0.034,
+        "x1": 0.4,
+        "y1": 0.043
+      },
+      "evidence": "Small node labeled 4 is visible shortly after the initial cluster."
+    },
+    {
+      "component_id": "node_7",
+      "verdict": "present",
+      "visible_text": "7",
+      "location": {
+        "x0": 0.15,
+        "y0": 0.059,
+        "x1": 0.43,
+        "y1": 0.067
+      },
+      "evidence": "Small node labeled 7 is visible in the upper network."
+    },
+    {
+      "component_id": "node_10",
+      "verdict": "present",
+      "visible_text": "10",
+      "location": {
+        "x0": 0.16,
+        "y0": 0.083,
+        "x1": 0.52,
+        "y1": 0.092
+      },
+      "evidence": "Small node labeled 10 is visible below the first few nodes."
+    },
+    {
+      "component_id": "node_16",
+      "verdict": "present",
+      "visible_text": "16",
+      "location": {
+        "x0": 0.06,
+        "y0": 0.133,
+        "x1": 0.44,
+        "y1": 0.142
+      },
+      "evidence": "Small node labeled 16 is visible in the upper-middle portion of the graph."
+    },
+    {
+      "component_id": "node_20",
+      "verdict": "present",
+      "visible_text": "20",
+      "location": {
+        "x0": 0.18,
+        "y0": 0.166,
+        "x1": 0.56,
+        "y1": 0.176
+      },
+      "evidence": "Small node labeled 20 is visible farther down the graph."
+    },
+    {
+      "component_id": "node_23",
+      "verdict": "present",
+      "visible_text": "23",
+      "location": {
+        "x0": 0.26,
+        "y0": 0.191,
+        "x1": 0.64,
+        "y1": 0.2
+      },
+      "evidence": "Small node labeled 23 is visible in the continuing network."
+    },
+    {
+      "component_id": "node_33",
+      "verdict": "present",
+      "visible_text": "33",
+      "location": {
+        "x0": 0.1,
+        "y0": 0.274,
+        "x1": 0.43,
+        "y1": 0.283
+      },
+      "evidence": "Small node labeled 33 appears later in the vertical network flow."
+    },
+    {
+      "component_id": "node_37",
+      "verdict": "present",
+      "visible_text": "37",
+      "location": {
+        "x0": 0.13,
+        "y0": 0.307,
+        "x1": 0.46,
+        "y1": 0.316
+      },
+      "evidence": "Small node labeled 37 appears below node 33."
+    },
+    {
+      "component_id": "node_40",
+      "verdict": "present",
+      "visible_text": "40",
+      "location": {
+        "x0": 0.1,
+        "y0": 0.332,
+        "x1": 0.43,
+        "y1": 0.341
+      },
+      "evidence": "Small node labeled 40 appears later in the graph flow."
+    },
+    {
+      "component_id": "node_113",
+      "verdict": "present",
+      "visible_text": "113",
+      "location": {
+        "x0": 0.05,
+        "y0": 0.937,
+        "x1": 0.51,
+        "y1": 0.947
+      },
+      "evidence": "Small node labeled 113 appears near the downstream bottom region."
+    },
+    {
+      "component_id": "node_116",
+      "verdict": "present",
+      "visible_text": "116",
+      "location": {
+        "x0": 0.19,
+        "y0": 0.962,
+        "x1": 0.65,
+        "y1": 0.972
+      },
+      "evidence": "Small node labeled 116 appears near the bottom of the graph."
+    },
+    {
+      "component_id": "node_119",
+      "verdict": "present",
+      "visible_text": "119",
+      "location": {
+        "x0": 0.08,
+        "y0": 0.987,
+        "x1": 0.54,
+        "y1": 0.996
+      },
+      "evidence": "Small final-region node labeled 119 is visible at the bottom."
+    }
+  ]
+}

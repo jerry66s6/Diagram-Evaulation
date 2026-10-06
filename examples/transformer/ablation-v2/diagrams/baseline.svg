@@ -1,0 +1,38 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1100" height="900" viewBox="0 0 1100 900">
+  <defs><marker id="arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8" orient="auto"><path d="M0 0 L10 5 L0 10 z" fill="#334155" /></marker></defs>
+  <rect id="canvas-s" x="0" y="0" width="1100" height="900" fill="#ffffff" />
+  <text id="title-s" x="550" y="42" text-anchor="middle" font-size="24" fill="#111827">Transformer Encoder Architecture</text>
+  <rect id="input-s" x="425" y="66" width="250" height="58" rx="12" fill="#dbeafe" stroke="#2563eb" stroke-width="2" />
+  <text id="input-label-s" x="550" y="102" text-anchor="middle" font-size="17" fill="#111827">Input Tokens</text>
+  <rect id="token-s" x="205" y="166" width="280" height="62" rx="12" fill="#dcfce7" stroke="#16a34a" stroke-width="2" />
+  <text id="token-label-s" x="345" y="204" text-anchor="middle" font-size="17" fill="#111827">Token Embeddings</text>
+  <rect id="position-s" x="615" y="166" width="280" height="62" rx="12" fill="#fef3c7" stroke="#d97706" stroke-width="2" />
+  <text id="position-label-s" x="755" y="204" text-anchor="middle" font-size="17" fill="#111827">Positional Encoding</text>
+  <circle id="add-s" cx="550" cy="286" r="31" fill="#f1f5f9" stroke="#475569" stroke-width="2" />
+  <text id="add-label-s" x="550" y="292" text-anchor="middle" font-size="16" fill="#111827">Add</text>
+  <rect id="encoder-s" x="185" y="341" width="730" height="444" rx="22" fill="#eef2ff" stroke="#4f46e5" stroke-width="3" />
+  <text id="encoder-label-s" x="215" y="375" font-size="19" fill="#312e81">Transformer Encoder Block</text>
+  <rect id="badge-s" x="828" y="354" width="60" height="36" rx="18" fill="#4f46e5" stroke="#312e81" />
+  <text id="repeat-s" x="858" y="378" text-anchor="middle" font-size="16" fill="#ffffff">N×</text>
+  <rect id="attention-s" x="320" y="401" width="460" height="62" rx="12" fill="#ede9fe" stroke="#7c3aed" stroke-width="2" />
+  <text id="attention-label-s" x="550" y="439" text-anchor="middle" font-size="18" fill="#111827">Multi-Head Self-Attention</text>
+  <rect id="norm1-s" x="385" y="501" width="330" height="56" rx="12" fill="#ffe4e6" stroke="#e11d48" stroke-width="2" />
+  <text id="norm1-label-s" x="550" y="536" text-anchor="middle" font-size="17" fill="#111827">Add &amp; Norm</text>
+  <rect id="ffn-s" x="320" y="595" width="460" height="62" rx="12" fill="#ccfbf1" stroke="#0f766e" stroke-width="2" />
+  <text id="ffn-label-s" x="550" y="633" text-anchor="middle" font-size="18" fill="#111827">Position-wise Feed-Forward Network</text>
+  <rect id="norm2-s" x="385" y="695" width="330" height="56" rx="12" fill="#ffe4e6" stroke="#e11d48" stroke-width="2" />
+  <text id="norm2-label-s" x="550" y="730" text-anchor="middle" font-size="17" fill="#111827">Add &amp; Norm</text>
+  <rect id="output-s" x="400" y="822" width="300" height="58" rx="12" fill="#dbeafe" stroke="#2563eb" stroke-width="2" />
+  <text id="output-label-s" x="550" y="858" text-anchor="middle" font-size="17" fill="#111827">Contextual Embeddings</text>
+  <line id="s1" x1="505" y1="124" x2="390" y2="166" stroke="#334155" stroke-width="3" marker-end="url(#arrow)" />
+  <line id="s2" x1="410" y1="228" x2="527" y2="265" stroke="#334155" stroke-width="3" marker-end="url(#arrow)" />
+  <line id="s3" x1="690" y1="228" x2="573" y2="265" stroke="#334155" stroke-width="3" marker-end="url(#arrow)" />
+  <line id="s4" x1="550" y1="317" x2="550" y2="401" stroke="#334155" stroke-width="3" marker-end="url(#arrow)" />
+  <line id="s5" x1="550" y1="463" x2="550" y2="501" stroke="#334155" stroke-width="3" marker-end="url(#arrow)" />
+  <polyline id="s6" points="519,307 255,307 255,529 385,529" fill="none" stroke="#2563eb" stroke-width="3" stroke-dasharray="7 5" marker-end="url(#arrow)" />
+  <line id="s7" x1="550" y1="557" x2="550" y2="595" stroke="#334155" stroke-width="3" marker-end="url(#arrow)" />
+  <line id="s8" x1="550" y1="657" x2="550" y2="695" stroke="#334155" stroke-width="3" marker-end="url(#arrow)" />
+  <polyline id="s9" points="385,529 260,529 260,723 385,723" fill="none" stroke="#2563eb" stroke-width="3" stroke-dasharray="7 5" marker-end="url(#arrow)" />
+  <line id="s10" x1="550" y1="751" x2="550" y2="822" stroke="#334155" stroke-width="3" marker-end="url(#arrow)" />
+</svg>
+

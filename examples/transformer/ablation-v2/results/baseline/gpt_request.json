@@ -1,0 +1,136 @@
+{
+  "model": "gpt-5.5",
+  "prompt": "You are stage 2 of a description-to-diagram alignment evaluator. The attached image is the only CANDIDATE. Evaluate it against the written description and the frozen stage-1 inventory. Do not invent a different target. Evidence must refer to visible candidate elements.\n\nPART A - component checklist (field 'components'). Return exactly one entry for every component_id below, in any order, and no other ids. Answer each item on its own:\n- present: a visible element plays this component's role and its label matches the expected label (ignore case, punctuation, and line breaks).\n- mislabeled: a visible element plays this role (recognizable from its label, position, grouping, or arrows), but its label is abbreviated, incomplete, different, missing, or a placeholder.\n- absent: no visible element plays this role.\n- uncertain: the image does not allow a decision.\nAn abbreviation of the expected label (for example 'FFN' for 'Feed-Forward Network') counts as mislabeled. An element in the component's position whose label is a placeholder (such as 'Layer', 'TBD', '???') or is missing counts as mislabeled.\nRules: quote the element's visible text exactly as drawn in visible_text ('' if it has none). Give location as the element's bounding box in normalized image coordinates from 0 to 1 (x0, y0 top-left; x1, y1 bottom-right); use all zeros when absent. Each drawn element may be used for at most one component_id. Judge only whether the component itself is drawn and labeled; arrows and connections are judged in Part B, not here.\n\nPART B - counted criteria (field 'metrics'). For every criterion listed here, expected_count is the number of relevant countable opportunities and detected_issues is the number that fail. If no opportunity exists, return both counts as zero. Count each failing opportunity once. Layout must penalize overlap and off-canvas content. Connectivity must verify visible source and target endpoints, not merely arrow count.\n\nComponent checklist (Part A):\n[{\"component_id\": \"input_tokens\", \"expected_label\": \"Input Tokens\", \"kind\": \"input\", \"context\": \"feeds Token Embeddings\"}, {\"component_id\": \"token_embeddings\", \"expected_label\": \"Token Embeddings\", \"kind\": \"component\", \"context\": \"receives from Input Tokens; feeds Add\"}, {\"component_id\": \"positional_encoding\", \"expected_label\": \"Positional Encoding\", \"kind\": \"component\", \"context\": \"feeds Add\"}, {\"component_id\": \"add\", \"expected_label\": \"Add\", \"kind\": \"operation\", \"context\": \"receives from Token Embeddings, Positional Encoding; feeds Multi-Head Self-Attention, Add & Norm [add_norm_1]\"}, {\"component_id\": \"transformer_encoder_block\", \"expected_label\": \"Transformer Encoder Block\", \"kind\": \"group\", \"context\": \"\"}, {\"component_id\": \"repetition_marker_n_times\", \"expected_label\": \"N×\", \"kind\": \"repetition marker\", \"context\": \"\"}, {\"component_id\": \"multi_head_self_attention\", \"expected_label\": \"Multi-Head Self-Attention\", \"kind\": \"component\", \"context\": \"receives from Add; feeds Add & Norm [add_norm_1]\"}, {\"component_id\": \"add_norm_1\", \"expected_label\": \"Add & Norm\", \"kind\": \"component\", \"context\": \"receives from Multi-Head Self-Attention, Add; feeds Position-wise Feed-Forward Network, Add & Norm [add_norm_2]; one of 2 components with this label; judge it separately and use a different drawn element\"}, {\"component_id\": \"position_wise_feed_forward_network\", \"expected_label\": \"Position-wise Feed-Forward Network\", \"kind\": \"component\", \"context\": \"receives from Add & Norm [add_norm_1]; feeds Add & Norm [add_norm_2]\"}, {\"component_id\": \"add_norm_2\", \"expected_label\": \"Add & Norm\", \"kind\": \"component\", \"context\": \"receives from Position-wise Feed-Forward Network, Add & Norm [add_norm_1]; feeds Contextual Embeddings; one of 2 components with this label; judge it separately and use a different drawn element\"}, {\"component_id\": \"contextual_embeddings\", \"expected_label\": \"Contextual Embeddings\", \"kind\": \"output\", \"context\": \"receives from Add & Norm [add_norm_2]\"}]\n\nCounted criteria (Part B):\n[{\"id\": \"layout.order\", \"dimension\": \"layout\", \"description\": \"For each sequence in spatial_requirements.sequences, check every pair of visibly drawn components against the stated axis and sequence order. Count each pair once; tied or reversed positions fail. Missing components are handled by Presence. With no explicit sequence, return zero opportunities.\", \"severity\": \"medium\"}, {\"id\": \"layout.canvas\", \"dimension\": \"layout\", \"description\": \"All candidate content remains fully inside the SVG canvas.\", \"severity\": \"high\"}, {\"id\": \"layout.overlap\", \"dimension\": \"layout\", \"description\": \"Count visibly drawn non-container components once each. A component fails if it has any unintended collision with another component. Only explicitly intended groups and the canvas background are exempt as containers.\", \"severity\": \"high\"}, {\"id\": \"connectivity.connections\", \"dimension\": \"connectivity\", \"description\": \"Every directed source-to-target connection expected from the description is visibly present in the candidate.\", \"severity\": \"critical\"}, {\"id\": \"connectivity.endpoints\", \"dimension\": \"connectivity\", \"description\": \"Check each visible arrow against the frozen expected source-to-target pairs. Wrong, reversed, unattached, or duplicate pairs fail. Zero visible arrows is zero opportunities; missing expected arrows are judged by connectivity.connections.\", \"severity\": \"critical\"}, {\"id\": \"legibility.overflow\", \"dimension\": \"legibility\", \"description\": \"Text stays inside its intended container without clipping, collision, or overflow.\", \"severity\": \"high\"}, {\"id\": \"legibility.minimum_font\", \"dimension\": \"legibility\", \"description\": \"Every text element meets the configured minimum rendered font size.\", \"severity\": \"high\"}, {\"id\": \"layout.relations\", \"dimension\": \"layout\", \"description\": \"Check the explicit spatial_requirements.relations (above, left_of, same_row, same_column). Count each relation once when both components are visibly drawn. Do not invent alignment requirements. Zero stated/applicable relations means zero opportunities.\", \"severity\": \"medium\"}, {\"id\": \"layout.containment\", \"dimension\": \"layout\", \"description\": \"For each member in spatial_requirements.groups, check that the drawn member is fully contained within its drawn intended group. Count each member once. Missing groups or members are handled by Presence; no applicable groups means zero opportunities.\", \"severity\": \"high\"}]\n\nDiagram description:\n# Intended diagram: Transformer encoder architecture\n\nCreate a clear, top-to-bottom architecture diagram for a Transformer encoder.\n\nThe diagram must contain these components and meaningful labels:\n\n1. **Input Tokens** at the top.\n2. Two parallel components beneath the input: **Token Embeddings** and **Positional Encoding**.\n3. An **Add** operation that combines Token Embeddings with Positional Encoding.\n4. A visibly grouped **Transformer Encoder Block**, marked **N×** to show repetition.\n5. Inside that block, in order:\n   - **Multi-Head Self-Attention**\n   - **Add & Norm**\n   - **Position-wise Feed-Forward Network**\n   - **Add & Norm**\n6. **Contextual Embeddings** as the output beneath the encoder block.\n\nThe directed connectivity must be visible:\n\n- Input Tokens → Token Embeddings.\n- Token Embeddings → Add.\n- Positional Encoding → Add.\n- Add → Multi-Head Self-Attention.\n- Multi-Head Self-Attention → the first Add & Norm.\n- A residual/skip connection from Add → the first Add & Norm.\n- The first Add & Norm → Position-wise Feed-Forward Network.\n- Position-wise Feed-Forward Network → the second Add & Norm.\n- A residual/skip connection from the first Add & Norm → the second Add & Norm.\n- The second Add & Norm → Contextual Embeddings.\n\nLayout requirements:\n\n- Use a sensible top-to-bottom reading order.\n- Keep all content inside the canvas.\n- Avoid unintended overlaps.\n- Make the repeated encoder block visually distinct from its internal components.\n- Route arrows so their source and target are visually unambiguous.\n\nLegibility requirements:\n\n- Use meaningful labels rather than placeholders such as “Layer”, “Thing”, “TBD”, or “???”.\n- All text must be readable, remain inside its intended box, and use a rendered font size of at least 12 px.\n\n\n\nFrozen description-derived inventory:\n{\"inventory\": {\"presence\": [\"Input Tokens component is present at the top.\", \"Token Embeddings component is present beneath Input Tokens.\", \"Positional Encoding component is present parallel to Token Embeddings beneath Input Tokens.\", \"Add operation is present combining Token Embeddings and Positional Encoding.\", \"Transformer Encoder Block group/container is present.\", \"Transformer Encoder Block is visibly marked N× to show repetition.\", \"Multi-Head Self-Attention component is present inside the Transformer Encoder Block.\", \"First Add & Norm component is present inside the Transformer Encoder Block.\", \"Position-wise Feed-Forward Network component is present inside the Transformer Encoder Block.\", \"Second Add & Norm component is present inside the Transformer Encoder Block.\", \"Contextual Embeddings output component is present beneath the Transformer Encoder Block.\", \"Residual/skip connection from Add to first Add & Norm is present.\", \"Residual/skip connection from first Add & Norm to second Add & Norm is present.\"], \"layout\": [\"Diagram follows a top-to-bottom processing order.\", \"Input Tokens is above Token Embeddings and Positional Encoding.\", \"Token Embeddings and Positional Encoding are parallel components beneath Input Tokens.\", \"Add is beneath Token Embeddings and Positional Encoding.\", \"Transformer Encoder Block is beneath Add.\", \"Internal encoder block order is top-to-bottom: Multi-Head Self-Attention, first Add & Norm, Position-wise Feed-Forward Network, second Add & Norm.\", \"Contextual Embeddings is beneath the Transformer Encoder Block.\", \"Transformer Encoder Block visually contains its internal components.\", \"Transformer Encoder Block is visually distinct from internal components.\", \"All content remains fully inside the canvas.\", \"No unintended overlaps or collisions are present.\", \"Arrows are routed so sources and targets are visually unambiguous.\"], \"connectivity\": [\"Directed arrow from Input Tokens to Token Embeddings.\", \"Directed arrow from Token Embeddings to Add.\", \"Directed arrow from Positional Encoding to Add.\", \"Directed arrow from Add to Multi-Head Self-Attention.\", \"Directed arrow from Multi-Head Self-Attention to first Add & Norm.\", \"Directed residual/skip arrow from Add to first Add & Norm.\", \"Directed arrow from first Add & Norm to Position-wise Feed-Forward Network.\", \"Directed arrow from Position-wise Feed-Forward Network to second Add & Norm.\", \"Directed residual/skip arrow from first Add & Norm to second Add & Norm.\", \"Directed arrow from second Add & Norm to Contextual Embeddings.\"], \"details\": [\"Exact label \\\"Input Tokens\\\" is visible.\", \"Exact label \\\"Token Embeddings\\\" is visible.\", \"Exact label \\\"Positional Encoding\\\" is visible.\", \"Exact label \\\"Add\\\" is visible.\", \"Exact label \\\"Transformer Encoder Block\\\" is visible on the group/container.\", \"Exact repetition marker \\\"N×\\\" is visible on or near the Transformer Encoder Block.\", \"Exact label \\\"Multi-Head Self-Attention\\\" is visible.\", \"Exact label \\\"Add & Norm\\\" is visible for the first normalization component.\", \"Exact label \\\"Position-wise Feed-Forward Network\\\" is visible.\", \"Exact label \\\"Add & Norm\\\" is visible for the second normalization component.\", \"Exact label \\\"Contextual Embeddings\\\" is visible.\", \"Labels are meaningful and not missing.\", \"Placeholder label \\\"Layer\\\" is not used as a substitute for required labels.\", \"Placeholder label \\\"Thing\\\" is not used.\", \"Placeholder label \\\"TBD\\\" is not used.\", \"Placeholder label \\\"???\\\" is not used.\", \"Generic or placeholder text is not used in place of required labels.\"], \"legibility\": [\"All text is readable.\", \"All text remains inside its intended box or container.\", \"Text does not clip, collide, or overflow.\", \"Every text element uses rendered font size of at least 12 px.\"]}, \"components\": [{\"id\": \"input_tokens\", \"label\": \"Input Tokens\", \"kind\": \"input\"}, {\"id\": \"token_embeddings\", \"label\": \"Token Embeddings\", \"kind\": \"component\"}, {\"id\": \"positional_encoding\", \"label\": \"Positional Encoding\", \"kind\": \"component\"}, {\"id\": \"add\", \"label\": \"Add\", \"kind\": \"operation\"}, {\"id\": \"transformer_encoder_block\", \"label\": \"Transformer Encoder Block\", \"kind\": \"group\"}, {\"id\": \"repetition_marker_n_times\", \"label\": \"N×\", \"kind\": \"repetition marker\"}, {\"id\": \"multi_head_self_attention\", \"label\": \"Multi-Head Self-Attention\", \"kind\": \"component\"}, {\"id\": \"add_norm_1\", \"label\": \"Add & Norm\", \"kind\": \"component\"}, {\"id\": \"position_wise_feed_forward_network\", \"label\": \"Position-wise Feed-Forward Network\", \"kind\": \"component\"}, {\"id\": \"add_norm_2\", \"label\": \"Add & Norm\", \"kind\": \"component\"}, {\"id\": \"contextual_embeddings\", \"label\": \"Contextual Embeddings\", \"kind\": \"output\"}], \"connections\": [{\"source\": \"input_tokens\", \"target\": \"token_embeddings\"}, {\"source\": \"token_embeddings\", \"target\": \"add\"}, {\"source\": \"positional_encoding\", \"target\": \"add\"}, {\"source\": \"add\", \"target\": \"multi_head_self_attention\"}, {\"source\": \"multi_head_self_attention\", \"target\": \"add_norm_1\"}, {\"source\": \"add\", \"target\": \"add_norm_1\"}, {\"source\": \"add_norm_1\", \"target\": \"position_wise_feed_forward_network\"}, {\"source\": \"position_wise_feed_forward_network\", \"target\": \"add_norm_2\"}, {\"source\": \"add_norm_1\", \"target\": \"add_norm_2\"}, {\"source\": \"add_norm_2\", \"target\": \"contextual_embeddings\"}], \"forbidden_placeholders\": [\"Layer\", \"Thing\", \"TBD\", \"???\"], \"spatial_requirements\": {\"provenance\": {\"source\": \"description.md\", \"source_sha256\": \"a0b5ace368904d0dd8b5e75b928dde98c1d11d30120e38e5a9006455e31a6c79\", \"method\": \"Manual transcription of explicit written spatial requirements before candidate scoring; existing component IDs retained. No candidate image or source coordinates used to set expected relations.\"}, \"sequences\": [{\"axis\": \"top_to_bottom\", \"components\": [\"multi_head_self_attention\", \"add_norm_1\", \"position_wise_feed_forward_network\", \"add_norm_2\"]}], \"relations\": [{\"first\": \"input_tokens\", \"relation\": \"above\", \"second\": \"token_embeddings\"}, {\"first\": \"input_tokens\", \"relation\": \"above\", \"second\": \"positional_encoding\"}, {\"first\": \"token_embeddings\", \"relation\": \"same_row\", \"second\": \"positional_encoding\"}, {\"first\": \"token_embeddings\", \"relation\": \"above\", \"second\": \"add\"}, {\"first\": \"positional_encoding\", \"relation\": \"above\", \"second\": \"add\"}, {\"first\": \"add\", \"relation\": \"above\", \"second\": \"transformer_encoder_block\"}, {\"first\": \"transformer_encoder_block\", \"relation\": \"above\", \"second\": \"contextual_embeddings\"}], \"groups\": [{\"container\": \"transformer_encoder_block\", \"members\": [\"multi_head_self_attention\", \"add_norm_1\", \"position_wise_feed_forward_network\", \"add_norm_2\"]}]}}",
+  "schema": {
+    "type": "object",
+    "properties": {
+      "metrics": {
+        "type": "array",
+        "items": {
+          "type": "object",
+          "properties": {
+            "criterion_id": {
+              "type": "string"
+            },
+            "expected_count": {
+              "type": "integer",
+              "minimum": 0
+            },
+            "detected_issues": {
+              "type": "integer",
+              "minimum": 0
+            },
+            "issues": {
+              "type": "array",
+              "items": {
+                "type": "object",
+                "properties": {
+                  "description": {
+                    "type": "string"
+                  },
+                  "severity": {
+                    "type": "string",
+                    "enum": [
+                      "low",
+                      "medium",
+                      "high",
+                      "critical"
+                    ]
+                  },
+                  "element_ids": {
+                    "type": "array",
+                    "items": {
+                      "type": "string"
+                    }
+                  }
+                },
+                "required": [
+                  "description",
+                  "severity",
+                  "element_ids"
+                ],
+                "additionalProperties": false
+              }
+            },
+            "notes": {
+              "type": "string"
+            }
+          },
+          "required": [
+            "criterion_id",
+            "expected_count",
+            "detected_issues",
+            "issues",
+            "notes"
+          ],
+          "additionalProperties": false
+        }
+      },
+      "components": {
+        "type": "array",
+        "items": {
+          "type": "object",
+          "properties": {
+            "component_id": {
+              "type": "string"
+            },
+            "verdict": {
+              "type": "string",
+              "enum": [
+                "present",
+                "mislabeled",
+                "absent",
+                "uncertain"
+              ]
+            },
+            "visible_text": {
+              "type": "string"
+            },
+            "location": {
+              "type": "object",
+              "properties": {
+                "x0": {
+                  "type": "number"
+                },
+                "y0": {
+                  "type": "number"
+                },
+                "x1": {
+                  "type": "number"
+                },
+                "y1": {
+                  "type": "number"
+                }
+              },
+              "required": [
+                "x0",
+                "y0",
+                "x1",
+                "y1"
+              ],
+              "additionalProperties": false
+            },
+            "evidence": {
+              "type": "string"
+            }
+          },
+          "required": [
+            "component_id",
+            "verdict",
+            "visible_text",
+            "location",
+            "evidence"
+          ],
+          "additionalProperties": false
+        }
+      }
+    },
+    "required": [
+      "metrics",
+      "components"
+    ],
+    "additionalProperties": false
+  },
+  "image_sha256": "8f128e7aba7eb7df879dfb018f695a84dd9e2866c36d1c225583ad805268548b",
+  "created_at": "2026-10-01T16:33:00.979623+00:00"
+}

@@ -1,0 +1,246 @@
+{
+  "metrics": [
+    {
+      "criterion_id": "layout.order",
+      "expected_count": 1,
+      "detected_issues": 0,
+      "issues": [],
+      "notes": "The two states are arranged horizontally with u_{a,+} on the left and u_{a,-} on the right, with condition labels below and inputs outside the states."
+    },
+    {
+      "criterion_id": "layout.canvas",
+      "expected_count": 12,
+      "detected_issues": 2,
+      "issues": [
+        {
+          "description": "The top-right external input label is clipped at the right canvas edge.",
+          "severity": "high",
+          "element_ids": [
+            "external_input_e_b_a_minus"
+          ]
+        },
+        {
+          "description": "The bottom-right external input label is clipped at the right canvas edge.",
+          "severity": "high",
+          "element_ids": [
+            "external_input_e_c_a_minus"
+          ]
+        }
+      ],
+      "notes": "Most content is inside the canvas, but the right-side external input text extends to the image boundary."
+    },
+    {
+      "criterion_id": "layout.overlap",
+      "expected_count": 1,
+      "detected_issues": 0,
+      "issues": [],
+      "notes": "No unintended overlaps or collisions are visible."
+    },
+    {
+      "criterion_id": "connectivity.connections",
+      "expected_count": 8,
+      "detected_issues": 0,
+      "issues": [],
+      "notes": "The expected self-loops, bidirectional state transitions, and four external-input arrows to the two states are visibly present."
+    },
+    {
+      "criterion_id": "connectivity.endpoints",
+      "expected_count": 10,
+      "detected_issues": 2,
+      "issues": [
+        {
+          "description": "An extra downward arrow connects state u_{a,+} toward the condition label f_a(x), which is not an expected directed connection.",
+          "severity": "critical",
+          "element_ids": [
+            "state_u_a_plus",
+            "condition_f_a_x"
+          ]
+        },
+        {
+          "description": "An extra downward arrow connects state u_{a,-} toward the condition label ¬f_a(x), which is not an expected directed connection.",
+          "severity": "critical",
+          "element_ids": [
+            "state_u_a_minus",
+            "condition_not_f_a_x"
+          ]
+        }
+      ],
+      "notes": "The eight expected arrows have correct directions; the two downward arrows are extra unexpected directed endpoints."
+    },
+    {
+      "criterion_id": "legibility.overflow",
+      "expected_count": 8,
+      "detected_issues": 2,
+      "issues": [
+        {
+          "description": "The top-right external input label is clipped/overflowing at the canvas edge.",
+          "severity": "high",
+          "element_ids": [
+            "external_input_e_b_a_minus"
+          ]
+        },
+        {
+          "description": "The bottom-right external input label is clipped/overflowing at the canvas edge.",
+          "severity": "high",
+          "element_ids": [
+            "external_input_e_c_a_minus"
+          ]
+        }
+      ],
+      "notes": "State and condition text is readable; right-side external labels are partially clipped."
+    },
+    {
+      "criterion_id": "legibility.minimum_font",
+      "expected_count": 8,
+      "detected_issues": 0,
+      "issues": [],
+      "notes": "All visible text appears large enough to read."
+    }
+  ],
+  "components": [
+    {
+      "component_id": "state_u_a_plus",
+      "verdict": "present",
+      "visible_text": "u_{a,+}",
+      "location": {
+        "x0": 0.252,
+        "y0": 0.229,
+        "x1": 0.424,
+        "y1": 0.606
+      },
+      "evidence": "Left circular state is labeled u_{a,+}."
+    },
+    {
+      "component_id": "state_u_a_minus",
+      "verdict": "present",
+      "visible_text": "u_{a,-}",
+      "location": {
+        "x0": 0.63,
+        "y0": 0.229,
+        "x1": 0.798,
+        "y1": 0.606
+      },
+      "evidence": "Right circular state is labeled u_{a,-}."
+    },
+    {
+      "component_id": "u_a_plus_self_loop",
+      "verdict": "mislabeled",
+      "visible_text": "",
+      "location": {
+        "x0": 0.306,
+        "y0": 0,
+        "x1": 0.371,
+        "y1": 0.233
+      },
+      "evidence": "A self-loop is drawn above the left state, but it has no visible label."
+    },
+    {
+      "component_id": "u_a_minus_self_loop",
+      "verdict": "mislabeled",
+      "visible_text": "",
+      "location": {
+        "x0": 0.683,
+        "y0": 0,
+        "x1": 0.751,
+        "y1": 0.233
+      },
+      "evidence": "A self-loop is drawn above the right state, but it has no visible label."
+    },
+    {
+      "component_id": "transition_u_a_plus_to_u_a_minus",
+      "verdict": "mislabeled",
+      "visible_text": "",
+      "location": {
+        "x0": 0.407,
+        "y0": 0.244,
+        "x1": 0.637,
+        "y1": 0.423
+      },
+      "evidence": "A curved arrow runs from the left state toward the right state, but it has no visible transition label."
+    },
+    {
+      "component_id": "transition_u_a_minus_to_u_a_plus",
+      "verdict": "mislabeled",
+      "visible_text": "",
+      "location": {
+        "x0": 0.407,
+        "y0": 0.405,
+        "x1": 0.637,
+        "y1": 0.591
+      },
+      "evidence": "A curved arrow runs from the right state toward the left state, but it has no visible transition label."
+    },
+    {
+      "component_id": "external_input_e_b_a_plus",
+      "verdict": "present",
+      "visible_text": "e_{b,a,+}",
+      "location": {
+        "x0": 0,
+        "y0": 0.183,
+        "x1": 0.263,
+        "y1": 0.341
+      },
+      "evidence": "Top-left external input label and arrow point into u_{a,+}."
+    },
+    {
+      "component_id": "external_input_e_c_a_plus",
+      "verdict": "present",
+      "visible_text": "e_{c,a,+}",
+      "location": {
+        "x0": 0,
+        "y0": 0.509,
+        "x1": 0.263,
+        "y1": 0.627
+      },
+      "evidence": "Bottom-left external input label and arrow point into u_{a,+}."
+    },
+    {
+      "component_id": "external_input_e_b_a_minus",
+      "verdict": "present",
+      "visible_text": "e_{b,a,-}",
+      "location": {
+        "x0": 0.795,
+        "y0": 0.183,
+        "x1": 1,
+        "y1": 0.341
+      },
+      "evidence": "Top-right external input label and arrow point into u_{a,-}, though the label is clipped at the right edge."
+    },
+    {
+      "component_id": "external_input_e_c_a_minus",
+      "verdict": "present",
+      "visible_text": "e_{c,a,-}",
+      "location": {
+        "x0": 0.795,
+        "y0": 0.509,
+        "x1": 1,
+        "y1": 0.627
+      },
+      "evidence": "Bottom-right external input label and arrow point into u_{a,-}, though the label is clipped at the right edge."
+    },
+    {
+      "component_id": "condition_f_a_x",
+      "verdict": "present",
+      "visible_text": "f_a(x)",
+      "location": {
+        "x0": 0.26,
+        "y0": 0.738,
+        "x1": 0.411,
+        "y1": 0.986
+      },
+      "evidence": "Condition label f_a(x) is below the left state."
+    },
+    {
+      "component_id": "condition_not_f_a_x",
+      "verdict": "present",
+      "visible_text": "¬ f_a(x)",
+      "location": {
+        "x0": 0.616,
+        "y0": 0.742,
+        "x1": 0.806,
+        "y1": 0.989
+      },
+      "evidence": "Condition label ¬ f_a(x) is below the right state."
+    }
+  ]
+}

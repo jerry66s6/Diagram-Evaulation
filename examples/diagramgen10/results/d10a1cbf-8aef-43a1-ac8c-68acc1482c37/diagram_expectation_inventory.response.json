@@ -1,0 +1,125 @@
+{
+  "inventory": {
+    "presence": [
+      "START node is present",
+      "END node is present",
+      "action_session_start action node is present",
+      "action_get_stock_price action node is present",
+      "get_current_stock_price intent node is present",
+      "what is TSLA worth intent node is present"
+    ],
+    "layout": [
+      "Process flow follows a logical reading order from START to END",
+      "START appears before action_session_start",
+      "action_session_start appears before the intent nodes",
+      "intent nodes appear before action_get_stock_price",
+      "action_get_stock_price appears before END",
+      "All content is fully inside the SVG canvas",
+      "No unintended component overlaps or text collisions",
+      "No container nesting is required"
+    ],
+    "connectivity": [
+      "start_node -> action_session_start_action",
+      "action_session_start_action -> what_is_tsla_worth_intent",
+      "what_is_tsla_worth_intent -> get_current_stock_price_intent",
+      "get_current_stock_price_intent -> action_get_stock_price_action",
+      "action_get_stock_price_action -> end_node"
+    ],
+    "details": [
+      "START node label is exactly \"START\"",
+      "START node has green fill color",
+      "END node label is exactly \"END\"",
+      "END node has red fill color",
+      "action_session_start action node label is exactly \"action_session_start\"",
+      "action_get_stock_price action node label is exactly \"action_get_stock_price\"",
+      "Action node labels use clear distinct font sizing",
+      "get_current_stock_price intent node label is exactly \"get_current_stock_price\"",
+      "what is TSLA worth intent node label is exactly \"what is TSLA worth\"",
+      "Intent nodes have rectangular shape",
+      "Intent nodes have light blue fill color",
+      "what is TSLA worth intent node has a dashed border",
+      "get_current_stock_price intent node has a solid border",
+      "Edge from START to action_session_start has no visible label",
+      "Edge from action_session_start to what is TSLA worth has a meaningful trigger-condition label",
+      "Labels are not missing, generic, abbreviated, or placeholders"
+    ],
+    "legibility": [
+      "Every node label is readable",
+      "Every edge label is readable",
+      "Text stays inside its intended node or edge-label area",
+      "Text is not clipped or truncated",
+      "Every text element meets the minimum rendered font size"
+    ]
+  },
+  "components": [
+    {
+      "id": "start_node",
+      "label": "START",
+      "kind": "start node"
+    },
+    {
+      "id": "action_session_start_action",
+      "label": "action_session_start",
+      "kind": "action node"
+    },
+    {
+      "id": "what_is_tsla_worth_intent",
+      "label": "what is TSLA worth",
+      "kind": "intent node"
+    },
+    {
+      "id": "get_current_stock_price_intent",
+      "label": "get_current_stock_price",
+      "kind": "intent node"
+    },
+    {
+      "id": "action_get_stock_price_action",
+      "label": "action_get_stock_price",
+      "kind": "action node"
+    },
+    {
+      "id": "end_node",
+      "label": "END",
+      "kind": "end node"
+    }
+  ],
+  "connections": [
+    {
+      "source": "start_node",
+      "target": "action_session_start_action"
+    },
+    {
+      "source": "action_session_start_action",
+      "target": "what_is_tsla_worth_intent"
+    },
+    {
+      "source": "what_is_tsla_worth_intent",
+      "target": "get_current_stock_price_intent"
+    },
+    {
+      "source": "get_current_stock_price_intent",
+      "target": "action_get_stock_price_action"
+    },
+    {
+      "source": "action_get_stock_price_action",
+      "target": "end_node"
+    }
+  ],
+  "forbidden_placeholders": [
+    "placeholder",
+    "Placeholder",
+    "TODO",
+    "TBD",
+    "Label",
+    "label",
+    "Node",
+    "node",
+    "Action",
+    "Intent",
+    "Edge",
+    "text",
+    "Lorem ipsum",
+    "untitled",
+    "Untitled"
+  ]
+}

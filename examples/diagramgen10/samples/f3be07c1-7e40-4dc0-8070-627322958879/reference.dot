@@ -1,0 +1,28 @@
+digraph G {
+graph [splines=ortho]
+node [shape=box,width=3,height=1];
+
+A [label="Parameter \nEstimation"];
+B [label="Parameter Estimation"];
+C [label="Compute Sth."];
+D [label="Compute Sth."];
+E [label="Compute Error Value 1"];
+F [label="Parameter Estimation"];
+G [label="Check Error Value 1",shape=diamond];
+H [label="Computer Error Value 2"];
+I [label="Check Error Value 2",shape=diamond];
+J [label="End"];
+
+A -> B;
+B -> C;
+C -> D;
+D -> E;
+E -> F;
+F -> G;
+G -> H;
+H -> I;
+I -> J;
+
+J -> A [ xlabel="Error 2 \leq epsilon_2" ] ;
+G -> B [ xlabel="Error 1 \leq epsilon_1" ] ;
+}

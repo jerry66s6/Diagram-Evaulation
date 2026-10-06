@@ -1,0 +1,197 @@
+{
+  "metrics": [
+    {
+      "criterion_id": "layout.order",
+      "expected_count": 1,
+      "detected_issues": 1,
+      "issues": [
+        {
+          "description": "The visible flow begins with an extra top 'Parameter Estimation' box feeding another 'Parameter Estimation' box before the compute steps, disrupting the described start-to-compute ordering.",
+          "severity": "medium",
+          "element_ids": [
+            "parameter_estimation_1"
+          ]
+        }
+      ],
+      "notes": "Main vertical sequence is mostly top-to-bottom, but an extra initial parameter-estimation node is inserted before the mapped first process step."
+    },
+    {
+      "criterion_id": "layout.canvas",
+      "expected_count": 1,
+      "detected_issues": 0,
+      "issues": [],
+      "notes": "All visible nodes, labels, and arrows appear within the image bounds."
+    },
+    {
+      "criterion_id": "layout.overlap",
+      "expected_count": 1,
+      "detected_issues": 0,
+      "issues": [],
+      "notes": "No obvious unintended node overlap is visible."
+    },
+    {
+      "criterion_id": "connectivity.connections",
+      "expected_count": 10,
+      "detected_issues": 1,
+      "issues": [
+        {
+          "description": "The expected loopback from 'Check Error Value 2' to the first 'Parameter Estimation' is not visibly connected from the second diamond; the tall right-side return line instead appears associated with the End/top parameter-estimation area.",
+          "severity": "critical",
+          "element_ids": [
+            "check_error_value_2",
+            "parameter_estimation_1"
+          ]
+        }
+      ],
+      "notes": "The other expected main-chain connections and the first decision loopback are visible."
+    },
+    {
+      "criterion_id": "connectivity.endpoints",
+      "expected_count": 11,
+      "detected_issues": 2,
+      "issues": [
+        {
+          "description": "An extra arrow connects the top 'Parameter Estimation' box to the mapped first 'Parameter Estimation' box; this source-to-target connection is not in the description.",
+          "severity": "critical",
+          "element_ids": [
+            "parameter_estimation_1"
+          ]
+        },
+        {
+          "description": "The tall right-side upward arrow terminates at the extra top 'Parameter Estimation' and appears to originate near/at the End box, rather than visibly attaching from 'Check Error Value 2' to the first 'Parameter Estimation'.",
+          "severity": "critical",
+          "element_ids": [
+            "check_error_value_2",
+            "end",
+            "parameter_estimation_1"
+          ]
+        }
+      ],
+      "notes": "Count includes visible directed arrows; two have endpoints/direction not matching expected connections."
+    },
+    {
+      "criterion_id": "legibility.overflow",
+      "expected_count": 12,
+      "detected_issues": 0,
+      "issues": [],
+      "notes": "Visible node and edge-label text appears readable and not clipped."
+    },
+    {
+      "criterion_id": "legibility.minimum_font",
+      "expected_count": 12,
+      "detected_issues": 0,
+      "issues": [],
+      "notes": "All visible text appears large enough to read."
+    }
+  ],
+  "components": [
+    {
+      "component_id": "parameter_estimation_1",
+      "verdict": "present",
+      "visible_text": "Parameter Estimation",
+      "location": {
+        "x0": 0.23,
+        "y0": 0.106,
+        "x1": 0.78,
+        "y1": 0.175
+      },
+      "evidence": "Middle upper rectangular process box labeled 'Parameter Estimation' feeds the first 'Compute Sth.' and receives the visible loopback from the first decision."
+    },
+    {
+      "component_id": "compute_sth_1",
+      "verdict": "present",
+      "visible_text": "Compute Sth.",
+      "location": {
+        "x0": 0.009,
+        "y0": 0.209,
+        "x1": 0.559,
+        "y1": 0.278
+      },
+      "evidence": "First rectangular compute box below the mapped first parameter-estimation step is labeled 'Compute Sth.'."
+    },
+    {
+      "component_id": "compute_sth_2",
+      "verdict": "present",
+      "visible_text": "Compute Sth.",
+      "location": {
+        "x0": 0.009,
+        "y0": 0.312,
+        "x1": 0.559,
+        "y1": 0.38
+      },
+      "evidence": "Second rectangular compute box directly below the first compute box is labeled 'Compute Sth.'."
+    },
+    {
+      "component_id": "compute_error_value_1",
+      "verdict": "present",
+      "visible_text": "Compute Error Value 1",
+      "location": {
+        "x0": 0.009,
+        "y0": 0.415,
+        "x1": 0.559,
+        "y1": 0.483
+      },
+      "evidence": "Rectangular process box below the two compute steps is labeled 'Compute Error Value 1'."
+    },
+    {
+      "component_id": "parameter_estimation_2",
+      "verdict": "present",
+      "visible_text": "Parameter Estimation",
+      "location": {
+        "x0": 0.009,
+        "y0": 0.518,
+        "x1": 0.559,
+        "y1": 0.586
+      },
+      "evidence": "Lower rectangular process box after 'Compute Error Value 1' is labeled 'Parameter Estimation' and leads to the first decision diamond."
+    },
+    {
+      "component_id": "check_error_value_1",
+      "verdict": "present",
+      "visible_text": "Check Error Value 1",
+      "location": {
+        "x0": 0.23,
+        "y0": 0.62,
+        "x1": 0.78,
+        "y1": 0.688
+      },
+      "evidence": "First diamond-shaped decision node is labeled 'Check Error Value 1'."
+    },
+    {
+      "component_id": "compute_error_value_2",
+      "verdict": "mislabeled",
+      "visible_text": "Computer Error Value 2",
+      "location": {
+        "x0": 0.23,
+        "y0": 0.723,
+        "x1": 0.78,
+        "y1": 0.792
+      },
+      "evidence": "Rectangular process step between the first and second decision nodes plays this role, but its label reads 'Computer Error Value 2' instead of 'Compute Error Value 2'."
+    },
+    {
+      "component_id": "check_error_value_2",
+      "verdict": "present",
+      "visible_text": "Check Error Value 2",
+      "location": {
+        "x0": 0.23,
+        "y0": 0.825,
+        "x1": 0.78,
+        "y1": 0.894
+      },
+      "evidence": "Second diamond-shaped decision node is labeled 'Check Error Value 2'."
+    },
+    {
+      "component_id": "end",
+      "verdict": "present",
+      "visible_text": "End",
+      "location": {
+        "x0": 0.404,
+        "y0": 0.928,
+        "x1": 0.952,
+        "y1": 0.996
+      },
+      "evidence": "Bottom terminal/process box is labeled 'End'."
+    }
+  ]
+}

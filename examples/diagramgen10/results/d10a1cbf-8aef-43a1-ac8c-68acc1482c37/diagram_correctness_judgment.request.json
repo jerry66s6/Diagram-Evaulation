@@ -1,0 +1,140 @@
+{
+  "model": "gpt-5.5",
+  "prompt": "You are stage 2 of a description-to-diagram alignment evaluator. The attached image is the only CANDIDATE. Evaluate it against the written description and the frozen stage-1 inventory. Do not invent a different target. Evidence must refer to visible candidate elements.\n\nPART A - component checklist (field 'components'). Return exactly one entry for every component_id below, in any order, and no other ids. Answer each item on its own:\n- present: a visible element plays this component's role and its label matches the expected label (ignore case, punctuation, and line breaks).\n- mislabeled: a visible element plays this role (recognizable from its label, position, grouping, or arrows), but its label is abbreviated, incomplete, different, missing, or a placeholder.\n- absent: no visible element plays this role.\n- uncertain: the image does not allow a decision.\nAn abbreviation of the expected label (for example 'FFN' for 'Feed-Forward Network') counts as mislabeled. An element in the component's position whose label is a placeholder (such as 'Layer', 'TBD', '???') or is missing counts as mislabeled.\nRules: quote the element's visible text exactly as drawn in visible_text ('' if it has none). Give location as the element's bounding box in normalized image coordinates from 0 to 1 (x0, y0 top-left; x1, y1 bottom-right); use all zeros when absent. Each drawn element may be used for at most one component_id. Judge only whether the component itself is drawn and labeled; arrows and connections are judged in Part B, not here.\n\nPART B - counted criteria (field 'metrics'). For every criterion listed here, expected_count is the number of relevant countable opportunities and detected_issues is the number that fail. If no opportunity exists, return both counts as zero. Count each failing opportunity once. Layout must penalize overlap and off-canvas content. Connectivity must verify visible source and target endpoints, not merely arrow count.\n\nComponent checklist (Part A):\n[{\"component_id\": \"start_node\", \"expected_label\": \"START\", \"kind\": \"start node\", \"context\": \"feeds action_session_start\"}, {\"component_id\": \"action_session_start_action\", \"expected_label\": \"action_session_start\", \"kind\": \"action node\", \"context\": \"receives from START; feeds what is TSLA worth\"}, {\"component_id\": \"what_is_tsla_worth_intent\", \"expected_label\": \"what is TSLA worth\", \"kind\": \"intent node\", \"context\": \"receives from action_session_start; feeds get_current_stock_price\"}, {\"component_id\": \"get_current_stock_price_intent\", \"expected_label\": \"get_current_stock_price\", \"kind\": \"intent node\", \"context\": \"receives from what is TSLA worth; feeds action_get_stock_price\"}, {\"component_id\": \"action_get_stock_price_action\", \"expected_label\": \"action_get_stock_price\", \"kind\": \"action node\", \"context\": \"receives from get_current_stock_price; feeds END\"}, {\"component_id\": \"end_node\", \"expected_label\": \"END\", \"kind\": \"end node\", \"context\": \"receives from action_get_stock_price\"}]\n\nCounted criteria (Part B):\n[{\"id\": \"layout.order\", \"dimension\": \"layout\", \"description\": \"Components follow the sensible reading and processing order implied by the description.\", \"severity\": \"medium\"}, {\"id\": \"layout.canvas\", \"dimension\": \"layout\", \"description\": \"All candidate content remains fully inside the SVG canvas.\", \"severity\": \"high\"}, {\"id\": \"layout.overlap\", \"dimension\": \"layout\", \"description\": \"Candidate components have no unintended overlaps or collisions; intentional container nesting is allowed.\", \"severity\": \"high\"}, {\"id\": \"connectivity.connections\", \"dimension\": \"connectivity\", \"description\": \"Every directed source-to-target connection expected from the description is visibly present in the candidate.\", \"severity\": \"critical\"}, {\"id\": \"connectivity.endpoints\", \"dimension\": \"connectivity\", \"description\": \"Each visible arrow attaches to the correct description-expected source and target components with the correct direction.\", \"severity\": \"critical\"}, {\"id\": \"legibility.overflow\", \"dimension\": \"legibility\", \"description\": \"Text stays inside its intended container without clipping, collision, or overflow.\", \"severity\": \"high\"}, {\"id\": \"legibility.minimum_font\", \"dimension\": \"legibility\", \"description\": \"Every text element meets the configured minimum rendered font size.\", \"severity\": \"high\"}]\n\nDiagram description:\nHow can I use DOT to create a directed graph that represents a process flow, including start and end nodes, actions, and user intents? I want to distinguish between different node types using colors and shapes, and label the edges accordingly. Specifically, I would like the start node to be clearly identified with a green fill color and labeled \"START,\" while the end node should be marked with a red fill color and labeled \"END.\" For actions, I need nodes that represent specific process steps, such as \"action_session_start\" and \"action_get_stock_price,\" each with a distinct label and font size for clarity.\n\nIn addition, I want to include nodes that represent user intents, which should be visually distinct from action nodes. These intent nodes should have a rectangular shape and be filled with a light blue color, with labels such as \"get_current_stock_price\" and \"what is TSLA worth.\" To further differentiate, some intent nodes should have a dashed border to indicate a different type of user interaction.\n\nFor the edges, I want to clearly indicate the flow between nodes, with labels on the edges to describe the relationship or condition under which the transition occurs. For example, the edge from the start node to \"action_session_start\" should not have a specific label, while the edge from \"action_session_start\" to the intent \"what is TSLA worth\" should be labeled to indicate the triggering condition.\n\nI also need the flexibility to customize the appearance of each node and edge, such as adjusting font sizes and styles, to ensure the graph is both visually appealing and easy to understand. The overall layout should be intuitive, presenting the process flow in a logical sequence that clearly shows the progression from start to end, including all intermediate actions and user intents. This will help in effectively communicating the sequence of steps and interactions in the process.\n\nFrozen description-derived inventory:\n{\"inventory\": {\"presence\": [\"START node is present\", \"END node is present\", \"action_session_start action node is present\", \"action_get_stock_price action node is present\", \"get_current_stock_price intent node is present\", \"what is TSLA worth intent node is present\"], \"layout\": [\"Process flow follows a logical reading order from START to END\", \"START appears before action_session_start\", \"action_session_start appears before the intent nodes\", \"intent nodes appear before action_get_stock_price\", \"action_get_stock_price appears before END\", \"All content is fully inside the SVG canvas\", \"No unintended component overlaps or text collisions\", \"No container nesting is required\"], \"connectivity\": [\"start_node -> action_session_start_action\", \"action_session_start_action -> what_is_tsla_worth_intent\", \"what_is_tsla_worth_intent -> get_current_stock_price_intent\", \"get_current_stock_price_intent -> action_get_stock_price_action\", \"action_get_stock_price_action -> end_node\"], \"details\": [\"START node label is exactly \\\"START\\\"\", \"START node has green fill color\", \"END node label is exactly \\\"END\\\"\", \"END node has red fill color\", \"action_session_start action node label is exactly \\\"action_session_start\\\"\", \"action_get_stock_price action node label is exactly \\\"action_get_stock_price\\\"\", \"Action node labels use clear distinct font sizing\", \"get_current_stock_price intent node label is exactly \\\"get_current_stock_price\\\"\", \"what is TSLA worth intent node label is exactly \\\"what is TSLA worth\\\"\", \"Intent nodes have rectangular shape\", \"Intent nodes have light blue fill color\", \"what is TSLA worth intent node has a dashed border\", \"get_current_stock_price intent node has a solid border\", \"Edge from START to action_session_start has no visible label\", \"Edge from action_session_start to what is TSLA worth has a meaningful trigger-condition label\", \"Labels are not missing, generic, abbreviated, or placeholders\"], \"legibility\": [\"Every node label is readable\", \"Every edge label is readable\", \"Text stays inside its intended node or edge-label area\", \"Text is not clipped or truncated\", \"Every text element meets the minimum rendered font size\"]}, \"components\": [{\"id\": \"start_node\", \"label\": \"START\", \"kind\": \"start node\"}, {\"id\": \"action_session_start_action\", \"label\": \"action_session_start\", \"kind\": \"action node\"}, {\"id\": \"what_is_tsla_worth_intent\", \"label\": \"what is TSLA worth\", \"kind\": \"intent node\"}, {\"id\": \"get_current_stock_price_intent\", \"label\": \"get_current_stock_price\", \"kind\": \"intent node\"}, {\"id\": \"action_get_stock_price_action\", \"label\": \"action_get_stock_price\", \"kind\": \"action node\"}, {\"id\": \"end_node\", \"label\": \"END\", \"kind\": \"end node\"}], \"connections\": [{\"source\": \"start_node\", \"target\": \"action_session_start_action\"}, {\"source\": \"action_session_start_action\", \"target\": \"what_is_tsla_worth_intent\"}, {\"source\": \"what_is_tsla_worth_intent\", \"target\": \"get_current_stock_price_intent\"}, {\"source\": \"get_current_stock_price_intent\", \"target\": \"action_get_stock_price_action\"}, {\"source\": \"action_get_stock_price_action\", \"target\": \"end_node\"}], \"forbidden_placeholders\": [\"placeholder\", \"Placeholder\", \"TODO\", \"TBD\", \"Label\", \"label\", \"Node\", \"node\", \"Action\", \"Intent\", \"Edge\", \"text\", \"Lorem ipsum\", \"untitled\", \"Untitled\"]}",
+  "schema": {
+    "type": "object",
+    "properties": {
+      "metrics": {
+        "type": "array",
+        "items": {
+          "type": "object",
+          "properties": {
+            "criterion_id": {
+              "type": "string"
+            },
+            "expected_count": {
+              "type": "integer",
+              "minimum": 0
+            },
+            "detected_issues": {
+              "type": "integer",
+              "minimum": 0
+            },
+            "issues": {
+              "type": "array",
+              "items": {
+                "type": "object",
+                "properties": {
+                  "description": {
+                    "type": "string"
+                  },
+                  "severity": {
+                    "type": "string",
+                    "enum": [
+                      "low",
+                      "medium",
+                      "high",
+                      "critical"
+                    ]
+                  },
+                  "element_ids": {
+                    "type": "array",
+                    "items": {
+                      "type": "string"
+                    }
+                  }
+                },
+                "required": [
+                  "description",
+                  "severity",
+                  "element_ids"
+                ],
+                "additionalProperties": false
+              }
+            },
+            "notes": {
+              "type": "string"
+            }
+          },
+          "required": [
+            "criterion_id",
+            "expected_count",
+            "detected_issues",
+            "issues",
+            "notes"
+          ],
+          "additionalProperties": false
+        }
+      },
+      "components": {
+        "type": "array",
+        "items": {
+          "type": "object",
+          "properties": {
+            "component_id": {
+              "type": "string"
+            },
+            "verdict": {
+              "type": "string",
+              "enum": [
+                "present",
+                "mislabeled",
+                "absent",
+                "uncertain"
+              ]
+            },
+            "visible_text": {
+              "type": "string"
+            },
+            "location": {
+              "type": "object",
+              "properties": {
+                "x0": {
+                  "type": "number"
+                },
+                "y0": {
+                  "type": "number"
+                },
+                "x1": {
+                  "type": "number"
+                },
+                "y1": {
+                  "type": "number"
+                }
+              },
+              "required": [
+                "x0",
+                "y0",
+                "x1",
+                "y1"
+              ],
+              "additionalProperties": false
+            },
+            "evidence": {
+              "type": "string"
+            }
+          },
+          "required": [
+            "component_id",
+            "verdict",
+            "visible_text",
+            "location",
+            "evidence"
+          ],
+          "additionalProperties": false
+        }
+      }
+    },
+    "required": [
+      "metrics",
+      "components"
+    ],
+    "additionalProperties": false
+  },
+  "images": [
+    {
+      "filename": "candidate.png",
+      "sha256": "b8e7b9fb193a700f28ce8b7349f4f40f194025108a9a9bba2e0e13ac777b26b2"
+    }
+  ]
+}

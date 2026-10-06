@@ -1,0 +1,140 @@
+{
+  "model": "gpt-5.5",
+  "prompt": "You are stage 2 of a description-to-diagram alignment evaluator. The attached image is the only CANDIDATE. Evaluate it against the written description and the frozen stage-1 inventory. Do not invent a different target. Evidence must refer to visible candidate elements.\n\nPART A - component checklist (field 'components'). Return exactly one entry for every component_id below, in any order, and no other ids. Answer each item on its own:\n- present: a visible element plays this component's role and its label matches the expected label (ignore case, punctuation, and line breaks).\n- mislabeled: a visible element plays this role (recognizable from its label, position, grouping, or arrows), but its label is abbreviated, incomplete, different, missing, or a placeholder.\n- absent: no visible element plays this role.\n- uncertain: the image does not allow a decision.\nAn abbreviation of the expected label (for example 'FFN' for 'Feed-Forward Network') counts as mislabeled. An element in the component's position whose label is a placeholder (such as 'Layer', 'TBD', '???') or is missing counts as mislabeled.\nRules: quote the element's visible text exactly as drawn in visible_text ('' if it has none). Give location as the element's bounding box in normalized image coordinates from 0 to 1 (x0, y0 top-left; x1, y1 bottom-right); use all zeros when absent. Each drawn element may be used for at most one component_id. Judge only whether the component itself is drawn and labeled; arrows and connections are judged in Part B, not here.\n\nPART B - counted criteria (field 'metrics'). For every criterion listed here, expected_count is the number of relevant countable opportunities and detected_issues is the number that fail. If no opportunity exists, return both counts as zero. Count each failing opportunity once. Layout must penalize overlap and off-canvas content. Connectivity must verify visible source and target endpoints, not merely arrow count.\n\nComponent checklist (Part A):\n[{\"component_id\": \"state_u_a_plus\", \"expected_label\": \"u_{a, +}\", \"kind\": \"state\", \"context\": \"receives from u_{a, +}, u_{a, -}, e_{b, a, +}, e_{c, a, +}; feeds u_{a, +}, u_{a, -}\"}, {\"component_id\": \"state_u_a_minus\", \"expected_label\": \"u_{a, -}\", \"kind\": \"state\", \"context\": \"receives from u_{a, -}, u_{a, +}, e_{b, a, -}, e_{c, a, -}; feeds u_{a, -}, u_{a, +}\"}, {\"component_id\": \"u_a_plus_self_loop\", \"expected_label\": \"self-loop\", \"kind\": \"self_loop\", \"context\": \"one of 2 components with this label; judge it separately and use a different drawn element\"}, {\"component_id\": \"u_a_minus_self_loop\", \"expected_label\": \"self-loop\", \"kind\": \"self_loop\", \"context\": \"one of 2 components with this label; judge it separately and use a different drawn element\"}, {\"component_id\": \"transition_u_a_plus_to_u_a_minus\", \"expected_label\": \"transition\", \"kind\": \"directed_transition\", \"context\": \"one of 2 components with this label; judge it separately and use a different drawn element\"}, {\"component_id\": \"transition_u_a_minus_to_u_a_plus\", \"expected_label\": \"transition\", \"kind\": \"directed_transition\", \"context\": \"one of 2 components with this label; judge it separately and use a different drawn element\"}, {\"component_id\": \"external_input_e_b_a_plus\", \"expected_label\": \"e_{b, a, +}\", \"kind\": \"external_input\", \"context\": \"feeds u_{a, +}\"}, {\"component_id\": \"external_input_e_c_a_plus\", \"expected_label\": \"e_{c, a, +}\", \"kind\": \"external_input\", \"context\": \"feeds u_{a, +}\"}, {\"component_id\": \"external_input_e_b_a_minus\", \"expected_label\": \"e_{b, a, -}\", \"kind\": \"external_input\", \"context\": \"feeds u_{a, -}\"}, {\"component_id\": \"external_input_e_c_a_minus\", \"expected_label\": \"e_{c, a, -}\", \"kind\": \"external_input\", \"context\": \"feeds u_{a, -}\"}, {\"component_id\": \"condition_f_a_x\", \"expected_label\": \"f_a(x)\", \"kind\": \"condition_label\", \"context\": \"\"}, {\"component_id\": \"condition_not_f_a_x\", \"expected_label\": \"\\\\neg f_a(x)\", \"kind\": \"condition_label\", \"context\": \"\"}]\n\nCounted criteria (Part B):\n[{\"id\": \"layout.order\", \"dimension\": \"layout\", \"description\": \"Components follow the sensible reading and processing order implied by the description.\", \"severity\": \"medium\"}, {\"id\": \"layout.canvas\", \"dimension\": \"layout\", \"description\": \"All candidate content remains fully inside the SVG canvas.\", \"severity\": \"high\"}, {\"id\": \"layout.overlap\", \"dimension\": \"layout\", \"description\": \"Candidate components have no unintended overlaps or collisions; intentional container nesting is allowed.\", \"severity\": \"high\"}, {\"id\": \"connectivity.connections\", \"dimension\": \"connectivity\", \"description\": \"Every directed source-to-target connection expected from the description is visibly present in the candidate.\", \"severity\": \"critical\"}, {\"id\": \"connectivity.endpoints\", \"dimension\": \"connectivity\", \"description\": \"Each visible arrow attaches to the correct description-expected source and target components with the correct direction.\", \"severity\": \"critical\"}, {\"id\": \"legibility.overflow\", \"dimension\": \"legibility\", \"description\": \"Text stays inside its intended container without clipping, collision, or overflow.\", \"severity\": \"high\"}, {\"id\": \"legibility.minimum_font\", \"dimension\": \"legibility\", \"description\": \"Every text element meets the configured minimum rendered font size.\", \"severity\": \"high\"}]\n\nDiagram description:\nHow can I use LaTeX and TikZ to create a diagram that represents a simple state machine with two states, each having self-loops and transitions between them? Additionally, I want to include labels for the transitions and external inputs connecting to these states. Specifically, I would like to define two states, labeled \\(u_{a, +}\\) and \\(u_{a, -}\\), positioned horizontally with a clear transition arrow between them that bends to the left. Each state should have a self-loop above it, indicating the possibility of remaining in the same state. \n\nFor the transitions between the states, I need to label the arrows appropriately. The transition from \\(u_{a, +}\\) to \\(u_{a, -}\\) and vice versa should be clearly marked. Moreover, I want to include external inputs that connect to these states. These inputs should be represented by arrows originating from outside the state machine and pointing to the respective states. \n\nThe external inputs should be labeled as follows: inputs \\(e_{b, a, +}\\) and \\(e_{c, a, +}\\) should connect to state \\(u_{a, +}\\), while inputs \\(e_{b, a, -}\\) and \\(e_{c, a, -}\\) should connect to state \\(u_{a, -}\\). Additionally, I want to include labels \\(f_a(x)\\) and \\(\\neg f_a(x)\\) below the states \\(u_{a, +}\\) and \\(u_{a, -}\\), respectively, to indicate certain conditions or functions associated with these states.\n\nTo enhance the visual clarity of the diagram, I would like to use a consistent and clean style, such as using stealth arrows and ensuring that the node distances are appropriately spaced. The overall layout should be intuitive and easy to follow, making the state machine's behavior and interactions clear to the viewer. Furthermore, I want to ensure that the diagram is well-integrated within a LaTeX document, using the `llncs` document class and appropriate packages like `amsmath`, `amssymb`, and `tikz` with the `automata` library for the best presentation. \n\nIn summary, I am looking for a comprehensive guide on how to create a detailed and well-labeled state machine diagram using LaTeX and TikZ, ensuring that all transitions, self-loops, and external inputs are clearly represented and labeled for maximum clarity and professional appearance.\n\nFrozen description-derived inventory:\n{\"inventory\": {\"presence\": [\"state u_{a, +}\", \"state u_{a, -}\", \"self-loop on state u_{a, +}\", \"self-loop on state u_{a, -}\", \"directed transition from u_{a, +} to u_{a, -}\", \"directed transition from u_{a, -} to u_{a, +}\", \"external input e_{b, a, +}\", \"external input e_{c, a, +}\", \"external input e_{b, a, -}\", \"external input e_{c, a, -}\", \"condition label f_a(x) below u_{a, +}\", \"condition label \\\\neg f_a(x) below u_{a, -}\"], \"layout\": [\"u_{a, +} is positioned horizontally left of u_{a, -}\", \"states are spaced clearly apart\", \"transition arrows between states are visibly bent to the left\", \"each self-loop is above its corresponding state\", \"external inputs originate outside the state machine area\", \"e_{b, a, +} and e_{c, a, +} are placed outside and point toward u_{a, +}\", \"e_{b, a, -} and e_{c, a, -} are placed outside and point toward u_{a, -}\", \"f_a(x) is below u_{a, +}\", \"\\\\neg f_a(x) is below u_{a, -}\", \"all content is fully inside the canvas\", \"no unintended overlaps or collisions\"], \"connectivity\": [\"u_a_plus_self_loop connects from state_u_a_plus to state_u_a_plus\", \"u_a_minus_self_loop connects from state_u_a_minus to state_u_a_minus\", \"transition_u_a_plus_to_u_a_minus connects from state_u_a_plus to state_u_a_minus\", \"transition_u_a_minus_to_u_a_plus connects from state_u_a_minus to state_u_a_plus\", \"external_input_e_b_a_plus connects to state_u_a_plus\", \"external_input_e_c_a_plus connects to state_u_a_plus\", \"external_input_e_b_a_minus connects to state_u_a_minus\", \"external_input_e_c_a_minus connects to state_u_a_minus\"], \"details\": [\"state label must be exactly u_{a, +}\", \"state label must be exactly u_{a, -}\", \"external input label must be exactly e_{b, a, +}\", \"external input label must be exactly e_{c, a, +}\", \"external input label must be exactly e_{b, a, -}\", \"external input label must be exactly e_{c, a, -}\", \"condition label below u_{a, +} must be exactly f_a(x)\", \"condition label below u_{a, -} must be exactly \\\\neg f_a(x)\", \"transition arrows between states must be clearly labeled\", \"self-loops must be clearly labeled if transition labels are shown\", \"labels must not be missing\", \"labels must not be generic placeholders\", \"labels must not be abbreviated placeholders\"], \"legibility\": [\"all labels are readable\", \"text stays inside intended nodes or near intended arrows\", \"text is not clipped\", \"text does not collide with other text or shapes\", \"font size is legible\"]}, \"components\": [{\"id\": \"state_u_a_plus\", \"label\": \"u_{a, +}\", \"kind\": \"state\"}, {\"id\": \"state_u_a_minus\", \"label\": \"u_{a, -}\", \"kind\": \"state\"}, {\"id\": \"u_a_plus_self_loop\", \"label\": \"self-loop\", \"kind\": \"self_loop\"}, {\"id\": \"u_a_minus_self_loop\", \"label\": \"self-loop\", \"kind\": \"self_loop\"}, {\"id\": \"transition_u_a_plus_to_u_a_minus\", \"label\": \"transition\", \"kind\": \"directed_transition\"}, {\"id\": \"transition_u_a_minus_to_u_a_plus\", \"label\": \"transition\", \"kind\": \"directed_transition\"}, {\"id\": \"external_input_e_b_a_plus\", \"label\": \"e_{b, a, +}\", \"kind\": \"external_input\"}, {\"id\": \"external_input_e_c_a_plus\", \"label\": \"e_{c, a, +}\", \"kind\": \"external_input\"}, {\"id\": \"external_input_e_b_a_minus\", \"label\": \"e_{b, a, -}\", \"kind\": \"external_input\"}, {\"id\": \"external_input_e_c_a_minus\", \"label\": \"e_{c, a, -}\", \"kind\": \"external_input\"}, {\"id\": \"condition_f_a_x\", \"label\": \"f_a(x)\", \"kind\": \"condition_label\"}, {\"id\": \"condition_not_f_a_x\", \"label\": \"\\\\neg f_a(x)\", \"kind\": \"condition_label\"}], \"connections\": [{\"source\": \"state_u_a_plus\", \"target\": \"state_u_a_plus\"}, {\"source\": \"state_u_a_minus\", \"target\": \"state_u_a_minus\"}, {\"source\": \"state_u_a_plus\", \"target\": \"state_u_a_minus\"}, {\"source\": \"state_u_a_minus\", \"target\": \"state_u_a_plus\"}, {\"source\": \"external_input_e_b_a_plus\", \"target\": \"state_u_a_plus\"}, {\"source\": \"external_input_e_c_a_plus\", \"target\": \"state_u_a_plus\"}, {\"source\": \"external_input_e_b_a_minus\", \"target\": \"state_u_a_minus\"}, {\"source\": \"external_input_e_c_a_minus\", \"target\": \"state_u_a_minus\"}], \"forbidden_placeholders\": [\"state\", \"node\", \"input\", \"output\", \"label\", \"transition\", \"self-loop\", \"placeholder\", \"text\", \"arrow\", \"A\", \"B\", \"S1\", \"S2\", \"?\", \"TODO\"]}",
+  "schema": {
+    "type": "object",
+    "properties": {
+      "metrics": {
+        "type": "array",
+        "items": {
+          "type": "object",
+          "properties": {
+            "criterion_id": {
+              "type": "string"
+            },
+            "expected_count": {
+              "type": "integer",
+              "minimum": 0
+            },
+            "detected_issues": {
+              "type": "integer",
+              "minimum": 0
+            },
+            "issues": {
+              "type": "array",
+              "items": {
+                "type": "object",
+                "properties": {
+                  "description": {
+                    "type": "string"
+                  },
+                  "severity": {
+                    "type": "string",
+                    "enum": [
+                      "low",
+                      "medium",
+                      "high",
+                      "critical"
+                    ]
+                  },
+                  "element_ids": {
+                    "type": "array",
+                    "items": {
+                      "type": "string"
+                    }
+                  }
+                },
+                "required": [
+                  "description",
+                  "severity",
+                  "element_ids"
+                ],
+                "additionalProperties": false
+              }
+            },
+            "notes": {
+              "type": "string"
+            }
+          },
+          "required": [
+            "criterion_id",
+            "expected_count",
+            "detected_issues",
+            "issues",
+            "notes"
+          ],
+          "additionalProperties": false
+        }
+      },
+      "components": {
+        "type": "array",
+        "items": {
+          "type": "object",
+          "properties": {
+            "component_id": {
+              "type": "string"
+            },
+            "verdict": {
+              "type": "string",
+              "enum": [
+                "present",
+                "mislabeled",
+                "absent",
+                "uncertain"
+              ]
+            },
+            "visible_text": {
+              "type": "string"
+            },
+            "location": {
+              "type": "object",
+              "properties": {
+                "x0": {
+                  "type": "number"
+                },
+                "y0": {
+                  "type": "number"
+                },
+                "x1": {
+                  "type": "number"
+                },
+                "y1": {
+                  "type": "number"
+                }
+              },
+              "required": [
+                "x0",
+                "y0",
+                "x1",
+                "y1"
+              ],
+              "additionalProperties": false
+            },
+            "evidence": {
+              "type": "string"
+            }
+          },
+          "required": [
+            "component_id",
+            "verdict",
+            "visible_text",
+            "location",
+            "evidence"
+          ],
+          "additionalProperties": false
+        }
+      }
+    },
+    "required": [
+      "metrics",
+      "components"
+    ],
+    "additionalProperties": false
+  },
+  "images": [
+    {
+      "filename": "candidate.png",
+      "sha256": "878a16d8066146bcc904a8d6f53e0ca0f1d363be72a00df6e0138c4c2a2fdaa5"
+    }
+  ]
+}

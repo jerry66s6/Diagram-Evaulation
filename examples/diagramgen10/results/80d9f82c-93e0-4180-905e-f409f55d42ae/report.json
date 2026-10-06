@@ -1,0 +1,511 @@
+{
+  "correctness": 0.9285714285714286,
+  "formula": "0.200000*presence + 0.100000*layout + 0.400000*connectivity + 0.100000*details + 0.200000*legibility",
+  "weights": {
+    "presence": 0.2,
+    "layout": 0.1,
+    "connectivity": 0.4,
+    "details": 0.1,
+    "legibility": 0.2
+  },
+  "dimensions": {
+    "presence": {
+      "dimension": "presence",
+      "score": 1.0,
+      "criteria": {
+        "presence.elements": 1.0
+      },
+      "participating_judges": [
+        "gpt-5.5"
+      ]
+    },
+    "layout": {
+      "dimension": "layout",
+      "score": 1.0,
+      "criteria": {
+        "layout.order": 1.0,
+        "layout.canvas": 1.0,
+        "layout.overlap": 1.0
+      },
+      "participating_judges": [
+        "gpt-5.5"
+      ]
+    },
+    "connectivity": {
+      "dimension": "connectivity",
+      "score": 1.0,
+      "criteria": {
+        "connectivity.connections": 1.0,
+        "connectivity.endpoints": 1.0
+      },
+      "participating_judges": [
+        "gpt-5.5"
+      ]
+    },
+    "details": {
+      "dimension": "details",
+      "score": 0.2857142857142857,
+      "criteria": {
+        "details.labels": 0.2857142857142857
+      },
+      "participating_judges": [
+        "gpt-5.5"
+      ]
+    },
+    "legibility": {
+      "dimension": "legibility",
+      "score": 1.0,
+      "criteria": {
+        "legibility.overflow": 1.0,
+        "legibility.minimum_font": 1.0
+      },
+      "participating_judges": [
+        "gpt-5.5"
+      ]
+    }
+  },
+  "metrics": [
+    {
+      "criterion_id": "layout.order",
+      "dimension": "layout",
+      "judge": "gpt-5.5",
+      "expected_count": 6,
+      "detected_issues": 0,
+      "issues": [],
+      "notes": "The graph is arranged top-to-bottom from Start through Node #1 and Node #2, branching to Node #3a/#3b, converging at Finish node #4, then End.",
+      "measurable": true,
+      "component_verdicts": [],
+      "score": 1.0
+    },
+    {
+      "criterion_id": "layout.canvas",
+      "dimension": "layout",
+      "judge": "gpt-5.5",
+      "expected_count": 1,
+      "detected_issues": 0,
+      "issues": [],
+      "notes": "All visible nodes, labels, and arrows appear within the image canvas.",
+      "measurable": true,
+      "component_verdicts": [],
+      "score": 1.0
+    },
+    {
+      "criterion_id": "layout.overlap",
+      "dimension": "layout",
+      "judge": "gpt-5.5",
+      "expected_count": 7,
+      "detected_issues": 0,
+      "issues": [],
+      "notes": "No unintended component overlaps are visible.",
+      "measurable": true,
+      "component_verdicts": [],
+      "score": 1.0
+    },
+    {
+      "criterion_id": "connectivity.connections",
+      "dimension": "connectivity",
+      "judge": "gpt-5.5",
+      "expected_count": 7,
+      "detected_issues": 0,
+      "issues": [],
+      "notes": "All expected directed connections are visibly present.",
+      "measurable": true,
+      "component_verdicts": [],
+      "score": 1.0
+    },
+    {
+      "criterion_id": "connectivity.endpoints",
+      "dimension": "connectivity",
+      "judge": "gpt-5.5",
+      "expected_count": 7,
+      "detected_issues": 0,
+      "issues": [],
+      "notes": "Each visible arrow points from the expected source component to the expected target component.",
+      "measurable": true,
+      "component_verdicts": [],
+      "score": 1.0
+    },
+    {
+      "criterion_id": "legibility.overflow",
+      "dimension": "legibility",
+      "judge": "gpt-5.5",
+      "expected_count": 9,
+      "detected_issues": 0,
+      "issues": [],
+      "notes": "Node and edge labels stay inside their intended areas without visible clipping or overflow.",
+      "measurable": true,
+      "component_verdicts": [],
+      "score": 1.0
+    },
+    {
+      "criterion_id": "legibility.minimum_font",
+      "dimension": "legibility",
+      "judge": "gpt-5.5",
+      "expected_count": 9,
+      "detected_issues": 0,
+      "issues": [],
+      "notes": "All visible text is large and readable.",
+      "measurable": true,
+      "component_verdicts": [],
+      "score": 1.0
+    },
+    {
+      "criterion_id": "presence.elements",
+      "dimension": "presence",
+      "judge": "gpt-5.5",
+      "expected_count": 7,
+      "detected_issues": 0,
+      "issues": [],
+      "notes": "",
+      "measurable": true,
+      "component_verdicts": [
+        {
+          "component_id": "start_node",
+          "verdict": "present",
+          "judge": "gpt-5.5",
+          "visible_text": "Start",
+          "evidence": "Top green node is labeled exactly \"Start\".",
+          "bounds": [
+            0.429,
+            0.008,
+            0.578,
+            0.096
+          ],
+          "notes": ""
+        },
+        {
+          "component_id": "node_1",
+          "verdict": "mislabeled",
+          "judge": "gpt-5.5",
+          "visible_text": "Node #1. Only one way.",
+          "evidence": "Intermediate node after Start contains extra text beyond expected \"Node #1\".",
+          "bounds": [
+            0.299,
+            0.183,
+            0.708,
+            0.269
+          ],
+          "notes": ""
+        },
+        {
+          "component_id": "node_2",
+          "verdict": "mislabeled",
+          "judge": "gpt-5.5",
+          "visible_text": "Node #2, have question with choice. What choice you?",
+          "evidence": "Yellow decision node plays Node #2 role but label is not exactly \"Node #2\".",
+          "bounds": [
+            0.07,
+            0.355,
+            0.937,
+            0.442
+          ],
+          "notes": ""
+        },
+        {
+          "component_id": "node_3a",
+          "verdict": "mislabeled",
+          "judge": "gpt-5.5",
+          "visible_text": "Node #3a. You was say YES",
+          "evidence": "Left choice node is the YES branch but includes extra text beyond expected \"Node #3a\".",
+          "bounds": [
+            0.01,
+            0.566,
+            0.484,
+            0.653
+          ],
+          "notes": ""
+        },
+        {
+          "component_id": "node_3b",
+          "verdict": "mislabeled",
+          "judge": "gpt-5.5",
+          "visible_text": "Node #3b. You was say NO",
+          "evidence": "Right choice node is the NO branch but includes extra text beyond expected \"Node #3b\".",
+          "bounds": [
+            0.534,
+            0.566,
+            0.994,
+            0.653
+          ],
+          "notes": ""
+        },
+        {
+          "component_id": "node_4",
+          "verdict": "mislabeled",
+          "judge": "gpt-5.5",
+          "visible_text": "Finish node #4. One way.",
+          "evidence": "Convergence/final step node includes extra text beyond expected \"Finish node #4\".",
+          "bounds": [
+            0.29,
+            0.74,
+            0.718,
+            0.827
+          ],
+          "notes": ""
+        },
+        {
+          "component_id": "end_node",
+          "verdict": "present",
+          "judge": "gpt-5.5",
+          "visible_text": "End",
+          "evidence": "Bottom green node is labeled exactly \"End\".",
+          "bounds": [
+            0.429,
+            0.914,
+            0.578,
+            0.999
+          ],
+          "notes": ""
+        }
+      ],
+      "score": 1.0
+    },
+    {
+      "criterion_id": "details.labels",
+      "dimension": "details",
+      "judge": "gpt-5.5",
+      "expected_count": 7,
+      "detected_issues": 5,
+      "issues": [
+        {
+          "description": "Drawn component has an abbreviated, incorrect, missing, or placeholder label: node_1 (visible text: 'Node #1. Only one way.')",
+          "severity": "high",
+          "element_ids": [
+            "node_1"
+          ]
+        },
+        {
+          "description": "Drawn component has an abbreviated, incorrect, missing, or placeholder label: node_2 (visible text: 'Node #2, have question with choice. What choice you?')",
+          "severity": "high",
+          "element_ids": [
+            "node_2"
+          ]
+        },
+        {
+          "description": "Drawn component has an abbreviated, incorrect, missing, or placeholder label: node_3a (visible text: 'Node #3a. You was say YES')",
+          "severity": "high",
+          "element_ids": [
+            "node_3a"
+          ]
+        },
+        {
+          "description": "Drawn component has an abbreviated, incorrect, missing, or placeholder label: node_3b (visible text: 'Node #3b. You was say NO')",
+          "severity": "high",
+          "element_ids": [
+            "node_3b"
+          ]
+        },
+        {
+          "description": "Drawn component has an abbreviated, incorrect, missing, or placeholder label: node_4 (visible text: 'Finish node #4. One way.')",
+          "severity": "high",
+          "element_ids": [
+            "node_4"
+          ]
+        }
+      ],
+      "notes": "Scored only over drawn components; missing components are scored under Presence.",
+      "measurable": true,
+      "component_verdicts": [],
+      "score": 0.2857142857142857
+    }
+  ],
+  "inventory": {
+    "inventory": {
+      "presence": [
+        "directed graph",
+        "start node",
+        "end node",
+        "Node #1 intermediate node",
+        "Node #2 decision node",
+        "Node #3a YES choice node",
+        "Node #3b NO choice node",
+        "Node #4 final step node"
+      ],
+      "layout": [
+        "logical reading order from Start to End",
+        "Start appears before Node #1",
+        "Node #1 appears before Node #2",
+        "Node #2 branches to Node #3a and Node #3b",
+        "Node #3a and Node #3b converge before Node #4",
+        "Node #4 appears before End",
+        "all content fully inside canvas",
+        "no unintended overlaps or collisions",
+        "intentional node-edge contact only at endpoints"
+      ],
+      "connectivity": [
+        "Start -> Node #1",
+        "Node #1 -> Node #2",
+        "Node #2 -> Node #3a",
+        "Node #2 -> Node #3b",
+        "Node #3a -> Node #4",
+        "Node #3b -> Node #4",
+        "Node #4 -> End"
+      ],
+      "details": [
+        "start node label is exactly \"Start\"",
+        "start node has green fill color",
+        "end node label is exactly \"End\"",
+        "end node has green fill color",
+        "Node #1 label is exactly \"Node #1\"",
+        "Node #2 label is exactly \"Node #2\"",
+        "Node #2 has yellow fill color",
+        "Node #3a label is exactly \"Node #3a\"",
+        "Node #3a indicates user chose \"YES\"",
+        "Node #3b label is exactly \"Node #3b\"",
+        "Node #3b indicates user chose \"NO\"",
+        "Node #4 label is exactly \"Finish node #4\"",
+        "edge from Node #2 to Node #3a is labeled exactly \"YES\"",
+        "edge from Node #2 to Node #3b is labeled exactly \"NO\"",
+        "labels are meaningful and not missing",
+        "labels are not placeholder text"
+      ],
+      "legibility": [
+        "all node labels are readable",
+        "all edge labels are readable",
+        "text stays inside intended node or edge-label area",
+        "text is not clipped",
+        "text does not collide with other text or shapes",
+        "text meets minimum rendered font size"
+      ]
+    },
+    "components": [
+      {
+        "id": "start_node",
+        "label": "Start",
+        "kind": "start node"
+      },
+      {
+        "id": "node_1",
+        "label": "Node #1",
+        "kind": "intermediate node"
+      },
+      {
+        "id": "node_2",
+        "label": "Node #2",
+        "kind": "decision node"
+      },
+      {
+        "id": "node_3a",
+        "label": "Node #3a",
+        "kind": "choice node"
+      },
+      {
+        "id": "node_3b",
+        "label": "Node #3b",
+        "kind": "choice node"
+      },
+      {
+        "id": "node_4",
+        "label": "Finish node #4",
+        "kind": "final step node"
+      },
+      {
+        "id": "end_node",
+        "label": "End",
+        "kind": "end node"
+      }
+    ],
+    "connections": [
+      {
+        "source": "start_node",
+        "target": "node_1"
+      },
+      {
+        "source": "node_1",
+        "target": "node_2"
+      },
+      {
+        "source": "node_2",
+        "target": "node_3a"
+      },
+      {
+        "source": "node_2",
+        "target": "node_3b"
+      },
+      {
+        "source": "node_3a",
+        "target": "node_4"
+      },
+      {
+        "source": "node_3b",
+        "target": "node_4"
+      },
+      {
+        "source": "node_4",
+        "target": "end_node"
+      }
+    ],
+    "forbidden_placeholders": [
+      "Lorem ipsum",
+      "placeholder",
+      "TODO",
+      "TBD",
+      "Node",
+      "Label",
+      "Text",
+      "Example",
+      "Untitled",
+      "?"
+    ]
+  },
+  "metadata": {
+    "vlm_judges": [
+      "gpt-5.5"
+    ],
+    "expectation_model": "gpt-5.5",
+    "expectations_from": "description",
+    "deterministic_judge": false,
+    "component_verdicts": [
+      {
+        "component_id": "start_node",
+        "verdicts": {
+          "gpt-5.5": "present"
+        },
+        "agree": true
+      },
+      {
+        "component_id": "node_1",
+        "verdicts": {
+          "gpt-5.5": "mislabeled"
+        },
+        "agree": true
+      },
+      {
+        "component_id": "node_2",
+        "verdicts": {
+          "gpt-5.5": "mislabeled"
+        },
+        "agree": true
+      },
+      {
+        "component_id": "node_3a",
+        "verdicts": {
+          "gpt-5.5": "mislabeled"
+        },
+        "agree": true
+      },
+      {
+        "component_id": "node_3b",
+        "verdicts": {
+          "gpt-5.5": "mislabeled"
+        },
+        "agree": true
+      },
+      {
+        "component_id": "node_4",
+        "verdicts": {
+          "gpt-5.5": "mislabeled"
+        },
+        "agree": true
+      },
+      {
+        "component_id": "end_node",
+        "verdicts": {
+          "gpt-5.5": "present"
+        },
+        "agree": true
+      }
+    ],
+    "component_disagreements": 0
+  }
+}

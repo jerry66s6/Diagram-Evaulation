@@ -130,6 +130,94 @@ PYTHONPATH=src python3 scripts/run_beauty_ablation.py
 Or set `OPENAI_API_KEY` and pass `--live` to score the generated diagrams with the
 model configured in `config/evaluator.json`.
 
+## Revised degradation experiment (experimental v2)
+
+The v2 experiment evaluates the original, the five existing partial edits, and
+five severe edits. It presents **SVG**, **GPT**, and **Combined** as separate
+views. Missing GPT judgments remain pending; they are never replaced by SVG
+scores in the Combined view. The v1 script, rubric, and saved numerical results
+remain available for reproducibility.
+
+```bash
+# SVG checks only; needs no API key.
+.venv/bin/python scripts/run_ablation_v2.py --publish-current
+
+# Enter the key locally at a hidden prompt, then evaluate all 11 images.
+.venv/bin/python scripts/run_ablation_v2.py --prompt-key --publish-current
+```
+
+Alternatively, save `OPENAI_API_KEY="..."` in the project-local `.env` (excluded
+from Git) or export the variable in your shell, then use `--live` instead of
+`--prompt-key`. The v2 runner reads only this key from `.env`; it never executes
+the file. A fresh full run uses 11 GPT image judgments, each covering all five
+dimensions. It reuses the existing component inventory plus explicitly
+transcribed caption-only spatial requirements; no new expectation API call is
+made. Neither intervention names nor severity labels are sent to the judge.
+
+Outputs are in `examples/transformer/ablation-v2/`. The `--publish-current` option
+also updates the old local report's HTML and keeps its original HTML as
+`examples/transformer/ablation/index.v1.html`. Refresh the current page after each
+example finishes. The HTML embeds all 11 diagrams and all available results.
+Completed model judgments are cached, and source/protocol hashes reject mixing
+judgments from different inputs. Use a fresh `--output-dir` after metric changes.
+
+V2 is explicitly opt-in: `SensitivityJudge` and `config/rubric_v2.json` check
+pairwise agreement with stated stage sequences, spatial relations, and required
+containment, with no default top-to-bottom assumption. Accidental enclosure is
+not treated as intentional grouping. Arrow endpoints must form expected directed
+pairs. Repeated or corrupted labels can be resolved from the graph only if the
+complete visible directed graph has a unique correspondence with the expected
+graph; SVG element IDs are not used as semantic labels.
+
+Within each dimension, v2 takes the **minimum available criterion score** rather
+than an arithmetic mean, so passing boundary checks cannot compensate for a
+failed sequence or unreadable font. Between judges it still takes the median per
+matching criterion, so a SVG/GPT disagreement remains visible in the separate
+views. Overall weights are unchanged. The minimum rule is an experimental,
+conservative design choice, not a human-calibrated scale or a guarantee that any
+small edit must score zero. Severe edits may affect multiple dimensions.
+
+## DiagramGen 10-example pilot
+
+The [self-contained pilot page](examples/diagramgen10/index.html) contains ten
+original DiagramGen PNGs and their unmodified `expanded_query` descriptions.
+Selection is fixed before scoring: 4 model-architecture-labeled examples,
+4 flowcharts, and 2 directed graphs, ordered within category by
+`SHA256("20260930:" + id)`. The downloaded 270-record generation index is hash
+checked; the manifest records every selected ID, caption hash, and image hash.
+The [dataset card](examples/diagramgen10/source/README.md) is retained with the data.
+
+Prepare the inputs or rebuild the HTML without model calls:
+
+```bash
+python3 scripts/run_diagramgen10.py
+```
+
+Run or resume the existing GPT evaluator after configuring `OPENAI_API_KEY` locally:
+
+```bash
+.venv/bin/python scripts/run_diagramgen10.py --live
+```
+
+A fresh successful run uses 10 description-only expectation calls and 10 image
+judgment calls; all five dimensions come from each image judgment. The original
+dataset PNG is the candidate, not a newly generated diagram. This pilot uses the
+GPT component only: LaTeX/DOT source is archived, but SVG geometry and VFIG are
+omitted. Core evaluator code, prompts, rubric, and weights are unchanged.
+
+Each example saves its frozen inventory, exact text prompts, structured model
+responses, and complete report under `examples/diagramgen10/results/`. Completed
+reports and inventories are reused when resuming. Configuration and evaluator
+source hashes prevent mixing different protocols; use `--output-dir` for a new
+protocol. Failed or blocked examples have no numeric score. `scores.csv`,
+`summary.json`, and the standalone HTML update after each example. Copying just
+`index.html` preserves all images, descriptions, and available results offline.
+
+This is a small pilot, not a calibrated accuracy benchmark. Dataset category
+labels are broad, some descriptions underspecify connections, and reference
+images need not satisfy every expanded-description request. Review inventories
+and evidence manually before drawing conclusions. No beauty judge is run here.
+
 ## Install
 
 Python 3.11 or newer is required.

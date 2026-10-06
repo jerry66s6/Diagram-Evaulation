@@ -1,0 +1,353 @@
+{
+  "metrics": [
+    {
+      "criterion_id": "layout.order",
+      "expected_count": 0,
+      "detected_issues": 0,
+      "issues": [],
+      "notes": "No required internal encoder components are visibly drawn, so no sequence pairs are applicable."
+    },
+    {
+      "criterion_id": "layout.canvas",
+      "expected_count": 1,
+      "detected_issues": 0,
+      "issues": [],
+      "notes": "The visible title, arrows, and dashed paths are inside the canvas."
+    },
+    {
+      "criterion_id": "layout.overlap",
+      "expected_count": 0,
+      "detected_issues": 0,
+      "issues": [],
+      "notes": "No visibly drawn non-container components from the checklist are present."
+    },
+    {
+      "criterion_id": "connectivity.connections",
+      "expected_count": 10,
+      "detected_issues": 10,
+      "issues": [
+        {
+          "description": "Missing visible directed connection from Input Tokens to Token Embeddings.",
+          "severity": "critical",
+          "element_ids": [
+            "input_tokens",
+            "token_embeddings"
+          ]
+        },
+        {
+          "description": "Missing visible directed connection from Token Embeddings to Add.",
+          "severity": "critical",
+          "element_ids": [
+            "token_embeddings",
+            "add"
+          ]
+        },
+        {
+          "description": "Missing visible directed connection from Positional Encoding to Add.",
+          "severity": "critical",
+          "element_ids": [
+            "positional_encoding",
+            "add"
+          ]
+        },
+        {
+          "description": "Missing visible directed connection from Add to Multi-Head Self-Attention.",
+          "severity": "critical",
+          "element_ids": [
+            "add",
+            "multi_head_self_attention"
+          ]
+        },
+        {
+          "description": "Missing visible directed connection from Multi-Head Self-Attention to first Add & Norm.",
+          "severity": "critical",
+          "element_ids": [
+            "multi_head_self_attention",
+            "add_norm_1"
+          ]
+        },
+        {
+          "description": "Missing visible residual connection from Add to first Add & Norm.",
+          "severity": "critical",
+          "element_ids": [
+            "add",
+            "add_norm_1"
+          ]
+        },
+        {
+          "description": "Missing visible directed connection from first Add & Norm to Position-wise Feed-Forward Network.",
+          "severity": "critical",
+          "element_ids": [
+            "add_norm_1",
+            "position_wise_feed_forward_network"
+          ]
+        },
+        {
+          "description": "Missing visible directed connection from Position-wise Feed-Forward Network to second Add & Norm.",
+          "severity": "critical",
+          "element_ids": [
+            "position_wise_feed_forward_network",
+            "add_norm_2"
+          ]
+        },
+        {
+          "description": "Missing visible residual connection from first Add & Norm to second Add & Norm.",
+          "severity": "critical",
+          "element_ids": [
+            "add_norm_1",
+            "add_norm_2"
+          ]
+        },
+        {
+          "description": "Missing visible directed connection from second Add & Norm to Contextual Embeddings.",
+          "severity": "critical",
+          "element_ids": [
+            "add_norm_2",
+            "contextual_embeddings"
+          ]
+        }
+      ],
+      "notes": "The candidate shows arrows, but there are no labeled component boxes/endpoints to establish any expected source-target pair."
+    },
+    {
+      "criterion_id": "connectivity.endpoints",
+      "expected_count": 10,
+      "detected_issues": 10,
+      "issues": [
+        {
+          "description": "Top diagonal arrow is unattached to any expected labeled source or target.",
+          "severity": "critical",
+          "element_ids": [
+            "arrow_1"
+          ]
+        },
+        {
+          "description": "Upper-left diagonal arrow is unattached to any expected labeled source or target.",
+          "severity": "critical",
+          "element_ids": [
+            "arrow_2"
+          ]
+        },
+        {
+          "description": "Upper-right diagonal arrow is unattached to any expected labeled source or target.",
+          "severity": "critical",
+          "element_ids": [
+            "arrow_3"
+          ]
+        },
+        {
+          "description": "Upper central vertical arrow is unattached to any expected labeled source or target.",
+          "severity": "critical",
+          "element_ids": [
+            "arrow_4"
+          ]
+        },
+        {
+          "description": "Second central vertical arrow is unattached to any expected labeled source or target.",
+          "severity": "critical",
+          "element_ids": [
+            "arrow_5"
+          ]
+        },
+        {
+          "description": "Third central vertical arrow is unattached to any expected labeled source or target.",
+          "severity": "critical",
+          "element_ids": [
+            "arrow_6"
+          ]
+        },
+        {
+          "description": "Fourth central vertical arrow is unattached to any expected labeled source or target.",
+          "severity": "critical",
+          "element_ids": [
+            "arrow_7"
+          ]
+        },
+        {
+          "description": "Bottom central vertical arrow is unattached to any expected labeled source or target.",
+          "severity": "critical",
+          "element_ids": [
+            "arrow_8"
+          ]
+        },
+        {
+          "description": "Upper blue dashed skip arrow is unattached to expected labeled endpoints.",
+          "severity": "critical",
+          "element_ids": [
+            "arrow_9"
+          ]
+        },
+        {
+          "description": "Lower blue dashed skip arrow is unattached to expected labeled endpoints.",
+          "severity": "critical",
+          "element_ids": [
+            "arrow_10"
+          ]
+        }
+      ],
+      "notes": "Ten visible arrowheads/arrow paths are present, but none terminate at visible expected components."
+    },
+    {
+      "criterion_id": "legibility.overflow",
+      "expected_count": 1,
+      "detected_issues": 0,
+      "issues": [],
+      "notes": "The visible title text is not clipped or overflowing."
+    },
+    {
+      "criterion_id": "legibility.minimum_font",
+      "expected_count": 1,
+      "detected_issues": 0,
+      "issues": [],
+      "notes": "The visible title text appears at least 12 px."
+    },
+    {
+      "criterion_id": "layout.relations",
+      "expected_count": 0,
+      "detected_issues": 0,
+      "issues": [],
+      "notes": "No required component pair is visibly drawn, so explicit spatial relations are not applicable."
+    },
+    {
+      "criterion_id": "layout.containment",
+      "expected_count": 0,
+      "detected_issues": 0,
+      "issues": [],
+      "notes": "The intended group and members are not visibly drawn as components, so no containment checks apply."
+    }
+  ],
+  "components": [
+    {
+      "component_id": "input_tokens",
+      "verdict": "absent",
+      "visible_text": "",
+      "location": {
+        "x0": 0,
+        "y0": 0,
+        "x1": 0,
+        "y1": 0
+      },
+      "evidence": "No visible component labeled \"Input Tokens\" appears."
+    },
+    {
+      "component_id": "token_embeddings",
+      "verdict": "absent",
+      "visible_text": "",
+      "location": {
+        "x0": 0,
+        "y0": 0,
+        "x1": 0,
+        "y1": 0
+      },
+      "evidence": "No visible component labeled \"Token Embeddings\" appears."
+    },
+    {
+      "component_id": "positional_encoding",
+      "verdict": "absent",
+      "visible_text": "",
+      "location": {
+        "x0": 0,
+        "y0": 0,
+        "x1": 0,
+        "y1": 0
+      },
+      "evidence": "No visible component labeled \"Positional Encoding\" appears."
+    },
+    {
+      "component_id": "add",
+      "verdict": "absent",
+      "visible_text": "",
+      "location": {
+        "x0": 0,
+        "y0": 0,
+        "x1": 0,
+        "y1": 0
+      },
+      "evidence": "No visible operation labeled \"Add\" appears."
+    },
+    {
+      "component_id": "transformer_encoder_block",
+      "verdict": "absent",
+      "visible_text": "",
+      "location": {
+        "x0": 0,
+        "y0": 0,
+        "x1": 0,
+        "y1": 0
+      },
+      "evidence": "No visible grouped container labeled \"Transformer Encoder Block\" appears; the only text is the page title."
+    },
+    {
+      "component_id": "repetition_marker_n_times",
+      "verdict": "absent",
+      "visible_text": "",
+      "location": {
+        "x0": 0,
+        "y0": 0,
+        "x1": 0,
+        "y1": 0
+      },
+      "evidence": "No visible repetition marker \"N×\" appears."
+    },
+    {
+      "component_id": "multi_head_self_attention",
+      "verdict": "absent",
+      "visible_text": "",
+      "location": {
+        "x0": 0,
+        "y0": 0,
+        "x1": 0,
+        "y1": 0
+      },
+      "evidence": "No visible component labeled \"Multi-Head Self-Attention\" appears."
+    },
+    {
+      "component_id": "add_norm_1",
+      "verdict": "absent",
+      "visible_text": "",
+      "location": {
+        "x0": 0,
+        "y0": 0,
+        "x1": 0,
+        "y1": 0
+      },
+      "evidence": "No first visible component labeled \"Add & Norm\" appears."
+    },
+    {
+      "component_id": "position_wise_feed_forward_network",
+      "verdict": "absent",
+      "visible_text": "",
+      "location": {
+        "x0": 0,
+        "y0": 0,
+        "x1": 0,
+        "y1": 0
+      },
+      "evidence": "No visible component labeled \"Position-wise Feed-Forward Network\" appears."
+    },
+    {
+      "component_id": "add_norm_2",
+      "verdict": "absent",
+      "visible_text": "",
+      "location": {
+        "x0": 0,
+        "y0": 0,
+        "x1": 0,
+        "y1": 0
+      },
+      "evidence": "No second visible component labeled \"Add & Norm\" appears."
+    },
+    {
+      "component_id": "contextual_embeddings",
+      "verdict": "absent",
+      "visible_text": "",
+      "location": {
+        "x0": 0,
+        "y0": 0,
+        "x1": 0,
+        "y1": 0
+      },
+      "evidence": "No visible output component labeled \"Contextual Embeddings\" appears."
+    }
+  ]
+}

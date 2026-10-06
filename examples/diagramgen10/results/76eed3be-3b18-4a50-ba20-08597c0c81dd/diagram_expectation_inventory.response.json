@@ -1,0 +1,188 @@
+{
+  "inventory": {
+    "presence": [
+      "One separate labeled-circle row is present above the grid.",
+      "Five labeled circles are present in the labeled row.",
+      "Labeled circle for Al is present.",
+      "Labeled circle for Co is present.",
+      "Labeled circle for Cr is present.",
+      "Labeled circle for Fe is present.",
+      "Labeled circle for Ni is present.",
+      "One random shaded-circle grid group is present below the labeled row.",
+      "Four staggered grid rows are present.",
+      "Grid row 1 contains four shaded circles.",
+      "Grid row 2 contains three shaded circles.",
+      "Grid row 3 contains four shaded circles.",
+      "Grid row 4 contains three shaded circles.",
+      "Fourteen unlabeled shaded grid circles are present."
+    ],
+    "layout": [
+      "The labeled row is positioned above the random circle grid.",
+      "The five labeled circles are arranged horizontally in a single row.",
+      "The random grid rows are arranged below in sensible top-to-bottom order.",
+      "Rows with four circles and rows with three circles alternate to create a staggered pattern.",
+      "Three-circle rows are horizontally offset relative to four-circle rows for visual balance.",
+      "All circles remain fully inside the canvas.",
+      "No unintended overlaps occur between circles or labels."
+    ],
+    "connectivity": [
+      "No directed connections or arrows are expected."
+    ],
+    "details": [
+      "The labeled row uses exact labels: Al, Co, Cr, Fe, Ni.",
+      "Each label is visibly associated with its corresponding circle.",
+      "The grid circles have no text labels.",
+      "Grid circle colors are selected from a predefined palette including red, teal, blue, and orange shades.",
+      "The labeled-row circles use predefined specific colors distinct from the random grid palette behavior.",
+      "All circles are shaded to suggest a three-dimensional appearance.",
+      "Missing labels are not acceptable for the five labeled circles.",
+      "Generic or placeholder labels are not acceptable."
+    ],
+    "legibility": [
+      "Labels Al, Co, Cr, Fe, and Ni are readable.",
+      "Text stays inside or next to its intended circle without clipping.",
+      "Text does not collide with neighboring circles or labels.",
+      "All text meets the minimum readable font size."
+    ]
+  },
+  "components": [
+    {
+      "id": "labeled_row",
+      "label": "Al Co Cr Fe Ni",
+      "kind": "group"
+    },
+    {
+      "id": "al_labeled_circle",
+      "label": "Al",
+      "kind": "labeled_circle"
+    },
+    {
+      "id": "co_labeled_circle",
+      "label": "Co",
+      "kind": "labeled_circle"
+    },
+    {
+      "id": "cr_labeled_circle",
+      "label": "Cr",
+      "kind": "labeled_circle"
+    },
+    {
+      "id": "fe_labeled_circle",
+      "label": "Fe",
+      "kind": "labeled_circle"
+    },
+    {
+      "id": "ni_labeled_circle",
+      "label": "Ni",
+      "kind": "labeled_circle"
+    },
+    {
+      "id": "random_circle_grid",
+      "label": "",
+      "kind": "grid_group"
+    },
+    {
+      "id": "grid_row_1",
+      "label": "",
+      "kind": "row_4_circles"
+    },
+    {
+      "id": "grid_r1_c1",
+      "label": "",
+      "kind": "shaded_circle"
+    },
+    {
+      "id": "grid_r1_c2",
+      "label": "",
+      "kind": "shaded_circle"
+    },
+    {
+      "id": "grid_r1_c3",
+      "label": "",
+      "kind": "shaded_circle"
+    },
+    {
+      "id": "grid_r1_c4",
+      "label": "",
+      "kind": "shaded_circle"
+    },
+    {
+      "id": "grid_row_2",
+      "label": "",
+      "kind": "row_3_circles"
+    },
+    {
+      "id": "grid_r2_c1",
+      "label": "",
+      "kind": "shaded_circle"
+    },
+    {
+      "id": "grid_r2_c2",
+      "label": "",
+      "kind": "shaded_circle"
+    },
+    {
+      "id": "grid_r2_c3",
+      "label": "",
+      "kind": "shaded_circle"
+    },
+    {
+      "id": "grid_row_3",
+      "label": "",
+      "kind": "row_4_circles"
+    },
+    {
+      "id": "grid_r3_c1",
+      "label": "",
+      "kind": "shaded_circle"
+    },
+    {
+      "id": "grid_r3_c2",
+      "label": "",
+      "kind": "shaded_circle"
+    },
+    {
+      "id": "grid_r3_c3",
+      "label": "",
+      "kind": "shaded_circle"
+    },
+    {
+      "id": "grid_r3_c4",
+      "label": "",
+      "kind": "shaded_circle"
+    },
+    {
+      "id": "grid_row_4",
+      "label": "",
+      "kind": "row_3_circles"
+    },
+    {
+      "id": "grid_r4_c1",
+      "label": "",
+      "kind": "shaded_circle"
+    },
+    {
+      "id": "grid_r4_c2",
+      "label": "",
+      "kind": "shaded_circle"
+    },
+    {
+      "id": "grid_r4_c3",
+      "label": "",
+      "kind": "shaded_circle"
+    }
+  ],
+  "connections": [],
+  "forbidden_placeholders": [
+    "Label",
+    "Text",
+    "Placeholder",
+    "???",
+    "Lorem ipsum",
+    "A",
+    "B",
+    "C",
+    "circle",
+    "atom"
+  ]
+}

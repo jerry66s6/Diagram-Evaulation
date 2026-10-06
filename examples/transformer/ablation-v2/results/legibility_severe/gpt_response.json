@@ -1,0 +1,297 @@
+{
+  "metrics": [
+    {
+      "criterion_id": "layout.order",
+      "expected_count": 6,
+      "detected_issues": 0,
+      "issues": [],
+      "notes": "Internal encoder components are visually ordered top-to-bottom correctly."
+    },
+    {
+      "criterion_id": "layout.canvas",
+      "expected_count": 1,
+      "detected_issues": 0,
+      "issues": [],
+      "notes": "All visible content appears inside the canvas."
+    },
+    {
+      "criterion_id": "layout.overlap",
+      "expected_count": 10,
+      "detected_issues": 0,
+      "issues": [],
+      "notes": "No unintended overlaps among non-container components are visible."
+    },
+    {
+      "criterion_id": "connectivity.connections",
+      "expected_count": 10,
+      "detected_issues": 1,
+      "issues": [
+        {
+          "description": "The residual/skip connection from the first Add & Norm to the second Add & Norm is not clearly sourced from the first Add & Norm; the dashed path appears to continue along the left side rather than visibly originate at the first Add & Norm.",
+          "severity": "critical",
+          "element_ids": [
+            "add_norm_1",
+            "add_norm_2"
+          ]
+        }
+      ],
+      "notes": "Most required arrows are present; one residual source is ambiguous/not visibly attached."
+    },
+    {
+      "criterion_id": "connectivity.endpoints",
+      "expected_count": 10,
+      "detected_issues": 1,
+      "issues": [
+        {
+          "description": "The dashed arrow into the second Add & Norm has an ambiguous/unattached source endpoint rather than a clear endpoint at the first Add & Norm.",
+          "severity": "critical",
+          "element_ids": [
+            "add_norm_1",
+            "add_norm_2"
+          ]
+        }
+      ],
+      "notes": "Visible arrows otherwise match expected source-target directions."
+    },
+    {
+      "criterion_id": "legibility.overflow",
+      "expected_count": 11,
+      "detected_issues": 0,
+      "issues": [],
+      "notes": "Tiny text marks appear contained within their intended shapes."
+    },
+    {
+      "criterion_id": "legibility.minimum_font",
+      "expected_count": 11,
+      "detected_issues": 11,
+      "issues": [
+        {
+          "description": "Label text is far below the 12 px minimum and is unreadable.",
+          "severity": "high",
+          "element_ids": [
+            "input_tokens"
+          ]
+        },
+        {
+          "description": "Label text is far below the 12 px minimum and is unreadable.",
+          "severity": "high",
+          "element_ids": [
+            "token_embeddings"
+          ]
+        },
+        {
+          "description": "Label text is far below the 12 px minimum and is unreadable.",
+          "severity": "high",
+          "element_ids": [
+            "positional_encoding"
+          ]
+        },
+        {
+          "description": "Label text is far below the 12 px minimum and is unreadable.",
+          "severity": "high",
+          "element_ids": [
+            "add"
+          ]
+        },
+        {
+          "description": "Label text is far below the 12 px minimum and is unreadable.",
+          "severity": "high",
+          "element_ids": [
+            "transformer_encoder_block"
+          ]
+        },
+        {
+          "description": "Repetition marker text is far below the 12 px minimum and is unreadable.",
+          "severity": "high",
+          "element_ids": [
+            "repetition_marker_n_times"
+          ]
+        },
+        {
+          "description": "Label text is far below the 12 px minimum and is unreadable.",
+          "severity": "high",
+          "element_ids": [
+            "multi_head_self_attention"
+          ]
+        },
+        {
+          "description": "Label text is far below the 12 px minimum and is unreadable.",
+          "severity": "high",
+          "element_ids": [
+            "add_norm_1"
+          ]
+        },
+        {
+          "description": "Label text is far below the 12 px minimum and is unreadable.",
+          "severity": "high",
+          "element_ids": [
+            "position_wise_feed_forward_network"
+          ]
+        },
+        {
+          "description": "Label text is far below the 12 px minimum and is unreadable.",
+          "severity": "high",
+          "element_ids": [
+            "add_norm_2"
+          ]
+        },
+        {
+          "description": "Label text is far below the 12 px minimum and is unreadable.",
+          "severity": "high",
+          "element_ids": [
+            "contextual_embeddings"
+          ]
+        }
+      ],
+      "notes": "All required labels appear as tiny/faint marks rather than readable text."
+    },
+    {
+      "criterion_id": "layout.relations",
+      "expected_count": 7,
+      "detected_issues": 0,
+      "issues": [],
+      "notes": "All explicit spatial relations are satisfied."
+    },
+    {
+      "criterion_id": "layout.containment",
+      "expected_count": 4,
+      "detected_issues": 0,
+      "issues": [],
+      "notes": "All four internal encoder components are fully inside the encoder block container."
+    }
+  ],
+  "components": [
+    {
+      "component_id": "input_tokens",
+      "verdict": "mislabeled",
+      "visible_text": "",
+      "location": {
+        "x0": 0.385,
+        "y0": 0.073,
+        "x1": 0.615,
+        "y1": 0.138
+      },
+      "evidence": "Top blue rounded rectangle is in the Input Tokens position and feeds the left embedding box, but its label is not readable/visible."
+    },
+    {
+      "component_id": "token_embeddings",
+      "verdict": "mislabeled",
+      "visible_text": "",
+      "location": {
+        "x0": 0.185,
+        "y0": 0.184,
+        "x1": 0.442,
+        "y1": 0.254
+      },
+      "evidence": "Left green rectangle beneath the input receives an arrow from the top box and feeds the Add circle, but its label is not readable/visible."
+    },
+    {
+      "component_id": "positional_encoding",
+      "verdict": "mislabeled",
+      "visible_text": "",
+      "location": {
+        "x0": 0.558,
+        "y0": 0.184,
+        "x1": 0.815,
+        "y1": 0.254
+      },
+      "evidence": "Right yellow rectangle parallel to the embedding box feeds the Add circle, but its label is not readable/visible."
+    },
+    {
+      "component_id": "add",
+      "verdict": "mislabeled",
+      "visible_text": "",
+      "location": {
+        "x0": 0.472,
+        "y0": 0.282,
+        "x1": 0.529,
+        "y1": 0.353
+      },
+      "evidence": "Central circle combines arrows from the two upper components and feeds the encoder block, but its label is not readable/visible."
+    },
+    {
+      "component_id": "transformer_encoder_block",
+      "verdict": "mislabeled",
+      "visible_text": "",
+      "location": {
+        "x0": 0.167,
+        "y0": 0.379,
+        "x1": 0.833,
+        "y1": 0.873
+      },
+      "evidence": "Large blue rounded container encloses the encoder internals, but the group label is not readable/visible."
+    },
+    {
+      "component_id": "repetition_marker_n_times",
+      "verdict": "mislabeled",
+      "visible_text": "",
+      "location": {
+        "x0": 0.753,
+        "y0": 0.393,
+        "x1": 0.807,
+        "y1": 0.433
+      },
+      "evidence": "Small purple pill near the top-right of the encoder block marks repetition position, but no readable N× label is visible."
+    },
+    {
+      "component_id": "multi_head_self_attention",
+      "verdict": "mislabeled",
+      "visible_text": "",
+      "location": {
+        "x0": 0.291,
+        "y0": 0.446,
+        "x1": 0.71,
+        "y1": 0.516
+      },
+      "evidence": "Top internal purple rectangle receives the arrow from Add, but its label is not readable/visible."
+    },
+    {
+      "component_id": "add_norm_1",
+      "verdict": "mislabeled",
+      "visible_text": "",
+      "location": {
+        "x0": 0.35,
+        "y0": 0.557,
+        "x1": 0.651,
+        "y1": 0.621
+      },
+      "evidence": "First pink internal rectangle receives from self-attention and a dashed skip path, but its label is not readable/visible."
+    },
+    {
+      "component_id": "position_wise_feed_forward_network",
+      "verdict": "mislabeled",
+      "visible_text": "",
+      "location": {
+        "x0": 0.291,
+        "y0": 0.662,
+        "x1": 0.71,
+        "y1": 0.731
+      },
+      "evidence": "Middle cyan internal rectangle receives from the first Add & Norm and feeds the second Add & Norm, but its label is not readable/visible."
+    },
+    {
+      "component_id": "add_norm_2",
+      "verdict": "mislabeled",
+      "visible_text": "",
+      "location": {
+        "x0": 0.35,
+        "y0": 0.772,
+        "x1": 0.651,
+        "y1": 0.837
+      },
+      "evidence": "Second pink internal rectangle receives from the feed-forward box and a dashed skip path, but its label is not readable/visible."
+    },
+    {
+      "component_id": "contextual_embeddings",
+      "verdict": "mislabeled",
+      "visible_text": "",
+      "location": {
+        "x0": 0.364,
+        "y0": 0.913,
+        "x1": 0.637,
+        "y1": 0.979
+      },
+      "evidence": "Bottom blue rounded rectangle receives the final downward arrow from the encoder block, but its label is not readable/visible."
+    }
+  ]
+}

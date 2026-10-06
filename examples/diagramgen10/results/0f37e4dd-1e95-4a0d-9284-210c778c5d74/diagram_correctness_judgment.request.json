@@ -1,0 +1,140 @@
+{
+  "model": "gpt-5.5",
+  "prompt": "You are stage 2 of a description-to-diagram alignment evaluator. The attached image is the only CANDIDATE. Evaluate it against the written description and the frozen stage-1 inventory. Do not invent a different target. Evidence must refer to visible candidate elements.\n\nPART A - component checklist (field 'components'). Return exactly one entry for every component_id below, in any order, and no other ids. Answer each item on its own:\n- present: a visible element plays this component's role and its label matches the expected label (ignore case, punctuation, and line breaks).\n- mislabeled: a visible element plays this role (recognizable from its label, position, grouping, or arrows), but its label is abbreviated, incomplete, different, missing, or a placeholder.\n- absent: no visible element plays this role.\n- uncertain: the image does not allow a decision.\nAn abbreviation of the expected label (for example 'FFN' for 'Feed-Forward Network') counts as mislabeled. An element in the component's position whose label is a placeholder (such as 'Layer', 'TBD', '???') or is missing counts as mislabeled.\nRules: quote the element's visible text exactly as drawn in visible_text ('' if it has none). Give location as the element's bounding box in normalized image coordinates from 0 to 1 (x0, y0 top-left; x1, y1 bottom-right); use all zeros when absent. Each drawn element may be used for at most one component_id. Judge only whether the component itself is drawn and labeled; arrows and connections are judged in Part B, not here.\n\nPART B - counted criteria (field 'metrics'). For every criterion listed here, expected_count is the number of relevant countable opportunities and detected_issues is the number that fail. If no opportunity exists, return both counts as zero. Count each failing opportunity once. Layout must penalize overlap and off-canvas content. Connectivity must verify visible source and target endpoints, not merely arrow count.\n\nComponent checklist (Part A):\n[{\"component_id\": \"ig_object\", \"expected_label\": \"IGObject\", \"kind\": \"game object interface\", \"context\": \"feeds CCharacter, SCharacter, Projectile\"}, {\"component_id\": \"c_character\", \"expected_label\": \"CCharacter\", \"kind\": \"client character\", \"context\": \"receives from IGObject\"}, {\"component_id\": \"s_character\", \"expected_label\": \"SCharacter\", \"kind\": \"server character\", \"context\": \"receives from IGObject\"}, {\"component_id\": \"c_map\", \"expected_label\": \"CMap\", \"kind\": \"client map\", \"context\": \"feeds Client, Server\"}, {\"component_id\": \"s_map\", \"expected_label\": \"SMap\", \"kind\": \"server map\", \"context\": \"feeds Client, Server\"}, {\"component_id\": \"projectile\", \"expected_label\": \"Projectile\", \"kind\": \"projectile\", \"context\": \"receives from IGObject; feeds CProjectile\"}, {\"component_id\": \"c_projectile\", \"expected_label\": \"CProjectile\", \"kind\": \"client projectile\", \"context\": \"receives from Projectile\"}, {\"component_id\": \"i_menu\", \"expected_label\": \"IMenu\", \"kind\": \"menu interface\", \"context\": \"feeds MenuArmas, MenuPrinc\"}, {\"component_id\": \"menu_armas\", \"expected_label\": \"MenuArmas\", \"kind\": \"weapons menu\", \"context\": \"receives from IMenu\"}, {\"component_id\": \"menu_princ\", \"expected_label\": \"MenuPrinc\", \"kind\": \"main menu\", \"context\": \"receives from IMenu\"}, {\"component_id\": \"weapons\", \"expected_label\": \"Weapons\", \"kind\": \"weapon category\", \"context\": \"feeds Pistol, Rifle\"}, {\"component_id\": \"pistol\", \"expected_label\": \"Pistol\", \"kind\": \"weapon type\", \"context\": \"receives from Weapons\"}, {\"component_id\": \"rifle\", \"expected_label\": \"Rifle\", \"kind\": \"weapon type\", \"context\": \"receives from Weapons\"}, {\"component_id\": \"connection\", \"expected_label\": \"Connection\", \"kind\": \"architecture component\", \"context\": \"feeds Client, Server\"}, {\"component_id\": \"configuration\", \"expected_label\": \"Configuration\", \"kind\": \"architecture component\", \"context\": \"feeds Client, Server\"}, {\"component_id\": \"client\", \"expected_label\": \"Client\", \"kind\": \"client component\", \"context\": \"receives from Connection, Configuration, CMap, SMap\"}, {\"component_id\": \"server\", \"expected_label\": \"Server\", \"kind\": \"server component\", \"context\": \"receives from Connection, Configuration, CMap, SMap\"}]\n\nCounted criteria (Part B):\n[{\"id\": \"layout.order\", \"dimension\": \"layout\", \"description\": \"Components follow the sensible reading and processing order implied by the description.\", \"severity\": \"medium\"}, {\"id\": \"layout.canvas\", \"dimension\": \"layout\", \"description\": \"All candidate content remains fully inside the SVG canvas.\", \"severity\": \"high\"}, {\"id\": \"layout.overlap\", \"dimension\": \"layout\", \"description\": \"Candidate components have no unintended overlaps or collisions; intentional container nesting is allowed.\", \"severity\": \"high\"}, {\"id\": \"connectivity.connections\", \"dimension\": \"connectivity\", \"description\": \"Every directed source-to-target connection expected from the description is visibly present in the candidate.\", \"severity\": \"critical\"}, {\"id\": \"connectivity.endpoints\", \"dimension\": \"connectivity\", \"description\": \"Each visible arrow attaches to the correct description-expected source and target components with the correct direction.\", \"severity\": \"critical\"}, {\"id\": \"legibility.overflow\", \"dimension\": \"legibility\", \"description\": \"Text stays inside its intended container without clipping, collision, or overflow.\", \"severity\": \"high\"}, {\"id\": \"legibility.minimum_font\", \"dimension\": \"legibility\", \"description\": \"Every text element meets the configured minimum rendered font size.\", \"severity\": \"high\"}]\n\nDiagram description:\nHow can I use DOT to create a comprehensive diagram that illustrates the relationships between various game components, including objects, maps, projectiles, menus, weapons, and their connections to a client-server architecture? I want to ensure that the diagram clearly depicts the interactions and dependencies among these components, with some connections styled differently to highlight specific relationships.\n\nSpecifically, I would like to include the following elements in the diagram:\n1. **Game Objects**: Representing in-game entities such as `IGObject`, which should be connected to `CCharacter` and `SCharacter` to show different character types.\n2. **Maps**: Differentiating between client-side (`CMap`) and server-side (`SMap`) map representations, with clear connections to their respective client and server components.\n3. **Projectiles**: Illustrating the relationship between `Projectile` and `CProjectile`, and ensuring that `IGObject` is connected to `Projectile` to indicate that projectiles are a type of game object.\n4. **Menus**: Displaying various menu interfaces like `IMenu`, which should be linked to specific menus such as `MenuArmas` (weapons menu) and `MenuPrinc` (main menu).\n5. **Weapons**: Showing different weapon types, such as `Pistol` and `Rifle`, and their association with the `Weapons` category.\n6. **Client-Server Architecture**: Highlighting the connections between `Connection`, `Configuration`, `CMap`, and `SMap` to both `Client` and `Server` components, with these connections styled differently (e.g., using a dotted line) to emphasize their distinct nature.\n\nI also want to ensure that the diagram is visually clear and well-organized, making it easy to understand the hierarchical and relational structure of the game components. The styling of certain connections should help in distinguishing between direct interactions and more abstract relationships, such as those involving the client-server architecture. Additionally, I would like the diagram to be scalable and adaptable, allowing for the inclusion of more components or changes in the relationships without compromising the overall clarity and coherence of the representation. This will help in effectively communicating the complex interdependencies within the game's architecture to stakeholders, developers, and other relevant parties.\n\nFrozen description-derived inventory:\n{\"inventory\": {\"presence\": [\"Visible node IGObject\", \"Visible node CCharacter\", \"Visible node SCharacter\", \"Visible node CMap\", \"Visible node SMap\", \"Visible node Projectile\", \"Visible node CProjectile\", \"Visible node IMenu\", \"Visible node MenuArmas\", \"Visible node MenuPrinc\", \"Visible node Weapons\", \"Visible node Pistol\", \"Visible node Rifle\", \"Visible node Connection\", \"Visible node Configuration\", \"Visible node Client\", \"Visible node Server\"], \"layout\": [\"Hierarchical relationships read from general component to specific component\", \"IGObject is placed logically near CCharacter, SCharacter, and Projectile\", \"Projectile is placed logically near CProjectile\", \"IMenu is placed logically near MenuArmas and MenuPrinc\", \"Weapons is placed logically near Pistol and Rifle\", \"Client-server architecture nodes are visually organized near Client and Server\", \"All content remains fully inside the canvas\", \"No unintended overlaps or collisions\", \"Intentional grouping or nesting remains clear\"], \"connectivity\": [\"IGObject -> CCharacter\", \"IGObject -> SCharacter\", \"IGObject -> Projectile\", \"Projectile -> CProjectile\", \"IMenu -> MenuArmas\", \"IMenu -> MenuPrinc\", \"Weapons -> Pistol\", \"Weapons -> Rifle\", \"Connection -> Client, dotted style\", \"Connection -> Server, dotted style\", \"Configuration -> Client, dotted style\", \"Configuration -> Server, dotted style\", \"CMap -> Client, dotted style\", \"CMap -> Server, dotted style\", \"SMap -> Client, dotted style\", \"SMap -> Server, dotted style\"], \"details\": [\"Node label exactly IGObject\", \"Node label exactly CCharacter\", \"Node label exactly SCharacter\", \"Node label exactly CMap\", \"Node label exactly SMap\", \"Node label exactly Projectile\", \"Node label exactly CProjectile\", \"Node label exactly IMenu\", \"Node label exactly MenuArmas\", \"Node label exactly MenuPrinc\", \"Node label exactly Weapons\", \"Node label exactly Pistol\", \"Node label exactly Rifle\", \"Node label exactly Connection\", \"Node label exactly Configuration\", \"Node label exactly Client\", \"Node label exactly Server\", \"Client-server architecture connections are visually distinguished with dotted styling\", \"No missing labels\", \"No generic labels\", \"No placeholder labels\"], \"legibility\": [\"All node labels are readable\", \"All text stays inside its intended node or container\", \"No text clipping\", \"No text collision\", \"No text overflow\", \"All text meets minimum rendered font size\"]}, \"components\": [{\"id\": \"ig_object\", \"label\": \"IGObject\", \"kind\": \"game object interface\"}, {\"id\": \"c_character\", \"label\": \"CCharacter\", \"kind\": \"client character\"}, {\"id\": \"s_character\", \"label\": \"SCharacter\", \"kind\": \"server character\"}, {\"id\": \"c_map\", \"label\": \"CMap\", \"kind\": \"client map\"}, {\"id\": \"s_map\", \"label\": \"SMap\", \"kind\": \"server map\"}, {\"id\": \"projectile\", \"label\": \"Projectile\", \"kind\": \"projectile\"}, {\"id\": \"c_projectile\", \"label\": \"CProjectile\", \"kind\": \"client projectile\"}, {\"id\": \"i_menu\", \"label\": \"IMenu\", \"kind\": \"menu interface\"}, {\"id\": \"menu_armas\", \"label\": \"MenuArmas\", \"kind\": \"weapons menu\"}, {\"id\": \"menu_princ\", \"label\": \"MenuPrinc\", \"kind\": \"main menu\"}, {\"id\": \"weapons\", \"label\": \"Weapons\", \"kind\": \"weapon category\"}, {\"id\": \"pistol\", \"label\": \"Pistol\", \"kind\": \"weapon type\"}, {\"id\": \"rifle\", \"label\": \"Rifle\", \"kind\": \"weapon type\"}, {\"id\": \"connection\", \"label\": \"Connection\", \"kind\": \"architecture component\"}, {\"id\": \"configuration\", \"label\": \"Configuration\", \"kind\": \"architecture component\"}, {\"id\": \"client\", \"label\": \"Client\", \"kind\": \"client component\"}, {\"id\": \"server\", \"label\": \"Server\", \"kind\": \"server component\"}], \"connections\": [{\"source\": \"ig_object\", \"target\": \"c_character\"}, {\"source\": \"ig_object\", \"target\": \"s_character\"}, {\"source\": \"ig_object\", \"target\": \"projectile\"}, {\"source\": \"projectile\", \"target\": \"c_projectile\"}, {\"source\": \"i_menu\", \"target\": \"menu_armas\"}, {\"source\": \"i_menu\", \"target\": \"menu_princ\"}, {\"source\": \"weapons\", \"target\": \"pistol\"}, {\"source\": \"weapons\", \"target\": \"rifle\"}, {\"source\": \"connection\", \"target\": \"client\"}, {\"source\": \"connection\", \"target\": \"server\"}, {\"source\": \"configuration\", \"target\": \"client\"}, {\"source\": \"configuration\", \"target\": \"server\"}, {\"source\": \"c_map\", \"target\": \"client\"}, {\"source\": \"c_map\", \"target\": \"server\"}, {\"source\": \"s_map\", \"target\": \"client\"}, {\"source\": \"s_map\", \"target\": \"server\"}], \"forbidden_placeholders\": [\"TBD\", \"TODO\", \"placeholder\", \"label\", \"node\", \"component\", \"unknown\", \"N/A\", \"Lorem ipsum\"]}",
+  "schema": {
+    "type": "object",
+    "properties": {
+      "metrics": {
+        "type": "array",
+        "items": {
+          "type": "object",
+          "properties": {
+            "criterion_id": {
+              "type": "string"
+            },
+            "expected_count": {
+              "type": "integer",
+              "minimum": 0
+            },
+            "detected_issues": {
+              "type": "integer",
+              "minimum": 0
+            },
+            "issues": {
+              "type": "array",
+              "items": {
+                "type": "object",
+                "properties": {
+                  "description": {
+                    "type": "string"
+                  },
+                  "severity": {
+                    "type": "string",
+                    "enum": [
+                      "low",
+                      "medium",
+                      "high",
+                      "critical"
+                    ]
+                  },
+                  "element_ids": {
+                    "type": "array",
+                    "items": {
+                      "type": "string"
+                    }
+                  }
+                },
+                "required": [
+                  "description",
+                  "severity",
+                  "element_ids"
+                ],
+                "additionalProperties": false
+              }
+            },
+            "notes": {
+              "type": "string"
+            }
+          },
+          "required": [
+            "criterion_id",
+            "expected_count",
+            "detected_issues",
+            "issues",
+            "notes"
+          ],
+          "additionalProperties": false
+        }
+      },
+      "components": {
+        "type": "array",
+        "items": {
+          "type": "object",
+          "properties": {
+            "component_id": {
+              "type": "string"
+            },
+            "verdict": {
+              "type": "string",
+              "enum": [
+                "present",
+                "mislabeled",
+                "absent",
+                "uncertain"
+              ]
+            },
+            "visible_text": {
+              "type": "string"
+            },
+            "location": {
+              "type": "object",
+              "properties": {
+                "x0": {
+                  "type": "number"
+                },
+                "y0": {
+                  "type": "number"
+                },
+                "x1": {
+                  "type": "number"
+                },
+                "y1": {
+                  "type": "number"
+                }
+              },
+              "required": [
+                "x0",
+                "y0",
+                "x1",
+                "y1"
+              ],
+              "additionalProperties": false
+            },
+            "evidence": {
+              "type": "string"
+            }
+          },
+          "required": [
+            "component_id",
+            "verdict",
+            "visible_text",
+            "location",
+            "evidence"
+          ],
+          "additionalProperties": false
+        }
+      }
+    },
+    "required": [
+      "metrics",
+      "components"
+    ],
+    "additionalProperties": false
+  },
+  "images": [
+    {
+      "filename": "candidate.png",
+      "sha256": "ed23a839eae4af345c67c4c5dbfe10ce7423e5364d20e9304164a3a222fcdf6f"
+    }
+  ]
+}

@@ -1,0 +1,135 @@
+{
+  "metrics": [
+    {
+      "criterion_id": "layout.order",
+      "expected_count": 1,
+      "detected_issues": 0,
+      "issues": [],
+      "notes": "Blocks are arranged in a readable matrix-like flow from top to middle to lower stages."
+    },
+    {
+      "criterion_id": "layout.canvas",
+      "expected_count": 1,
+      "detected_issues": 1,
+      "issues": [
+        {
+          "description": "The Backtesting connector runs along the extreme left canvas edge, so its stroke appears clipped/on the boundary rather than fully inside the canvas.",
+          "severity": "high",
+          "element_ids": [
+            "backtesting_arrow_path"
+          ]
+        }
+      ],
+      "notes": "Main blocks are visible, but one connector is not comfortably inside the canvas."
+    },
+    {
+      "criterion_id": "layout.overlap",
+      "expected_count": 15,
+      "detected_issues": 0,
+      "issues": [],
+      "notes": "No unintended overlaps among the six component blocks are visible."
+    },
+    {
+      "criterion_id": "connectivity.connections",
+      "expected_count": 2,
+      "detected_issues": 0,
+      "issues": [],
+      "notes": "Both expected directed connections are visible: Experience Data to Expert Opinion and Experience Data to Cyber Risk Assessment."
+    },
+    {
+      "criterion_id": "connectivity.endpoints",
+      "expected_count": 2,
+      "detected_issues": 0,
+      "issues": [],
+      "notes": "The visible arrowheads terminate at Expert Opinion and Cyber Risk Assessment, with paths originating from Experience Data."
+    },
+    {
+      "criterion_id": "legibility.overflow",
+      "expected_count": 8,
+      "detected_issues": 0,
+      "issues": [],
+      "notes": "The six block labels and two arrow labels remain readable without visible text overflow."
+    },
+    {
+      "criterion_id": "legibility.minimum_font",
+      "expected_count": 8,
+      "detected_issues": 0,
+      "issues": [],
+      "notes": "All visible text is large and readable."
+    }
+  ],
+  "components": [
+    {
+      "component_id": "experience_data",
+      "verdict": "present",
+      "visible_text": "Experience Data",
+      "location": {
+        "x0": 0.039,
+        "y0": 0.101,
+        "x1": 0.36,
+        "y1": 0.235
+      },
+      "evidence": "Blue block at upper left labeled “Experience Data”."
+    },
+    {
+      "component_id": "expert_opinion",
+      "verdict": "present",
+      "visible_text": "Expert Opinion",
+      "location": {
+        "x0": 0.679,
+        "y0": 0.101,
+        "x1": 1,
+        "y1": 0.235
+      },
+      "evidence": "Blue block at upper right labeled “Expert Opinion”."
+    },
+    {
+      "component_id": "kpis",
+      "verdict": "present",
+      "visible_text": "KPIs",
+      "location": {
+        "x0": 0.039,
+        "y0": 0.368,
+        "x1": 0.36,
+        "y1": 0.501
+      },
+      "evidence": "Red block at middle left labeled “KPIs”."
+    },
+    {
+      "component_id": "cause_and_effect_relationships",
+      "verdict": "present",
+      "visible_text": "Cause–And–Effect\nRelationships",
+      "location": {
+        "x0": 0.679,
+        "y0": 0.368,
+        "x1": 1,
+        "y1": 0.501
+      },
+      "evidence": "Red block at middle right labeled “Cause–And–Effect Relationships” across two lines."
+    },
+    {
+      "component_id": "model_inference",
+      "verdict": "present",
+      "visible_text": "Model Inference",
+      "location": {
+        "x0": 0.36,
+        "y0": 0.634,
+        "x1": 0.679,
+        "y1": 0.767
+      },
+      "evidence": "Orange block below the middle row labeled “Model Inference”."
+    },
+    {
+      "component_id": "cyber_risk_assessment",
+      "verdict": "present",
+      "visible_text": "Cyber Risk\nAssessment",
+      "location": {
+        "x0": 0.36,
+        "y0": 0.867,
+        "x1": 0.679,
+        "y1": 1
+      },
+      "evidence": "Green block at bottom center labeled “Cyber Risk Assessment” across two lines."
+    }
+  ]
+}

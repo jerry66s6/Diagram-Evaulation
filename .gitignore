@@ -3,9 +3,22 @@ __pycache__/
 .DS_Store
 .pytest_cache/
 .venv/
+.env
+.env.*
 *.egg-info/
 build/
 dist/
 correctness-report.json
-examples/beauty_ablation/live/
-examples/beauty_ablation/reproduced/
+
+# Local reruns and an incomplete network attempt. Keep the versioned examples.
+/examples/beauty_ablation/live/
+/examples/beauty_ablation/reproduced/
+/examples/transformer/ablation-live/
+/examples/transformer/ablation-v2-network-attempt/
+
+# Standalone export; the canonical report lives in examples/transformer/ablation-v2/.
+/Diagram-Degradation-Results.html
+
+# Interrupted atomic writes and downloads from the experiment runners.
+/examples/**/*.json.tmp
+/examples/**/*.download

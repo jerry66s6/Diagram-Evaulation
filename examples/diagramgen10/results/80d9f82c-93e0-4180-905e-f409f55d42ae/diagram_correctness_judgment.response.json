@@ -1,0 +1,139 @@
+{
+  "metrics": [
+    {
+      "criterion_id": "layout.order",
+      "expected_count": 6,
+      "detected_issues": 0,
+      "issues": [],
+      "notes": "The graph is arranged top-to-bottom from Start through Node #1 and Node #2, branching to Node #3a/#3b, converging at Finish node #4, then End."
+    },
+    {
+      "criterion_id": "layout.canvas",
+      "expected_count": 1,
+      "detected_issues": 0,
+      "issues": [],
+      "notes": "All visible nodes, labels, and arrows appear within the image canvas."
+    },
+    {
+      "criterion_id": "layout.overlap",
+      "expected_count": 7,
+      "detected_issues": 0,
+      "issues": [],
+      "notes": "No unintended component overlaps are visible."
+    },
+    {
+      "criterion_id": "connectivity.connections",
+      "expected_count": 7,
+      "detected_issues": 0,
+      "issues": [],
+      "notes": "All expected directed connections are visibly present."
+    },
+    {
+      "criterion_id": "connectivity.endpoints",
+      "expected_count": 7,
+      "detected_issues": 0,
+      "issues": [],
+      "notes": "Each visible arrow points from the expected source component to the expected target component."
+    },
+    {
+      "criterion_id": "legibility.overflow",
+      "expected_count": 9,
+      "detected_issues": 0,
+      "issues": [],
+      "notes": "Node and edge labels stay inside their intended areas without visible clipping or overflow."
+    },
+    {
+      "criterion_id": "legibility.minimum_font",
+      "expected_count": 9,
+      "detected_issues": 0,
+      "issues": [],
+      "notes": "All visible text is large and readable."
+    }
+  ],
+  "components": [
+    {
+      "component_id": "start_node",
+      "verdict": "present",
+      "visible_text": "Start",
+      "location": {
+        "x0": 0.429,
+        "y0": 0.008,
+        "x1": 0.578,
+        "y1": 0.096
+      },
+      "evidence": "Top green node is labeled exactly \"Start\"."
+    },
+    {
+      "component_id": "node_1",
+      "verdict": "mislabeled",
+      "visible_text": "Node #1. Only one way.",
+      "location": {
+        "x0": 0.299,
+        "y0": 0.183,
+        "x1": 0.708,
+        "y1": 0.269
+      },
+      "evidence": "Intermediate node after Start contains extra text beyond expected \"Node #1\"."
+    },
+    {
+      "component_id": "node_2",
+      "verdict": "mislabeled",
+      "visible_text": "Node #2, have question with choice. What choice you?",
+      "location": {
+        "x0": 0.07,
+        "y0": 0.355,
+        "x1": 0.937,
+        "y1": 0.442
+      },
+      "evidence": "Yellow decision node plays Node #2 role but label is not exactly \"Node #2\"."
+    },
+    {
+      "component_id": "node_3a",
+      "verdict": "mislabeled",
+      "visible_text": "Node #3a. You was say YES",
+      "location": {
+        "x0": 0.01,
+        "y0": 0.566,
+        "x1": 0.484,
+        "y1": 0.653
+      },
+      "evidence": "Left choice node is the YES branch but includes extra text beyond expected \"Node #3a\"."
+    },
+    {
+      "component_id": "node_3b",
+      "verdict": "mislabeled",
+      "visible_text": "Node #3b. You was say NO",
+      "location": {
+        "x0": 0.534,
+        "y0": 0.566,
+        "x1": 0.994,
+        "y1": 0.653
+      },
+      "evidence": "Right choice node is the NO branch but includes extra text beyond expected \"Node #3b\"."
+    },
+    {
+      "component_id": "node_4",
+      "verdict": "mislabeled",
+      "visible_text": "Finish node #4. One way.",
+      "location": {
+        "x0": 0.29,
+        "y0": 0.74,
+        "x1": 0.718,
+        "y1": 0.827
+      },
+      "evidence": "Convergence/final step node includes extra text beyond expected \"Finish node #4\"."
+    },
+    {
+      "component_id": "end_node",
+      "verdict": "present",
+      "visible_text": "End",
+      "location": {
+        "x0": 0.429,
+        "y0": 0.914,
+        "x1": 0.578,
+        "y1": 0.999
+      },
+      "evidence": "Bottom green node is labeled exactly \"End\"."
+    }
+  ]
+}

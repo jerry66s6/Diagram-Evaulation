@@ -1,0 +1,139 @@
+{
+  "metrics": [
+    {
+      "criterion_id": "layout.order",
+      "expected_count": 3,
+      "detected_issues": 0,
+      "issues": [],
+      "notes": "DCL is above its targets, Head is above const, and id is placed as the other DCL target."
+    },
+    {
+      "criterion_id": "layout.canvas",
+      "expected_count": 7,
+      "detected_issues": 0,
+      "issues": [],
+      "notes": "All nodes, edge labels, and arrowheads appear fully inside the canvas."
+    },
+    {
+      "criterion_id": "layout.overlap",
+      "expected_count": 7,
+      "detected_issues": 0,
+      "issues": [],
+      "notes": "No unintended overlaps or collisions are visible."
+    },
+    {
+      "criterion_id": "connectivity.connections",
+      "expected_count": 3,
+      "detected_issues": 0,
+      "issues": [],
+      "notes": "All three expected directed connections are visible."
+    },
+    {
+      "criterion_id": "connectivity.endpoints",
+      "expected_count": 3,
+      "detected_issues": 0,
+      "issues": [],
+      "notes": "Each arrow points from the expected source node to the expected target node."
+    },
+    {
+      "criterion_id": "legibility.overflow",
+      "expected_count": 7,
+      "detected_issues": 0,
+      "issues": [],
+      "notes": "Text is readable and not clipped."
+    },
+    {
+      "criterion_id": "legibility.minimum_font",
+      "expected_count": 7,
+      "detected_issues": 0,
+      "issues": [],
+      "notes": "All visible labels are rendered at a large readable size."
+    }
+  ],
+  "components": [
+    {
+      "component_id": "dcl_node",
+      "verdict": "present",
+      "visible_text": "DCL",
+      "location": {
+        "x0": 0.303,
+        "y0": 0.016,
+        "x1": 0.726,
+        "y1": 0.182
+      },
+      "evidence": "Top ellipse is labeled \"DCL\"."
+    },
+    {
+      "component_id": "head_node",
+      "verdict": "present",
+      "visible_text": "Head",
+      "location": {
+        "x0": 0.026,
+        "y0": 0.419,
+        "x1": 0.465,
+        "y1": 0.583
+      },
+      "evidence": "Lower-left ellipse is labeled \"Head\"."
+    },
+    {
+      "component_id": "const_node",
+      "verdict": "present",
+      "visible_text": "const",
+      "location": {
+        "x0": 0.027,
+        "y0": 0.819,
+        "x1": 0.465,
+        "y1": 0.983
+      },
+      "evidence": "Bottom-left ellipse is labeled \"const\"."
+    },
+    {
+      "component_id": "id_node",
+      "verdict": "present",
+      "visible_text": "id",
+      "location": {
+        "x0": 0.585,
+        "y0": 0.419,
+        "x1": 0.974,
+        "y1": 0.583
+      },
+      "evidence": "Lower-right ellipse is labeled \"id\"."
+    },
+    {
+      "component_id": "dcl_to_head_edge",
+      "verdict": "present",
+      "visible_text": "0",
+      "location": {
+        "x0": 0.296,
+        "y0": 0.177,
+        "x1": 0.466,
+        "y1": 0.417
+      },
+      "evidence": "A directed diagonal edge runs from DCL toward Head with label \"0\"."
+    },
+    {
+      "component_id": "head_to_const_edge",
+      "verdict": "present",
+      "visible_text": "0",
+      "location": {
+        "x0": 0.216,
+        "y0": 0.581,
+        "x1": 0.287,
+        "y1": 0.817
+      },
+      "evidence": "A vertical directed edge runs from Head down to const with label \"0\"."
+    },
+    {
+      "component_id": "dcl_to_id_edge",
+      "verdict": "present",
+      "visible_text": "1",
+      "location": {
+        "x0": 0.562,
+        "y0": 0.178,
+        "x1": 0.728,
+        "y1": 0.416
+      },
+      "evidence": "A directed diagonal edge runs from DCL toward id with label \"1\"."
+    }
+  ]
+}

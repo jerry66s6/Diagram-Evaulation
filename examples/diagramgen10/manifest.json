@@ -1,0 +1,193 @@
+{
+  "dataset": "OpenRaiser/DiagramGen",
+  "config": "DiagramGeneration",
+  "split": "test",
+  "canonical_url": "https://huggingface.co/datasets/OpenRaiser/DiagramGen",
+  "download_mirror": "https://modelscope.cn/datasets/opendatalab-raiser/DiagramGen",
+  "download_branch": "master",
+  "index_sha256": "6060c5099b4f23d4a1269b71929212995d42a73f26a035c8bdcce1d820383783",
+  "population_size": 270,
+  "selection": {
+    "seed": "20260930",
+    "strata": {
+      "model architecture diagram": 4,
+      "flowchart": 4,
+      "directed graph": 2
+    },
+    "rule": "Within each category, ascending SHA256(seed + ':' + id); take the stated count. No score-based filtering."
+  },
+  "caption_policy": "Use expanded_query verbatim. Expectations are extracted from text only; neither reference code nor image is used in that stage.",
+  "license_note": "Dataset card: Apache-2.0; underlying sources described as CC BY 4.0 or MIT. Original dataset card is retained under source/README.md.",
+  "examples": [
+    {
+      "number": 1,
+      "id": "b718d505-54fa-474a-9186-048370b30948",
+      "category": "model architecture diagram",
+      "query": "How can I use LaTeX and TikZ to create a diagram that represents a process flow with different colored blocks for \"Experience Data,\" \"Expert Opinion,\" \"KPIs,\" \"Cause--And--Effect Relationships,\" and \"Cyber Risk Assessment\"? I need to include arrows to indicate the flow and direction of the process, with labels for adjustments and backtesting.",
+      "description": "How can I use LaTeX and TikZ to create a detailed diagram that represents a process flow, incorporating distinct colored blocks for \"Experience Data,\" \"Expert Opinion,\" \"KPIs,\" \"Cause--And--Effect Relationships,\" and \"Cyber Risk Assessment\"? I need to ensure that each block is clearly defined and visually distinct, with specific colors assigned to each category: blue for \"Experience Data\" and \"Expert Opinion,\" red for \"KPIs\" and \"Cause--And--Effect Relationships,\" orange for \"Model Inference,\" and a combination of green and orange for \"Cyber Risk Assessment.\"\n\nAdditionally, I want to include directional arrows to indicate the flow and progression of the process, ensuring that the connections between different stages are intuitively understood. These arrows should be labeled to specify key interactions such as \"Adjustment\" and \"Backtesting.\" For instance, an arrow should connect \"Experience Data\" to \"Expert Opinion\" with a label indicating \"Adjustment,\" and another arrow should link \"Experience Data\" to \"Cyber Risk Assessment\" with a label for \"Backtesting.\"\n\nFurthermore, I need the layout to be organized in a matrix format, with appropriate spacing and alignment to maintain a clean and professional appearance. The text within each block should be bold and centered, with a consistent font style to enhance readability. I also want to ensure that the diagram is scalable and can be easily adjusted to fit different document sizes without losing clarity.\n\nLastly, I would like to incorporate additional visual elements, such as different line styles for the arrows and possibly shading or patterns within the blocks, to further distinguish between the various stages and enhance the overall visual impact of the diagram. The goal is to create a comprehensive and visually appealing representation of the process flow that effectively communicates the relationships and interactions between the different components.",
+      "description_field": "expanded_query",
+      "source_format": "tex",
+      "image_url": "https://modelscope.cn/datasets/opendatalab-raiser/DiagramGen/resolve/master/images/b718d505-54fa-474a-9186-048370b30948.png",
+      "image_sha256": "3d2402df8187bb5f7696027608058f5ff8c7a75cad29c1e909d9d71c1bca2152",
+      "description_sha256": "e60759d2d01070879d00fdc60d5393ede4c0c91e49532f0a570bdc91a670635b",
+      "image_size": [
+        1571,
+        888
+      ],
+      "sample_directory": "samples/b718d505-54fa-474a-9186-048370b30948"
+    },
+    {
+      "number": 2,
+      "id": "76eed3be-3b18-4a50-ba20-08597c0c81dd",
+      "category": "model architecture diagram",
+      "query": "How can I use TikZ to create a diagram that consists of multiple rows and columns of shaded circles with random colors from a predefined list, and also include a separate row of labeled circles with specific colors?",
+      "description": "How can I use TikZ to create a diagram that consists of multiple rows and columns of shaded circles with random colors from a predefined list, and also include a separate row of labeled circles with specific colors? I need the diagram to be structured in such a way that it visually represents a grid-like pattern with varying arrangements of circles.\n\nSpecifically, I want to create a grid where each cell contains a shaded circle, and the color of each circle is randomly selected from a predefined list of colors, such as red, teal, blue, and orange shades. The grid should have multiple rows and columns, with each row containing a different number of circles to create a staggered effect. For instance, some rows might have 4 circles while others have 3, arranged in a way that maintains visual balance.\n\nAdditionally, I want to include a separate row above the grid that consists of labeled circles, each with a specific color corresponding to a particular label. This row should clearly display the labels (e.g., Al, Co, Cr, Fe, Ni) next to each circle, with the colors of these circles predefined and distinct from the random colors used in the grid.\n\nI also need the ability to adjust the size and spacing of the circles to ensure the diagram is both aesthetically pleasing and easy to interpret. The circles should be shaded to give a three-dimensional appearance, enhancing the visual appeal of the diagram.\n\nFurthermore, I want to ensure that the random color selection for the grid circles is consistent and reproducible, meaning that the same random sequence can be generated if needed. The overall layout should be flexible enough to accommodate different numbers of rows and columns, allowing for various configurations of the grid and labeled row.\n\nIn summary, I am looking for a detailed guide on how to create a TikZ diagram that combines a grid of randomly colored circles with a separate row of labeled, specifically colored circles, ensuring the diagram is visually engaging and clearly conveys the intended information.",
+      "description_field": "expanded_query",
+      "source_format": "tex",
+      "image_url": "https://modelscope.cn/datasets/opendatalab-raiser/DiagramGen/resolve/master/images/76eed3be-3b18-4a50-ba20-08597c0c81dd.png",
+      "image_sha256": "c01101f0d0723cc0e9a1119113cdf19c0e4967b3a361b65bb9deea30133e67cc",
+      "description_sha256": "5bb2f71fb53b4926ce9abcac9126f130d9d6818c9be5c297de96a42c2b5a86a9",
+      "image_size": [
+        1183,
+        378
+      ],
+      "sample_directory": "samples/76eed3be-3b18-4a50-ba20-08597c0c81dd"
+    },
+    {
+      "number": 3,
+      "id": "ebbde9f1-f8cc-409f-b106-296dfc45d611",
+      "category": "model architecture diagram",
+      "query": "How can I use LaTeX and TikZ to create a diagram that represents a simple state machine with two states, each having self-loops and transitions between them? Additionally, I want to include labels for the transitions and external inputs connecting to these states.",
+      "description": "How can I use LaTeX and TikZ to create a diagram that represents a simple state machine with two states, each having self-loops and transitions between them? Additionally, I want to include labels for the transitions and external inputs connecting to these states. Specifically, I would like to define two states, labeled \\(u_{a, +}\\) and \\(u_{a, -}\\), positioned horizontally with a clear transition arrow between them that bends to the left. Each state should have a self-loop above it, indicating the possibility of remaining in the same state. \n\nFor the transitions between the states, I need to label the arrows appropriately. The transition from \\(u_{a, +}\\) to \\(u_{a, -}\\) and vice versa should be clearly marked. Moreover, I want to include external inputs that connect to these states. These inputs should be represented by arrows originating from outside the state machine and pointing to the respective states. \n\nThe external inputs should be labeled as follows: inputs \\(e_{b, a, +}\\) and \\(e_{c, a, +}\\) should connect to state \\(u_{a, +}\\), while inputs \\(e_{b, a, -}\\) and \\(e_{c, a, -}\\) should connect to state \\(u_{a, -}\\). Additionally, I want to include labels \\(f_a(x)\\) and \\(\\neg f_a(x)\\) below the states \\(u_{a, +}\\) and \\(u_{a, -}\\), respectively, to indicate certain conditions or functions associated with these states.\n\nTo enhance the visual clarity of the diagram, I would like to use a consistent and clean style, such as using stealth arrows and ensuring that the node distances are appropriately spaced. The overall layout should be intuitive and easy to follow, making the state machine's behavior and interactions clear to the viewer. Furthermore, I want to ensure that the diagram is well-integrated within a LaTeX document, using the `llncs` document class and appropriate packages like `amsmath`, `amssymb`, and `tikz` with the `automata` library for the best presentation. \n\nIn summary, I am looking for a comprehensive guide on how to create a detailed and well-labeled state machine diagram using LaTeX and TikZ, ensuring that all transitions, self-loops, and external inputs are clearly represented and labeled for maximum clarity and professional appearance.",
+      "description_field": "expanded_query",
+      "source_format": "tex",
+      "image_url": "https://modelscope.cn/datasets/opendatalab-raiser/DiagramGen/resolve/master/images/ebbde9f1-f8cc-409f-b106-296dfc45d611.png",
+      "image_sha256": "878a16d8066146bcc904a8d6f53e0ca0f1d363be72a00df6e0138c4c2a2fdaa5",
+      "description_sha256": "160a425cacacc254db354bf0eeacaae62c1a4d91d52f602ea1bac7d0ee26cbf2",
+      "image_size": [
+        659,
+        279
+      ],
+      "sample_directory": "samples/ebbde9f1-f8cc-409f-b106-296dfc45d611"
+    },
+    {
+      "number": 4,
+      "id": "e8731f01-6333-458a-9fee-7480475821f8",
+      "category": "model architecture diagram",
+      "query": "How can I use LaTeX and TikZ to create a diagram that represents a complex number plane with custom labels and a zigzagged axis? I want to include points labeled with square roots and axes labeled with the real and imaginary parts of a complex number.",
+      "description": "How can I use LaTeX and TikZ to create a detailed diagram that represents a complex number plane with custom labels and a uniquely styled axis? I want to include specific points on the plane that are labeled with square roots, and I need the axes to be clearly labeled with the real and imaginary parts of a complex number. Specifically, I would like to place two points on the real axis, one labeled as $-\\sqrt{\\vec{p}^2}$ and the other as $\\sqrt{\\vec{p}^2}$, with these points being visually distinct, perhaps by using filled circles.\n\nFor the axes, I want the real axis to be styled with a zigzag pattern to emphasize its distinctiveness, using a blue color scheme to make it stand out. The imaginary axis should be a standard straight line, but clearly labeled with $\\Im(p_0)$ near its base. The real axis should also be labeled with $\\Re(p_0)$ at an appropriate location to indicate the real part of the complex number.\n\nAdditionally, I need the ability to customize the length and amplitude of the zigzag pattern on the real axis to ensure it is visually appealing and does not clutter the diagram. The overall layout should be balanced, with the points and labels placed in a way that makes the diagram easy to interpret and understand, effectively conveying the concept of a complex number plane with its respective components.\n\nFurthermore, I would like to ensure that the mathematical notation used in the labels is correctly formatted and visually consistent with the rest of the diagram. This includes using proper LaTeX commands for mathematical operators like the square root and the imaginary part. The final diagram should be concise, clear, and suitable for inclusion in academic or educational materials, providing an intuitive visual representation of complex numbers and their components.",
+      "description_field": "expanded_query",
+      "source_format": "tex",
+      "image_url": "https://modelscope.cn/datasets/opendatalab-raiser/DiagramGen/resolve/master/images/e8731f01-6333-458a-9fee-7480475821f8.png",
+      "image_sha256": "1fe7a9403570e64280c2183a6fafb3c83b6b2401387201c22d9159796df237f4",
+      "description_sha256": "49706a7480962564b975cf9ca5861e7a130d79a62d3b05cd2bdac8217a935026",
+      "image_size": [
+        821,
+        160
+      ],
+      "sample_directory": "samples/e8731f01-6333-458a-9fee-7480475821f8"
+    },
+    {
+      "number": 5,
+      "id": "f3be07c1-7e40-4dc0-8070-627322958879",
+      "category": "flowchart",
+      "query": "How can I use DOT to create a flowchart that includes various steps like parameter estimation and error computation, with decision points and loops indicated by different shapes and labeled edges?",
+      "description": "How can I use DOT to create a detailed flowchart that includes various steps such as parameter estimation and error computation, with decision points and loops indicated by different shapes and labeled edges? I want to ensure that each step in the process is clearly represented and interconnected, with specific labels and conditions for decision-making.\n\nSpecifically, I would like to start with a step labeled \"Parameter Estimation,\" followed by a series of computational steps like \"Compute Sth.\" repeated twice, and then \"Compute Error Value 1.\" After this, another \"Parameter Estimation\" step should be included, leading to a decision point labeled \"Check Error Value 1,\" which should be represented by a diamond shape. Based on the outcome of this decision, the flow should either proceed to \"Compute Error Value 2\" or loop back to the initial \"Parameter Estimation\" step if the error value is less than or equal to a predefined threshold \\( \\epsilon_1 \\).\n\nFollowing \"Compute Error Value 2,\" there should be another decision point labeled \"Check Error Value 2,\" also represented by a diamond shape. Depending on this decision, the flow should either proceed to the \"End\" step or loop back to the first \"Parameter Estimation\" step if the error value is less than or equal to another predefined threshold \\( \\epsilon_2 \\).\n\nI want to ensure that all edges connecting these steps are clearly labeled with the conditions for decision-making, such as \"Error 1 \\leq \\epsilon_1\" and \"Error 2 \\leq \\epsilon_2.\" Additionally, I would like the flowchart to have a clean, orthogonal layout to make the flow of the process easy to follow and understand. The nodes should be of a consistent size, and the decision points should be distinctly shaped to differentiate them from the other steps. This detailed representation will help in visualizing the iterative and conditional nature of the process, making it clear how the steps are interconnected and how decisions affect the flow of the process.",
+      "description_field": "expanded_query",
+      "source_format": "dot",
+      "image_url": "https://modelscope.cn/datasets/opendatalab-raiser/DiagramGen/resolve/master/images/f3be07c1-7e40-4dc0-8070-627322958879.png",
+      "image_sha256": "41d2459910c78e7caa74354be5b059fba8774c7a7d6ae4e841d00a6ae17817b0",
+      "description_sha256": "b6d48962948cdb3bc9a4744992f344b5b5005a0f78c73d335150292421ca3969",
+      "image_size": [
+        1579,
+        4383
+      ],
+      "sample_directory": "samples/f3be07c1-7e40-4dc0-8070-627322958879"
+    },
+    {
+      "number": 6,
+      "id": "34fdbbd1-d8f8-45e4-a9aa-46f36ff287f8",
+      "category": "flowchart",
+      "query": "How can I use DOT language to create a directed graph that includes nodes labeled \"DCL,\" \"Head,\" \"const,\" and \"id,\" with edges connecting these nodes and labels indicating the edge connections?",
+      "description": "How can I use the DOT language to create a directed graph that includes specific nodes and edges with clear labels? I need the graph to have nodes labeled \"DCL,\" \"Head,\" \"const,\" and \"id,\" with directed edges connecting these nodes. Specifically, I want an edge from the \"DCL\" node to the \"Head\" node, labeled \"0,\" to indicate a particular relationship or connection type. Additionally, I need an edge from the \"Head\" node to the \"const\" node, also labeled \"0,\" to represent another specific connection. Furthermore, I require an edge from the \"DCL\" node to the \"id\" node, labeled \"1,\" to denote a different type of relationship.\n\nI would like the graph to be visually structured so that the nodes are clearly distinguishable and the edges are easy to follow, with the labels on the edges providing immediate context for the connections. The layout should be intuitive, making it simple for viewers to understand the relationships between the nodes at a glance. Additionally, I want to ensure that the graph is scalable and can be easily modified to include more nodes and edges if needed, while maintaining the clarity and organization of the existing structure. The final graph should be suitable for inclusion in documentation or presentations, providing a clear and concise visual representation of the relationships between the labeled nodes.",
+      "description_field": "expanded_query",
+      "source_format": "dot",
+      "image_url": "https://modelscope.cn/datasets/opendatalab-raiser/DiagramGen/resolve/master/images/34fdbbd1-d8f8-45e4-a9aa-46f36ff287f8.png",
+      "image_sha256": "3164646ec4d7fe05cfac0b73cb50e89ef13f53fe7d9c220993c309020091b651",
+      "description_sha256": "ec8cdb53bdc18e747db64e9041d5e1c225a83d95954710ca28ba6d10f8db718e",
+      "image_size": [
+        585,
+        921
+      ],
+      "sample_directory": "samples/34fdbbd1-d8f8-45e4-a9aa-46f36ff287f8"
+    },
+    {
+      "number": 7,
+      "id": "80d9f82c-93e0-4180-905e-f409f55d42ae",
+      "category": "flowchart",
+      "query": "How can I use DOT language to create a directed graph that represents a decision-making process with labeled nodes and edges? The graph should include a start and end node, decision points with multiple choices, and paths that reflect the chosen options.",
+      "description": "How can I use the DOT language to create a directed graph that effectively represents a decision-making process with clearly labeled nodes and edges? The graph should include a designated start and end node, multiple decision points with various choices, and paths that accurately reflect the chosen options. Specifically, I would like the start and end nodes to be distinctly marked with a green fill color and labeled as \"Start\" and \"End\" respectively. \n\nFor the decision-making process, I need to include intermediate nodes that represent different stages. The first node, labeled \"Node #1,\" should indicate a straightforward path with no branching. Following this, I want a decision node, labeled \"Node #2,\" which presents a question and offers multiple choices. This node should be highlighted with a yellow fill color to emphasize the decision point.\n\nFrom \"Node #2,\" the graph should branch into two paths based on the user's choice. One path should lead to \"Node #3a,\" labeled to indicate that the user chose \"YES,\" and the other path should lead to \"Node #3b,\" labeled to indicate that the user chose \"NO.\" Both of these nodes should clearly reflect the decision made at \"Node #2.\"\n\nAfterward, both \"Node #3a\" and \"Node #3b\" should converge at \"Node #4,\" labeled as \"Finish node #4,\" which represents the final step before reaching the end. Each edge leading from the decision node to the subsequent nodes should be labeled with the corresponding choice (\"YES\" or \"NO\") to make the decision paths explicitly clear.\n\nAdditionally, I want to ensure that the overall layout of the graph is visually coherent and easy to follow, with nodes and edges arranged in a logical sequence that aids in understanding the decision-making process. The graph should be designed to be both informative and visually appealing, making it suitable for presentations or documentation where clarity and ease of interpretation are crucial.",
+      "description_field": "expanded_query",
+      "source_format": "tex",
+      "image_url": "https://modelscope.cn/datasets/opendatalab-raiser/DiagramGen/resolve/master/images/80d9f82c-93e0-4180-905e-f409f55d42ae.png",
+      "image_sha256": "d9b4bfc10c9d4b9439e6a0040c34314053017b325f403706c6f77d386b15c6ef",
+      "description_sha256": "9dbc9b5b0fd3230389193673826659bf13508bfc54539bf553183dd5e565cd4b",
+      "image_size": [
+        1531,
+        1769
+      ],
+      "sample_directory": "samples/80d9f82c-93e0-4180-905e-f409f55d42ae"
+    },
+    {
+      "number": 8,
+      "id": "d10a1cbf-8aef-43a1-ac8c-68acc1482c37",
+      "category": "flowchart",
+      "query": "How can I use DOT to create a directed graph that represents a process flow, including start and end nodes, actions, and user intents? I want to distinguish between different node types using colors and shapes, and label the edges accordingly.",
+      "description": "How can I use DOT to create a directed graph that represents a process flow, including start and end nodes, actions, and user intents? I want to distinguish between different node types using colors and shapes, and label the edges accordingly. Specifically, I would like the start node to be clearly identified with a green fill color and labeled \"START,\" while the end node should be marked with a red fill color and labeled \"END.\" For actions, I need nodes that represent specific process steps, such as \"action_session_start\" and \"action_get_stock_price,\" each with a distinct label and font size for clarity.\n\nIn addition, I want to include nodes that represent user intents, which should be visually distinct from action nodes. These intent nodes should have a rectangular shape and be filled with a light blue color, with labels such as \"get_current_stock_price\" and \"what is TSLA worth.\" To further differentiate, some intent nodes should have a dashed border to indicate a different type of user interaction.\n\nFor the edges, I want to clearly indicate the flow between nodes, with labels on the edges to describe the relationship or condition under which the transition occurs. For example, the edge from the start node to \"action_session_start\" should not have a specific label, while the edge from \"action_session_start\" to the intent \"what is TSLA worth\" should be labeled to indicate the triggering condition.\n\nI also need the flexibility to customize the appearance of each node and edge, such as adjusting font sizes and styles, to ensure the graph is both visually appealing and easy to understand. The overall layout should be intuitive, presenting the process flow in a logical sequence that clearly shows the progression from start to end, including all intermediate actions and user intents. This will help in effectively communicating the sequence of steps and interactions in the process.",
+      "description_field": "expanded_query",
+      "source_format": "dot",
+      "image_url": "https://modelscope.cn/datasets/opendatalab-raiser/DiagramGen/resolve/master/images/d10a1cbf-8aef-43a1-ac8c-68acc1482c37.png",
+      "image_sha256": "b8e7b9fb193a700f28ce8b7349f4f40f194025108a9a9bba2e0e13ac777b26b2",
+      "description_sha256": "a3ec3d1abc0cd06f18640c496de34c19603de9bf0af8c413bd622e7d4e1b25a5",
+      "image_size": [
+        956,
+        1683
+      ],
+      "sample_directory": "samples/d10a1cbf-8aef-43a1-ac8c-68acc1482c37"
+    },
+    {
+      "number": 9,
+      "id": "0f37e4dd-1e95-4a0d-9284-210c778c5d74",
+      "category": "directed graph",
+      "query": "How can I use DOT to create a diagram that illustrates relationships between various game components, including objects, maps, projectiles, menus, weapons, and connections to a client-server architecture, with some connections styled differently?",
+      "description": "How can I use DOT to create a comprehensive diagram that illustrates the relationships between various game components, including objects, maps, projectiles, menus, weapons, and their connections to a client-server architecture? I want to ensure that the diagram clearly depicts the interactions and dependencies among these components, with some connections styled differently to highlight specific relationships.\n\nSpecifically, I would like to include the following elements in the diagram:\n1. **Game Objects**: Representing in-game entities such as `IGObject`, which should be connected to `CCharacter` and `SCharacter` to show different character types.\n2. **Maps**: Differentiating between client-side (`CMap`) and server-side (`SMap`) map representations, with clear connections to their respective client and server components.\n3. **Projectiles**: Illustrating the relationship between `Projectile` and `CProjectile`, and ensuring that `IGObject` is connected to `Projectile` to indicate that projectiles are a type of game object.\n4. **Menus**: Displaying various menu interfaces like `IMenu`, which should be linked to specific menus such as `MenuArmas` (weapons menu) and `MenuPrinc` (main menu).\n5. **Weapons**: Showing different weapon types, such as `Pistol` and `Rifle`, and their association with the `Weapons` category.\n6. **Client-Server Architecture**: Highlighting the connections between `Connection`, `Configuration`, `CMap`, and `SMap` to both `Client` and `Server` components, with these connections styled differently (e.g., using a dotted line) to emphasize their distinct nature.\n\nI also want to ensure that the diagram is visually clear and well-organized, making it easy to understand the hierarchical and relational structure of the game components. The styling of certain connections should help in distinguishing between direct interactions and more abstract relationships, such as those involving the client-server architecture. Additionally, I would like the diagram to be scalable and adaptable, allowing for the inclusion of more components or changes in the relationships without compromising the overall clarity and coherence of the representation. This will help in effectively communicating the complex interdependencies within the game's architecture to stakeholders, developers, and other relevant parties.",
+      "description_field": "expanded_query",
+      "source_format": "dot",
+      "image_url": "https://modelscope.cn/datasets/opendatalab-raiser/DiagramGen/resolve/master/images/0f37e4dd-1e95-4a0d-9284-210c778c5d74.png",
+      "image_sha256": "ed23a839eae4af345c67c4c5dbfe10ce7423e5364d20e9304164a3a222fcdf6f",
+      "description_sha256": "1f6bbd354440f2b71dfa9ee2db40f89a825a713d3fe88bccc82cf2c9ff386dff",
+      "image_size": [
+        4997,
+        783
+      ],
+      "sample_directory": "samples/0f37e4dd-1e95-4a0d-9284-210c778c5d74"
+    },
+    {
+      "number": 10,
+      "id": "ac8b0fb8-9bcf-4d09-8f45-c5a5db5cf5c6",
+      "category": "directed graph",
+      "query": "How can I use DOT to create a complex directed graph with multiple interconnected nodes, where each node leads to several others, forming a detailed network structure?",
+      "description": "How can I use DOT to create a complex directed graph with multiple interconnected nodes, where each node leads to several others, forming a detailed network structure? I need the graph to illustrate a highly interconnected network with nodes that have multiple outgoing and incoming edges, showcasing a intricate web of relationships.\n\nSpecifically, I want to start with an initial node (node 0) that branches out to several other nodes, creating a foundational structure. From this initial node, I want to ensure that subsequent nodes (such as nodes 1, 2, and 3) are interconnected, demonstrating a cascading effect where each node influences multiple others. This pattern should continue throughout the graph, with each new set of nodes expanding the network's complexity.\n\nI also want to include intermediate nodes that act as hubs, connecting various branches of the network. For example, nodes like 4, 7, 10, and so on, should serve as critical junctions that link different parts of the graph, ensuring a cohesive and interconnected structure.\n\nFurthermore, I want to highlight certain key nodes that have a higher degree of connectivity, such as nodes 16, 20, 23, and others, which should have multiple incoming and outgoing edges to emphasize their significance in the network.\n\nAs the graph progresses, I want to maintain this level of complexity, with each new set of nodes (e.g., nodes 33, 37, 40, etc.) continuing the pattern of interconnectivity. This should include nodes that branch out to form new sub-networks, as well as nodes that connect back to earlier parts of the graph, creating a recursive and highly intertwined structure.\n\nAdditionally, I want to ensure that the final nodes in the graph (such as nodes 113, 116, 119, and beyond) culminate in a dense network of connections, reinforcing the overall complexity and depth of the graph.\n\nThroughout the graph, I want to be able to customize the layout and appearance of nodes and edges to enhance readability and visual appeal. This includes adjusting the spacing between nodes, the curvature of edges, and potentially adding labels or annotations to highlight specific relationships or pathways.\n\nUltimately, my goal is to create a graph that not only demonstrates a complex network structure but also remains clear and comprehensible, allowing viewers to easily trace the connections and understand the hierarchical and relational dynamics within the network. The graph should serve as a visual representation of a sophisticated system, with each node and edge contributing to the overall narrative of interconnectedness and complexity.",
+      "description_field": "expanded_query",
+      "source_format": "dot",
+      "image_url": "https://modelscope.cn/datasets/opendatalab-raiser/DiagramGen/resolve/master/images/ac8b0fb8-9bcf-4d09-8f45-c5a5db5cf5c6.png",
+      "image_sha256": "0e8220d7b700e38d4d82a842d932c79786311b43988bd69455944a43eeaa02b5",
+      "description_sha256": "3ec76f940b8e028a4df0d04237fe51be00ae4e220dd397961b0966e61021fa7d",
+      "image_size": [
+        1026,
+        30183
+      ],
+      "sample_directory": "samples/ac8b0fb8-9bcf-4d09-8f45-c5a5db5cf5c6"
+    }
+  ]
+}
