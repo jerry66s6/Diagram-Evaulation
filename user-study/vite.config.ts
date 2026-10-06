@@ -1,3 +1,4 @@
+import { fileURLToPath } from "node:url";
 import vinext from "vinext";
 import { defineConfig } from "vite";
 import hostingConfig from "./.openai/hosting.json";
@@ -10,19 +11,30 @@ const SITE_CREATOR_PLACEHOLDER_DATABASE_ID =
 
 const { d1, r2 } = hostingConfig;
 
+// scripts/deploy-cloudflare.mjs sets these for a Cloudflare deploy build. Local dev
+// and plain builds leave them unset and keep the placeholder D1 binding.
+const deployWorkerName = process.env.CF_WORKER_NAME;
+const deployDatabaseName = process.env.CF_D1_DATABASE_NAME;
+const deployDatabaseId = process.env.CF_D1_DATABASE_ID;
+
 // macOS Seatbelt blocks FSEvents, so Codex previews need polling for HMR.
 const isCodexSeatbeltSandbox = process.env.CODEX_SANDBOX === "seatbelt";
 const managedLinux = readExecutionProfile() === "managed-linux";
 
 const localBindingConfig = {
+  ...(deployWorkerName ? { name: deployWorkerName } : {}),
   main: "./build/sites-worker.ts",
   compatibility_flags: ["nodejs_compat"],
   d1_databases: d1
     ? [
         {
           binding: d1,
-          database_name: "site-creator-d1",
-          database_id: SITE_CREATOR_PLACEHOLDER_DATABASE_ID,
+          database_name: deployDatabaseName || "site-creator-d1",
+          database_id: deployDatabaseId || SITE_CREATOR_PLACEHOLDER_DATABASE_ID,
+          // Absolute, because the generated config lives in dist/server/.
+          ...(deployDatabaseId
+            ? { migrations_dir: fileURLToPath(new URL("./drizzle", import.meta.url)) }
+            : {}),
         },
       ]
     : [],
