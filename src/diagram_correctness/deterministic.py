@@ -1,12 +1,21 @@
 from __future__ import annotations
 
 import math
-import re
 from dataclasses import dataclass
 from typing import Any, Callable
 
+from .labels import is_abbreviation, label_tokens, normalize_label
 from .models import (
+    METRIC_ATTACHMENT,
+    METRIC_CONNECTION_LABELS,
+    METRIC_CONNECTIONS,
+    METRIC_LABELS,
+    METRIC_MINIMUM_FONT,
+    METRIC_PRESENCE,
+    METRIC_UNEXPECTED,
     ComponentVerdict,
+    ConnectionStatus,
+    ConnectionVerdict,
     Criterion,
     Dimension,
     Issue,
@@ -15,6 +24,9 @@ from .models import (
     Severity,
     Verdict,
     component_metrics,
+    connection_metrics,
+    drawn_component_ids,
+    feedback_edges,
 )
 from .svg import Bounds, SvgDocument, SvgElement
 
@@ -53,24 +65,10 @@ class ComponentMatch:
 _DEFAULT_PLACEHOLDERS = {"tbd", "todo", "placeholder", "thing", "thing 1", "layer", "unknown"}
 
 
-def _normalize_label(value: str) -> str:
-    # Map the multiplication sign to "x" so repetition markers such as "N×" keep a
-    # distinctive token ("nx") instead of collapsing to the single letter "n".
-    value = value.casefold().replace("×", "x")
-    return " ".join(re.findall(r"[a-z0-9]+", value))
-
-
-def _tokens(value: str) -> set[str]:
-    return set(_normalize_label(value).split())
-
-
-def _is_abbreviation(actual: str, expected: str) -> bool:
-    """True when a single-token label abbreviates the expected label ("FFN" for
-    "Position-wise Feed-Forward Network"). Both arguments are normalized labels."""
-    if not actual or " " in actual or len(actual) < 2:
-        return False
-    acronym = "".join(token[0] for token in expected.split() if token)
-    return len(expected.split()) > 1 and actual in acronym
+# Shared with the GPT judge so that both judges compare labels the same way.
+_normalize_label = normalize_label
+_tokens = label_tokens
+_is_abbreviation = is_abbreviation
 
 
 def _label_similarity(component: dict[str, str], candidate: str) -> float:
@@ -137,6 +135,23 @@ def _distance_to_bounds(point: tuple[float, float], bounds: Bounds) -> float:
     dx = max(bounds.x - x, 0.0, x - bounds.right)
     dy = max(bounds.y - y, 0.0, y - bounds.bottom)
     return math.hypot(dx, dy)
+
+
+def _distance_to_polyline(point: tuple[float, float], points: tuple[tuple[float, float], ...]) -> float:
+    best = math.inf
+    for (x1, y1), (x2, y2) in zip(points, points[1:]):
+        dx, dy = x2 - x1, y2 - y1
+        length = dx * dx + dy * dy
+        t = 0.0 if length == 0 else max(0.0, min(1.0, ((point[0] - x1) * dx + (point[1] - y1) * dy) / length))
+        best = min(best, math.hypot(point[0] - (x1 + t * dx), point[1] - (y1 + t * dy)))
+    return best
+
+
+def _union(first: Bounds, second: Bounds) -> Bounds:
+    x, y = min(first.x, second.x), min(first.y, second.y)
+    return Bounds(x, y, max(first.right, second.right) - x, max(first.bottom, second.bottom) - y)
+
+
 
 
 def _labeled_shapes(document: SvgDocument) -> list[LabeledShape]:
@@ -249,8 +264,8 @@ def _match_by_role(
         ] + [(("candidate", index), shape) for index, shape in enumerate(candidates)]
         endpoints = [
             (
-                _nearest_key(connector.points[0], pool, threshold),
-                _nearest_key(connector.points[-1], pool, threshold),
+                _nearest_key(connector.directed_points[0], pool, threshold),
+                _nearest_key(connector.directed_points[-1], pool, threshold),
             )
             for connector in connectors
         ]
@@ -348,10 +363,27 @@ class DeterministicJudge:
             for metric in component_metrics(
                 verdicts,
                 self.name,
-                presence=by_metric.get("description_presence"),
-                details=by_metric.get("meaningful_labels"),
+                presence=by_metric.get(METRIC_PRESENCE),
+                details=by_metric.get(METRIC_LABELS),
             )
         }
+        drawn = drawn_component_ids(verdicts)
+        links, extra_arrows = self.connection_verdicts(candidate, expectations, matched)
+        atomic.update(
+            {
+                metric.criterion_id: metric
+                for metric in connection_metrics(
+                    links,
+                    drawn,
+                    extra_arrows,
+                    self.name,
+                    recall=by_metric.get(METRIC_CONNECTIONS),
+                    precision=by_metric.get(METRIC_ATTACHMENT),
+                    labels=by_metric.get(METRIC_CONNECTION_LABELS),
+                    accept_abbreviations=self.policy.accept_abbreviations,
+                )
+            }
+        )
         stray = self._stray_placeholders(candidate, expectations, matched)
         for metric in atomic.values():
             if metric.dimension == Dimension.DETAILS and stray:
@@ -363,17 +395,17 @@ class DeterministicJudge:
             return atomic[by_metric[metric_name].id]
 
         handlers: dict[str, Callable[[], MetricScore]] = {
-            "description_presence": lambda: atomic_metric("description_presence"),
+            METRIC_PRESENCE: lambda: atomic_metric(METRIC_PRESENCE),
+            METRIC_UNEXPECTED: lambda: self._unexpected(candidate, matched, len(drawn)),
             "description_order": lambda: self._order(expectations, matched),
-            "canvas_bounds": lambda: self._canvas(candidate),
+            "canvas_bounds": lambda: self._canvas(candidate, matched),
             "unintended_overlap": lambda: self._overlap(candidate),
-            "description_connections": lambda: self._connections(
-                candidate, expectations, matched
-            ),
-            "connector_attachment": lambda: self._connector_attachment(candidate, matched),
-            "meaningful_labels": lambda: atomic_metric("meaningful_labels"),
+            METRIC_CONNECTIONS: lambda: atomic_metric(METRIC_CONNECTIONS),
+            METRIC_ATTACHMENT: lambda: atomic_metric(METRIC_ATTACHMENT),
+            METRIC_CONNECTION_LABELS: lambda: atomic_metric(METRIC_CONNECTION_LABELS),
+            METRIC_LABELS: lambda: atomic_metric(METRIC_LABELS),
             "text_overflow": lambda: self._text_overflow(candidate),
-            "minimum_font_size": lambda: self._minimum_font(candidate),
+            METRIC_MINIMUM_FONT: lambda: self._minimum_font(candidate),
         }
         results: list[MetricScore] = []
         for criterion in criteria:
@@ -477,72 +509,98 @@ class DeterministicJudge:
         expectations: dict[str, Any],
         matched: dict[str, ComponentMatch],
     ) -> MetricScore:
+        """Connected components follow one consistent reading direction.
+
+        The direction is inferred from the drawing itself (the dominant axis and sense of
+        the expected connections), so left-to-right and bottom-to-top diagrams are not
+        penalized. Connections that close a loop back to an earlier step are skipped.
+        """
         connections = expectations.get("connections", [])
+        feedback = feedback_edges(expectations.get("components", []), connections)
         applicable = [
             edge
-            for edge in connections
-            if edge.get("source") in matched and edge.get("target") in matched
+            for index, edge in enumerate(connections)
+            if index not in feedback
+            and edge.get("source") != edge.get("target")
+            and edge.get("source") in matched
+            and edge.get("target") in matched
         ]
-        issues = []
+        deltas = []
         for edge in applicable:
             source = matched[edge["source"]].shape.bounds.center
             target = matched[edge["target"]].shape.bounds.center
-            if target[1] + 5 < source[1]:
-                issues.append(
-                    Issue(
-                        "Connected components violate the expected top-to-bottom reading order",
-                        Severity.MEDIUM,
-                        [edge["source"], edge["target"]],
-                    )
-                )
-        return self._score(len(applicable), issues)
-
-    def _canvas(self, candidate: SvgDocument) -> MetricScore:
-        canvas = Bounds(0, 0, candidate.width, candidate.height)
-        elements = [
-            element
-            for element in candidate.elements
-            if not (
-                element.is_shape
-                and _contains_bounds(element.bounds, canvas, self.config.canvas_tolerance)
-            )
-        ]
+            deltas.append((target[0] - source[0], target[1] - source[1]))
+        axis = 1 if sum(abs(dy) for _dx, dy in deltas) >= sum(abs(dx) for dx, _dy in deltas) else 0
+        sense = 1 if sum(delta[axis] for delta in deltas) >= 0 else -1
+        direction = {(1, 1): "top-to-bottom", (1, -1): "bottom-to-top", (0, 1): "left-to-right", (0, -1): "right-to-left"}[(axis, sense)]
         issues = [
-            Issue("Element extends outside the SVG canvas", Severity.HIGH, [element.id])
-            for element in elements
-            if not _contains_bounds(canvas, element.bounds, self.config.canvas_tolerance)
+            Issue(
+                f"Connection runs against the diagram's {direction} reading direction",
+                Severity.MEDIUM,
+                [edge["source"], edge["target"]],
+            )
+            for edge, delta in zip(applicable, deltas)
+            if sense * delta[axis] < -5
         ]
-        return self._score(len(elements), issues)
+        skipped = len(connections) - len(applicable)
+        return self._score(
+            len(applicable),
+            issues,
+            f"Reading direction inferred from the drawing: {direction}."
+            + (f" {skipped} connection(s) skipped: loops back to an earlier step or a component is not drawn." if skipped else ""),
+        )
+
+    def _canvas(self, candidate: SvgDocument, matched: dict[str, ComponentMatch]) -> MetricScore:
+        """Each drawn component (box plus label), arrow, or other element counts once."""
+        canvas = Bounds(0, 0, candidate.width, candidate.height)
+        tolerance = self.config.canvas_tolerance
+        units: list[tuple[str, Bounds]] = []
+        assigned: set[int] = set()
+        for component_id, match in matched.items():
+            bounds = match.shape.bounds if match.text is None else _union(match.shape.bounds, match.text.bounds)
+            units.append((component_id, bounds))
+            assigned.update({id(match.shape), id(match.text)})
+        for element in candidate.elements:
+            if id(element) in assigned:
+                continue
+            if element.is_shape and _contains_bounds(element.bounds, canvas, tolerance):
+                continue  # canvas background
+            units.append((element.id, element.bounds))
+        issues = [
+            Issue("Content extends outside the SVG canvas", Severity.HIGH, [unit_id])
+            for unit_id, bounds in units
+            if not _contains_bounds(canvas, bounds, tolerance)
+        ]
+        return self._score(len(units), issues, "A component and its label count as one unit.")
 
     def _overlap(self, candidate: SvgDocument) -> MetricScore:
+        """Each shape that collides with another counts once, so the numerator and the
+        denominator are both shapes (not pairs)."""
         shapes = [element for element in candidate.elements if element.is_shape]
         # Containers and canvas backgrounds intentionally contain other shapes.
         containers = {
             shape.id
             for shape in shapes
-            if sum(
-                1
-                for other in shapes
-                if other.id != shape.id and _contains_bounds(shape.bounds, other.bounds, 0.1)
-            )
-            >= 1
+            if any(other.id != shape.id and _contains_bounds(shape.bounds, other.bounds, 0.1) for other in shapes)
         }
-        leaves = [shape for shape in shapes if shape.id not in containers]
-        issues: list[Issue] = []
+        labeled = {id(item.shape) for item in _labeled_shapes(candidate)}
+        # Unlabeled polygons are arrowheads; touching their target box is not a collision.
+        leaves = [
+            shape
+            for shape in shapes
+            if shape.id not in containers and not (shape.tag == "polygon" and id(shape) not in labeled)
+        ]
+        partner: dict[str, str] = {}
         for index, first in enumerate(leaves):
             for second in leaves[index + 1 :]:
-                if (
-                    _overlap_fraction(first.bounds, second.bounds)
-                    > self.config.overlap_area_threshold
-                ):
-                    issues.append(
-                        Issue(
-                            "Unintended shape overlap",
-                            Severity.HIGH,
-                            [first.id, second.id],
-                        )
-                    )
-        return self._score(len(leaves), issues)
+                if _overlap_fraction(first.bounds, second.bounds) > self.config.overlap_area_threshold:
+                    partner.setdefault(first.id, second.id)
+                    partner.setdefault(second.id, first.id)
+        issues = [
+            Issue("Shape collides with another shape", Severity.HIGH, [shape_id, other])
+            for shape_id, other in sorted(partner.items())
+        ]
+        return self._score(len(leaves), issues, "Each colliding shape counts once.")
 
     def _endpoint_component(
         self,
@@ -573,84 +631,203 @@ class DeterministicJudge:
         candidate: SvgDocument,
         matched: dict[str, ComponentMatch],
     ) -> list[tuple[str | None, str | None, SvgElement]]:
+        """Drawn arrows as (source, target, element), oriented tail to head.
+
+        Lines without an arrowhead that touch no component at either end, or that start
+        and end on the same component (a divider inside a box), are decoration and are
+        skipped.
+        """
         actual = []
         for connector in (element for element in candidate.elements if element.is_connector):
-            if len(connector.points) < 2:
+            points = connector.directed_points
+            if len(points) < 2:
                 continue
-            source = self._endpoint_component(connector.points[0], candidate, matched)
-            target = self._endpoint_component(connector.points[-1], candidate, matched)
+            source = self._endpoint_component(points[0], candidate, matched)
+            target = self._endpoint_component(points[-1], candidate, matched)
+            if not connector.has_arrowhead and (source == target):
+                continue
             actual.append((source, target, connector))
         return actual
 
-    def _connections(
+    def connection_verdicts(
         self,
         candidate: SvgDocument,
         expectations: dict[str, Any],
         matched: dict[str, ComponentMatch],
-    ) -> MetricScore:
-        expected = expectations.get("connections", [])
-        actual_pairs = {
-            (source, target)
-            for source, target, _connector in self._actual_connections(candidate, matched)
-            if source and target
-        }
-        issues = [
-            Issue(
-                "Expected directed connection is missing or joins the wrong components",
-                Severity.CRITICAL,
-                [edge.get("source", ""), edge.get("target", "")],
-            )
-            for edge in expected
-            if (edge.get("source"), edge.get("target")) not in actual_pairs
-        ]
-        return self._score(len(expected), issues)
+    ) -> tuple[list[ConnectionVerdict], list[tuple[str, list[str]]]]:
+        """One verdict per expected connection, plus every drawn arrow that is not one.
 
-    def _connector_attachment(
+        Each drawn arrow is used once: first for an expected connection in the same
+        direction, then for one in the opposite direction (REVERSED). What remains, and
+        every arrow with an unattached end, is returned as extra.
+        """
+        expected = expectations.get("connections", [])
+        actual = self._actual_connections(candidate, matched)
+        attached = [(source, target, connector) for source, target, connector in actual if source and target]
+        available: dict[tuple[str, str], list[SvgElement]] = {}
+        for source, target, connector in attached:
+            available.setdefault((source, target), []).append(connector)
+
+        statuses: list[tuple[ConnectionStatus, SvgElement | None]] = [(ConnectionStatus.ABSENT, None)] * len(expected)
+        for index, edge in enumerate(expected):  # same direction first
+            pool = available.get((edge.get("source"), edge.get("target")), [])
+            if pool:
+                statuses[index] = (ConnectionStatus.PRESENT, pool.pop(0))
+        for index, edge in enumerate(expected):  # then the opposite direction
+            if statuses[index][0] != ConnectionStatus.ABSENT:
+                continue
+            pool = available.get((edge.get("target"), edge.get("source")), [])
+            if pool:
+                statuses[index] = (ConnectionStatus.REVERSED, pool.pop(0))
+
+        labels = self._connection_labels(candidate, matched, [connector for _s, _t, connector in actual])
+        verdicts = []
+        for index, (edge, (status, connector)) in enumerate(zip(expected, statuses)):
+            verdicts.append(
+                ConnectionVerdict(
+                    connection_id=f"C{index + 1}",
+                    source=edge.get("source", ""),
+                    target=edge.get("target", ""),
+                    status=status,
+                    judge=self.name,
+                    expected_label=edge.get("label", "") or "",
+                    visible_label=labels.get(id(connector), "") if connector is not None else "",
+                    evidence=f"arrow {connector.id}" if connector is not None else "no arrow joins these components",
+                )
+            )
+        extras = [
+            (f"arrow {connector.id} joins {source} -> {target}", [connector.id])
+            for (source, target), pool in sorted(available.items())
+            for connector in pool
+        ] + [
+            (
+                f"arrow {connector.id} is not attached to a described component at "
+                + ("either end" if source is None and target is None else "one end"),
+                [connector.id],
+            )
+            for source, target, connector in actual
+            if not (source and target)
+        ]
+        return verdicts, extras
+
+    def _connection_labels(
         self,
         candidate: SvgDocument,
         matched: dict[str, ComponentMatch],
-    ) -> MetricScore:
-        actual = self._actual_connections(candidate, matched)
-        issues = []
-        for source, target, connector in actual:
-            if source is None or target is None:
-                issues.append(
-                    Issue(
-                        "Connector endpoint is not attached to a description-expected component",
-                        Severity.CRITICAL,
-                        [connector.id],
-                    )
-                )
-        return self._score(len(actual), issues)
+        connectors: list[SvgElement],
+    ) -> dict[int, str]:
+        """Free text placed along an arrow, keyed by the arrow element.
 
-    def _text_overflow(self, candidate: SvgDocument) -> MetricScore:
-        shapes = [element for element in candidate.elements if element.is_shape]
-        applicable: list[tuple[SvgElement, SvgElement]] = []
-        for text in (element for element in candidate.elements if element.is_text):
-            containers = [shape for shape in shapes if shape.bounds.contains(*text.bounds.center)]
-            if containers:
-                container = min(containers, key=lambda shape: _area(shape.bounds))
-                applicable.append((text, container))
+        A text is a candidate when it is not a component's label, is not inside a
+        component, and lies within the endpoint tolerance of an arrow. Each text goes to
+        its nearest arrow, and each arrow keeps its nearest text.
+        """
+        component_texts = {id(match.text) for match in matched.values() if match.text is not None}
+        component_shapes = [match.shape for match in matched.values()]
+        threshold = self.config.endpoint_tolerance * math.hypot(candidate.width, candidate.height)
+        best: dict[int, tuple[float, str]] = {}
+        for text in (element for element in candidate.elements if element.is_text and element.text.strip()):
+            if id(text) in component_texts or any(shape.bounds.contains(*text.bounds.center) for shape in component_shapes):
+                continue
+            ranked = sorted(
+                (_distance_to_polyline(text.bounds.center, connector.points), index)
+                for index, connector in enumerate(connectors)
+                if len(connector.points) >= 2
+            )
+            if not ranked or ranked[0][0] > threshold:
+                continue
+            distance, index = ranked[0]
+            key = id(connectors[index])
+            if key not in best or distance < best[key][0]:
+                best[key] = (distance, text.text)
+        return {key: value[1] for key, value in best.items()}
+
+    def _unexpected(
+        self,
+        candidate: SvgDocument,
+        matched: dict[str, ComponentMatch],
+        drawn: int,
+    ) -> MetricScore:
+        """Labeled boxes that do not correspond to any expected component.
+
+        Boxes that hold a matched component's label, and containers or backgrounds that
+        enclose a matched component, are not counted.
+        """
+        matched_shapes = {id(match.shape) for match in matched.values()}
+        matched_texts = {id(match.text) for match in matched.values() if match.text is not None}
+        extras: dict[int, LabeledShape] = {}
+        for item in _labeled_shapes(candidate):
+            if id(item.shape) in matched_shapes or id(item.text) in matched_texts:
+                continue
+            if any(_contains_bounds(item.shape.bounds, match.shape.bounds) for match in matched.values()):
+                continue
+            extras.setdefault(id(item.shape), item)
         issues = [
-            Issue("Text overflows its containing shape", Severity.HIGH, [text.id, shape.id])
-            for text, shape in applicable
-            if not _contains_bounds(shape.bounds, text.bounds)
+            Issue(
+                f"Drawn component that the description does not call for: '{item.text.text}'",
+                Severity.MEDIUM,
+                [item.shape.id],
+            )
+            for item in extras.values()
         ]
         return self._score(
-            len(applicable),
+            drawn + len(extras),
+            issues,
+            "Denominator: drawn expected components plus unexpected labeled boxes.",
+        )
+
+    def _text_overflow(self, candidate: SvgDocument) -> MetricScore:
+        """Text inside a box must fit the box; text outside boxes must not collide with
+        other text (for example two arrow labels drawn on top of each other)."""
+        shapes = [element for element in candidate.elements if element.is_shape]
+        texts = [element for element in candidate.elements if element.is_text and element.text.strip()]
+        contained: list[tuple[SvgElement, SvgElement]] = []
+        free: list[SvgElement] = []
+        for text in texts:
+            containers = [shape for shape in shapes if shape.bounds.contains(*text.bounds.center)]
+            if containers:
+                contained.append((text, min(containers, key=lambda shape: _area(shape.bounds))))
+            else:
+                free.append(text)
+        issues = [
+            Issue("Text overflows its containing shape", Severity.HIGH, [text.id, shape.id])
+            for text, shape in contained
+            if not _contains_bounds(shape.bounds, text.bounds)
+        ]
+        for text in free:
+            other = next(
+                (
+                    candidate_text
+                    for candidate_text in texts
+                    if candidate_text is not text and _overlap_fraction(text.bounds, candidate_text.bounds) > 0.2
+                ),
+                None,
+            )
+            if other is not None:
+                issues.append(Issue("Text collides with other text", Severity.HIGH, [text.id, other.id]))
+        return self._score(
+            len(contained) + len(free),
             issues,
             "Text bounds use SVG positions and a conservative font-width estimate.",
         )
 
     def _minimum_font(self, candidate: SvgDocument) -> MetricScore:
+        """Font sizes are compared at the size the SVG is rendered (root size vs viewBox),
+        with sizes inherited from parent groups."""
         texts = [element for element in candidate.elements if element.is_text]
+        minimum = self.config.minimum_font_size
+        scale = candidate.render_scale
         issues = [
             Issue(
-                f"Font size {text.font_size:g}px is below {self.config.minimum_font_size:g}px",
+                f"Font size {text.font_size * scale:g}px is below {minimum:g}px when rendered",
                 Severity.HIGH,
                 [text.id],
             )
             for text in texts
-            if text.font_size < self.config.minimum_font_size
+            if text.font_size * scale < minimum
         ]
-        return self._score(len(texts), issues)
+        return self._score(
+            len(texts),
+            issues,
+            f"Rendered at {scale:g} pixel(s) per SVG unit.",
+        )

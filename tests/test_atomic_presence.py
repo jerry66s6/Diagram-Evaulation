@@ -62,10 +62,11 @@ def test_each_failure_is_counted_in_exactly_one_dimension() -> None:
     assert results["details.labels"].score == pytest.approx(0.6)
 
 
-def test_uncertain_items_leave_the_presence_denominator() -> None:
+def test_uncertain_items_count_as_not_drawn() -> None:
+    # Dropping uncertain items from the denominator would let a less certain judge score higher.
     verdicts = _verdicts([("a", Verdict.PRESENT), ("b", Verdict.UNCERTAIN), ("c", Verdict.ABSENT)])
     presence = _by_criterion(component_metrics(verdicts, "judge", PRESENCE, DETAILS))["presence.elements"]
-    assert (presence.detected_issues, presence.expected_count) == (1, 2)
+    assert (presence.detected_issues, presence.expected_count) == (2, 3)
     assert "b" in presence.notes
 
 
@@ -126,14 +127,20 @@ class AtomicBackend:
         self.prompt = prompt
         return {
             "metrics": [
-                {"criterion_id": "presence.elements", "expected_count": 13, "detected_issues": 5, "issues": [], "notes": ""},
-                {"criterion_id": "layout.order", "expected_count": 4, "detected_issues": 1, "issues": [], "notes": ""},
+                # Counted criteria report failures only; a stray count for Presence is ignored.
+                {"criterion_id": "presence.elements", "detected_issues": 5, "issues": [], "notes": ""},
+                {"criterion_id": "layout.order", "detected_issues": 1, "issues": [], "notes": ""},
             ],
             "components": [
-                {"component_id": "a", "verdict": "present", "visible_text": "Alpha", "location": _box(0.1, 0.1, 0.3, 0.2), "evidence": ""},
-                {"component_id": "b", "verdict": "mislabeled", "visible_text": "Layer", "location": _box(0.1, 0.4, 0.3, 0.5), "evidence": ""},
-                {"component_id": "c", "verdict": "absent", "visible_text": "", "location": _box(0, 0, 0, 0), "evidence": ""},
+                {"component_id": "a", "verdict": "present", "visible_text": "Alpha", "label_legible": True, "location": _box(0.1, 0.1, 0.3, 0.2), "evidence": ""},
+                {"component_id": "b", "verdict": "mislabeled", "visible_text": "Layer", "label_legible": True, "location": _box(0.1, 0.4, 0.3, 0.5), "evidence": ""},
+                {"component_id": "c", "verdict": "absent", "visible_text": "", "label_legible": True, "location": _box(0, 0, 0, 0), "evidence": ""},
             ],
+            "connections": [
+                {"connection_id": "C1", "verdict": "present", "visible_label": "", "label_legible": True, "evidence": "arrow"},
+            ],
+            "extra_components": [],
+            "extra_connections": [],
         }
 
 
@@ -153,10 +160,13 @@ def test_vlm_judge_scores_presence_from_verdicts_not_counts(tmp_path: Path) -> N
     results = _by_criterion(VLMJudge(backend).evaluate("desc", image, [PRESENCE, order, DETAILS], inventory))
     assert (results["presence.elements"].detected_issues, results["presence.elements"].expected_count) == (1, 3)
     assert (results["details.labels"].detected_issues, results["details.labels"].expected_count) == (1, 2)
-    assert results["layout.order"].score == pytest.approx(0.75)
+    # The one order opportunity is the a -> b connection, whose two components are drawn;
+    # the model's single failure is clamped to it instead of using a model-chosen denominator.
+    assert (results["layout.order"].detected_issues, results["layout.order"].expected_count) == (1, 1)
     # Presence is asked per component and is not in the counted criteria list.
-    counted_part = backend.prompt.split("Counted criteria (Part B):")[1].split("Diagram description:")[0]
+    counted_part = backend.prompt.split("Counted criteria (Part D):")[1].split("Diagram description:")[0]
     assert "presence.elements" not in counted_part
+    assert "counting_rule" in counted_part
     assert '"context": "feeds Beta"' in backend.prompt
     assert "counts as mislabeled" in backend.prompt
 
@@ -216,7 +226,9 @@ def test_placeholder_policy_can_count_it_as_absent(tmp_path: Path) -> None:
     results = _by_criterion(judge.evaluate(parse_svg(_write_svg(tmp_path, CHAIN_SVG)), criteria, CHAIN_INVENTORY))
     verdicts = {item.component_id: item.verdict for item in results["presence.elements"].component_verdicts}
     assert verdicts["beta"] == Verdict.ABSENT
-    assert results["connectivity.connections"].detected_issues == 2
+    # Both connections touch the missing Beta, so they are paid for under Presence only.
+    assert results["connectivity.connections"].expected_count == 0
+    assert results["connectivity.connections"].score is None
 
 
 def test_abbreviation_policy(tmp_path: Path) -> None:
@@ -249,8 +261,10 @@ def test_transformer_mixed_candidate_verdicts() -> None:
     }
     assert results["presence.elements"].score == pytest.approx(10 / 11)
     assert results["details.labels"].score == pytest.approx(6 / 10)
-    # Only the three connections that are really missing: positional encoding and both residuals.
-    assert results["connectivity.connections"].detected_issues == 3
+    # The positional-encoding connection is paid for under Presence (the component is missing),
+    # so Connectivity counts only the two residual connections that are really missing.
+    assert results["connectivity.connections"].detected_issues == 2
+    assert "C3" in results["connectivity.connections"].notes
 
 
 def test_agreement_table_flags_disagreements() -> None:

@@ -16,8 +16,9 @@ from .models import (
     MetricScore,
     aggregate_panel,
     component_agreement,
+    criterion_disagreements,
 )
-from .rubric import renormalize_weights, severity_frequency_weights
+from .rubric import renormalize_weights, resolve_weights
 from .svg import parse_svg
 from .vfig import VFigRunner
 from .vlm import ExpectationExtractor, VLMJudge
@@ -33,6 +34,10 @@ class PipelineConfig:
     issue_history: list[dict[str, Any]] = field(default_factory=list)
     severity_multipliers: dict[str, float] | None = None
     fallback_frequencies: dict[str, float] | None = None
+    # "auto" uses the issue history when one is supplied and rubric severities otherwise.
+    weighting: str = "auto"
+    # How criteria combine into a dimension: "mean" or "minimum".
+    dimension_reducer: str = "mean"
 
 
 class CorrectnessPipeline:
@@ -92,8 +97,10 @@ class CorrectnessPipeline:
                     )
                 )
 
-        dimensions = aggregate_panel(metrics, self.config.criteria)
-        raw_weights = severity_frequency_weights(
+        dimensions = aggregate_panel(metrics, self.config.criteria, self.config.dimension_reducer)
+        raw_weights = resolve_weights(
+            self.config.weighting,
+            self.config.criteria,
             self.config.issue_history,
             self.config.severity_multipliers,
             self.config.fallback_frequencies,
@@ -109,6 +116,11 @@ class CorrectnessPipeline:
             inventory=inventory,
             metadata={
                 "vlm_judges": [judge.name for judge in self.config.judges],
+                "vlm_samples": {judge.name: getattr(judge, "samples", 1) for judge in self.config.judges},
+                "weighting": self.config.weighting,
+                "dimension_reducer": self.config.dimension_reducer,
+                # Criteria where judges differ by 0.25 or more; the median would hide these.
+                "criterion_disagreements": criterion_disagreements(metrics),
                 "expectation_model": (
                     self.config.expectation_extractor.backend.name
                     if self.config.expectation_extractor

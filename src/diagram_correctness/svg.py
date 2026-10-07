@@ -57,6 +57,22 @@ class SvgElement:
     points: tuple[tuple[float, float], ...] = ()
 
     @property
+    def directed_points(self) -> tuple[tuple[float, float], ...]:
+        """Points from the arrow's tail to its head.
+
+        An arrowhead drawn only with marker-start means the arrow points back toward the
+        first point, so the drawing order is reversed. Otherwise drawing order is kept,
+        which is also how tools such as Graphviz draw edges with separate arrowheads.
+        """
+        if self.marker_start and not self.marker_end:
+            return tuple(reversed(self.points))
+        return self.points
+
+    @property
+    def has_arrowhead(self) -> bool:
+        return bool(self.marker_start or self.marker_end)
+
+    @property
     def is_text(self) -> bool:
         return self.tag == "text"
 
@@ -83,6 +99,8 @@ class SvgDocument:
     width: float
     height: float
     elements: tuple[SvgElement, ...]
+    # Rendered pixels per SVG user unit, from the root width/height versus the viewBox.
+    render_scale: float = 1.0
 
 
 # Affine matrix in SVG order: a,b,c,d,e,f.
@@ -139,16 +157,61 @@ def _number(attrs: dict[str, str], name: str, default: float = 0.0) -> float:
     return float(match.group()) if match else default
 
 
+# Presentation properties that SVG children inherit from their parent group.
+_INHERITED = ("fill", "stroke", "font-size", "marker-start", "marker-end", "text-anchor")
+_LENGTH_UNITS = {"": 1.0, "px": 1.0, "pt": 4 / 3, "pc": 16.0, "mm": 96 / 25.4, "cm": 96 / 2.54, "in": 96.0}
+_FONT_KEYWORDS = {"xx-small": 9.0, "x-small": 10.0, "small": 13.0, "medium": 16.0, "large": 18.0, "x-large": 24.0, "xx-large": 32.0}
+_LENGTH_RE = re.compile(r"^\s*([-+]?(?:\d*\.\d+|\d+\.?)(?:[eE][-+]?\d+)?)\s*([a-zA-Z%]*)\s*$")
+
+
 def _style(attrs: dict[str, str]) -> dict[str, str]:
-    style = {}
+    """The element's own inheritable properties; style="..." overrides attributes."""
+    style = {key: attrs[key] for key in _INHERITED if key in attrs}
     for declaration in attrs.get("style", "").split(";"):
         if ":" in declaration:
             key, value = declaration.split(":", 1)
-            style[key.strip()] = value.strip()
-    for key in ("fill", "stroke", "font-size", "marker-start", "marker-end"):
-        if key in attrs:
-            style[key] = attrs[key]
+            if key.strip() in _INHERITED:
+                style[key.strip()] = value.strip()
     return style
+
+
+def _length_px(value: str) -> float | None:
+    """An absolute CSS length in pixels, or None for percentages and unknown units."""
+    match = _LENGTH_RE.match(value or "")
+    if not match or match.group(2).lower() not in _LENGTH_UNITS:
+        return None
+    return float(match.group(1)) * _LENGTH_UNITS[match.group(2).lower()]
+
+
+def _font_size(value: str, parent: float) -> float:
+    """Resolve a font-size declaration against the inherited size, in user units."""
+    value = (value or "").strip().lower()
+    if value in _FONT_KEYWORDS:
+        return _FONT_KEYWORDS[value]
+    if value == "smaller":
+        return parent / 1.2
+    if value == "larger":
+        return parent * 1.2
+    match = _LENGTH_RE.match(value)
+    if not match:
+        return parent
+    number, unit = float(match.group(1)), match.group(2)
+    if unit == "em":
+        return number * parent
+    if unit == "rem":
+        return number * 16.0
+    if unit == "%":
+        return number * parent / 100
+    return number * _LENGTH_UNITS.get(unit, 1.0) if unit in _LENGTH_UNITS else parent
+
+
+def _render_scale(attrs: dict[str, str], viewbox: list[float]) -> float:
+    """Pixels per user unit when the root size differs from its viewBox (aspect ratio kept)."""
+    if len(viewbox) != 4 or viewbox[2] <= 0 or viewbox[3] <= 0:
+        return 1.0
+    width, height = _length_px(attrs.get("width", "")), _length_px(attrs.get("height", ""))
+    scales = [value for value in (width / viewbox[2] if width else None, height / viewbox[3] if height else None) if value]
+    return min(scales) if scales else 1.0
 
 
 def _bounds_from_points(points: Iterable[tuple[float, float]]) -> Bounds | None:
@@ -160,7 +223,9 @@ def _bounds_from_points(points: Iterable[tuple[float, float]]) -> Bounds | None:
     return Bounds(min(xs), min(ys), max(xs) - min(xs), max(ys) - min(ys))
 
 
-def _element_points(tag: str, attrs: dict[str, str], text: str, font_size: float) -> list[tuple[float, float]]:
+def _element_points(
+    tag: str, attrs: dict[str, str], text: str, font_size: float, anchor: str = "start"
+) -> list[tuple[float, float]]:
     if tag == "rect":
         x, y = _number(attrs, "x"), _number(attrs, "y")
         w, h = _number(attrs, "width"), _number(attrs, "height")
@@ -181,7 +246,6 @@ def _element_points(tag: str, attrs: dict[str, str], text: str, font_size: float
     if tag == "text":
         x, y = _number(attrs, "x"), _number(attrs, "y")
         width = max(font_size * 0.6 * len(text), font_size * 0.4)
-        anchor = attrs.get("text-anchor", "start")
         if anchor == "middle":
             x -= width / 2
         elif anchor == "end":
@@ -202,18 +266,20 @@ def parse_svg(path: str | Path) -> SvgDocument:
     elements: list[SvgElement] = []
     allowed = {"rect", "circle", "ellipse", "line", "polyline", "polygon", "path", "text"}
 
-    def visit(node: ET.Element, inherited: Matrix) -> None:
+    def visit(node: ET.Element, inherited: Matrix, inherited_style: dict[str, str]) -> None:
         local = _multiply(inherited, _transform_matrix(node.attrib.get("transform", "")))
         tag = node.tag.rsplit("}", 1)[-1]
         if tag in {"defs", "marker", "clipPath", "mask", "pattern", "style", "metadata", "title", "desc"}:
             return
+        node_attrs = dict(node.attrib)
+        own = _style(node_attrs)
+        styles = {**inherited_style, **own}
+        parent_size = float(inherited_style.get("font-size", "16"))
+        font_size = _font_size(own["font-size"], parent_size) if "font-size" in own else parent_size
+        styles["font-size"] = repr(font_size)
         if tag in allowed:
-            node_attrs = dict(node.attrib)
-            styles = _style(node_attrs)
             text = " ".join("".join(node.itertext()).split()) if tag == "text" else ""
-            font_size_match = _NUMBER_RE.search(styles.get("font-size", "16"))
-            font_size = float(font_size_match.group()) if font_size_match else 16.0
-            raw_points = _element_points(tag, node_attrs, text, font_size)
+            raw_points = _element_points(tag, node_attrs, text, font_size, styles.get("text-anchor", "start"))
             transformed = [_apply(local, point) for point in raw_points]
             bounds = _bounds_from_points(transformed)
             if bounds is not None:
@@ -233,7 +299,9 @@ def parse_svg(path: str | Path) -> SvgDocument:
                     )
                 )
         for child in node:
-            visit(child, local)
+            visit(child, local, styles)
 
-    visit(root, IDENTITY)
-    return SvgDocument(width=width, height=height, elements=tuple(elements))
+    visit(root, IDENTITY, {"font-size": "16.0"})
+    return SvgDocument(
+        width=width, height=height, elements=tuple(elements), render_scale=_render_scale(attrs, viewbox)
+    )

@@ -7,11 +7,11 @@ This package evaluates how well a rendered diagram aligns with a written descrip
 
 | Dimension | What it measures |
 |---|---|
-| **Layout** | Sensible placement, no unintended overlap, and no off-canvas content |
-| **Connectivity** | Every arrow joins its intended source and target in the correct direction |
-| **Presence** | All diagram elements expected from the description are present |
-| **Details** | Labels and content are meaningful rather than missing, generic, or placeholder text |
-| **Legibility** | Text does not overflow and meets the minimum rendered font size |
+| **Layout** | One consistent reading direction (loops allowed), no unintended overlap, and nothing cut off at the canvas edge |
+| **Connectivity** | Every expected connection is drawn, and every drawn arrow is correct: no reversed, extra, duplicate, or dangling arrows |
+| **Presence** | All components expected from the description are drawn, and no invented or duplicated components are added |
+| **Details** | Component labels and connection labels (such as YES/NO branches) are correct rather than missing, generic, or placeholder text |
+| **Legibility** | Text fits its box, does not collide with other text, and is readable at the size the diagram is displayed |
 
 The final formula is:
 
@@ -30,18 +30,37 @@ Every criterion uses:
 (expected opportunities - detected issues) / expected opportunities
 ```
 
-A criterion with zero opportunities is `N/A` and is excluded rather than treated as perfect.
+A criterion with zero opportunities is `N/A` and is excluded rather than treated as perfect. The opportunities always come from the frozen inventory and the per-item verdicts, never from a number the model picks.
+
+Each failure is counted in one dimension only:
+
+- a missing component costs Presence; its connections are not counted again under Connectivity, and its label is not counted again under Details;
+- a label that is drawn but too small to read costs Legibility, not Details;
+- a reversed arrow costs Connectivity precision (`connectivity.endpoints`), not recall (`connectivity.connections`).
 
 ## Description-first GPT design
 
 The default configuration uses **only GPT-5.5** as the VLM source.
 
-1. **Expectation stage:** GPT-5.5 receives only the written description—no reference or candidate image. It freezes a countable inventory for all five dimensions. Presence explicitly lists expected components; Details explicitly lists meaningful labels and rejects placeholders.
-2. **Scoring stage:** the same model receives one candidate image, the description, and the frozen inventory. It cannot redefine what should exist while scoring. Presence and Details are answered per component: for every component ID in the inventory the model returns `present`, `mislabeled`, `absent`, or `uncertain`, with the quoted visible text and a bounding box as evidence. The evaluator, not the model, computes Presence = drawn / decided components and Details = correctly labeled / drawn components, so a missing component and a wrong label are each counted once. The other criteria still use counts.
-3. **Geometry stage:** the deterministic judge inspects only the candidate SVG and checks it against the structured component/connection specification extracted from the description. It is not another language model. It returns the same per-component verdicts, and the report metadata (`component_verdicts`, `component_disagreements`) lists where the two judges disagree.
-4. Criterion-aligned signals are aggregated into the five dimension scores. Dimension weights are historical issue frequency multiplied by severity, then normalized.
+1. **Expectation stage:** GPT-5.5 receives only the written description—no reference or candidate image. It freezes a countable inventory for all five dimensions: the expected components with their exact labels, and the directed connections with any label the description gives them (for example a YES/NO branch). It also lists placeholder strings to reject.
+2. **Scoring stage:** the same model receives one candidate image, the description, and the frozen inventory. It cannot redefine what should exist while scoring. It answers item by item:
+   - **Components:** `present`, `mislabeled`, `absent`, or `uncertain` for every inventory component, with the quoted visible text, a bounding box, and whether the text is legible. `uncertain` counts as not drawn.
+   - **Connections:** `present`, `reversed`, `absent`, or `uncertain` for every inventory connection, with the text written on the arrow.
+   - **Extras:** drawn components and arrows that the inventory does not call for.
+   - **Counted criteria** (order, canvas, overlap, overflow): the number of failures only. The evaluator supplies the number of opportunities from the item answers and caps the failures at that number.
 
-The deterministic legibility checks cover minimum font size and estimated text overflow. Its width estimate is conservative because SVGs do not contain browser `getBBox()` results.
+   The evaluator, not the model, computes every score from these answers, and compares connection labels in code. The prompt tells the model to judge each part on its own, so a crossing arrow is not a missing connection and tiny text is not a wrong label. With `judge_samples` above 1, the same question is asked several times; the evaluator keeps the majority verdict per item and the median failure count per criterion, and records each sample's score in the metric notes.
+3. **Geometry stage:** the deterministic judge inspects only the candidate SVG and checks it against the same inventory. It is not another language model. It returns the same per-component and per-connection verdicts, and the report metadata (`component_verdicts`, `component_disagreements`) lists where the two judges disagree on components. Its checks:
+   - arrow direction comes from the arrowhead (`marker-start` or `marker-end`), and plain lines that touch no component, or start and end on the same component, are treated as decoration;
+   - connection labels are the free text nearest each arrow;
+   - unexpected components are labeled boxes that match no inventory component and do not enclose one;
+   - the reading direction is inferred from the drawing, and connections that loop back to an earlier step are skipped;
+   - each component counts once for canvas and overlap checks, and unlabeled polygons (arrowheads) are not overlap candidates;
+   - font sizes are inherited from parent groups, resolved from `px`, `pt`, `em`, and `%`, and compared at the rendered size from the root `width`/`height` versus the `viewBox`;
+   - text outside boxes must not collide with other text. Text widths are a conservative estimate because SVGs do not contain browser `getBBox()` results.
+4. **Aggregation:** judges are combined per criterion with the median; `criterion_disagreements` in the report metadata lists criteria where judges differ by 0.25 or more, which a median of two would hide. Criteria are combined per dimension with `dimension_reducer` (`mean` or `minimum`). Dimension weights follow `weighting`; the default, `severity`, gives each dimension the multiplier of its most severe rubric criterion, normalized.
+
+The deterministic judge needs an SVG. For raster candidates, such as figures extracted from papers, it runs only when a VFIG command is configured to convert the image; otherwise only the GPT judge scores the diagram.
 
 ## Transformer experiment
 
@@ -262,9 +281,10 @@ If SVGs are unavailable, install the official [VFIG repository](https://github.c
 
 - `config/rubric.json`: shared criteria used by GPT and the deterministic judge.
 - `config/evaluator.json`: the single model ID, VFIG command, geometry tolerances, and severity multipliers. `presence_policy` sets two shared scoring rules: whether an abbreviation such as "FFN" counts as a correct label (`accept_abbreviations`), and whether a box in the right position with a placeholder or missing label counts as drawn but mislabeled (`placeholder_counts_as_present`).
-- `config/issue_history.json`: calibration-set issue counts used to derive dimension weights.
-
-Replace the sample issue frequencies with frequencies measured on the real calibration corpus before reporting benchmark results.
+  - `judge_samples`: how many times the GPT judge answers each image (default 3).
+  - `weighting`: `severity` (rubric severities), `history` (issue frequency times severity from `weight_history`), `equal`, or `auto` (history when one is configured, otherwise severity).
+  - `dimension_reducer`: `mean` or `minimum` for combining criteria within a dimension.
+- `config/issue_history.json`: issue counts for `weighting: history`. The current file is placeholder data, which is why the default is `severity`; switch to `history` only after replacing it with frequencies measured on a real calibration corpus.
 
 ## Test
 

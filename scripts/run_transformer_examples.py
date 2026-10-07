@@ -84,7 +84,7 @@ def build_pipeline(offline: bool) -> CorrectnessPipeline:
                 "OPENAI_API_KEY is not configured. Set it in your shell, then rerun without --offline."
             )
         model = settings["models"]["judge"]
-        judges = [VLMJudge(OpenAIBackend(model), policy)]
+        judges = [VLMJudge(OpenAIBackend(model), policy, samples=int(settings.get("judge_samples", 1)))]
         extractor = ExpectationExtractor(OpenAIBackend(settings["models"]["expectation"]))
     return CorrectnessPipeline(
         PipelineConfig(
@@ -95,6 +95,8 @@ def build_pipeline(offline: bool) -> CorrectnessPipeline:
             issue_history=load_history(settings),
             severity_multipliers=settings.get("severity_multipliers"),
             fallback_frequencies=settings.get("fallback_frequencies"),
+            weighting=settings.get("weighting", "auto"),
+            dimension_reducer=settings.get("dimension_reducer", "mean"),
         )
     )
 
@@ -161,7 +163,14 @@ def write_summary(reports: dict[str, dict[str, Any]], output_dir: Path, mode: st
             f"- **Mixed ({mixed['correctness']:.3f})** keeps most of the layout ({mixed['layout']:.3f}) and remains readable ({mixed['legibility']:.3f}), but missing positional/residual paths reduce connectivity to {mixed['connectivity']:.3f}; abbreviated and placeholder labels reduce Details to {mixed['details']:.3f}.",
             f"- **Weak ({weak['correctness']:.3f})** retains a few recognizable structures, so Layout is not zero ({weak['layout']:.3f}), while missing components, wrong arrows, placeholder content, and small text drive Presence to {weak['presence']:.3f}, Connectivity to {weak['connectivity']:.3f}, Details to {weak['details']:.3f}, and Legibility to {weak['legibility']:.3f}.",
             "",
-            "Overall is a severity/frequency-weighted score, not a simple mean. In this sample, Connectivity has the largest weight (0.40), Presence and Legibility each have 0.20, and Layout and Details each have 0.10.",
+            "Overall is a weighted score, not a simple mean. Weights ("
+            + str(reports["candidate_strong"]["metadata"].get("weighting", "auto"))
+            + "): "
+            + ", ".join(
+                f"{name.capitalize()} {weight:.3f}"
+                for name, weight in sorted(reports["candidate_strong"]["weights"].items(), key=lambda item: -item[1])
+            )
+            + ".",
             "",
             "Each candidate JSON report contains every criterion-level score and issue from each participating judge.",
         ]

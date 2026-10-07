@@ -5,6 +5,8 @@ from enum import StrEnum
 from statistics import median
 from typing import Any, Iterable
 
+from .labels import labels_match
+
 
 class Dimension(StrEnum):
     PRESENCE = "presence"
@@ -42,6 +44,16 @@ PRESENCE_CRITERION_ID = "presence.elements"
 DETAILS_CRITERION_ID = "details.labels"
 ATOMIC_CRITERIA = frozenset({PRESENCE_CRITERION_ID, DETAILS_CRITERION_ID})
 
+# Rubric metric keys. Every judge computes the denominator of these from the frozen
+# inventory and its own per-item verdicts, never from a free-form count.
+METRIC_PRESENCE = "description_presence"
+METRIC_UNEXPECTED = "unexpected_components"
+METRIC_LABELS = "meaningful_labels"
+METRIC_CONNECTIONS = "description_connections"
+METRIC_ATTACHMENT = "connector_attachment"
+METRIC_CONNECTION_LABELS = "connection_labels"
+METRIC_MINIMUM_FONT = "minimum_font_size"
+
 
 class Verdict(StrEnum):
     """Outcome of checking one expected component against the candidate."""
@@ -49,7 +61,16 @@ class Verdict(StrEnum):
     PRESENT = "present"  # the role is drawn and carries the expected label
     MISLABELED = "mislabeled"  # the role is drawn, but its label is wrong, abbreviated, missing, or a placeholder
     ABSENT = "absent"  # nothing in the candidate plays this role
-    UNCERTAIN = "uncertain"  # the judge cannot decide from the candidate
+    UNCERTAIN = "uncertain"  # the judge cannot tell whether the role is drawn; scored as not visibly drawn
+
+
+class ConnectionStatus(StrEnum):
+    """Outcome of checking one expected directed connection against the candidate."""
+
+    PRESENT = "present"  # an arrow joins the two components in the expected direction
+    REVERSED = "reversed"  # an arrow joins them, but points the wrong way
+    ABSENT = "absent"  # no arrow joins them
+    UNCERTAIN = "uncertain"  # the judge cannot tell; scored as not drawn
 
 
 @dataclass(frozen=True)
@@ -86,6 +107,25 @@ class ComponentVerdict:
     evidence: str = ""
     # Normalized (x0, y0, x1, y1) in [0, 1] relative to the candidate canvas, if located.
     bounds: tuple[float, float, float, float] | None = None
+    notes: str = ""
+    # False when the element is drawn but its text is too small or blurry to read. Such a
+    # label cannot be checked for Details; the defect is scored once, under Legibility.
+    label_legible: bool = True
+
+
+@dataclass
+class ConnectionVerdict:
+    """One judge's verdict for one expected connection from the frozen inventory."""
+
+    connection_id: str
+    source: str
+    target: str
+    status: ConnectionStatus
+    judge: str
+    expected_label: str = ""
+    visible_label: str = ""
+    label_legible: bool = True
+    evidence: str = ""
     notes: str = ""
 
 
@@ -171,10 +211,12 @@ def aggregate_panel(
     criteria: Iterable[Criterion],
     reducer: str = "mean",
 ) -> dict[Dimension, DimensionScore]:
-    """Aggregate compatible judge signals criterion-first, using the median.
+    """Aggregate judge signals criterion-first, then criteria into dimensions.
 
-    A deterministic result is only combined with VLM results when it has the same
-    criterion id. Missing/non-measurable results do not become perfect scores.
+    Judges are combined per criterion with the median; see ``criterion_disagreements``
+    for the cases this hides. Criteria are combined per dimension with ``reducer``:
+    "mean" lets a passing check offset a failing one, "minimum" does not. Missing or
+    non-measurable results do not become perfect scores.
     """
     if reducer not in {"mean", "minimum"}:
         raise ValueError(f"Unknown dimension reducer: {reducer}")
@@ -215,27 +257,38 @@ def component_metrics(
     """Score Presence and Details from one judge's per-component verdicts.
 
     Both denominators come from the frozen inventory, never from the judge:
-    - Presence: every component the judge could decide (UNCERTAIN is excluded);
-      a component fails only when it is ABSENT.
-    - Details: only components that are drawn (PRESENT or MISLABELED);
-      a component fails only when it is MISLABELED.
-    A missing component therefore costs Presence only, and a wrong label costs
-    Details only, so no failure is counted twice.
+    - Presence: every inventory component; it fails when ABSENT or UNCERTAIN. A role the
+      judge cannot make out is not visibly drawn, and dropping it from the denominator
+      would make a less certain judge give a higher score.
+    - Details: components that are drawn (PRESENT or MISLABELED) with a readable label;
+      a component fails only when it is MISLABELED. Unreadable labels are scored under
+      Legibility instead.
+    A missing component therefore costs Presence only, a wrong label costs Details only,
+    and tiny text costs Legibility only, so no failure is counted twice.
     """
-    decided = [item for item in verdicts if item.verdict != Verdict.UNCERTAIN]
-    drawn = [item for item in decided if item.verdict in {Verdict.PRESENT, Verdict.MISLABELED}]
+    decided = list(verdicts)
+    drawn = [
+        item
+        for item in decided
+        if item.verdict in {Verdict.PRESENT, Verdict.MISLABELED} and item.label_legible
+    ]
     uncertain = [item.component_id for item in verdicts if item.verdict == Verdict.UNCERTAIN]
+    unreadable = [
+        item.component_id
+        for item in verdicts
+        if item.verdict in {Verdict.PRESENT, Verdict.MISLABELED} and not item.label_legible
+    ]
     results: list[MetricScore] = []
 
     if presence is not None:
         issues = [
             Issue(
-                f"Expected component is not drawn: {item.component_id}",
+                f"Expected component is not visibly drawn ({item.verdict.value}): {item.component_id}",
                 presence.severity,
                 [item.component_id],
             )
             for item in decided
-            if item.verdict == Verdict.ABSENT
+            if item.verdict in {Verdict.ABSENT, Verdict.UNCERTAIN}
         ]
         results.append(
             MetricScore(
@@ -269,7 +322,11 @@ def component_metrics(
                 expected_count=len(drawn),
                 detected_issues=len(issues),
                 issues=issues,
-                notes="Scored only over drawn components; missing components are scored under Presence.",
+                notes=(
+                    "Scored only over drawn components with readable labels; missing components are scored "
+                    "under Presence and unreadable labels under Legibility."
+                    + (f" Unreadable, not scored here: {', '.join(unreadable)}." if unreadable else "")
+                ),
                 # Keep the verdict list on Presence only, unless Presence is not in the rubric.
                 component_verdicts=[] if presence is not None else list(verdicts),
             )
@@ -280,7 +337,206 @@ def component_metrics(
 def _uncertain_note(uncertain: list[str]) -> str:
     if not uncertain:
         return ""
-    return "Excluded as uncertain: " + ", ".join(uncertain)
+    return "Counted as not visibly drawn because the judge could not tell: " + ", ".join(uncertain)
+
+
+def feedback_edges(components: list[dict[str, Any]], connections: list[dict[str, Any]]) -> set[int]:
+    """Indices of expected connections that close a cycle (loops back to an earlier step).
+
+    A depth-first search starting from components with no incoming connection marks the
+    edges that point to a component still on the search path. Such loops necessarily run
+    against the reading direction, so they are not order violations.
+    """
+    adjacency: dict[str, list[tuple[int, str]]] = {}
+    incoming: dict[str, int] = {}
+    nodes = [component.get("id", "") for component in components]
+    for index, edge in enumerate(connections):
+        source, target = edge.get("source", ""), edge.get("target", "")
+        adjacency.setdefault(source, []).append((index, target))
+        incoming[target] = incoming.get(target, 0) + 1
+        nodes += [node for node in (source, target) if node not in nodes]
+    roots = [node for node in nodes if incoming.get(node, 0) == 0] + nodes
+    state: dict[str, int] = {}  # 1 = on the current path, 2 = finished
+    feedback: set[int] = set()
+    for root in roots:
+        if root in state:
+            continue
+        state[root] = 1
+        stack = [(root, iter(adjacency.get(root, [])))]
+        while stack:
+            node, edges = stack[-1]
+            for index, nxt in edges:
+                if state.get(nxt) == 1:
+                    feedback.add(index)
+                elif nxt not in state:
+                    state[nxt] = 1
+                    stack.append((nxt, iter(adjacency.get(nxt, []))))
+                    break
+            else:
+                state[node] = 2
+                stack.pop()
+    return feedback
+
+
+def drawn_component_ids(verdicts: Iterable[ComponentVerdict]) -> set[str]:
+    return {item.component_id for item in verdicts if item.verdict in {Verdict.PRESENT, Verdict.MISLABELED}}
+
+
+def connection_metrics(
+    connections: list[ConnectionVerdict],
+    drawn_components: set[str],
+    extra_arrows: list[str] | list[tuple[str, list[str]]],
+    judge: str,
+    recall: Criterion | None,
+    precision: Criterion | None,
+    labels: Criterion | None,
+    accept_abbreviations: bool = False,
+) -> list[MetricScore]:
+    """Score Connectivity and connection labels from one judge's per-connection verdicts.
+
+    - Recall (every expected connection is drawn): only connections whose two components
+      are both drawn are applicable. A connection to a missing component is already paid
+      for under Presence, so it is not counted a second time here. It fails when no arrow
+      joins the pair (ABSENT or UNCERTAIN).
+    - Precision (every drawn arrow is right): the denominator is every drawn arrow, that
+      is correct, reversed, and extra arrows. Reversed and extra arrows fail, so a wrong
+      or invented arrow costs something even when every expected arrow is also drawn.
+    - Connection labels: applicable connections that are drawn and carry an expected
+      label (for example YES/NO). The visible label is compared in code, not by the judge.
+      Unreadable labels are left to Legibility.
+    """
+    extras = [(item, []) if isinstance(item, str) else (item[0], list(item[1])) for item in extra_arrows]
+    applicable = [
+        item for item in connections if item.source in drawn_components and item.target in drawn_components
+    ]
+    skipped = [item.connection_id for item in connections if item not in applicable]
+    drawn = [item for item in applicable if item.status in {ConnectionStatus.PRESENT, ConnectionStatus.REVERSED}]
+    results: list[MetricScore] = []
+
+    if recall is not None:
+        issues = [
+            Issue(
+                f"Expected connection is not drawn ({item.status.value}): {item.source} -> {item.target}",
+                recall.severity,
+                [item.source, item.target],
+            )
+            for item in applicable
+            if item.status in {ConnectionStatus.ABSENT, ConnectionStatus.UNCERTAIN}
+        ]
+        results.append(
+            MetricScore(
+                criterion_id=recall.id,
+                dimension=recall.dimension,
+                judge=judge,
+                expected_count=len(applicable),
+                detected_issues=len(issues),
+                issues=issues,
+                notes=(
+                    "Connections to components that are not drawn are scored under Presence only"
+                    + (f": {', '.join(skipped)}." if skipped else ".")
+                ),
+            )
+        )
+
+    if precision is not None:
+        reversed_items = [item for item in applicable if item.status == ConnectionStatus.REVERSED]
+        issues = [
+            Issue(f"Arrow points the wrong way: {item.target} -> {item.source}", precision.severity, [item.source, item.target])
+            for item in reversed_items
+        ] + [Issue(f"Arrow that the description does not call for: {text}", precision.severity, ids) for text, ids in extras]
+        results.append(
+            MetricScore(
+                criterion_id=precision.id,
+                dimension=precision.dimension,
+                judge=judge,
+                expected_count=len(drawn) + len(extras),
+                detected_issues=len(issues),
+                issues=issues,
+                notes="Every drawn arrow is checked: reversed, extra, dangling, and duplicate arrows fail.",
+            )
+        )
+
+    if labels is not None:
+        labeled = [item for item in drawn if item.expected_label.strip() and item.label_legible]
+        issues = [
+            Issue(
+                f"Connection {item.source} -> {item.target} should be labeled '{item.expected_label}' "
+                f"but shows '{item.visible_label}'",
+                labels.severity,
+                [item.source, item.target],
+            )
+            for item in labeled
+            if not labels_match(item.visible_label, item.expected_label, accept_abbreviations)
+        ]
+        results.append(
+            MetricScore(
+                criterion_id=labels.id,
+                dimension=labels.dimension,
+                judge=judge,
+                expected_count=len(labeled),
+                detected_issues=len(issues),
+                issues=issues,
+                notes="Only drawn connections whose description gives a label or condition, with readable text.",
+            )
+        )
+    return results
+
+
+def legibility_from_verdicts(
+    components: list[ComponentVerdict],
+    connections: list[ConnectionVerdict],
+    judge: str,
+    criterion: Criterion,
+) -> MetricScore:
+    """Readable-text rate over drawn labeled items, from the per-item legibility flags."""
+    texts = [
+        (item.component_id, item.label_legible)
+        for item in components
+        if item.verdict in {Verdict.PRESENT, Verdict.MISLABELED} and item.visible_text.strip()
+    ]
+    drawn_components = drawn_component_ids(components)
+    texts += [
+        (item.connection_id, item.label_legible)
+        for item in connections
+        if item.status in {ConnectionStatus.PRESENT, ConnectionStatus.REVERSED}
+        and item.source in drawn_components
+        and item.target in drawn_components
+        and (item.visible_label.strip() or item.expected_label.strip())
+    ]
+    issues = [
+        Issue(f"Text is too small or blurry to read: {item_id}", criterion.severity, [item_id])
+        for item_id, legible in texts
+        if not legible
+    ]
+    return MetricScore(
+        criterion_id=criterion.id,
+        dimension=criterion.dimension,
+        judge=judge,
+        expected_count=len(texts),
+        detected_issues=len(issues),
+        issues=issues,
+        notes="One check per drawn component label and connection label.",
+    )
+
+
+def criterion_disagreements(metrics: Iterable[MetricScore], threshold: float = 0.25) -> list[dict[str, Any]]:
+    """Criteria where two judges' scores differ by at least ``threshold``.
+
+    The panel combines judges with a median, which for two judges is their mean and
+    would otherwise hide a disagreement such as 1.0 versus 0.5.
+    """
+    by_criterion: dict[str, dict[str, float]] = {}
+    for metric in metrics:
+        if metric.score is not None:
+            by_criterion.setdefault(metric.criterion_id, {})[metric.judge] = metric.score
+    rows = []
+    for criterion_id, scores in sorted(by_criterion.items()):
+        if len(scores) < 2:
+            continue
+        spread = max(scores.values()) - min(scores.values())
+        if spread >= threshold:
+            rows.append({"criterion_id": criterion_id, "scores": scores, "spread": round(spread, 4)})
+    return rows
 
 
 def component_agreement(metrics: Iterable[MetricScore]) -> list[dict[str, Any]]:

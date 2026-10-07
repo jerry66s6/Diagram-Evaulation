@@ -3,6 +3,7 @@
     "expectation": "gpt-5.5",
     "judge": "gpt-5.5"
   },
+  "judge_samples": 3,
   "vfig": {
     "command": [
       "python",
@@ -38,5 +39,7 @@
     "details": 1.0,
     "legibility": 1.0
   },
-  "weight_history": "config/issue_history.json"
+  "weight_history": "config/issue_history.json",
+  "weighting": "severity",
+  "dimension_reducer": "mean"
 }

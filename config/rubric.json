@@ -3,63 +3,77 @@
     {
       "id": "presence.elements",
       "dimension": "presence",
-      "description": "Every component, group, input, output, repeated block, and operation expected from the written description is visibly drawn in the candidate, even if its label is imperfect. Connections are judged under Connectivity, not here.",
+      "description": "Every component, group, input, output, repeated block, and operation expected from the written description is visibly drawn in the candidate, even if its label is imperfect or hard to read. A component the judge cannot make out counts as not drawn. Connections are judged under Connectivity, not here.",
       "severity": "high",
       "deterministic_metric": "description_presence"
     },
     {
+      "id": "presence.unexpected",
+      "dimension": "presence",
+      "description": "Every drawn component corresponds to something in the description; invented, duplicated, or unrelated boxes fail. Titles, captions, legends, arrowheads, and container frames around listed components are not components.",
+      "severity": "medium",
+      "deterministic_metric": "unexpected_components"
+    },
+    {
       "id": "layout.order",
       "dimension": "layout",
-      "description": "Components follow the sensible reading and processing order implied by the description.",
+      "description": "Connected components follow one consistent reading direction, such as top-to-bottom or left-to-right. Connections that loop back to an earlier step are expected and are not violations.",
       "severity": "medium",
       "deterministic_metric": "description_order"
     },
     {
       "id": "layout.canvas",
       "dimension": "layout",
-      "description": "All candidate content remains fully inside the SVG canvas.",
+      "description": "Every drawn component and arrow stays fully inside the canvas; nothing is cut off at the edge.",
       "severity": "high",
       "deterministic_metric": "canvas_bounds"
     },
     {
       "id": "layout.overlap",
       "dimension": "layout",
-      "description": "Candidate components have no unintended overlaps or collisions; intentional container nesting is allowed.",
+      "description": "No component unintentionally overlaps or collides with another; a container drawn around its members is allowed. Each colliding component counts once.",
       "severity": "high",
       "deterministic_metric": "unintended_overlap"
     },
     {
       "id": "connectivity.connections",
       "dimension": "connectivity",
-      "description": "Every directed source-to-target connection expected from the description is visibly present in the candidate.",
+      "description": "Every connection expected from the description is drawn as an arrow between its two components. A connection to a component that is not drawn is judged under Presence, not here.",
       "severity": "critical",
       "deterministic_metric": "description_connections"
     },
     {
       "id": "connectivity.endpoints",
       "dimension": "connectivity",
-      "description": "Each visible arrow attaches to the correct description-expected source and target components with the correct direction.",
+      "description": "Every drawn arrow joins two components that the description says are connected, in the stated direction. Reversed, extra, duplicate, and dangling arrows fail.",
       "severity": "critical",
       "deterministic_metric": "connector_attachment"
     },
     {
       "id": "details.labels",
       "dimension": "details",
-      "description": "Each drawn component carries its complete, accurate, meaningful expected label rather than an abbreviated, generic, missing, or placeholder label. Components that are not drawn are judged under Presence, not here.",
+      "description": "Each drawn component carries its complete, accurate, meaningful expected label rather than an abbreviated, generic, missing, or placeholder label. Components that are not drawn are judged under Presence, and labels too small to read under Legibility.",
       "severity": "high",
       "deterministic_metric": "meaningful_labels"
     },
     {
+      "id": "details.connection_labels",
+      "dimension": "details",
+      "description": "Every drawn arrow that the description gives a label or condition, such as a YES/NO branch, shows that label correctly.",
+      "severity": "high",
+      "deterministic_metric": "connection_labels"
+    },
+    {
       "id": "legibility.overflow",
       "dimension": "legibility",
-      "description": "Text stays inside its intended container without clipping, collision, or overflow.",
+      "description": "Text stays inside its box without clipping, and no text collides with other text.",
       "severity": "high",
       "deterministic_metric": "text_overflow"
     },
     {
       "id": "legibility.minimum_font",
       "dimension": "legibility",
-      "description": "Every text element meets the configured minimum rendered font size.",
+      "description": "Every label is large and clear enough to read at the size the diagram is displayed.",
       "severity": "high",
       "deterministic_metric": "minimum_font_size"
     }

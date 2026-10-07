@@ -43,7 +43,7 @@ def main(argv: list[str] | None = None) -> int:
         criteria = load_rubric(args.rubric)
         models = settings["models"]
         policy = PresencePolicy.from_dict(settings.get("presence_policy"))
-        judges = [VLMJudge(OpenAIBackend(models["judge"]), policy)]
+        judges = [VLMJudge(OpenAIBackend(models["judge"]), policy, samples=int(settings.get("judge_samples", 1)))]
         geometry = settings.get("geometry", {})
         deterministic = DeterministicJudge(GeometryConfig(**geometry), policy)
         vfig = None
@@ -77,6 +77,8 @@ def main(argv: list[str] | None = None) -> int:
                 issue_history=issue_history,
                 severity_multipliers=settings.get("severity_multipliers"),
                 fallback_frequencies=settings.get("fallback_frequencies"),
+                weighting=settings.get("weighting", "auto"),
+                dimension_reducer=settings.get("dimension_reducer", "mean"),
             )
         )
         description = Path(args.description).read_text(encoding="utf-8")

@@ -52,7 +52,8 @@ class AblationExperimentTests(unittest.TestCase):
         presence = {m["id"]: m for m in self.rows["presence"]["criteria"]}
         self.assertEqual(presence["presence.elements"]["issues"], 2)
         self.assertEqual(presence["details.labels"]["expected"], 9)
-        self.assertEqual(presence["connectivity.connections"]["issues"], 1)
+        # Connections to the removed components are paid for under Presence, not again here.
+        self.assertEqual(presence["connectivity.connections"]["issues"], 0)
         self.assertEqual(presence["connectivity.endpoints"]["issues"], 1)
         self.assertEqual(presence["connectivity.endpoints"]["evidence"][0]["element_ids"], ["s3"])
 

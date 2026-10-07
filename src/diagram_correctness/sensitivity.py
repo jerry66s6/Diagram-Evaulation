@@ -46,8 +46,8 @@ class SensitivityJudge(DeterministicJudge):
         actual = []
         for connector in candidate.elements:
             if connector.is_connector and len(connector.points) >= 2:
-                first = _nearest_key(connector.points[0], pool, threshold)
-                last = _nearest_key(connector.points[-1], pool, threshold)
+                first = _nearest_key(connector.directed_points[0], pool, threshold)
+                last = _nearest_key(connector.directed_points[-1], pool, threshold)
                 if first is None or last is None:
                     return matched
                 actual.append((first, last))

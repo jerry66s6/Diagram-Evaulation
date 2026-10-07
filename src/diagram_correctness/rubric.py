@@ -74,3 +74,52 @@ def renormalize_weights(
         raise ValueError("No weighted dimension produced a score")
     return {dimension: value / denominator for dimension, value in selected.items()}
 
+
+
+DEFAULT_SEVERITY_MULTIPLIERS = {"low": 1.0, "medium": 2.0, "high": 4.0, "critical": 8.0}
+
+
+def severity_weights(
+    criteria: list[Criterion],
+    severity_multipliers: dict[str, float] | None = None,
+) -> dict[Dimension, float]:
+    """Normalized dimension weights from the rubric's own severity labels.
+
+    A dimension weighs as much as its most severe criterion, so adding a minor check to
+    a dimension does not dilute that dimension's importance. This is the default until
+    issue frequencies measured on a real calibration set are available.
+    """
+    multipliers = severity_multipliers or DEFAULT_SEVERITY_MULTIPLIERS
+    totals: dict[Dimension, float] = {}
+    for criterion in criteria:
+        value = float(multipliers[criterion.severity.value])
+        totals[criterion.dimension] = max(totals.get(criterion.dimension, 0.0), value)
+    denominator = sum(totals.values())
+    if denominator <= 0:
+        raise ValueError("The rubric must contain at least one criterion with a positive severity")
+    return {dimension: value / denominator for dimension, value in totals.items()}
+
+
+def resolve_weights(
+    weighting: str,
+    criteria: list[Criterion],
+    issue_history: list[dict[str, Any]],
+    severity_multipliers: dict[str, float] | None = None,
+    fallback_frequencies: dict[str, float] | None = None,
+) -> dict[Dimension, float]:
+    """Dimension weights for the configured scheme.
+
+    "severity": rubric severities only. "history": measured issue frequency times
+    severity (requires a real issue history). "equal": every dimension the same.
+    "auto": history when one is supplied, otherwise severity.
+    """
+    if weighting == "auto":
+        weighting = "history" if issue_history else "severity"
+    if weighting == "severity":
+        return severity_weights(criteria, severity_multipliers)
+    if weighting == "history":
+        return severity_frequency_weights(issue_history, severity_multipliers, fallback_frequencies)
+    if weighting == "equal":
+        dimensions = {criterion.dimension for criterion in criteria}
+        return {dimension: 1 / len(dimensions) for dimension in dimensions}
+    raise ValueError(f"Unknown weighting: {weighting}")

@@ -44,7 +44,9 @@ def test_deterministic_judge_counts_missing_text_and_small_font() -> None:
     }
     assert verdicts == {"start": "mislabeled", "finish": "absent"}
     assert results["presence.elements"].detected_issues == 1
-    assert results["connectivity.connections"].detected_issues == 1
+    # The only expected connection ends at the missing Finish, so it is scored under Presence.
+    assert results["connectivity.connections"].score is None
+    # The drawn arrow ends at a box that is not a described component.
     assert results["connectivity.endpoints"].detected_issues == 1
     # Details counts only drawn components, so the missing Finish is not counted again.
     assert results["details.labels"].expected_count == 1
