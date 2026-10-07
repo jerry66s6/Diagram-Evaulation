@@ -4,16 +4,6 @@
     "judge": "gpt-5.5"
   },
   "judge_samples": 3,
-  "vfig": {
-    "command": [
-      "python",
-      "/absolute/path/to/VFig/inference/inference.py",
-      "{image}",
-      "--output",
-      "{svg}"
-    ],
-    "timeout_seconds": 600
-  },
   "geometry": {
     "endpoint_tolerance": 0.035,
     "minimum_font_size": 12.0,

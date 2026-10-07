@@ -112,7 +112,7 @@ def protocol() -> dict:
     return {
         "mode": "GPT-only on original dataset PNGs", "settings": settings,
         "rubric": json.loads((ROOT / "config/rubric.json").read_text()), "issue_history": history,
-        "deterministic_judge": False, "vfig_used": False,
+        "deterministic_judge": False,
         "code_sha256": {path.name: digest(path.read_bytes()) for path in sorted((ROOT / "src/diagram_correctness").glob("*.py"))},
         "planned_calls": {"expectation": 10, "judge": 10},
     }

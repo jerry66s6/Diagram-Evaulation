@@ -82,7 +82,7 @@ The deterministic judge parses the candidate SVG directly. It checks:
 - estimated text overflow; and
 - minimum font size.
 
-When an SVG is already available, VFIG is not needed. VFIG remains an optional route for reconstructing SVG geometry from raster-only candidates.
+These checks need an SVG. Raster-only candidates are scored by the GPT judge alone.
 
 ### Stage 4: Aggregation
 

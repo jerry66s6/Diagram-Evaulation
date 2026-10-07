@@ -20,7 +20,6 @@ from .models import (
 )
 from .rubric import renormalize_weights, resolve_weights
 from .svg import parse_svg
-from .vfig import VFigRunner
 from .vlm import ExpectationExtractor, VLMJudge
 
 
@@ -29,7 +28,6 @@ class PipelineConfig:
     criteria: list[Criterion]
     judges: list[VLMJudge]
     expectation_extractor: ExpectationExtractor | None
-    vfig_runner: VFigRunner | None = None
     deterministic_judge: DeterministicJudge = field(default_factory=DeterministicJudge)
     issue_history: list[dict[str, Any]] = field(default_factory=list)
     severity_multipliers: dict[str, float] | None = None
@@ -83,8 +81,9 @@ class CorrectnessPipeline:
                 for future in as_completed(futures):
                     metrics.extend(future.result())
 
+            # The deterministic judge reads SVG geometry, so it runs only when an SVG is supplied.
             resolved_candidate_svg = (
-                self._resolve_svg(resolved_candidate_image, candidate_svg, temp / "candidate.svg")
+                self._resolve_svg(candidate_svg)
                 if run_deterministic
                 else None
             )
@@ -159,19 +158,12 @@ class CorrectnessPipeline:
         svg2png(url=str(svg_path), write_to=str(output))
         return output
 
-    def _resolve_svg(
-        self,
-        image: Path,
-        supplied_svg: str | Path | None,
-        output: Path,
-    ) -> Path | None:
-        if supplied_svg:
-            path = Path(supplied_svg)
-            _require_file(path)
-            return path
-        if self.config.vfig_runner:
-            return self.config.vfig_runner.convert(image, output)
-        return None
+    def _resolve_svg(self, supplied_svg: str | Path | None) -> Path | None:
+        if not supplied_svg:
+            return None
+        path = Path(supplied_svg)
+        _require_file(path)
+        return path
 
 
 def _require_file(path: Path) -> None:

@@ -60,7 +60,7 @@ The default configuration uses **only GPT-5.5** as the VLM source.
    - text outside boxes must not collide with other text. Text widths are a conservative estimate because SVGs do not contain browser `getBBox()` results.
 4. **Aggregation:** judges are combined per criterion with the median; `criterion_disagreements` in the report metadata lists criteria where judges differ by 0.25 or more, which a median of two would hide. Criteria are combined per dimension with `dimension_reducer` (`mean` or `minimum`). Dimension weights follow `weighting`; the default, `severity`, gives each dimension the multiplier of its most severe rubric criterion, normalized.
 
-The deterministic judge needs an SVG. For raster candidates, such as figures extracted from papers, it runs only when a VFIG command is configured to convert the image; otherwise only the GPT judge scores the diagram.
+The deterministic judge needs an SVG. Raster candidates, such as figures extracted from papers, are scored by the GPT judge only.
 
 ## Transformer experiment
 
@@ -221,7 +221,7 @@ Run or resume the existing GPT evaluator after configuring `OPENAI_API_KEY` loca
 A fresh successful run uses 10 description-only expectation calls and 10 image
 judgment calls; all five dimensions come from each image judgment. The original
 dataset PNG is the candidate, not a newly generated diagram. This pilot uses the
-GPT component only: LaTeX/DOT source is archived, but SVG geometry and VFIG are
+GPT component only: LaTeX/DOT source is archived, but SVG geometry is
 omitted. Core evaluator code, prompts, rubric, and weights are unchanged.
 
 Each example saves its frozen inventory, exact text prompts, structured model
@@ -266,21 +266,20 @@ diagram-correctness \
 
 Those are the only two semantic inputs. The SVG is rendered internally to a temporary PNG solely because the GPT vision endpoint consumes an image; the evaluator does not generate or use a target/reference diagram.
 
-For GPT-only scoring:
+With a raster image, such as a figure extracted from a paper, only the GPT judge runs, because the deterministic judge reads SVG geometry:
 
 ```bash
 diagram-correctness \
   --description intended-diagram.md \
-  --candidate candidate.png \
-  --skip-deterministic
+  --candidate candidate.png
 ```
 
-If SVGs are unavailable, install the official [VFIG repository](https://github.com/RAIVNLab/VFig) and set its inference command in `config/evaluator.json`.
+Add `--skip-deterministic` to score an SVG with the GPT judge only.
 
 ## Configuration
 
 - `config/rubric.json`: shared criteria used by GPT and the deterministic judge.
-- `config/evaluator.json`: the single model ID, VFIG command, geometry tolerances, and severity multipliers. `presence_policy` sets two shared scoring rules: whether an abbreviation such as "FFN" counts as a correct label (`accept_abbreviations`), and whether a box in the right position with a placeholder or missing label counts as drawn but mislabeled (`placeholder_counts_as_present`).
+- `config/evaluator.json`: the single model ID, geometry tolerances, and severity multipliers. `presence_policy` sets two shared scoring rules: whether an abbreviation such as "FFN" counts as a correct label (`accept_abbreviations`), and whether a box in the right position with a placeholder or missing label counts as drawn but mislabeled (`placeholder_counts_as_present`).
   - `judge_samples`: how many times the GPT judge answers each image (default 3).
   - `weighting`: `severity` (rubric severities), `history` (issue frequency times severity from `weight_history`), `equal`, or `auto` (history when one is configured, otherwise severity).
   - `dimension_reducer`: `mean` or `minimum` for combining criteria within a dimension.

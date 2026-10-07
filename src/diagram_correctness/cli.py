@@ -9,7 +9,6 @@ from .deterministic import DeterministicJudge, GeometryConfig
 from .models import PresencePolicy
 from .pipeline import CorrectnessPipeline, PipelineConfig
 from .rubric import load_config, load_rubric
-from .vfig import VFigRunner
 from .vlm import ExpectationExtractor, OpenAIBackend, VLMJudge
 
 
@@ -23,7 +22,7 @@ def build_parser() -> argparse.ArgumentParser:
     )
     candidate.add_argument(
         "--candidate",
-        help="Rendered candidate image (requires VFIG for deterministic geometry checks)",
+        help="Rendered candidate image (PNG or JPEG); scored by the GPT judge only, because the deterministic judge reads SVG",
     )
     parser.add_argument("--rubric", default="config/rubric.json")
     parser.add_argument("--config", default="config/evaluator.json")
@@ -31,7 +30,7 @@ def build_parser() -> argparse.ArgumentParser:
     parser.add_argument(
         "--skip-deterministic",
         action="store_true",
-        help="Run only the configured GPT judge (useful before VFIG is installed)",
+        help="Score an SVG candidate with the GPT judge only",
     )
     return parser
 
@@ -46,19 +45,9 @@ def main(argv: list[str] | None = None) -> int:
         judges = [VLMJudge(OpenAIBackend(models["judge"]), policy, samples=int(settings.get("judge_samples", 1)))]
         geometry = settings.get("geometry", {})
         deterministic = DeterministicJudge(GeometryConfig(**geometry), policy)
-        vfig = None
         candidate_svg = args.candidate_svg
-        if not args.skip_deterministic and not candidate_svg:
-            vfig_command = settings.get("vfig", {}).get("command", [])
-            if not vfig_command:
-                raise ValueError(
-                    "Deterministic evaluation requires --candidate-svg "
-                    "or a config.vfig.command. Use --skip-deterministic to omit it."
-                )
-            vfig = VFigRunner(
-                command=vfig_command,
-                timeout_seconds=int(settings.get("vfig", {}).get("timeout_seconds", 600)),
-            )
+        if not candidate_svg and not args.skip_deterministic:
+            print("note: no SVG supplied, so only the GPT judge scores this image.", file=sys.stderr)
 
         issue_history = []
         history_path = settings.get("weight_history")
@@ -72,7 +61,6 @@ def main(argv: list[str] | None = None) -> int:
                 expectation_extractor=ExpectationExtractor(
                     OpenAIBackend(models.get("expectation", models["judge"]))
                 ),
-                vfig_runner=vfig,
                 deterministic_judge=deterministic,
                 issue_history=issue_history,
                 severity_multipliers=settings.get("severity_multipliers"),
@@ -86,7 +74,7 @@ def main(argv: list[str] | None = None) -> int:
             description=description,
             candidate_image=args.candidate,
             candidate_svg=candidate_svg,
-            run_deterministic=not args.skip_deterministic,
+            run_deterministic=not args.skip_deterministic and bool(candidate_svg),
         )
         output = Path(args.output)
         output.write_text(json.dumps(report.to_dict(), indent=2), encoding="utf-8")
