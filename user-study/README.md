@@ -29,7 +29,7 @@ Before recruitment:
 
    The importer copies each image to `public/diagrams/<first 20 hex of SHA-256>.<ext>`, records the full SHA-256, and rewrites `config/study.json`. It refuses duplicate images, duplicate IDs, unknown difficulties, missing files, and pools too small for a balanced assignment, naming the row at fault. It never deletes old images.
 3. **Choose `sampleSize` (20–30).** The pool can be larger than the assignment. Each session needs `floor(sampleSize / 3)` diagrams per difficulty, so 24 needs at least 8 easy, 8 medium and 8 hard. Use 21, 24, 27 or 30 for exact balance; other sizes differ by at most one per group.
-4. **Review wording and mode.** Check the rating wording in `lib/metrics.ts` and the consent text for your protocol. Use `--mode research`, a new `--id` per study round, and a real `--difficulty-note`. Restart the dev server or redeploy after importing.
+4. **Review wording and mode.** Check the rating wording in `lib/metrics.ts` and the consent text for your protocol. Use `--mode research`, a new `--id` per study round, and a real `--difficulty-note`. Restart the dev server, or run `npm run deploy:cloudflare` again, after importing.
 5. **Versions.** Each catalog hash becomes a new study version. Existing sessions retain their original assignment snapshots, captions, difficulty and provenance. Keep old image assets available while those sessions remain active. The dashboard and CSV endpoint select the currently configured version; historical versions remain in the database.
 
 This is a working collection interface, not a claim that the demo sample or anchors are scientifically calibrated. The UI does not compute an overall score or expose model scores to raters.
@@ -51,9 +51,35 @@ Apply that migration only once to a fresh local database. After later schema cha
 
 The generated local `.env` already contains the researcher key for this checkout. Do not overwrite it with the example unless intentionally replacing the key. `.env`, `.wrangler/`, `.vinext/`, dependencies, and build output are ignored by Git. `.openai/hosting.json` stores only the Site ID and logical database binding.
 
+## Deploy to Cloudflare
+
+The app runs on Cloudflare Workers with a D1 database. The free plan covers a study of this size; it allows about 100,000 database row writes per day, roughly 300 participants per day. Above that, the Workers Paid plan costs $5 per month.
+
+One-time setup:
+
+1. Create a free Cloudflare account, open **Workers & Pages** in the dashboard once, and pick a `workers.dev` subdomain.
+2. From `user-study/`, log in. This opens the browser:
+
+   ```bash
+   npx wrangler login
+   ```
+
+Deploy, and redeploy after any change:
+
+```bash
+npm run deploy:cloudflare
+```
+
+The script validates the catalog, finds or creates the D1 database named in `config/cloudflare.json` and saves its id there, builds, applies new migrations from `drizzle/`, deploys, and sets a researcher key if none exists. It prints the participant link and saves the researcher key to `.env.cloudflare`, which Git ignores. Every step is safe to re-run.
+
+- `npm run deploy:cloudflare -- --dry-run` builds and checks the bundle without logging in or uploading anything.
+- `npm run deploy:cloudflare -- --rotate-key` replaces the researcher key, for example on a new computer without `.env.cloudflare`.
+- Change `workerName` in `config/cloudflare.json` before the first deploy to change the link, `https://<workerName>.<subdomain>.workers.dev`.
+- The deployed database is separate from the local one. Local test sessions are never uploaded.
+
 ## Researcher workspace and CSV
 
-Open `/researcher` and enter the `STUDY_ADMIN_KEY` from the local `.env`. The hosted deployment uses the same value configured as a Sites secret. Every dashboard/export request is authorized server-side; the access key is kept in page memory and cleared on reload. Participant sessions cannot read other responses or export data.
+Open `/researcher` and enter the `STUDY_ADMIN_KEY`. Locally it is in `.env`; for the Cloudflare deployment it is in `.env.cloudflare`, a different key. Every dashboard/export request is authorized server-side; the access key is kept in page memory and cleared on reload. Participant sessions cannot read other responses or export data.
 
 Choose **Completed sessions** or **All sessions, including partial**, then **Export CSV**. The result is UTF-8 CSV with a BOM, one row per assigned participant–diagram pair:
 
@@ -68,7 +94,7 @@ session_started_at, rating_updated_at, session_submitted_at
 
 Unanswered dimensions are blank, never zero. Durations are accumulated foreground viewing time, not a reliable attention measure. Comments are CSV-escaped and formula-like text is neutralized for spreadsheets. The API is `GET /api/export?scope=completed` or `?scope=all` with the `x-study-admin-key` header. Exporting does not change or delete responses.
 
-Sites starts owner-private. Change the Site's audience explicitly before inviting external participants. Researcher access remains separately protected even when participant access is expanded.
+The deployed `workers.dev` link is public: anyone with it can start a session, so share it only with participants. Researcher access stays protected by the key.
 
 ## Validation
 
