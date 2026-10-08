@@ -4,6 +4,9 @@ base=sys.argv[1] if len(sys.argv)>1 else 'http://127.0.0.1:5173'
 assert urllib.parse.urlparse(base).hostname in {'localhost','127.0.0.1','::1'}, 'Local preview only'
 root=pathlib.Path(__file__).resolve().parents[1]
 key=next(line.split('=',1)[1] for line in (root/'.env').read_text().splitlines() if line.startswith('STUDY_ADMIN_KEY='))
+catalog=json.loads((root/'config'/'study.json').read_text())
+fixed=catalog.get('order')=='fixed'
+size=len(catalog['diagrams']) if fixed else catalog['sampleSize']
 keys=['layout','connectivity','presence','details','legibility','aesthetics','palette','ink_balance','density','balance']
 clients=[urllib.request.build_opener(urllib.request.HTTPCookieProcessor(http.cookiejar.CookieJar())) for _ in range(2)]
 def call(path,method='GET',body=None,admin=False,client=0,extra=None):
@@ -19,7 +22,8 @@ assert call('/api/admin')[0]==401
 assert call('/api/export')[0]==401
 assert call('/api/session','POST',{'consent':False})[0]==400
 status,result=call('/api/session','POST',{'consent':True});assert status==201,(status,result)
-session=result['session'];assert len(session['diagrams'])==24
+session=result['session'];assert len(session['diagrams'])==size
+if fixed:assert [d['id'] for d in session['diagrams']]==[d['id'] for d in catalog['diagrams']]
 assert not any('difficulty' in d or 'source' in d for d in session['diagrams'])
 assert call('/api/session','POST',{'consent':True})[1]['session']['id']==session['id']
 assert call('/api/submit','POST',{})[0]==400
@@ -30,7 +34,7 @@ assert call('/api/rating','PUT',{'diagramId':first,'scores':{},'comment':'','dur
 for i,d in enumerate(session['diagrams']):
     status,result=call('/api/rating','PUT',{'diagramId':d['id'],'scores':{k:(i%10)+1 for k in keys},'comment':'=AUTOMATED TEST, "quoted"\nmultiline' if i==0 else 'Automated local verification','durationMs':1234+i})
     assert status==200,(status,result)
-loaded=call('/api/session')[1]['session'];assert len(loaded['ratings'])==24
+loaded=call('/api/session')[1]['session'];assert len(loaded['ratings'])==size
 assert [d['id'] for d in loaded['diagrams']]==[d['id'] for d in session['diagrams']]
 assert call('/api/submit','POST',{})[0]==200
 assert call('/api/submit','POST',{})[0]==200
@@ -39,15 +43,16 @@ status,other=call('/api/session','POST',{'consent':True},client=1);assert status
 assert other['session']['id']!=session['id'] and not other['session']['ratings']
 status,data=call('/api/export?scope=completed',admin=True);assert status==200
 rows=[r for r in csv.DictReader(io.StringIO(data)) if r['participant_code']==session['participantCode']]
-assert len(rows)==24
-assert {level:sum(r['difficulty']==level for r in rows) for level in ['easy','medium','hard']}=={'easy':8,'medium':8,'hard':8}
+assert len(rows)==size
+counts={level:sum(r['difficulty']==level for r in rows) for level in ['easy','medium','hard']}
+assert max(counts.values())-min(counts.values())<=1
 assert rows[0]['comment'].startswith("'=AUTOMATED TEST")
 assert all(r['mode']=='demo' and r['rating_complete']=='1' for r in rows)
-assert all(rows[i][k]==str((i%10)+1) for i in range(24) for k in keys)
+assert all(rows[i][k]==str((i%10)+1) for i in range(size) for k in keys)
 assert call('/api/admin',admin=True)[1]['summary']['completed']>=1
 status,data_all=call('/api/export?scope=all',admin=True)
 partial=[r for r in csv.DictReader(io.StringIO(data_all)) if r['participant_code']==other['session']['participantCode']]
-assert len(partial)==24 and all(r['layout']=='' for r in partial)
+assert len(partial)==size and all(r['layout']=='' for r in partial)
 pathlib.Path('/private/tmp/diagram-study-verified-export.csv').write_text(data)
 pathlib.Path('/private/tmp/diagram-study-test-session-ids.json').write_text(json.dumps([session['id'],other['session']['id']]))
-print('PASS: consent, 24 × 10 ratings, exact 8/8/8 allocation, validation, autosave read-back, stable order, session isolation, submit lock, authenticated CSV, formula escaping and partial exports.')
+print(f'PASS: consent, {size} × 10 ratings, {"fixed order" if fixed else "balanced allocation"}, validation, autosave read-back, stable order, session isolation, submit lock, authenticated CSV, formula escaping and partial exports.')

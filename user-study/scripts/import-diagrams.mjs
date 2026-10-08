@@ -12,6 +12,8 @@
 //
 // Options:
 //   --sample-size N   diagrams per participant, 20-30 (default: current value)
+//   --fixed-order     every participant sees every diagram, in manifest row order;
+//                     no sampling and no difficulty-balance check
 //   --mode M          demo | research (default: current value)
 //   --id ID           catalog id; change it for each real study round
 //   --title T         study title
@@ -124,6 +126,11 @@ export function buildCatalog(rows, { manifestDir, settings }) {
     diagrams.push({ id, image: `/diagrams/${imageName}`, caption, difficulty, source: row.source?.trim() || file, sha256 });
   });
   const catalog = { ...settings, diagrams };
+  if (catalog.order === 'fixed') {
+    catalog.sampleSize = diagrams.length;
+    const counts = Object.fromEntries(LEVELS.map(level => [level, diagrams.filter(d => d.difficulty === level).length]));
+    return { catalog, copies, counts };
+  }
   return { catalog, copies, counts: checkBalance(diagrams, catalog.sampleSize) };
 }
 
@@ -133,6 +140,7 @@ function parseArgs(argv) {
   for (let i = 0; i < argv.length; i++) {
     const arg = argv[i];
     if (arg === '--dry-run') options.dryRun = true;
+    else if (arg === '--fixed-order') options.fixedOrder = true;
     else if (arg === '--help' || arg === '-h') options.help = true;
     else if (valued[arg]) {
       if (i + 1 >= argv.length) throw new Error(`${arg} needs a value.`);
@@ -161,6 +169,7 @@ function main() {
     title: options.title ?? current.title ?? 'Diagram Evaluation Study',
     mode,
     sampleSize: options.sampleSize !== undefined ? Number(options.sampleSize) : current.sampleSize ?? 24,
+    order: options.fixedOrder ? 'fixed' : 'random',
     difficultyNote: options.difficultyNote ?? current.difficultyNote ?? '',
   };
   if (!ID_PATTERN.test(settings.id)) throw new Error('--id may only use letters, digits, ".", "_" and "-".');
@@ -174,7 +183,9 @@ function main() {
   const newImages = copies.filter(copy => !existsSync(resolve(imageDir, copy.name)));
   const summary = [
     `${catalog.diagrams.length} diagrams: easy=${counts.easy}, medium=${counts.medium}, hard=${counts.hard}.`,
-    `Each participant gets ${catalog.sampleSize}, balanced across difficulty. Mode: ${catalog.mode}. Catalog id: ${catalog.id}.`,
+    (catalog.order === 'fixed'
+      ? `Every participant sees all ${catalog.diagrams.length}, in manifest order.`
+      : `Each participant gets ${catalog.sampleSize}, balanced across difficulty.`) + ` Mode: ${catalog.mode}. Catalog id: ${catalog.id}.`,
     `${newImages.length} new image(s) for public/diagrams; ${copies.length - newImages.length} already present.`,
   ];
   if (options.dryRun) {

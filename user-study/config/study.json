@@ -1,201 +1,58 @@
 {
-  "id": "diagram-study-demo-v2",
+  "id": "diagramgen-six-v1",
   "title": "Diagram Evaluation Study",
   "mode": "demo",
-  "sampleSize": 24,
-  "difficultyNote": "Illustrative balanced labels for testing the interface only. Researcher review and calibration are required before a real study. Difficulty means rating-task difficulty, not diagram quality.",
+  "sampleSize": 6,
+  "order": "fixed",
+  "difficultyNote": "Difficulty follows the structural-complexity tiers of datasets/diagramgen_balanced_99. Shown to researchers only.",
   "diagrams": [
     {
-      "id": "D001",
-      "image": "/diagrams/3c9b3f771f89bd59c300.svg",
-      "caption": "Order-processing flow. Each request passes through Start, Validate Input, Process Data and Generate Report, in that order, before reaching End.",
+      "id": "D01",
+      "image": "/diagrams/c981a96c49b116812588.png",
+      "caption": "How can I use DOT to create a control flow graph diagram that represents a function with multiple basic blocks (BB0, BB1, BB2, BB3), showing the flow of execution and labeling each block with specific instructions and parameters? I need the diagram to clearly illustrate the sequence of operations and the relationships between different blocks.\n\nSpecifically, I want to start with a basic block labeled \"BB0\" that serves as the entry point of the function. Following this, I need a block \"BB1\" that includes detailed instructions such as parameter handling for `p`, a call to `\tkfree`, and subsequent parameter handling for `p`, `w`, and another unspecified parameter, followed by a call to another function named `contrived`.\n\nNext, I require a block \"BB2\" that shows the return value being assigned to a variable `r` and another operation where `w1` is assigned the value pointed to by `w`. Finally, I need a block \"BB3\" that represents the end or exit point of the function.\n\nEach block should be connected by directed edges to indicate the flow of execution, starting from BB0 to BB1, then from BB1 to BB2, and finally from BB2 to BB3. I also want to include a title for the entire graph that describes the function, such as \"int contrived_caller(int *w, int x, int *p)\".\n\nAdditionally, I would like to customize the appearance of the nodes to use a \"record\" shape for better readability and to ensure that the labels within each block are neatly organized and easy to follow. The layout should be intuitive, making it straightforward to trace the execution path and understand the function's logic.\n\nFurthermore, I want to ensure that the diagram is visually appealing and can be easily integrated into documentation or presentations, providing a clear and concise representation of the control flow within the function. Any tips on optimizing the layout for clarity and ensuring that the diagram scales well for different sizes would also be appreciated.",
       "difficulty": "easy",
-      "source": "Existing Beauty ablation: baseline",
-      "sha256": "3c9b3f771f89bd59c30070b2d185390bdd8256888ff3a9b8463fe208fc5499e5"
+      "source": "DiagramGen e734f2c8-f73e-4aad-bffd-2ea40a85530a (diagramgen_balanced_99/easy_19: Basic block sequence)",
+      "sha256": "c981a96c49b116812588ba96d9528d16b701a9ce5e2944ac895a59801ae82bd4"
     },
     {
-      "id": "D002",
-      "image": "/diagrams/84aaa53b0b07ca39af4d.svg",
-      "caption": "Order-processing flow. Each request passes through Start, Validate Input, Process Data and Generate Report, in that order, before reaching End.",
-      "difficulty": "medium",
-      "source": "Existing Beauty ablation: degraded_palette",
-      "sha256": "84aaa53b0b07ca39af4df24d5973ff1ce206aeefcc061dd0117bd02e449fe95c"
-    },
-    {
-      "id": "D003",
-      "image": "/diagrams/738ff544b859726985ef.svg",
-      "caption": "Order-processing flow. Each request passes through Start, Validate Input, Process Data and Generate Report, in that order, before reaching End.",
-      "difficulty": "hard",
-      "source": "Existing Beauty ablation: degraded_balance",
-      "sha256": "738ff544b859726985efed8e90735666b05742a9a70a698a741c849dd8a17dda"
-    },
-    {
-      "id": "D004",
-      "image": "/diagrams/6b88d3400a118b6ebe3f.svg",
-      "caption": "Architecture of the Transformer encoder. Input tokens are mapped to token embeddings and added to positional encodings. The sum passes through N× stacked encoder blocks, each consisting of multi-head self-attention and a position-wise feed-forward network, each followed by Add & Norm with a residual connection. The final block outputs contextual embeddings.",
-      "difficulty": "easy",
-      "source": "Existing Transformer ablation: baseline",
-      "sha256": "6b88d3400a118b6ebe3f63ac5c2ec67645c5ad5eddfc2ead482e902b8e227478"
-    },
-    {
-      "id": "D005",
-      "image": "/diagrams/d17d036714e5fdece79c.svg",
-      "caption": "Architecture of the Transformer encoder. Input tokens are mapped to token embeddings and added to positional encodings. The sum passes through N× stacked encoder blocks, each consisting of multi-head self-attention and a position-wise feed-forward network, each followed by Add & Norm with a residual connection. The final block outputs contextual embeddings.",
-      "difficulty": "medium",
-      "source": "Existing Transformer ablation: connectivity_partial",
-      "sha256": "d17d036714e5fdece79cfeaaf3b9614ebb9282759a2286390b563f98a04f9224"
-    },
-    {
-      "id": "D006",
-      "image": "/diagrams/9186a0d4b1fc88086b52.svg",
-      "caption": "Architecture of the Transformer encoder. Input tokens are mapped to token embeddings and added to positional encodings. The sum passes through N× stacked encoder blocks, each consisting of multi-head self-attention and a position-wise feed-forward network, each followed by Add & Norm with a residual connection. The final block outputs contextual embeddings.",
-      "difficulty": "hard",
-      "source": "Existing Transformer ablation: connectivity_severe",
-      "sha256": "9186a0d4b1fc88086b5242378d8031ab7bccfce3249674f0c759ae8b6e51bd12"
-    },
-    {
-      "id": "D007",
-      "image": "/diagrams/b591ba739878c24757d5.svg",
-      "caption": "Architecture of the Transformer encoder. Input tokens are mapped to token embeddings and added to positional encodings. The sum passes through N× stacked encoder blocks, each consisting of multi-head self-attention and a position-wise feed-forward network, each followed by Add & Norm with a residual connection. The final block outputs contextual embeddings.",
-      "difficulty": "easy",
-      "source": "Existing Transformer ablation: details_partial",
-      "sha256": "b591ba739878c24757d5e0de79b8ef1ebe418af162c342dbe0b042bac9a88437"
-    },
-    {
-      "id": "D008",
-      "image": "/diagrams/613b41b62f7c088af46c.svg",
-      "caption": "Architecture of the Transformer encoder. Input tokens are mapped to token embeddings and added to positional encodings. The sum passes through N× stacked encoder blocks, each consisting of multi-head self-attention and a position-wise feed-forward network, each followed by Add & Norm with a residual connection. The final block outputs contextual embeddings.",
-      "difficulty": "medium",
-      "source": "Existing Transformer ablation: details_severe",
-      "sha256": "613b41b62f7c088af46c225606695ac7cb8cee595dd3a754a25b3ee74afa6d42"
-    },
-    {
-      "id": "D009",
-      "image": "/diagrams/b39259b31a04ed296d72.svg",
-      "caption": "Architecture of the Transformer encoder. Input tokens are mapped to token embeddings and added to positional encodings. The sum passes through N× stacked encoder blocks, each consisting of multi-head self-attention and a position-wise feed-forward network, each followed by Add & Norm with a residual connection. The final block outputs contextual embeddings.",
-      "difficulty": "hard",
-      "source": "Existing Transformer ablation: layout_partial",
-      "sha256": "b39259b31a04ed296d72830322ab09013f38dc281cbe40bd3b2baf0b84ae1afd"
-    },
-    {
-      "id": "D010",
-      "image": "/diagrams/ea0944bef4c21588512c.svg",
-      "caption": "Architecture of the Transformer encoder. Input tokens are mapped to token embeddings and added to positional encodings. The sum passes through N× stacked encoder blocks, each consisting of multi-head self-attention and a position-wise feed-forward network, each followed by Add & Norm with a residual connection. The final block outputs contextual embeddings.",
-      "difficulty": "easy",
-      "source": "Existing Transformer ablation: layout_severe",
-      "sha256": "ea0944bef4c21588512ccf4793c5db5fb41d9f351ffcca8fc370443ce85d60cb"
-    },
-    {
-      "id": "D011",
-      "image": "/diagrams/cb4d284db4361f0f77d2.svg",
-      "caption": "Architecture of the Transformer encoder. Input tokens are mapped to token embeddings and added to positional encodings. The sum passes through N× stacked encoder blocks, each consisting of multi-head self-attention and a position-wise feed-forward network, each followed by Add & Norm with a residual connection. The final block outputs contextual embeddings.",
-      "difficulty": "medium",
-      "source": "Existing Transformer ablation: legibility_partial",
-      "sha256": "cb4d284db4361f0f77d2f7b315f85fca7770a6bcb474fc4f50ccfd8fabb0c494"
-    },
-    {
-      "id": "D012",
-      "image": "/diagrams/870625fb0212718a638c.svg",
-      "caption": "Architecture of the Transformer encoder. Input tokens are mapped to token embeddings and added to positional encodings. The sum passes through N× stacked encoder blocks, each consisting of multi-head self-attention and a position-wise feed-forward network, each followed by Add & Norm with a residual connection. The final block outputs contextual embeddings.",
-      "difficulty": "hard",
-      "source": "Existing Transformer ablation: legibility_severe",
-      "sha256": "870625fb0212718a638cd3094182a1983300d4482573644f9b361a7063613abc"
-    },
-    {
-      "id": "D013",
-      "image": "/diagrams/e8d1cd1088193d34b5c3.svg",
-      "caption": "Architecture of the Transformer encoder. Input tokens are mapped to token embeddings and added to positional encodings. The sum passes through N× stacked encoder blocks, each consisting of multi-head self-attention and a position-wise feed-forward network, each followed by Add & Norm with a residual connection. The final block outputs contextual embeddings.",
-      "difficulty": "easy",
-      "source": "Existing Transformer ablation: presence_partial",
-      "sha256": "e8d1cd1088193d34b5c35d3a77b0b334e333609ccfcbd1af554275515d6d4d0d"
-    },
-    {
-      "id": "D014",
-      "image": "/diagrams/0d6a737f9c16d94d2713.svg",
-      "caption": "Architecture of the Transformer encoder. Input tokens are mapped to token embeddings and added to positional encodings. The sum passes through N× stacked encoder blocks, each consisting of multi-head self-attention and a position-wise feed-forward network, each followed by Add & Norm with a residual connection. The final block outputs contextual embeddings.",
-      "difficulty": "medium",
-      "source": "Existing Transformer ablation: presence_severe",
-      "sha256": "0d6a737f9c16d94d27130b8a062e029a89d19e2df14447503ab0bf5773baa696"
-    },
-    {
-      "id": "D015",
-      "image": "/diagrams/3d2402df8187bb5f7696.png",
-      "caption": "Cyber-risk assessment framework. Experience data and expert opinion inform KPIs and cause-and-effect relationships, which feed model inference and the final cyber risk assessment. Expert opinion is used to adjust the experience data, and the experience data is used to backtest the assessment.",
-      "difficulty": "hard",
-      "source": "DiagramGen: b718d505-54fa-474a-9186-048370b30948",
-      "sha256": "3d2402df8187bb5f7696027608058f5ff8c7a75cad29c1e909d9d71c1bca2152"
-    },
-    {
-      "id": "D016",
-      "image": "/diagrams/c01101f0d0723cc0e9a1.png",
-      "caption": "Atomic configuration of an Al–Co–Cr–Fe–Ni high-entropy alloy. Each sphere is one atom, colored by element as shown in the legend.",
-      "difficulty": "easy",
-      "source": "DiagramGen: 76eed3be-3b18-4a50-ba20-08597c0c81dd",
-      "sha256": "c01101f0d0723cc0e9a1119113cdf19c0e4967b3a361b65bb9deea30133e67cc"
-    },
-    {
-      "id": "D017",
-      "image": "/diagrams/878a16d8066146bcc904.png",
-      "caption": "State machine for variable a. The states u_(a,+) and u_(a,−) each have a self-loop and transition into each other. Inputs e_(b,a,+) and e_(c,a,+) feed u_(a,+), inputs e_(b,a,−) and e_(c,a,−) feed u_(a,−), and the states output f_a(x) and ¬f_a(x) respectively.",
-      "difficulty": "medium",
-      "source": "DiagramGen: ebbde9f1-f8cc-409f-b106-296dfc45d611",
-      "sha256": "878a16d8066146bcc904a8d6f53e0ca0f1d363be72a00df6e0138c4c2a2fdaa5"
-    },
-    {
-      "id": "D018",
-      "image": "/diagrams/1fe7a9403570e64280c2.png",
-      "caption": "The complex p₀ plane, with axes Re(p₀) and Im(p₀). The branch points −√(p⃗²) and √(p⃗²) lie on the real axis, and zigzag lines mark the branch cuts extending outward from them.",
-      "difficulty": "hard",
-      "source": "DiagramGen: e8731f01-6333-458a-9fee-7480475821f8",
-      "sha256": "1fe7a9403570e64280c2183a6fafb3c83b6b2401387201c22d9159796df237f4"
-    },
-    {
-      "id": "D019",
-      "image": "/diagrams/41d2459910c78e7caa74.png",
-      "caption": "Iterative parameter estimation. After parameter estimation, two intermediate computations and Error Value 1, the parameters are re-estimated and Error Value 1 is checked. The process loops back to parameter estimation when Error 1 ≤ ε₁; otherwise it computes and checks Error Value 2, looping back again when Error 2 ≤ ε₂ and ending otherwise.",
-      "difficulty": "easy",
-      "source": "DiagramGen: f3be07c1-7e40-4dc0-8070-627322958879",
-      "sha256": "41d2459910c78e7caa74354be5b059fba8774c7a7d6ae4e841d00a6ae17817b0"
-    },
-    {
-      "id": "D020",
-      "image": "/diagrams/3164646ec4d7fe05cfac.png",
-      "caption": "Parse graph of a declaration. DCL links to Head through edge 0 and to id through edge 1, and Head links to const through edge 0.",
-      "difficulty": "medium",
-      "source": "DiagramGen: 34fdbbd1-d8f8-45e4-a9aa-46f36ff287f8",
-      "sha256": "3164646ec4d7fe05cfac0b73cb50e89ef13f53fe7d9c220993c309020091b651"
-    },
-    {
-      "id": "D021",
+      "id": "D02",
       "image": "/diagrams/d9b4bfc10c9d4b9439e6.png",
-      "caption": "Example decision flow. After Start and Node #1, Node #2 asks a yes/no question. YES leads to Node #3a and NO to Node #3b, and both paths rejoin at Finish node #4 before End.",
-      "difficulty": "hard",
-      "source": "DiagramGen: 80d9f82c-93e0-4180-905e-f409f55d42ae",
+      "caption": "How can I use the DOT language to create a directed graph that effectively represents a decision-making process with clearly labeled nodes and edges? The graph should include a designated start and end node, multiple decision points with various choices, and paths that accurately reflect the chosen options. Specifically, I would like the start and end nodes to be distinctly marked with a green fill color and labeled as \"Start\" and \"End\" respectively. \n\nFor the decision-making process, I need to include intermediate nodes that represent different stages. The first node, labeled \"Node #1,\" should indicate a straightforward path with no branching. Following this, I want a decision node, labeled \"Node #2,\" which presents a question and offers multiple choices. This node should be highlighted with a yellow fill color to emphasize the decision point.\n\nFrom \"Node #2,\" the graph should branch into two paths based on the user's choice. One path should lead to \"Node #3a,\" labeled to indicate that the user chose \"YES,\" and the other path should lead to \"Node #3b,\" labeled to indicate that the user chose \"NO.\" Both of these nodes should clearly reflect the decision made at \"Node #2.\"\n\nAfterward, both \"Node #3a\" and \"Node #3b\" should converge at \"Node #4,\" labeled as \"Finish node #4,\" which represents the final step before reaching the end. Each edge leading from the decision node to the subsequent nodes should be labeled with the corresponding choice (\"YES\" or \"NO\") to make the decision paths explicitly clear.\n\nAdditionally, I want to ensure that the overall layout of the graph is visually coherent and easy to follow, with nodes and edges arranged in a logical sequence that aids in understanding the decision-making process. The graph should be designed to be both informative and visually appealing, making it suitable for presentations or documentation where clarity and ease of interpretation are crucial.",
+      "difficulty": "easy",
+      "source": "DiagramGen 80d9f82c-93e0-4180-905e-f409f55d42ae (diagramgen_balanced_99/easy_23: Single decision process)",
       "sha256": "d9b4bfc10c9d4b9439e6a0040c34314053017b325f403706c6f77d386b15c6ef"
     },
     {
-      "id": "D022",
-      "image": "/diagrams/b8e7b9fb193a700f28ce.png",
-      "caption": "Conversation flow of a stock-price chatbot. START either ends immediately or runs action_session_start. The user intent \"what is TSLA worth\" then triggers action_get_stock_price, which is followed by the intent get_current_stock_price.",
-      "difficulty": "easy",
-      "source": "DiagramGen: d10a1cbf-8aef-43a1-ac8c-68acc1482c37",
-      "sha256": "b8e7b9fb193a700f28ce8b7349f4f40f194025108a9a9bba2e0e13ac777b26b2"
-    },
-    {
-      "id": "D023",
-      "image": "/diagrams/ed23a839eae4af345c67.png",
-      "caption": "Component structure of a client-server game. Game objects, maps, menus and weapons form separate hierarchies, and dotted lines connect CMap, SMap, Connection and Configuration to the Client and Server.",
+      "id": "D03",
+      "image": "/diagrams/41d2459910c78e7caa74.png",
+      "caption": "How can I use DOT to create a detailed flowchart that includes various steps such as parameter estimation and error computation, with decision points and loops indicated by different shapes and labeled edges? I want to ensure that each step in the process is clearly represented and interconnected, with specific labels and conditions for decision-making.\n\nSpecifically, I would like to start with a step labeled \"Parameter Estimation,\" followed by a series of computational steps like \"Compute Sth.\" repeated twice, and then \"Compute Error Value 1.\" After this, another \"Parameter Estimation\" step should be included, leading to a decision point labeled \"Check Error Value 1,\" which should be represented by a diamond shape. Based on the outcome of this decision, the flow should either proceed to \"Compute Error Value 2\" or loop back to the initial \"Parameter Estimation\" step if the error value is less than or equal to a predefined threshold \\( \\epsilon_1 \\).\n\nFollowing \"Compute Error Value 2,\" there should be another decision point labeled \"Check Error Value 2,\" also represented by a diamond shape. Depending on this decision, the flow should either proceed to the \"End\" step or loop back to the first \"Parameter Estimation\" step if the error value is less than or equal to another predefined threshold \\( \\epsilon_2 \\).\n\nI want to ensure that all edges connecting these steps are clearly labeled with the conditions for decision-making, such as \"Error 1 \\leq \\epsilon_1\" and \"Error 2 \\leq \\epsilon_2.\" Additionally, I would like the flowchart to have a clean, orthogonal layout to make the flow of the process easy to follow and understand. The nodes should be of a consistent size, and the decision points should be distinctly shaped to differentiate them from the other steps. This detailed representation will help in visualizing the iterative and conditional nature of the process, making it clear how the steps are interconnected and how decisions affect the flow of the process.",
       "difficulty": "medium",
-      "source": "DiagramGen: 0f37e4dd-1e95-4a0d-9284-210c778c5d74",
-      "sha256": "ed23a839eae4af345c67c4c5dbfe10ce7423e5364d20e9304164a3a222fcdf6f"
+      "source": "DiagramGen f3be07c1-7e40-4dc0-8070-627322958879 (diagramgen_balanced_99/medium_05: Iterative parameter estimation)",
+      "sha256": "41d2459910c78e7caa74354be5b059fba8774c7a7d6ae4e841d00a6ae17817b0"
     },
     {
-      "id": "D024",
-      "image": "/diagrams/0e8220d7b700e38d4d82.png",
-      "caption": "A densely connected directed network of numbered nodes, from node 0 to beyond node 119. Hub nodes such as 4, 7, 10, 16, 20 and 23 link many branches, and some edges lead back to earlier parts of the network.",
+      "id": "D04",
+      "image": "/diagrams/e9ed528f3c2167de423d.png",
+      "caption": "How can I use LaTeX and TikZ to create a flowchart that illustrates the process of classifying social networking posts? The diagram should include nodes for textual preprocessing, statistical preprocessing, a classifier model, classified tweets, and separate rankings for needy and availability tweets, with arrows indicating the flow of data between these nodes. Specifically, I want to start with a node labeled \"Social Networking Post\" as the initial input. From this node, the flow should branch into two separate paths: one leading to a node titled \"Textual Preprocessing\" and the other to a node titled \"Statistical Preprocessing.\" Both of these preprocessing nodes should then converge into a central node labeled \"Classifier Model,\" which processes the preprocessed data. The output of the classifier model should flow into a node titled \"Classified Tweets.\" From this node, the flow should further diverge into two distinct ranking nodes: one labeled \"Needy Tweet Rank\" and the other labeled \"Availability Tweet Rank.\" I would like to use solid arrows to represent the primary data flow and dotted arrows to indicate the secondary flow to the ranking nodes, to visually distinguish between direct processing steps and subsequent classification outcomes. Additionally, I want to ensure that each node has a consistent and visually appealing style, with a minimum height of 0.5 cm and thin borders, and that the overall layout is scaled appropriately to fit within a conference paper format. The positioning of the nodes should be intuitive, with \"Textual Preprocessing\" and \"Statistical Preprocessing\" nodes placed above and below the initial input node, respectively, and the classifier model positioned to clearly show the convergence of the preprocessing steps. The final diagram should be clear, concise, and easy to follow, effectively communicating the sequence and relationships of the classification process for social networking posts.",
+      "difficulty": "medium",
+      "source": "DiagramGen df5e4193-1c7c-48f3-a257-e88cdb8cf973 (diagramgen_balanced_99/medium_33: Tweet classification pipeline)",
+      "sha256": "e9ed528f3c2167de423d4676259418d6e5f2a4e2134f79fa625c89b81fd15d6e"
+    },
+    {
+      "id": "D05",
+      "image": "/diagrams/ae50fa4810a621bd5943.png",
+      "caption": "How can I use LaTeX and TikZ to create a detailed diagram that represents a network of neurons with multiple layers, where each neuron is labeled with a unique number and some connections have specific labels? The diagram should include transitions between neurons indicated by arrows and have a clear and organized layout of layers.\n\nSpecifically, I want to create a diagram with three distinct layers of neurons. The first layer should contain 5 neurons, labeled from 1 to 5, arranged vertically. The second layer should have 3 neurons, labeled from 6 to 8, positioned to the right of the first layer. The third layer should include 4 neurons, labeled from 9 to 12, placed to the right of the second layer.\n\nEach neuron should be represented as a circle with a minimum size of 20pt, and the connections between neurons should be depicted using thick arrows. Some of these connections need to have specific labels, such as \"61\" and \"85,\" placed midpoint along the arrow and sloped appropriately.\n\nAdditionally, I want to ensure that the layout is visually appealing and easy to follow, with neurons in each layer aligned properly and transitions clearly indicated. The overall scale of the diagram should be set to 2 to enhance readability.\n\nFurthermore, I would like to customize the appearance of the neurons and transitions, ensuring that the neurons are drawn with a distinct style and the transitions are marked with a consistent arrow style. The final diagram should be encapsulated within a preview environment to control the border and ensure that the entire diagram is visible when compiled.\n\nIn summary, I am looking for a comprehensive guide on how to structure the TikZ code to achieve this multi-layered neuron network diagram, with specific attention to labeling, layout, and visual customization to make the diagram both informative and aesthetically pleasing.",
       "difficulty": "hard",
-      "source": "DiagramGen: ac8b0fb8-9bcf-4d09-8f45-c5a5db5cf5c6",
-      "sha256": "0e8220d7b700e38d4d82a842d932c79786311b43988bd69455944a43eeaa02b5"
+      "source": "DiagramGen 61dddb8e-7fd7-430e-90b6-c88e26c74655 (diagramgen_balanced_99/hard_05: Dense neural network)",
+      "sha256": "ae50fa4810a621bd594384641482cc9f724ff795427cbf7e412fdf17458e6416"
+    },
+    {
+      "id": "D06",
+      "image": "/diagrams/d840b3930ea3b3a4ad16.png",
+      "caption": "How can I use TikZ to create a detailed and visually distinct diagram that represents various modules and parameters in a vehicle system? The diagram should be structured with nodes on the left side representing input parameters, central nodes depicting different modules, and nodes on the right side indicating output parameters, with arrows clearly showing the flow of information between them.\n\nSpecifically, I want the left side to include nodes for parameters such as Vehicle Age, Fan Strength, Vehicle Speed, Cabin Volume, Fraction of Recirculation, Ambient \\(CO_2\\) Concentration, and Occupant Parameters. Each of these nodes should have a standard style with a specific text width and alignment.\n\nFor the central part of the diagram, I need nodes that represent different modules: Air Exchange Rate Determination, Carbon Dioxide Built-in Module, Vehicle Cabin Module, and HVAC Module. These nodes should have a distinct rounded style with different colors (e.g., dark green for Air Exchange Rate Determination, dark blue for Carbon Dioxide Built-in Module, dark red for Vehicle Cabin Module, and a custom green for HVAC Module) to easily distinguish between them. Each module node should also have a defined text width, minimum height, and font style.\n\nOn the right side, I want nodes for the output parameters: Output \\(CO_2\\) Concentration, Thermal Environment, and Compressor Load. These nodes should have a specific style with text width and alignment, but without a border.\n\nAdditionally, I need a dashed fitting node to group some of the input parameters together, making it clear which parameters are related. The arrows indicating the flow of information should be styled with different colors corresponding to the modules they connect to, and some arrows should be dashed to represent different types of connections.\n\nI also want to include auxiliary coordinates to help position the arrows accurately, ensuring a clean and organized layout. The overall layout should be flexible, allowing for adjustments in node distances and positioning to create a visually appealing and easy-to-understand diagram that intuitively presents the relationships and information flow within the vehicle system.",
+      "difficulty": "hard",
+      "source": "DiagramGen b00b1765-f372-4906-95f0-063dc8ad583d (diagramgen_balanced_99/hard_33: Vehicle model architecture)",
+      "sha256": "d840b3930ea3b3a4ad16082813a7731dc59927daf191e048eff83045739dde6b"
     }
   ]
 }

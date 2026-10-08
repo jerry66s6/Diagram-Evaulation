@@ -14,5 +14,5 @@ for(const d of config.diagrams){
   if(digest!==d.sha256)throw new Error(`Image hash changed for ${d.id}; update the catalog intentionally.`);
   if(hashes.has(digest))throw new Error(`Duplicate image content at ${d.id}`);hashes.add(digest);
 }
-balancedAssignment(config.diagrams,config.sampleSize);
-console.log(`Catalog verified: ${config.diagrams.length} unique images, ${config.sampleSize} per session, ${config.mode} mode.`);
+if(config.order!=='fixed')balancedAssignment(config.diagrams,config.sampleSize);
+console.log(`Catalog verified: ${config.diagrams.length} unique images, ${config.order==='fixed'?`all ${config.diagrams.length} in fixed order`:`${config.sampleSize} per session`}, ${config.mode} mode.`);
