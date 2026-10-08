@@ -237,6 +237,22 @@ labels are broad, some descriptions underspecify connections, and reference
 images need not satisfy every expanded-description request. Review inventories
 and evidence manually before drawing conclusions. No beauty judge is run here.
 
+## Diagram dataset
+
+The diagram dataset lives in `diagrams/`, which is kept out of Git because of its size
+(about 750 MB). It has 7,971 diagrams, each with a caption and an easy, medium, or hard
+label for structural complexity: 7,856 flowchart-like and other diagram figures from
+PubMed Central Open Access articles, and 115 DiagramGen benchmark images. `diagrams/README.md`
+describes it, `diagrams/data.csv` lists it, and `diagrams/pipeline/` rebuilds it.
+
+The 99 hand-labeled DiagramGen images (33 easy, 33 medium, 33 hard) are listed in
+`scripts/diagramgen99_selection.csv`. Their original descriptions and source code can be
+downloaded again; this makes no evaluator or model calls:
+
+```bash
+python3 scripts/prepare_diagramgen99.py --output-dir /path/to/folder
+```
+
 ## Install
 
 Python 3.11 or newer is required.
@@ -281,6 +297,7 @@ Add `--skip-deterministic` to score an SVG with the GPT judge only.
 - `config/rubric.json`: shared criteria used by GPT and the deterministic judge.
 - `config/evaluator.json`: the single model ID, geometry tolerances, and severity multipliers. `presence_policy` sets two shared scoring rules: whether an abbreviation such as "FFN" counts as a correct label (`accept_abbreviations`), and whether a box in the right position with a placeholder or missing label counts as drawn but mislabeled (`placeholder_counts_as_present`).
   - `judge_samples`: how many times the GPT judge answers each image (default 3).
+  - `deterministic_judge`: `false` by default, so only the GPT judge scores. Set it to `true` to also run the deterministic SVG judge when `--candidate-svg` is given; the code is kept for that.
   - `weighting`: `severity` (rubric severities), `history` (issue frequency times severity from `weight_history`), `equal`, or `auto` (history when one is configured, otherwise severity).
   - `dimension_reducer`: `mean` or `minimum` for combining criteria within a dimension.
 - `config/issue_history.json`: issue counts for `weighting: history`. The current file is placeholder data, which is why the default is `severity`; switch to `history` only after replacing it with frequencies measured on a real calibration corpus.

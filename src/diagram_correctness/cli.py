@@ -46,7 +46,9 @@ def main(argv: list[str] | None = None) -> int:
         geometry = settings.get("geometry", {})
         deterministic = DeterministicJudge(GeometryConfig(**geometry), policy)
         candidate_svg = args.candidate_svg
-        if not candidate_svg and not args.skip_deterministic:
+        # The deterministic SVG judge is kept but off by default; the GPT judge scores alone.
+        use_deterministic = bool(settings.get("deterministic_judge", False)) and not args.skip_deterministic
+        if use_deterministic and not candidate_svg:
             print("note: no SVG supplied, so only the GPT judge scores this image.", file=sys.stderr)
 
         issue_history = []
@@ -74,7 +76,7 @@ def main(argv: list[str] | None = None) -> int:
             description=description,
             candidate_image=args.candidate,
             candidate_svg=candidate_svg,
-            run_deterministic=not args.skip_deterministic and bool(candidate_svg),
+            run_deterministic=use_deterministic and bool(candidate_svg),
         )
         output = Path(args.output)
         output.write_text(json.dumps(report.to_dict(), indent=2), encoding="utf-8")

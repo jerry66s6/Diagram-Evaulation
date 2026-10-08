@@ -22,3 +22,6 @@ correctness-report.json
 # Interrupted atomic writes and downloads from the experiment runners.
 /examples/**/*.json.tmp
 /examples/**/*.download
+
+# The diagram dataset (images, captions, labels) is kept locally, not in Git.
+/diagrams/

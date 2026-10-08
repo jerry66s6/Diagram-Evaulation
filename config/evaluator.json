@@ -4,6 +4,7 @@
     "judge": "gpt-5.5"
   },
   "judge_samples": 3,
+  "deterministic_judge": false,
   "geometry": {
     "endpoint_tolerance": 0.035,
     "minimum_font_size": 12.0,

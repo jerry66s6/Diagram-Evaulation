@@ -1,0 +1,100 @@
+source_id,difficulty,title,complexity_reason
+8390383f-56ec-4a21-a231-3ae8e86e16ca,easy,Model inheritance,Two components joined by one inheritance arrow.
+a3eb6bd2-dbb8-4b7b-8f33-387781670c3b,easy,Two connected states,Two states with a single bidirectional connection.
+4b071ef8-fc28-467c-b844-a2680c2e0cf8,easy,Two-state cycle,Two components and two curved transitions forming one simple cycle.
+49520991-5c8d-45c5-b17d-67d61dc32346,easy,Vibration control methods,Four main components with short radial connections and one surrounding cycle.
+f79c46a5-5bcd-4e51-b521-63966b29b542,easy,DNS domain relationship,Two domain groups with one main node each and a few inter-group links.
+f443d2fc-1c71-4279-a959-2c1dabc8599e,easy,Package dependency stages,A small dependency tree with three straightforward branches and shallow grouping.
+34fdbbd1-d8f8-45e4-a9aa-46f36ff287f8,easy,Declaration tree,Four components and three arrows in a shallow tree.
+f6a1f51e-4a82-4ec2-bf87-58a684c1360e,easy,Message relationship,Two labeled components joined by one arrow.
+88a58d11-3c4b-42ca-8dfd-3a71d62e1225,easy,Header and source file,Two file components joined by one arrow.
+28c0ff1d-1d77-46bc-bb5c-5abbe406247f,easy,Chemical transformation chain,Three components connected as a simple linear sequence; label length does not raise complexity.
+789fcdc0-2fa5-47c7-8e76-e4fb35891735,easy,Guess sequence,Three successive guesses with simple exits to terminal points.
+8fd85cd5-3be7-4ef8-b42e-a1b3faece59b,easy,Small decision tree,A shallow branching tree with few nodes and no feedback paths.
+d380c599-3d3b-485a-bb91-749618deb131,easy,Two-state transitions,Two states and two opposing arrows.
+d908ab35-1406-40e9-8b26-2a87b17f4345,easy,Gene regulation,Three components connected by a small set of direct regulatory relationships.
+62e77d86-6791-4d43-bf35-9ff3cbe83b08,easy,Logical expression merge,Three components with two incoming paths merging at one result.
+fc3dbb62-e162-4ce5-9033-e03b70cfa2cc,easy,Four-step sequence,Four components in one straight chain.
+55090a8d-fdba-449e-8564-c4ea34fed9ec,easy,Residual block,Two layer blocks and an addition junction with one skip connection.
+5ad993e1-0555-4087-bbd2-d490f4187015,easy,Cross-connected text boxes,Four components with two routed connections and no feedback.
+e734f2c8-f73e-4aad-bffd-2ea40a85530a,easy,Basic block sequence,Four basic blocks in one linear control-flow chain.
+b3e5feb2-b038-423c-acc0-99cd7a9dfb8e,easy,Communication links,Three components and two direct communication links.
+352e013c-204c-452b-8a5f-84f6cda6f5b7,easy,Small directed acyclic graph,Five components with one split and merge followed by an output.
+7a514ceb-0a07-4913-82a7-348380b40a9f,easy,Class inheritance chain,Four components in a simple inheritance chain with repeated parallel arrows.
+80d9f82c-93e0-4180-905e-f409f55d42ae,easy,Single decision process,Seven components with one yes/no split that merges before the end.
+08dc8246-64f7-4f76-a4b1-f0063dc500ff,easy,Heat and work flow,A small source-to-sink flow with one work-output branch.
+d10a1cbf-8aef-43a1-ac8c-68acc1482c37,easy,Session and stock query,Seven components forming a mostly linear sequence with one early exit.
+49cab700-1275-42f3-9f5a-fa05b821216e,easy,Packet fields,Seven components organized as three short branches from one root.
+51f76199-d347-4c7a-8f36-a4b23b481eb4,easy,Controller and users,A controller and two representative users with a simple shared feedback path.
+59a0bd77-358e-48bd-acbb-e5ef1d9b6a94,easy,Function mappings,Four components with a small set of direct mappings and one shared output.
+de7be945-ab6a-4598-a63a-f208ed4faae6,easy,Recurrent cell,"One compact cell with input, activation and output plus a short recurrent route."
+329a4338-9cb3-4462-9bcb-8ed56f6b279b,easy,Mesh inheritance,Six components in a shallow inheritance tree with no feedback.
+f84969b4-fc44-4176-98ac-0cd85ab31bc5,easy,Three transformation nodes,"Three components with direct, indirect and curved alternative routes."
+8ec03f0f-75dc-487c-ba80-02e26762565b,easy,LSTM and dense stages,Six layer boxes arranged in three repeated short paths with simple routing.
+2d6fcc74-41d3-4911-818b-c8efb5c1438b,easy,File conversion pairs,"Three independent one-arrow conversion pairs, six components in total."
+79c1c1a9-3b6e-462b-ba90-8217149b602b,medium,Routed matrix connections,Multiple parallel connections wrap around two matrix blocks with several bends and crossings.
+288a5ae2-820e-428a-94b2-e68f880c2c20,medium,Four-state automaton,Four states with bidirectional transitions and a self-loop on every state.
+19007740-c8c8-4df8-be15-347d3f114a97,medium,State chain with returns,A chain of states combines repeated self-loops with long return connections.
+4ed6652d-8e78-412d-9173-5f48037e04df,medium,Control state machine,"Several states, multiple transitions, a reset input and a self-loop."
+f3be07c1-7e40-4dc0-8070-627322958879,medium,Iterative parameter estimation,A longer process sequence contains two decisions and long feedback routes.
+1f9fefef-fdc0-4923-8638-71bedbc34fec,medium,PID control system,Parallel controller branches merge through summing junctions and a feedback route.
+5b083871-1e56-4272-853d-f3db591816df,medium,Interconnected named components,About a dozen components with branching connections and several long curved routes.
+af0e4840-a218-4da8-8e64-8600b3ddbd26,medium,Three-party communication,Three lifelines exchange messages across several grouped phases.
+ba09eea7-1849-4ab7-86d2-2dba953e75f0,medium,Sequence with skip paths,A long node sequence includes several nonlocal skip connections above the main path.
+d646f180-aab4-4621-8c30-e88dc73265d1,medium,Build and run pipeline,A short main pipeline has several distinct input branches merging into its stages.
+7b5deaf6-b97a-49a1-ac66-372a8c65de91,medium,Multi-stage feedback system,Several processing blocks and summing points form a main chain with a return branch.
+2fecbf46-6097-4b7f-8e16-245ca1f800dc,medium,Coupled random variables,"Six variable nodes combine horizontal, vertical and curved cross-connections."
+c8ff5e6a-9324-486b-af53-698b42b03474,medium,Reward pool hierarchy,A moderately sized shallow hierarchy fans out into parallel pool-to-reward branches.
+ebbde9f1-f8cc-409f-b106-296dfc45d611,medium,State machine with inputs,"Two internal states have self-loops, opposing transitions and multiple external inputs and outputs."
+32f71f42-f109-42d9-840c-0a2965a27d62,medium,Layered state graph,About a dozen nodes form multiple fan-out and fan-in paths with crossing connections.
+a65ac803-e3a9-4b45-9b04-c9307e3cf588,medium,Source file dependencies,Six file nodes contain several converging dependency paths and a shared target.
+cb3b2ce7-8fd6-4730-ad56-6d5584947bd1,medium,Feature relationships,Seven nodes form multiple branching and merging routes around a central component.
+e6378d8c-50fe-4244-a8c4-989bfe21e47b,medium,Variables over time,Repeated variable groups combine a main sequence with local branches and skip connections.
+241b73e3-bd48-4eab-ad28-9f36ceb22a82,medium,Thread pool classes,Several class blocks have mixed inheritance and composition links across the layout.
+d01df6c7-198d-460e-afdd-588afbae7de7,medium,Three-phase workflow,Eight task blocks are grouped into three phases with forward and return connections.
+387df606-5685-4724-b87e-801fd1c6ba5b,medium,Skip and encode sequence,Eight stages include repeated shortcut arcs and parallel links along the main chain.
+5c7f128a-5d45-4281-8913-0df8788faff8,medium,Parallel transitions and loops,"Four states carry many parallel transitions, reverse routes and self-loops."
+2836a62d-5cc7-4167-9681-ac12ac1eff49,medium,Recommendation engine,"Several functional components exchange training, prediction and feedback flows through routed paths."
+b718d505-54fa-474a-9186-048370b30948,medium,Cyber risk workflow,"Six process blocks combine merging inputs, intermediate stages and feedback routes."
+d71e5dc8-d299-466c-8035-a5ba2e83980e,medium,CycleGAN transformations,"A small set of data nodes has generator, discriminator and reconstruction routes with feedback."
+46f06c83-a29f-43b2-a092-c699c61391d2,medium,Decision and chance tree,Several branching levels combine choice and chance nodes with an additional dashed cross-link.
+c7dc0e39-4114-4a20-a141-1aa9bed8bc96,medium,Layered system and databases,"Multiple system blocks and four databases combine a main pipeline, return path and side branch."
+93f3416f-4578-4910-967d-563c434adaaa,medium,Repository dependencies,Several package nodes form a branching dependency graph with shared downstream targets.
+76ae0d07-c28c-4c85-9420-2847d89ebaf1,medium,Five-state automaton,"Five states combine several outgoing transitions, self-loops and cross-connections."
+7aac25ab-27c8-42d0-adea-28d230b668ce,medium,Function call relationships,Several function nodes form linked paths with shared targets and direction changes.
+ce3580dc-c079-488a-af52-3c6728c3eb51,medium,Tree node splitting,Two parallel examples show multi-part nodes and branching child pointers over several stages.
+3c91efdb-6ff4-4f72-8d5b-8a54dc26f488,medium,Nested module pipeline,"A main sequence contains grouped modules, internal subcomponents and local branches."
+df5e4193-1c7c-48f3-a257-e88cdb8cf973,medium,Tweet classification pipeline,Seven stages include an initial split and merge followed by two ranking outputs.
+2c7e8335-8d8d-4d6f-b4ce-4c9209cea258,hard,Paired neural networks,Two multi-layer networks each have numerous cross-layer connections.
+ac8b0fb8-9bcf-4d09-8f45-c5a5db5cf5c6,hard,Large directed network,A very large graph contains many nodes and repeated branching connections over a long layout.
+55e042cc-c1b5-48cc-8cab-60baace4a745,hard,Multiple connected subgraphs,Many nodes are spread across several structures with parallel and curved connections.
+601c4188-7607-4966-9476-96d439abeb4d,hard,Logic circuit,Numerous gates and terminals are joined by routed wires with repeated fan-in and fan-out.
+61dddb8e-7fd7-430e-90b6-c88e26c74655,hard,Dense neural network,Multiple layers contain many cross-layer connections and crossings.
+18bf7f1d-f2e5-492d-9676-ae0555cea8f5,hard,Program control and data flow,A large program graph has dense cross-links and long routes between many components.
+f81298db-969b-495d-be76-f924944c4c33,hard,Laboratory practice workflow,Eighteen practice blocks span many unit groups with branches and cross-group links.
+cdda4010-2874-4aa5-b19c-70aa068f56e6,hard,Multimedia ownership network,Many differently shaped components form a multi-level graph with cross-links and grouped content.
+c720699a-b2b5-4503-aeac-2896fc12f55d,hard,Routed network dependencies,"Many nodes have repeated fan-in, fan-out and long crossing routes."
+f3520d7d-dcd8-4776-b67b-134cc02ed6c2,hard,Long automaton,More than twenty states form a long transition sequence with additional branching routes.
+c4bf5dee-a5ad-4306-b1c6-52986f5b3875,hard,Header dependency network,"A broad dependency hierarchy has many components, multiple levels and shared dependencies."
+e2c9aad6-f940-4189-bb69-0a76614e298a,hard,Dense communication network,Many interconnected nodes and numerous long curved connections create dense routing.
+1e2307b7-b4ed-441b-bdd2-a53f57c88f1a,hard,Deep neural network,Multiple neuron layers and bias nodes have dense cross-layer connectivity.
+0192cc2c-f248-4303-8676-c26cf855ce9a,hard,Coupled stream networks,Two populated network layers are densely connected within and between layers.
+2a1f45cf-a7db-4e02-b741-f0903241b8f1,hard,Logic decision tree,Several levels of logic gates branch into a large set of terminal nodes.
+46183c0a-a5ac-4f14-91d8-a452bf8d1d1e,hard,Grouped computation network,"Many computational nodes have multiple inputs, summing junctions and links across nested groups."
+25f2aa1c-71d5-4ea6-92e5-864dee285cc6,hard,Layered transition structures,Several spatial layers contain multiple node groups with loops and cross-layer transitions.
+39851382-c832-40a8-ab44-1c2501ef099a,hard,Structured data graph,"A broad multi-level structure has many components, repeated branches and shared value nodes."
+0f37e4dd-1e95-4a0d-9284-210c778c5d74,hard,Game component relationships,Many components form several related branches with cross-connections between subsystems.
+e6708d82-145d-433a-ae22-81dae6b4f3d6,hard,Message classification and grouping,The main decision process is combined with a secondary multi-node grouping graph and several paths.
+5b8bd7e2-a111-4892-86bd-ea6a7f766842,hard,Molecule-to-model pipeline,"A multi-stage pipeline contains a molecular graph, descriptor structure and densely connected neural model."
+d33d7ea3-1b53-4c2c-bb17-e4d55c05ea3c,hard,Large state network,Many states form multiple branching structures with self-loops and cross-connections.
+2bfb0779-7d8e-42a6-8175-7dfccb144615,hard,Network with backpropagation,Multiple neural layers have dense forward connections and an additional feedback route.
+f4d4d79b-d4ea-4dff-8fdc-d0d8424d44cb,hard,Coupled state sequences,Two state chains have dense cross-links plus repeated observation and distribution branches.
+cdaa0d36-474e-4dc0-ba43-375eeb548a51,hard,Large host and switch network,"A large hierarchical network contains many terminals, several branching levels and long cross-links."
+4b07a7ca-6cbb-40b8-aebe-714823357a23,hard,Chained encryption stages,"Repeated encryption and XOR stages contain many distinct inputs, outputs and inter-stage routes."
+bc46466c-9121-4bc1-bd66-e546b998ab3a,hard,Model training and selection,"Several workflow sections contain nested inputs, alternative training paths and model-selection outputs."
+6fdcf80b-5152-4bbb-b87b-4f15a16478b0,hard,JVM object relationships,"A large class and object graph contains many relationships, crossings and long routes."
+dbe5d330-c23a-4f10-b49e-64ad44061da1,hard,Curriculum dependencies,Many subject nodes are grouped into levels with numerous cross-level prerequisite connections.
+d51f1da9-6dee-442b-a411-cb9d166bb597,hard,Layered computation grid,Many junctions and terminal nodes form a dense grid of horizontal and vertical paths.
+cbb2de25-f984-47b5-b8b3-1ac00996f760,hard,Regular and Bayesian networks,"Two neural networks each contain many cross-layer links, producing a dense paired structure."
+2afdbcc5-b056-4b36-80b1-02b4c8373cdb,hard,Grouped package dependencies,Nested dependency groups contain many candidate nodes and connections across groups.
+b00b1765-f372-4906-95f0-063dc8ad583d,hard,Vehicle model architecture,"Numerous input parameters connect to several modules through crossing, shared and branching paths."
