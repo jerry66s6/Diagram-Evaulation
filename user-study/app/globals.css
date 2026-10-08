@@ -8,3 +8,4 @@
 
 /* Readable rating instructions and scale labels. */
 .metric p{font-size:14px;line-height:1.6;min-height:44px}.metric legend{font-size:15px}.score-options span{font-size:14px}.score-anchors,.scale-guide{font-size:12px}.consent{font-size:14px}.start-panel>small{font-size:12px}.rating-title .eyebrow{font-size:11px}.save-status,.remaining-note{font-size:12px}
+.name-field{display:block;font-size:13px;font-weight:550;color:var(--ink);margin-top:18px}.start-panel .text-input{margin:8px 0 0;background:#fff}.link-button{background:transparent;color:#a83434;font-size:12px;text-decoration:underline;padding:0}

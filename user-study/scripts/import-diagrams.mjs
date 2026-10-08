@@ -14,6 +14,9 @@
 //   --sample-size N   diagrams per participant, 20-30 (default: current value)
 //   --fixed-order     every participant sees every diagram, in manifest row order;
 //                     no sampling and no difficulty-balance check
+//   --sets N          split the diagrams into N fixed sets with the same number of each
+//                     difficulty (dealt in manifest order); each participant gets the
+//                     next unused set, so no diagram goes to two participants
 //   --mode M          demo | research (default: current value)
 //   --id ID           catalog id; change it for each real study round
 //   --title T         study title
@@ -126,6 +129,17 @@ export function buildCatalog(rows, { manifestDir, settings }) {
     diagrams.push({ id, image: `/diagrams/${imageName}`, caption, difficulty, source: row.source?.trim() || file, sha256 });
   });
   const catalog = { ...settings, diagrams };
+  if (catalog.order === 'sets') {
+    const sets = catalog.sets;
+    const counts = Object.fromEntries(LEVELS.map(level => [level, diagrams.filter(d => d.difficulty === level).length]));
+    if (!Number.isInteger(sets) || sets < 1) throw new Error('--sets must be a positive integer.');
+    if (LEVELS.some(level => counts[level] % sets)) {
+      throw new Error(`${sets} sets need each difficulty count to be a multiple of ${sets}; the manifest has easy=${counts.easy}, medium=${counts.medium}, hard=${counts.hard}.`);
+    }
+    for (const level of LEVELS) diagrams.filter(d => d.difficulty === level).forEach((d, i) => { d.set = i % sets + 1; });
+    catalog.sampleSize = diagrams.length / sets;
+    return { catalog, copies, counts };
+  }
   if (catalog.order === 'fixed') {
     catalog.sampleSize = diagrams.length;
     const counts = Object.fromEntries(LEVELS.map(level => [level, diagrams.filter(d => d.difficulty === level).length]));
@@ -136,7 +150,7 @@ export function buildCatalog(rows, { manifestDir, settings }) {
 
 function parseArgs(argv) {
   const options = { dryRun: false }, positional = [];
-  const valued = { '--sample-size': 'sampleSize', '--mode': 'mode', '--id': 'id', '--title': 'title', '--difficulty-note': 'difficultyNote', '--out': 'out' };
+  const valued = { '--sample-size': 'sampleSize', '--sets': 'sets', '--mode': 'mode', '--id': 'id', '--title': 'title', '--difficulty-note': 'difficultyNote', '--out': 'out' };
   for (let i = 0; i < argv.length; i++) {
     const arg = argv[i];
     if (arg === '--dry-run') options.dryRun = true;
@@ -169,9 +183,11 @@ function main() {
     title: options.title ?? current.title ?? 'Diagram Evaluation Study',
     mode,
     sampleSize: options.sampleSize !== undefined ? Number(options.sampleSize) : current.sampleSize ?? 24,
-    order: options.fixedOrder ? 'fixed' : 'random',
+    order: options.sets !== undefined ? 'sets' : options.fixedOrder ? 'fixed' : 'random',
+    ...(options.sets !== undefined ? { sets: Number(options.sets) } : {}),
     difficultyNote: options.difficultyNote ?? current.difficultyNote ?? '',
   };
+  if (options.sets !== undefined && options.fixedOrder) throw new Error('Use either --sets or --fixed-order, not both.');
   if (!ID_PATTERN.test(settings.id)) throw new Error('--id may only use letters, digits, ".", "_" and "-".');
 
   const manifestPath = resolve(options.manifest);
@@ -183,7 +199,9 @@ function main() {
   const newImages = copies.filter(copy => !existsSync(resolve(imageDir, copy.name)));
   const summary = [
     `${catalog.diagrams.length} diagrams: easy=${counts.easy}, medium=${counts.medium}, hard=${counts.hard}.`,
-    (catalog.order === 'fixed'
+    (catalog.order === 'sets'
+      ? `${catalog.sets} sets of ${catalog.sampleSize} (${LEVELS.map(level => `${counts[level] / catalog.sets} ${level}`).join(', ')}); each participant gets the next unused set.`
+      : catalog.order === 'fixed'
       ? `Every participant sees all ${catalog.diagrams.length}, in manifest order.`
       : `Each participant gets ${catalog.sampleSize}, balanced across difficulty.`) + ` Mode: ${catalog.mode}. Catalog id: ${catalog.id}.`,
     `${newImages.length} new image(s) for public/diagrams; ${copies.length - newImages.length} already present.`,

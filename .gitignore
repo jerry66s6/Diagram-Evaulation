@@ -25,3 +25,5 @@ correctness-report.json
 
 # The diagram dataset (images, captions, labels) is kept locally, not in Git.
 /diagrams/
+# Study images copied from diagrams/ by the importer stay out of Git too (already-tracked demo images remain).
+/user-study/public/diagrams/

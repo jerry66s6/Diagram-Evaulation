@@ -1,4 +1,4 @@
-import { integer, text, sqliteTable, primaryKey, index } from 'drizzle-orm/sqlite-core';
+import { integer, text, sqliteTable, primaryKey, index, uniqueIndex } from 'drizzle-orm/sqlite-core';
 export const sessions = sqliteTable('study_sessions', {
   id: text('id').primaryKey(),
   tokenHash: text('token_hash').notNull().unique(),
@@ -9,7 +9,10 @@ export const sessions = sqliteTable('study_sessions', {
   consentVersion: text('consent_version').notNull(),
   startedAt: text('started_at').notNull(),
   submittedAt: text('submitted_at'),
-}, table=>[index('idx_sessions_version').on(table.studyVersion)]);
+  participantName: text('participant_name').notNull().default(''),
+  // With fixed sets, the set this session holds; unique per study version so no set goes to two people.
+  setNumber: integer('set_number'),
+}, table=>[index('idx_sessions_version').on(table.studyVersion), uniqueIndex('study_sessions_version_set_unique').on(table.studyVersion, table.setNumber)]);
 export const ratings = sqliteTable('study_ratings', {
   sessionId: text('session_id').notNull().references(()=>sessions.id),
   diagramId: text('diagram_id').notNull(),

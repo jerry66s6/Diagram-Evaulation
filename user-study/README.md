@@ -4,16 +4,27 @@ A React/Vinext interface with a Cloudflare Worker backend and durable D1 (SQLite
 
 ## Participant experience
 
-- Anonymous session after an explicit consent checkbox; no name or email is stored.
-- 24 diagrams by default, exactly 8 easy / 8 medium / 8 hard, randomly ordered once for each session. Assignments of 20–30 are supported; counts differ by at most one for sizes not divisible by three. Use 21, 24, 27 or 30 for exact balance.
+- The participant enters their name and ticks a consent checkbox; the name is stored with the ratings and shown to researchers and in the CSV export. No email is asked for.
+- Three ways to assign diagrams (set by the importer):
+  - **Fixed sets** (`--sets N`, the current study): the diagrams are split into N sets with the same number of easy, medium and hard diagrams. Each new participant gets the lowest-numbered set nobody holds, shown in random order, so no diagram goes to two people. When all sets are taken, new participants are told the study is full. On the researcher page, **Release** frees an unfinished participant's set (their partial ratings are deleted) for the next person.
+  - **Random sample** (default): 20–30 diagrams per participant, balanced across difficulty (exactly 8/8/8 for 24), randomly drawn and ordered for each session.
+  - **Fixed order** (`--fixed-order`): everyone sees every diagram in manifest order.
 - Difficulty labels, provenance, and model scores are withheld from the participant API. Each diagram is shown with its caption, and the Presence question asks about the components the caption mentions.
 - Correctness and Beauty tabs, explanatory anchors, zoom/fullscreen, comments, progress navigation, automatic draft saves and submission locking.
-- Returning with the same browser cookie resumes the saved session. Clearing cookies or switching browsers creates a new anonymous session; this prototype does not deduplicate real people or provide cross-device recovery.
+- Returning with the same browser cookie resumes the saved session. Clearing cookies or switching browsers creates a new session (with fixed sets, on a new set); this prototype does not deduplicate real people or provide cross-device recovery.
 - Responses are stored in D1, not browser storage. Only a random bearer session cookie is stored in the browser (HttpOnly, SameSite=Lax, Secure on HTTPS, 30 days). Keep the researcher key separate from participant links.
 
 ## Demo versus a real study
 
-The bundled `config/study.json` contains **24 existing repository diagrams** (10 DiagramGen examples, 11 Transformer ablations, 3 Beauty variants). Their captions were written for the demo from each diagram's generation prompt; real studies should use the diagrams' own captions. All images are under `public/diagrams/`; the DiagramGen source card is retained as `DATASET_SOURCE.md`. Difficulty labels are **provisional demonstration labels**, deliberately balanced to exercise the allocator. They are not validated measures of quality or rating difficulty. Demo sessions and CSV rows are explicitly marked `mode=demo`. No model APIs are called by this app.
+`config/study.json` now holds the human-study set: the 300 diagrams in `../diagrams/human_study/` (100 easy, 100 medium, 100 hard), as 10 fixed sets of 30 in research mode, imported with
+
+```bash
+node scripts/import-diagrams.mjs ../diagrams/human_study/data.csv --sets 10 --mode research --id human-study-300-v1
+```
+
+The importer copies these images into `public/diagrams/`, which Git ignores (like `../diagrams/`), so a fresh checkout needs the local dataset folder and this import before it can build or deploy.
+
+The original demo catalog contained **24 existing repository diagrams** (10 DiagramGen examples, 11 Transformer ablations, 3 Beauty variants). Their captions were written for the demo from each diagram's generation prompt; real studies should use the diagrams' own captions. All images are under `public/diagrams/`; the DiagramGen source card is retained as `DATASET_SOURCE.md`. Difficulty labels are **provisional demonstration labels**, deliberately balanced to exercise the allocator. They are not validated measures of quality or rating difficulty. Demo sessions and CSV rows are explicitly marked `mode=demo`. No model APIs are called by this app.
 
 Before recruitment:
 
@@ -44,10 +55,11 @@ cp .env.example .env
 # Replace STUDY_ADMIN_KEY in .env with a unique random value of at least 24 characters.
 npm run build
 node --import ./scripts/sites-env.mjs ./node_modules/wrangler/bin/wrangler.js d1 execute DB --local --config dist/server/wrangler.json --persist-to .wrangler/state --file drizzle/0000_glorious_george_stacy.sql
+node --import ./scripts/sites-env.mjs ./node_modules/wrangler/bin/wrangler.js d1 execute DB --local --config dist/server/wrangler.json --persist-to .wrangler/state --file drizzle/0001_participant_name_and_set.sql
 npm run dev -- --hostname 127.0.0.1
 ```
 
-Apply that migration only once to a fresh local database. After later schema changes, generate and apply only new migrations. The local preview is at the URL printed by the dev server. Production uses a separate database; local test responses are never published.
+Apply each migration only once to a fresh local database. After later schema changes, generate and apply only new migrations. The local preview is at the URL printed by the dev server. Production uses a separate database; local test responses are never published.
 
 The generated local `.env` already contains the researcher key for this checkout. Do not overwrite it with the example unless intentionally replacing the key. `.env`, `.wrangler/`, `.vinext/`, dependencies, and build output are ignored by Git. `.openai/hosting.json` stores only the Site ID and logical database binding.
 

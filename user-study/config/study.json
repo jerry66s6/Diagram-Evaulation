@@ -1,58 +1,2711 @@
 {
-  "id": "diagramgen-six-v1",
+  "id": "human-study-300-v1",
   "title": "Diagram Evaluation Study",
-  "mode": "demo",
-  "sampleSize": 6,
-  "order": "fixed",
-  "difficultyNote": "Difficulty follows the structural-complexity tiers of datasets/diagramgen_balanced_99. Shown to researchers only.",
+  "mode": "research",
+  "sampleSize": 30,
+  "order": "sets",
+  "sets": 10,
+  "difficultyNote": "Difficulty is structural complexity from a visual review (diagrams/human_study). Shown to researchers only.",
   "diagrams": [
     {
-      "id": "D01",
-      "image": "/diagrams/c981a96c49b116812588.png",
-      "caption": "How can I use DOT to create a control flow graph diagram that represents a function with multiple basic blocks (BB0, BB1, BB2, BB3), showing the flow of execution and labeling each block with specific instructions and parameters? I need the diagram to clearly illustrate the sequence of operations and the relationships between different blocks.\n\nSpecifically, I want to start with a basic block labeled \"BB0\" that serves as the entry point of the function. Following this, I need a block \"BB1\" that includes detailed instructions such as parameter handling for `p`, a call to `\tkfree`, and subsequent parameter handling for `p`, `w`, and another unspecified parameter, followed by a call to another function named `contrived`.\n\nNext, I require a block \"BB2\" that shows the return value being assigned to a variable `r` and another operation where `w1` is assigned the value pointed to by `w`. Finally, I need a block \"BB3\" that represents the end or exit point of the function.\n\nEach block should be connected by directed edges to indicate the flow of execution, starting from BB0 to BB1, then from BB1 to BB2, and finally from BB2 to BB3. I also want to include a title for the entire graph that describes the function, such as \"int contrived_caller(int *w, int x, int *p)\".\n\nAdditionally, I would like to customize the appearance of the nodes to use a \"record\" shape for better readability and to ensure that the labels within each block are neatly organized and easy to follow. The layout should be intuitive, making it straightforward to trace the execution path and understand the function's logic.\n\nFurthermore, I want to ensure that the diagram is visually appealing and can be easily integrated into documentation or presentations, providing a clear and concise representation of the control flow within the function. Any tips on optimizing the layout for clarity and ensuring that the diagram scales well for different sizes would also be appreciated.",
-      "difficulty": "easy",
-      "source": "DiagramGen e734f2c8-f73e-4aad-bffd-2ea40a85530a (diagramgen_balanced_99/easy_19: Basic block sequence)",
-      "sha256": "c981a96c49b116812588ba96d9528d16b701a9ce5e2944ac895a59801ae82bd4"
-    },
-    {
-      "id": "D02",
-      "image": "/diagrams/d9b4bfc10c9d4b9439e6.png",
-      "caption": "How can I use the DOT language to create a directed graph that effectively represents a decision-making process with clearly labeled nodes and edges? The graph should include a designated start and end node, multiple decision points with various choices, and paths that accurately reflect the chosen options. Specifically, I would like the start and end nodes to be distinctly marked with a green fill color and labeled as \"Start\" and \"End\" respectively. \n\nFor the decision-making process, I need to include intermediate nodes that represent different stages. The first node, labeled \"Node #1,\" should indicate a straightforward path with no branching. Following this, I want a decision node, labeled \"Node #2,\" which presents a question and offers multiple choices. This node should be highlighted with a yellow fill color to emphasize the decision point.\n\nFrom \"Node #2,\" the graph should branch into two paths based on the user's choice. One path should lead to \"Node #3a,\" labeled to indicate that the user chose \"YES,\" and the other path should lead to \"Node #3b,\" labeled to indicate that the user chose \"NO.\" Both of these nodes should clearly reflect the decision made at \"Node #2.\"\n\nAfterward, both \"Node #3a\" and \"Node #3b\" should converge at \"Node #4,\" labeled as \"Finish node #4,\" which represents the final step before reaching the end. Each edge leading from the decision node to the subsequent nodes should be labeled with the corresponding choice (\"YES\" or \"NO\") to make the decision paths explicitly clear.\n\nAdditionally, I want to ensure that the overall layout of the graph is visually coherent and easy to follow, with nodes and edges arranged in a logical sequence that aids in understanding the decision-making process. The graph should be designed to be both informative and visually appealing, making it suitable for presentations or documentation where clarity and ease of interpretation are crucial.",
-      "difficulty": "easy",
-      "source": "DiagramGen 80d9f82c-93e0-4180-905e-f409f55d42ae (diagramgen_balanced_99/easy_23: Single decision process)",
-      "sha256": "d9b4bfc10c9d4b9439e6a0040c34314053017b325f403706c6f77d386b15c6ef"
-    },
-    {
-      "id": "D03",
-      "image": "/diagrams/41d2459910c78e7caa74.png",
-      "caption": "How can I use DOT to create a detailed flowchart that includes various steps such as parameter estimation and error computation, with decision points and loops indicated by different shapes and labeled edges? I want to ensure that each step in the process is clearly represented and interconnected, with specific labels and conditions for decision-making.\n\nSpecifically, I would like to start with a step labeled \"Parameter Estimation,\" followed by a series of computational steps like \"Compute Sth.\" repeated twice, and then \"Compute Error Value 1.\" After this, another \"Parameter Estimation\" step should be included, leading to a decision point labeled \"Check Error Value 1,\" which should be represented by a diamond shape. Based on the outcome of this decision, the flow should either proceed to \"Compute Error Value 2\" or loop back to the initial \"Parameter Estimation\" step if the error value is less than or equal to a predefined threshold \\( \\epsilon_1 \\).\n\nFollowing \"Compute Error Value 2,\" there should be another decision point labeled \"Check Error Value 2,\" also represented by a diamond shape. Depending on this decision, the flow should either proceed to the \"End\" step or loop back to the first \"Parameter Estimation\" step if the error value is less than or equal to another predefined threshold \\( \\epsilon_2 \\).\n\nI want to ensure that all edges connecting these steps are clearly labeled with the conditions for decision-making, such as \"Error 1 \\leq \\epsilon_1\" and \"Error 2 \\leq \\epsilon_2.\" Additionally, I would like the flowchart to have a clean, orthogonal layout to make the flow of the process easy to follow and understand. The nodes should be of a consistent size, and the decision points should be distinctly shaped to differentiate them from the other steps. This detailed representation will help in visualizing the iterative and conditional nature of the process, making it clear how the steps are interconnected and how decisions affect the flow of the process.",
+      "id": "HS001",
+      "image": "/diagrams/c7e075d1f1136b380dcc.jpg",
+      "caption": "Flow diagram illustrating the study design, including participant selection and the quantity of data included within this open dataset.",
       "difficulty": "medium",
-      "source": "DiagramGen f3be07c1-7e40-4dc0-8070-627322958879 (diagramgen_balanced_99/medium_05: Iterative parameter estimation)",
-      "sha256": "41d2459910c78e7caa74354be5b059fba8774c7a7d6ae4e841d00a6ae17817b0"
+      "source": "PMC10920678.1/41597_2024_3106_Fig2_HTML.jpg",
+      "sha256": "c7e075d1f1136b380dcc227122b02d031d4dbec473ff92ace9a797cbcd148489",
+      "set": 1
     },
     {
-      "id": "D04",
-      "image": "/diagrams/e9ed528f3c2167de423d.png",
-      "caption": "How can I use LaTeX and TikZ to create a flowchart that illustrates the process of classifying social networking posts? The diagram should include nodes for textual preprocessing, statistical preprocessing, a classifier model, classified tweets, and separate rankings for needy and availability tweets, with arrows indicating the flow of data between these nodes. Specifically, I want to start with a node labeled \"Social Networking Post\" as the initial input. From this node, the flow should branch into two separate paths: one leading to a node titled \"Textual Preprocessing\" and the other to a node titled \"Statistical Preprocessing.\" Both of these preprocessing nodes should then converge into a central node labeled \"Classifier Model,\" which processes the preprocessed data. The output of the classifier model should flow into a node titled \"Classified Tweets.\" From this node, the flow should further diverge into two distinct ranking nodes: one labeled \"Needy Tweet Rank\" and the other labeled \"Availability Tweet Rank.\" I would like to use solid arrows to represent the primary data flow and dotted arrows to indicate the secondary flow to the ranking nodes, to visually distinguish between direct processing steps and subsequent classification outcomes. Additionally, I want to ensure that each node has a consistent and visually appealing style, with a minimum height of 0.5 cm and thin borders, and that the overall layout is scaled appropriately to fit within a conference paper format. The positioning of the nodes should be intuitive, with \"Textual Preprocessing\" and \"Statistical Preprocessing\" nodes placed above and below the initial input node, respectively, and the classifier model positioned to clearly show the convergence of the preprocessing steps. The final diagram should be clear, concise, and easy to follow, effectively communicating the sequence and relationships of the classification process for social networking posts.",
+      "id": "HS002",
+      "image": "/diagrams/e71e77bb741f25d9703c.jpg",
+      "caption": "The flow chart of patient enrollment. The exclusion criteria and case numbers excluded were listed on the side",
       "difficulty": "medium",
-      "source": "DiagramGen df5e4193-1c7c-48f3-a257-e88cdb8cf973 (diagramgen_balanced_99/medium_33: Tweet classification pipeline)",
-      "sha256": "e9ed528f3c2167de423d4676259418d6e5f2a4e2134f79fa625c89b81fd15d6e"
+      "source": "PMC8895914.1/12876_2022_2162_Fig1_HTML.jpg",
+      "sha256": "e71e77bb741f25d9703c3fd3588f0ee8d3c45b589ddcd29610a4a3d6ed95cb62",
+      "set": 2
     },
     {
-      "id": "D05",
-      "image": "/diagrams/ae50fa4810a621bd5943.png",
-      "caption": "How can I use LaTeX and TikZ to create a detailed diagram that represents a network of neurons with multiple layers, where each neuron is labeled with a unique number and some connections have specific labels? The diagram should include transitions between neurons indicated by arrows and have a clear and organized layout of layers.\n\nSpecifically, I want to create a diagram with three distinct layers of neurons. The first layer should contain 5 neurons, labeled from 1 to 5, arranged vertically. The second layer should have 3 neurons, labeled from 6 to 8, positioned to the right of the first layer. The third layer should include 4 neurons, labeled from 9 to 12, placed to the right of the second layer.\n\nEach neuron should be represented as a circle with a minimum size of 20pt, and the connections between neurons should be depicted using thick arrows. Some of these connections need to have specific labels, such as \"61\" and \"85,\" placed midpoint along the arrow and sloped appropriately.\n\nAdditionally, I want to ensure that the layout is visually appealing and easy to follow, with neurons in each layer aligned properly and transitions clearly indicated. The overall scale of the diagram should be set to 2 to enhance readability.\n\nFurthermore, I would like to customize the appearance of the neurons and transitions, ensuring that the neurons are drawn with a distinct style and the transitions are marked with a consistent arrow style. The final diagram should be encapsulated within a preview environment to control the border and ensure that the entire diagram is visible when compiled.\n\nIn summary, I am looking for a comprehensive guide on how to structure the TikZ code to achieve this multi-layered neuron network diagram, with specific attention to labeling, layout, and visual customization to make the diagram both informative and aesthetically pleasing.",
-      "difficulty": "hard",
-      "source": "DiagramGen 61dddb8e-7fd7-430e-90b6-c88e26c74655 (diagramgen_balanced_99/hard_05: Dense neural network)",
-      "sha256": "ae50fa4810a621bd594384641482cc9f724ff795427cbf7e412fdf17458e6416"
+      "id": "HS003",
+      "image": "/diagrams/6d8922c5df437c204c44.jpg",
+      "caption": "Case selection flow chart.All chest examinations of patients with suspected or confirmed coronavirus disease 2019 (COVID-19) causing additional workload due to hygienic measures were included.",
+      "difficulty": "easy",
+      "source": "PMC7928469.1/pone.0247686.g001.jpg",
+      "sha256": "6d8922c5df437c204c443262f32ec57dea1589adf958584a7f46cae77cae1992",
+      "set": 1
     },
     {
-      "id": "D06",
-      "image": "/diagrams/d840b3930ea3b3a4ad16.png",
-      "caption": "How can I use TikZ to create a detailed and visually distinct diagram that represents various modules and parameters in a vehicle system? The diagram should be structured with nodes on the left side representing input parameters, central nodes depicting different modules, and nodes on the right side indicating output parameters, with arrows clearly showing the flow of information between them.\n\nSpecifically, I want the left side to include nodes for parameters such as Vehicle Age, Fan Strength, Vehicle Speed, Cabin Volume, Fraction of Recirculation, Ambient \\(CO_2\\) Concentration, and Occupant Parameters. Each of these nodes should have a standard style with a specific text width and alignment.\n\nFor the central part of the diagram, I need nodes that represent different modules: Air Exchange Rate Determination, Carbon Dioxide Built-in Module, Vehicle Cabin Module, and HVAC Module. These nodes should have a distinct rounded style with different colors (e.g., dark green for Air Exchange Rate Determination, dark blue for Carbon Dioxide Built-in Module, dark red for Vehicle Cabin Module, and a custom green for HVAC Module) to easily distinguish between them. Each module node should also have a defined text width, minimum height, and font style.\n\nOn the right side, I want nodes for the output parameters: Output \\(CO_2\\) Concentration, Thermal Environment, and Compressor Load. These nodes should have a specific style with text width and alignment, but without a border.\n\nAdditionally, I need a dashed fitting node to group some of the input parameters together, making it clear which parameters are related. The arrows indicating the flow of information should be styled with different colors corresponding to the modules they connect to, and some arrows should be dashed to represent different types of connections.\n\nI also want to include auxiliary coordinates to help position the arrows accurately, ensuring a clean and organized layout. The overall layout should be flexible, allowing for adjustments in node distances and positioning to create a visually appealing and easy-to-understand diagram that intuitively presents the relationships and information flow within the vehicle system.",
+      "id": "HS004",
+      "image": "/diagrams/efa6847976cd0f663430.jpg",
+      "caption": "Flowchart and general information of research objects. CHCs, community health centers; MCH, maternal and child health hospital; RPD, renal pelvis dilatation; CHFU, children's hospital of fudan university.",
+      "difficulty": "medium",
+      "source": "PMC10164980.1/fped-11-1162952-g001.jpg",
+      "sha256": "efa6847976cd0f66343068ee6ae75e2edda50933cb5e0b548c5f9a8a2bd06f2a",
+      "set": 3
+    },
+    {
+      "id": "HS005",
+      "image": "/diagrams/4ea50a3844896e1120fe.jpg",
+      "caption": "Flowchart illustrating the process of defining cases and controls among migraine patients.",
       "difficulty": "hard",
-      "source": "DiagramGen b00b1765-f372-4906-95f0-063dc8ad583d (diagramgen_balanced_99/hard_33: Vehicle model architecture)",
-      "sha256": "d840b3930ea3b3a4ad16082813a7731dc59927daf191e048eff83045739dde6b"
+      "source": "PMC11213090.1/nihpp-2024.06.11.24308801v1-f0001.jpg",
+      "sha256": "4ea50a3844896e1120fea0a8fa7d8b8e1f0dfa75cac48fe17100aff7e4953989",
+      "set": 1
+    },
+    {
+      "id": "HS006",
+      "image": "/diagrams/e215115df6ce69650d1d.jpg",
+      "caption": "The workflow for reconstructing CT and spectral images using the proposed dataset.",
+      "difficulty": "easy",
+      "source": "PMC12714755.1/41597_2025_6246_Fig3_HTML.jpg",
+      "sha256": "e215115df6ce69650d1da1218272360c98a325048c387d93d753b2ab3755141d",
+      "set": 2
+    },
+    {
+      "id": "HS007",
+      "image": "/diagrams/cc5a84aebc9aa6b228e4.jpg",
+      "caption": "Proposed workflow for applying the TGx-DDI biomarker for genotoxicity assessment of (A) candidates in pharmaceutical drug development or of (B) industrial and environmental chemicals.",
+      "difficulty": "medium",
+      "source": "PMC7931968.1/fdata-02-00036-g0004.jpg",
+      "sha256": "cc5a84aebc9aa6b228e481ce4a0ca20932225108aad1b9c1f7f3fd1208073174",
+      "set": 4
+    },
+    {
+      "id": "HS008",
+      "image": "/diagrams/3dff5e51c493f2d3b150.jpg",
+      "caption": "General overview of the HC4N strategy.The IP/MS dataset is analyzed with 4N to create the clusters of level 1. The dataset is split up into subsets where each subset contains all proteins from a level–1 cluster. 4N is applied to each of the subsets to create level 2. The procedure is repeated to create levels 3 and above, until no further splits are possible.",
+      "difficulty": "hard",
+      "source": "PMC4598013.1/pone.0139704.g002.jpg",
+      "sha256": "3dff5e51c493f2d3b1506044016e4a9984087e9c4dc54a92ba525196a84461c7",
+      "set": 2
+    },
+    {
+      "id": "HS009",
+      "image": "/diagrams/9924dcd3c71004f322ca.jpg",
+      "caption": "Flowchart of the number of participants included in the analysis from 2006 to 2016.",
+      "difficulty": "medium",
+      "source": "PMC12286139.1/geriatrics-10-00084-g001.jpg",
+      "sha256": "9924dcd3c71004f322ca94182891667cf04aaee1e1e0a3af7f16c72ace239fd8",
+      "set": 5
+    },
+    {
+      "id": "HS010",
+      "image": "/diagrams/d6e36daebed72a058f96.jpg",
+      "caption": "Figure. PRACTICAL Study CONSORT DiagramMCID indicates minimal clinically important difference; PRACTICAL, Optimizing Remote Access to Urinary Incontinence Treatments for Women Veterans trial; UI, urinary incontinence.",
+      "difficulty": "hard",
+      "source": "PMC12441875.1/jamanetwopen-e2532111-g001.jpg",
+      "sha256": "d6e36daebed72a058f961852365435c245e37a8401a27cc38e5b03dc6295542a",
+      "set": 3
+    },
+    {
+      "id": "HS011",
+      "image": "/diagrams/aa7ffae39de1014f39d2.jpg",
+      "caption": "Supplementary Figure 2 Flowchart of treatment and outcomes for ACTH secreting pituitary adenomas. ACTH, adrenocorticotropic hormone.",
+      "difficulty": "easy",
+      "source": "PMC11493648.1/Image2.jpeg",
+      "sha256": "aa7ffae39de1014f39d2fd03c90e4ca6278c2ff73e783379e87702c13c70f2d2",
+      "set": 3
+    },
+    {
+      "id": "HS012",
+      "image": "/diagrams/dfe4e20a6cb56b9d0990.jpg",
+      "caption": "The PRISMA flowchartPRISMA: Preferred Reporting Items for Systematic Reviews and Meta-Analyses",
+      "difficulty": "medium",
+      "source": "PMC10339149.1/cureus-0015-00000040348-i01.jpg",
+      "sha256": "dfe4e20a6cb56b9d0990b5ef8cb86f3d73f46cca4e405106dc4af9d6a141fa19",
+      "set": 6
+    },
+    {
+      "id": "HS013",
+      "image": "/diagrams/0bbf595589e4ae136729.jpg",
+      "caption": "Flowchart displaying reported pediatric COVID-19 cases with COVID-19-related hospitalization, ICU admission and death from July to October 2021",
+      "difficulty": "medium",
+      "source": "PMC9925936.1/15010_2023_1996_Fig1_HTML.jpg",
+      "sha256": "0bbf595589e4ae136729b34e03478d92997658bc7ae0e337394bf9115e32bb38",
+      "set": 7
+    },
+    {
+      "id": "HS014",
+      "image": "/diagrams/9e4f47f0670afc774cc4.jpg",
+      "caption": "BDT of the reduced model representing the decisions in input variables causing bifurcations and affecting the presence of different attractor phenotypes. The tree is first segmented based on the detection of virus replication by the cell. Then, the decisions marked (1–3) are significant with respect to the studied biological phenotypes: (1) corresponds to the total absence of IIR, (2) shows the interferon production switched off, and (3) makes IIR either off in some instances, or bistable (no instance with IIR positive and stable)",
+      "difficulty": "hard",
+      "source": "PMC9092939.1/12859_2022_4708_Fig4_HTML.jpg",
+      "sha256": "9e4f47f0670afc774cc44c9f37b8a22eeeb4a6c41bbb8d3a31cc73a42167a1c5",
+      "set": 4
+    },
+    {
+      "id": "HS015",
+      "image": "/diagrams/1dba6d39c5d8070c1ac2.jpg",
+      "caption": "Flow chart for selecting the participants according to the OSTA risk level.",
+      "difficulty": "easy",
+      "source": "PMC11227986.1/COPD-19-1547-g0001.jpg",
+      "sha256": "1dba6d39c5d8070c1ac2cce99b47a95d5e5f8e80984d22d3602c7b108f97f315",
+      "set": 4
+    },
+    {
+      "id": "HS016",
+      "image": "/diagrams/7624e94362c718d6893f.jpg",
+      "caption": "Patients flow chart. CAD, coronary artery disease; ICA, invasive coronary angiography; IMR, index of microcirculatory resistance.",
+      "difficulty": "easy",
+      "source": "PMC11782551.1/fmed-12-1490346-g0002.jpg",
+      "sha256": "7624e94362c718d6893f029ded47f2913dc08edaebf9b8bee2db2b95a570ab43",
+      "set": 5
+    },
+    {
+      "id": "HS017",
+      "image": "/diagrams/48c54dbb1550262930cb.jpg",
+      "caption": "Flow chart of participants in the study.",
+      "difficulty": "easy",
+      "source": "PMC4796902.1/srep23329-f1.jpg",
+      "sha256": "48c54dbb1550262930cb37b6b8805083a002e2dda3181bd64ae26b04f54e9cac",
+      "set": 6
+    },
+    {
+      "id": "HS018",
+      "image": "/diagrams/e25666aafadce0a3a2d5.jpg",
+      "caption": "Flowchart of patient selection. *Eligible patients were consecutively collected backward or forward from a specific date until reaching the target number (50 or 100). Control CTs were not included in the training dataset because the deep learning architecture in this study utilized only positive cases as input features",
+      "difficulty": "medium",
+      "source": "PMC12575542.1/11604_2025_1834_Fig4_HTML.jpg",
+      "sha256": "e25666aafadce0a3a2d5ca8050b5c2b346041838ce30d5618c1b6c508587a9de",
+      "set": 8
+    },
+    {
+      "id": "HS019",
+      "image": "/diagrams/5d89df9079ae83243903.jpg",
+      "caption": "Flowchart of participant enrolment and study progression. SAFETY, Safe Alternatives for Teens and Youths.",
+      "difficulty": "medium",
+      "source": "PMC12049871.1/bmjment-28-1-g001.jpg",
+      "sha256": "5d89df9079ae8324390373a378574cf126714481138cb194a8562da14849f9af",
+      "set": 9
+    },
+    {
+      "id": "HS020",
+      "image": "/diagrams/efb2a1994da60e88efb4.jpg",
+      "caption": "Flow chart of individuals fully vaccinated for at least 14 days on 5 December 2021 in Belgium, with the occurrence of (symptomatic) breakthrough COVID-19 infections. Breakthrough infection = laboratory confirmed COVID-19 infection after at least 14 days after the last vaccine dose; symptomatic breakthrough infection = laboratory confirmed COVID-19 infection after at least 14 days after the last vaccine dose with compatible COVID-19 symptoms.",
+      "difficulty": "easy",
+      "source": "PMC9029338.1/viruses-14-00802-g001.jpg",
+      "sha256": "efb2a1994da60e88efb4f4da1f546cc39d035df29e60a662ec5740411eac6e91",
+      "set": 7
+    },
+    {
+      "id": "HS021",
+      "image": "/diagrams/ffc7636357e6078d1cb0.jpg",
+      "caption": "Flow chart of the literature identification and screening process",
+      "difficulty": "medium",
+      "source": "PMC11461589.1/10803_2023_6130_Fig1_HTML.jpg",
+      "sha256": "ffc7636357e6078d1cb06571402f9a5226874b095c24525da281d0fb174b771f",
+      "set": 10
+    },
+    {
+      "id": "HS022",
+      "image": "/diagrams/50880ab5bbd47d808468.jpg",
+      "caption": "The flow chart of enrolled patients in our study",
+      "difficulty": "medium",
+      "source": "PMC11488362.1/40644_2024_786_Fig1_HTML.jpg",
+      "sha256": "50880ab5bbd47d80846898cb0ebf8bc35ee6765e0330fe7c56242a99ca77f462",
+      "set": 1
+    },
+    {
+      "id": "HS023",
+      "image": "/diagrams/c7f90138dd4eb57ab17a.jpg",
+      "caption": "Adaptive management displayed as a cycle with double-loop learning. A deliberative phase includes problem assessment, design of the decision architecture, and implementation. An iterative phase includes monitoring, evaluation of monitoring results, and adjustment of management strategy (from Williams and Brown 2014)",
+      "difficulty": "easy",
+      "source": "PMC6244979.1/267_2018_1107_Fig1_HTML.jpg",
+      "sha256": "c7f90138dd4eb57ab17a2167ef6025b163b7cedb18043eee30b8449cfbac038a",
+      "set": 8
+    },
+    {
+      "id": "HS024",
+      "image": "/diagrams/95351e74e15e9297aa43.jpg",
+      "caption": "Process flow diagram of circRNA vaccine productions.",
+      "difficulty": "medium",
+      "source": "PMC9878156.1/fimmu-13-1091797-g004.jpg",
+      "sha256": "95351e74e15e9297aa43333ef093a89073457c1e7bec1add6cf8c442766343f6",
+      "set": 2
+    },
+    {
+      "id": "HS025",
+      "image": "/diagrams/9be04491cfad3d5a40d8.jpg",
+      "caption": "Patient selection flowchart for the training dataset based on VFSS data quality.",
+      "difficulty": "easy",
+      "source": "PMC12786073.1/diagnostics-16-00045-g002.jpg",
+      "sha256": "9be04491cfad3d5a40d825da65e5c1747aa03f66b0661ddacbaace4890500101",
+      "set": 9
+    },
+    {
+      "id": "HS026",
+      "image": "/diagrams/c03a86a7487393297bf7.jpg",
+      "caption": "Flow diagram of evaluations of talaromycosis in children with IEI.",
+      "difficulty": "hard",
+      "source": "PMC13212303.1/fimmu-17-1834635-g001.jpg",
+      "sha256": "c03a86a7487393297bf7b9c18713afaabd5b1b300b4c38bfaf2d70c22ff584a8",
+      "set": 5
+    },
+    {
+      "id": "HS027",
+      "image": "/diagrams/9e6279bf51400eb89fbc.jpg",
+      "caption": "CONSORT flow diagram of participant enrollment, randomization, follow-up, and analysis.",
+      "difficulty": "hard",
+      "source": "PMC12473082.1/nutrients-17-02959-g002.jpg",
+      "sha256": "9e6279bf51400eb89fbc13076859e9c18b746a47b943fbf7b127580f29a1850a",
+      "set": 6
+    },
+    {
+      "id": "HS028",
+      "image": "/diagrams/1b528ae94e7d7f36151e.jpg",
+      "caption": "Flowchart of the inclusion of mammographic screening examinations",
+      "difficulty": "hard",
+      "source": "PMC12634747.1/330_2025_11687_Fig1_HTML.jpg",
+      "sha256": "1b528ae94e7d7f36151ed57871d6eba891b63f898a0eb2951499a1f65ab5dd45",
+      "set": 7
+    },
+    {
+      "id": "HS029",
+      "image": "/diagrams/8695915d69f9a8180747.jpg",
+      "caption": "Decision tree and Markov model for estimating the cost-effectiveness of screening for HTN. (A) Structure of the decision tree with the single screening examination only. (B) Structure of the decision tree with the first screening examination and the second confirmatory examination. (C) Different health status in the Markov model.CKD = chronic kidney disease; HTN = hypertension; MI = myocardial infarction.",
+      "difficulty": "hard",
+      "source": "PMC8263297.1/kcj-51-610-g001.jpg",
+      "sha256": "8695915d69f9a8180747a13cf70d95dbb8c4971f0296e5f3d20f07c20678556c",
+      "set": 8
+    },
+    {
+      "id": "HS030",
+      "image": "/diagrams/3868c251c9c2e512b705.jpg",
+      "caption": "Flowchart of patient inclusion, allocation, and follow-up.",
+      "difficulty": "easy",
+      "source": "PMC8826069.1/fnut-08-833666-g0001.jpg",
+      "sha256": "3868c251c9c2e512b70597cda5be4788659e6fd59b55957c47879d1c0d20337c",
+      "set": 10
+    },
+    {
+      "id": "HS031",
+      "image": "/diagrams/873d446f1058b1766fc8.jpg",
+      "caption": "Workflow for screening carbapenemase-producing Enterobacterales (CPE)and vancomycin-resistant enterococci (VRE)using molecular pooling techniques and comparative culture-based methods.",
+      "difficulty": "hard",
+      "source": "PMC12502523.1/spectrum.01080-25.f001.jpg",
+      "sha256": "873d446f1058b1766fc81aff89c7e1e4dd3a12e2ed9315a7979d6fa2688fe797",
+      "set": 9
+    },
+    {
+      "id": "HS032",
+      "image": "/diagrams/ad956a2328b9d173fca6.jpg",
+      "caption": "Flow chart showing number (%) of participations in the primary outcome measurements in 2006 and 2008.",
+      "difficulty": "easy",
+      "source": "PMC4278391.1/pri-32-149_g001.jpg",
+      "sha256": "ad956a2328b9d173fca6935681781b2ca2a5ab0d45ab3475f42320a70f7f809c",
+      "set": 1
+    },
+    {
+      "id": "HS033",
+      "image": "/diagrams/c4076ae4208cd29701ab.jpg",
+      "caption": "Flow chart of WES and transcriptome data processing. Detailed information on the data mapping process and the variant calling process is given",
+      "difficulty": "hard",
+      "source": "PMC7789010.1/12967_2020_2607_Fig1_HTML.jpg",
+      "sha256": "c4076ae4208cd29701abb00f62686e331b045bee91c47ec71dca901c53f3443e",
+      "set": 10
+    },
+    {
+      "id": "HS034",
+      "image": "/diagrams/4a9b993752c466f2e41f.jpg",
+      "caption": "Flow chart. CCQ, Clinical COPD Questionnaire; COPD, chronic obstructive pulmonary disease; PHCC, primary health care centre.",
+      "difficulty": "easy",
+      "source": "PMC5072388.1/npjpcrm201673-f3.jpg",
+      "sha256": "4a9b993752c466f2e41fcd4f496492339ea2a111490fbfd8186d5e3606f4fcad",
+      "set": 2
+    },
+    {
+      "id": "HS035",
+      "image": "/diagrams/01a4fe13e86a048c8cf1.jpg",
+      "caption": "Consort flow chart showing how the analytical sample was derived from the patients who were assessed for eligibility. Abbreviations: AMI, acute myocardial infarction; COPD, chronic obstructive pulmonary disease; NSTEMI, non ST-segment elevation myocardial infarction; PFTs, pulmonary function tests; STEMI, ST-segment elevation myocardial infarction; TTE, transthoracic echocardiogram.",
+      "difficulty": "easy",
+      "source": "PMC8999583.1/jcm-11-01917-g001.jpg",
+      "sha256": "01a4fe13e86a048c8cf1ccb1ed0c4f0c67a1e754b8d05786c65b662a7bcf750f",
+      "set": 3
+    },
+    {
+      "id": "HS036",
+      "image": "/diagrams/f0e971d29e0a2fafbc57.jpg",
+      "caption": "Flowchart describing the logic of the RIA procedure. Note: P = Number of scale items to distribute.",
+      "difficulty": "easy",
+      "source": "PMC7327835.1/gr1.jpg",
+      "sha256": "f0e971d29e0a2fafbc570ecc66264b5d907b4006e65b70217e5feaf42e7e68ab",
+      "set": 4
+    },
+    {
+      "id": "HS037",
+      "image": "/diagrams/de66825fff92cc2f90f2.jpg",
+      "caption": "Common collision avoidance pipeline based on MPPI algorithm.The red elements on scheme demonstrate the components that were added to MPPI procedure to adapt in for decentralized multi-agent scenario. (*) The main contribution of our work is introducing of a method for taking into account linear constraints in the sampling process. The corresponding component is marked with an asterisk on the scheme.",
+      "difficulty": "hard",
+      "source": "PMC11639165.1/peerj-cs-10-2220-g004.jpg",
+      "sha256": "de66825fff92cc2f90f23371f0fd6546481c29201d4b286b76e25e167c7cbb55",
+      "set": 1
+    },
+    {
+      "id": "HS038",
+      "image": "/diagrams/ae6f60f806eedba17203.jpg",
+      "caption": "Procedure of obtained patients for the study, Alert Hospital, 2016–2021.",
+      "difficulty": "easy",
+      "source": "PMC11471762.1/41598_2024_73209_Fig1_HTML.jpg",
+      "sha256": "ae6f60f806eedba1720305d62783b9519bcf4f03add2a330394f14a3d356d251",
+      "set": 5
+    },
+    {
+      "id": "HS039",
+      "image": "/diagrams/1e8f07482b4ac8b9f0f4.jpg",
+      "caption": "Flowchart of a general machine learning pipeline to process acoustic/prosodic correlates of disease. Adapted from Braga et al. [31].",
+      "difficulty": "hard",
+      "source": "PMC8772820.1/bioengineering-09-00027-g003.jpg",
+      "sha256": "1e8f07482b4ac8b9f0f45af47c6bb73ad2ece4dcfff83f96031a16ae10d05ee7",
+      "set": 2
+    },
+    {
+      "id": "HS040",
+      "image": "/diagrams/2ca34f5b4b07911f9ab5.jpg",
+      "caption": "Decision scheme on transmission pattern for countries in the WHO African region.",
+      "difficulty": "hard",
+      "source": "PMC8712964.1/S0950268821001126_fig1.jpg",
+      "sha256": "2ca34f5b4b07911f9ab5c84af59eed4b35767ece6b4e68d8c46fca7e1c22329a",
+      "set": 3
+    },
+    {
+      "id": "HS041",
+      "image": "/diagrams/b6dd461b1dd65ac623b0.jpg",
+      "caption": "Flow diagram illustrating the participant selection process.",
+      "difficulty": "easy",
+      "source": "PMC12193041.1/pone.0326663.g001.jpg",
+      "sha256": "b6dd461b1dd65ac623b0daf20786fbfdcc2b6f31708a3d5d2552acc2d3c235bf",
+      "set": 6
+    },
+    {
+      "id": "HS042",
+      "image": "/diagrams/9a0ed592bea194be31bd.jpg",
+      "caption": "Adapted allocation guidelines for referral decisions after detoxifications.",
+      "difficulty": "hard",
+      "source": "PMC4198792.1/12888_2014_286_Fig1_HTML.jpg",
+      "sha256": "9a0ed592bea194be31bdfd114ad473823c3a9a597e68309b1d7f910835fac5f7",
+      "set": 4
+    },
+    {
+      "id": "HS043",
+      "image": "/diagrams/d1defb4975f2bd5f2d13.jpg",
+      "caption": "CoTracker Pipeline.After data collection with two GoPro cameras, the videos (i.e., “L” for the left video and “R” for the right video in the perspective of the experimenters facing the participant) were time-synchronized using a clapboard sound (“Time Sync Stereo Videos”). Each video included 5 to 10 seconds of calibration checkerboard motions, which were used for calibrating using the OpenCV library [32] (“Compute Calibration Matrices”). After the videos were trimmed for each trial using FFmpeg [33], SPIGA placed points on facial landmarks on the initial frames for each video (see pink color points). Using the initial lip coordinates, CoTracker tracked the lip points of interest (see light blue points). The pixel coordinates from each video were used to compute 3D coordinates in millimeters (“Compute 3D Coordinates”). The 3D lip aperture data was then calculated.",
+      "difficulty": "medium",
+      "source": "PMC11844461.1/nihpp-2025.02.13.638009v1-f0001.jpg",
+      "sha256": "d1defb4975f2bd5f2d130fc767ae083eb407e0181085b4d2de0ad43700088c5e",
+      "set": 3
+    },
+    {
+      "id": "HS044",
+      "image": "/diagrams/cf4e674ca0d88e70e9b9.jpg",
+      "caption": "The workflow of crop water footprint simulations in this study.",
+      "difficulty": "easy",
+      "source": "PMC10866886.1/41597_2024_3051_Fig1_HTML.jpg",
+      "sha256": "cf4e674ca0d88e70e9b9dc60a5b9f553cc0579306330771c56852fd23f73d93d",
+      "set": 7
+    },
+    {
+      "id": "HS045",
+      "image": "/diagrams/86c97a0d01383ad17070.jpg",
+      "caption": "Flow chart of cumulative hemostasis rate at different time intervals.",
+      "difficulty": "easy",
+      "source": "PMC6507283.1/gwy03102.jpg",
+      "sha256": "86c97a0d01383ad17070a866cc124d31494495e8bb35acf06a88100bc75b1480",
+      "set": 8
+    },
+    {
+      "id": "HS046",
+      "image": "/diagrams/43934508e1092819a05c.jpg",
+      "caption": "Flow diagram of the patients included in the study. CMT, conventional microbiological test.",
+      "difficulty": "easy",
+      "source": "PMC10869557.1/fcimb-14-1338307-g001.jpg",
+      "sha256": "43934508e1092819a05cdb57b2fa441e0cddfc0367de4275a7fdbb10a7c8338d",
+      "set": 9
+    },
+    {
+      "id": "HS047",
+      "image": "/diagrams/0bd6176063a94c050e6e.jpg",
+      "caption": "PRISMA Flow Diagram for Final Article Inclusion.Note. Articles excluded after title & abstract review include the following apparent reasons: not the self-monitoring concept developed by Snyder (1974), such as “self-monitoring” in computer, biology, health care, etc.; non-empirical paper; not at all relevant to leadership.Kudret et al. (2019) examined post-2000 studies, Day et al. (2002) focused on leadership emergence and behavior, and Hoffman et al. (2011) concentrated on leadership effectiveness. The three reviews included studies on self-monitoring and leadership, along with a list of other variables. This is why they only have a few duplicates, and many studies could be excluded after title and abstract screening.",
+      "difficulty": "medium",
+      "source": "PMC12130612.1/10.1177_01461672231210778-fig1.jpg",
+      "sha256": "0bd6176063a94c050e6ee7d69f07d3d366af36cb2371757c92b2fbf21c3b7f6a",
+      "set": 4
+    },
+    {
+      "id": "HS048",
+      "image": "/diagrams/02e44d24e69e68bf6bd3.jpg",
+      "caption": "Preferred reporting items for systematic reviews and meta-analyses (PRISMA) flow diagram.",
+      "difficulty": "easy",
+      "source": "PMC11523180.1/10.1177_17585732231192991-fig1.jpg",
+      "sha256": "02e44d24e69e68bf6bd3656dc592183bfb8b83b76e062c160b5779dadf085aa6",
+      "set": 10
+    },
+    {
+      "id": "HS049",
+      "image": "/diagrams/2871da2145a24b687dae.jpg",
+      "caption": "Enrollment and analysis of patients. ICU: intensive care unit; SNUH: Seoul National University Hospital; ARDS: acute respiratory distress syndrome.",
+      "difficulty": "easy",
+      "source": "PMC6786717.1/kjccm-2016-00976f1.jpg",
+      "sha256": "2871da2145a24b687daee3b78557816049f1ef785aeda4f3d5f7f8298d4da7d5",
+      "set": 1
+    },
+    {
+      "id": "HS050",
+      "image": "/diagrams/a5a0b5a591f07397369f.jpg",
+      "caption": "Study flowchart demonstrating a total of 12,889 SARS-CoV-2 RT-PCR tests from 812 patients were available to evaluate the primary outcome of percentage of tests that were positive. Thirty-six patients testing positive from screening testing were available to evaluate secondary outcomes of false positives, delays in cancer care, and length of isolation, determined from chart review.",
+      "difficulty": "medium",
+      "source": "PMC12415789.1/S2732494X25101125_fig1.jpg",
+      "sha256": "a5a0b5a591f07397369fcc6949235a6ee26376c56f523fee95be37f3bcdbab5f",
+      "set": 5
+    },
+    {
+      "id": "HS051",
+      "image": "/diagrams/ffc43e573b5eb35c532c.jpg",
+      "caption": "Flowchart of the stages of cross-cultural adaptation.",
+      "difficulty": "easy",
+      "source": "PMC11216591.1/pone.0305414.g001.jpg",
+      "sha256": "ffc43e573b5eb35c532cffc9cda99409688b05bdab9a7658814ef3f23841d7b3",
+      "set": 2
+    },
+    {
+      "id": "HS052",
+      "image": "/diagrams/a11781ea2efff909ad98.jpg",
+      "caption": "PRISMA 2020 flow diagram. * In total, 30 records were additionally identified through reference list screening; ** 220 records were excluded at title/abstract stage: did not meet inclusion criteria.",
+      "difficulty": "medium",
+      "source": "PMC12729270.1/bioengineering-12-01342-g001.jpg",
+      "sha256": "a11781ea2efff909ad98b84c111e14be7ca571c25020140de118b04a0a85f243",
+      "set": 6
+    },
+    {
+      "id": "HS053",
+      "image": "/diagrams/769b1bca785eae095f41.jpg",
+      "caption": "Stepwise procedure for PROMETHEE [62,63].",
+      "difficulty": "easy",
+      "source": "PMC10146861.1/sensors-23-04041-g003.jpg",
+      "sha256": "769b1bca785eae095f41deae7d61eb76d6e23a66c3042ef71637e38907d3195d",
+      "set": 3
+    },
+    {
+      "id": "HS054",
+      "image": "/diagrams/468fde720cc9fe815437.jpg",
+      "caption": "Flow chart for analyzing the hemodynamic profile according to De Backer. ScvO2, central venous oxygen saturation; CO, cardiac output; Microcir, microcirculatory; PvaCO2, venous-to-arterial carbon dioxide partial pressure difference. Reproduced with permission [54].",
+      "difficulty": "hard",
+      "source": "PMC8469937.1/diagnostics-11-01559-g002.jpg",
+      "sha256": "468fde720cc9fe815437eb13cc4798e894970e8253d4b234d710c24766c9e061",
+      "set": 5
+    },
+    {
+      "id": "HS055",
+      "image": "/diagrams/ce5e3002e48358d052d9.jpg",
+      "caption": "Table 1 Timing for tissue processing steps, from time-of-death to start of flux testing.",
+      "difficulty": "easy",
+      "source": "PMC7940379.1/fneur-12-580392-i0001.jpg",
+      "sha256": "ce5e3002e48358d052d9b2fb42130f2b0402f8f118f301f94a9962b76807db37",
+      "set": 4
+    },
+    {
+      "id": "HS056",
+      "image": "/diagrams/65c2dcfb04b972ffceeb.jpg",
+      "caption": "Decision tree model to predict the likelihood of primary aldosteronism in patients with recent stroke. AF, atrial fibrillation; DBP, diastolic blood pressure.",
+      "difficulty": "easy",
+      "source": "PMC9063461.1/fendo-13-869980-g003.jpg",
+      "sha256": "65c2dcfb04b972ffceebf4a1002995f1c60f330abbc486932778b7ba7845e00d",
+      "set": 5
+    },
+    {
+      "id": "HS057",
+      "image": "/diagrams/cf66a0a010b46dea4292.jpg",
+      "caption": "PD-Fuzzy-P controller using decentralize algorithm.",
+      "difficulty": "hard",
+      "source": "PMC7378770.1/sensors-20-03525-g004.jpg",
+      "sha256": "cf66a0a010b46dea4292a6c51d7f9c7e0d42f6aa15ebc3b84cbcda2854f38949",
+      "set": 6
+    },
+    {
+      "id": "HS058",
+      "image": "/diagrams/0bc5d24ea1f363ab3f98.jpg",
+      "caption": "Flowchart of the research sample analyzed.",
+      "difficulty": "easy",
+      "source": "PMC11383194.1/1678-2674-acb-39-e395724-gf01.jpg",
+      "sha256": "0bc5d24ea1f363ab3f989d92f74e3b7710296079ec163371dd1cb17d7615e219",
+      "set": 6
+    },
+    {
+      "id": "HS059",
+      "image": "/diagrams/fd0410e46b812ceb504c.jpg",
+      "caption": "Algorithm flowchart for model construction.",
+      "difficulty": "hard",
+      "source": "PMC7746262.1/pone.0242878.g002.jpg",
+      "sha256": "fd0410e46b812ceb504c32fab573624df5096989c6ae072a908023cc1d79f9b7",
+      "set": 7
+    },
+    {
+      "id": "HS060",
+      "image": "/diagrams/43a34441f084c84010a8.jpg",
+      "caption": "Study flowchart in line with the STROBE (Strengthening the Reporting of Observational Studies in Epidemiology) statement (http://www.strobestatement.org accessed on 16 April 2022).",
+      "difficulty": "medium",
+      "source": "PMC9146679.1/vaccines-10-00662-g001.jpg",
+      "sha256": "43a34441f084c84010a8ec7519842194886ea9454a1ae81c7e83198fa435c63e",
+      "set": 7
+    },
+    {
+      "id": "HS061",
+      "image": "/diagrams/7a201835132336e97651.jpg",
+      "caption": "Study flow chart comparing endoscopic recurrence in low-risk and high-risk Crohn’s disease patients after ileocolonic resection. AReasons for exclusion were as follows: no ileocecal resection performed [n = 8], no histological ileal disease at time of surgery [n = 1], presence of malignancy in resection specimen leading to differences in postoperative follow-up [n = 1] and withdrawn informed consent [n = 1]. BRisk factors present: active smoking n = 45, previous resections n = 51, penetrating disease n = 51. C,DIncluding n = 2 with colonoscopy, but no available images for central read.",
+      "difficulty": "hard",
+      "source": "PMC10024543.1/jjac128f0001.jpg",
+      "sha256": "7a201835132336e97651e9aa69fc3217279fb982b5e708b8fa1cd41cb283183f",
+      "set": 8
+    },
+    {
+      "id": "HS062",
+      "image": "/diagrams/fadacf4bd381a41323de.jpg",
+      "caption": "Example flow charts created from reported tissue clearing protocols. (A) Example flow charts of successful tissue-clearing protocols. The tissue cleared is indicated in the right-most box. (B) Example flow charts of not successful tissue-clearing protocols. The tissue cleared is indicated in the right-most box.",
+      "difficulty": "hard",
+      "source": "PMC11439823.1/fbioe-12-1304622-g002.jpg",
+      "sha256": "fadacf4bd381a41323de73cde10c07c757c580a06e1864e0fd133dd229469f40",
+      "set": 9
+    },
+    {
+      "id": "HS063",
+      "image": "/diagrams/15e82a3193227ef441fd.jpg",
+      "caption": "The algorithm showing the identification of articles included in the review. * Other sources: references from meta-analyses and guidelines.",
+      "difficulty": "easy",
+      "source": "PMC8535422.1/healthcare-09-01287-g001.jpg",
+      "sha256": "15e82a3193227ef441fd4be0c6eb3d6130a2427fda0f760a6bd657de2eb7f032",
+      "set": 7
+    },
+    {
+      "id": "HS064",
+      "image": "/diagrams/938145a56b711faa9d3c.jpg",
+      "caption": "Flow chart of the dummy run. Step 1, RT planning according to each institution’s policies; Step 2, RT planning incorporating additional information from the host institution. Abbreviations: CT, computed tomography; DVH, dose-volume histogram; AI, artificial intelligence; LN, lymph node; OAR, organ at risk.",
+      "difficulty": "medium",
+      "source": "PMC13150357.1/gr1.jpg",
+      "sha256": "938145a56b711faa9d3c164d188dc63ebeaf8814a23afc23ba63ca9f17d90356",
+      "set": 8
+    },
+    {
+      "id": "HS065",
+      "image": "/diagrams/01a2f847a5bbc7644dea.jpg",
+      "caption": "Diagram of eligible studies selection procedures.",
+      "difficulty": "medium",
+      "source": "PMC6640487.1/fphar-10-00795-g001.jpg",
+      "sha256": "01a2f847a5bbc7644dea9cf3f7563362733b404bc9499170c0ce2ac625428a7c",
+      "set": 9
+    },
+    {
+      "id": "HS066",
+      "image": "/diagrams/cfdae9a70ddc9dee9ef5.jpg",
+      "caption": "Trial profile: Consolidated Standards of Reporting Trials (CONSORT) diagram.",
+      "difficulty": "easy",
+      "source": "PMC7744277.1/41434_2020_171_Fig1_HTML.jpg",
+      "sha256": "cfdae9a70ddc9dee9ef5949c8c3e26c321ae777cf762a3e8b38d7cfe19f030fc",
+      "set": 8
+    },
+    {
+      "id": "HS067",
+      "image": "/diagrams/5d0445e0f374c810bae9.jpg",
+      "caption": "Flowchart of the STL-PCA-BWO-BiLSTM model.",
+      "difficulty": "hard",
+      "source": "PMC12204532.1/pone.0324646.g005.jpg",
+      "sha256": "5d0445e0f374c810bae9c20ee07e0263048543a6c4ed4908e3eb75c2895715f9",
+      "set": 10
+    },
+    {
+      "id": "HS068",
+      "image": "/diagrams/4bc3de888debd718b178.jpg",
+      "caption": "Reseasrch flowchart of systems medicine design for human skin aging. Flowchart of using systems biology methods to construct the candidate GWGEN, real GWGENs, core GWGENs, and core signaling pathways to find skin aging progression mechanisms for identifying essential biomarkers. After obtaining the essential biomarkers, we applied trained a deep neural network of drug–target interactions to predict the potential candidate drugs holding higher probability. To narrow down the candidate drugs, we considered drug regulation ability by querying the CMap dataset and drug sensitivity by referring to the sensitivity dataset from DepMap portal. Consequently, we proposed two multiple-molecule drugs to mitigate the skin aging from young-adult to middle-aged and middle-aged to elderly-stage.",
+      "difficulty": "hard",
+      "source": "PMC8197996.1/molecules-26-03178-g002.jpg",
+      "sha256": "4bc3de888debd718b178bce2125ab5a2936bac479d1d6bcdc4e31b84369967f9",
+      "set": 1
+    },
+    {
+      "id": "HS069",
+      "image": "/diagrams/a9078e6ca5f6de9ecad4.jpg",
+      "caption": "Diagnostic algorithm for soft tissue tumors suspected of EHE.",
+      "difficulty": "hard",
+      "source": "PMC11876046.1/fonc-15-1478036-g006.jpg",
+      "sha256": "a9078e6ca5f6de9ecad44fd7c2d840e5acdfc3f33b835a4ffbff0b0020203d99",
+      "set": 2
+    },
+    {
+      "id": "HS070",
+      "image": "/diagrams/82e205c2bbb2c6e7b608.jpg",
+      "caption": "Retrospective workflow. CEUS, contrast-enhanced ultrasound.",
+      "difficulty": "easy",
+      "source": "PMC11021584.1/fendo-15-1299686-g003.jpg",
+      "sha256": "82e205c2bbb2c6e7b608b09e284e798423209d21bad3b5a4463c5c2c2444e7c9",
+      "set": 9
+    },
+    {
+      "id": "HS071",
+      "image": "/diagrams/345413d3ee9d1c80a017.jpg",
+      "caption": "Flow chart of TB/HIV patients from Minsk, Belarus, enrolled into the TB : HIV study during 2011-2013, who have Mycobacterium tuberculosis (Mtb) culture samples available and with various drug susceptibly tests performed on these samples. Abbreviations: DST = drug-susceptibility testing; LPA = line probe assay; WGS = whole-genome sequencing. Patients were enrolled and followed up from the Republican Scientific and Practical Center for Pulmonology and TB, Minsk, Belarus. Mtb cultures were sent to the WHO TB Supranational Reference Laboratory, Copenhagen, Denmark, where drug-susceptibility testing was performed using phenotypic, LPA, and WGS methods.",
+      "difficulty": "hard",
+      "source": "PMC8035031.1/TRT2021-6646239.001.jpg",
+      "sha256": "345413d3ee9d1c80a017c070d2e2abe1c086f5b06ad8a61a736c984b268cd88f",
+      "set": 3
+    },
+    {
+      "id": "HS072",
+      "image": "/diagrams/44d6d50c2690a96d7ffd.jpg",
+      "caption": "Quantification of resilience metrics. Residuals from linear regression models in which a cognitive score was regressed on age, sex, and amyloid levels were extracted and entered as indicator variables in a partial least squares path model using established procedures. Combined resilience was quantified as a second order latent trait in the model in which educational attainment was included as an additional indicator variable. PACC = Preclinical Alzheimer Cognitive Composite.",
+      "difficulty": "easy",
+      "source": "PMC7447518.1/awaa209f1.jpg",
+      "sha256": "44d6d50c2690a96d7ffdfbb35d246107c500d4465e41c449f6e2180b9082aaab",
+      "set": 10
+    },
+    {
+      "id": "HS073",
+      "image": "/diagrams/289ec570af5a450b1b75.jpg",
+      "caption": "Flow of decision-making on cases to simulate.",
+      "difficulty": "medium",
+      "source": "PMC11636907.1/gr008.jpg",
+      "sha256": "289ec570af5a450b1b75cafc86a49040f920c73b876a279c8eb29c5b02301e20",
+      "set": 10
+    },
+    {
+      "id": "HS074",
+      "image": "/diagrams/a1808a6bd14c19984f32.jpg",
+      "caption": "Flow chart of 324 C-P class HCV cirrhotic patients included in the study.",
+      "difficulty": "easy",
+      "source": "PMC9699534.1/jpm-12-01794-g001.jpg",
+      "sha256": "a1808a6bd14c19984f32108b3c87a21c6f98be41ef361917a2a6c50a41fa0b91",
+      "set": 1
+    },
+    {
+      "id": "HS075",
+      "image": "/diagrams/d74ad9c8d771239bcbec.jpg",
+      "caption": "Flow diagram of literature search and selection.",
+      "difficulty": "medium",
+      "source": "PMC11999397.1/medi-104-e42060-g001.jpg",
+      "sha256": "d74ad9c8d771239bcbecb764dfe66f29ea935517c1116265516a2ae2a4535475",
+      "set": 1
+    },
+    {
+      "id": "HS076",
+      "image": "/diagrams/bd5407b4a313d6d2c014.jpg",
+      "caption": "Overview of MR rationale, design, and procedures. There are three key assumptions for MR study. Assumption 1: the GVs selected as IVs should be strongly associated with the exposures; Assumption 2: the used GVs should not be associated with any potential confounder; Assumption 3: the GVs should influence the outcome risk merely through the exposures, not via any alternative pathway. Abbreviations: ctrl = control; FGP = female genital prolapse; GVs = genetic variants; IV = instrumental variable; IVW = inverse variance weighted; MR = Mendelian randomization; MVMR = multivariable Mendelian randomization; SNP = single-nucleotide polymorphism; TDI = Townsend deprivation index; UVMR = univariable Mendelian randomization; WM = weighted median",
+      "difficulty": "easy",
+      "source": "PMC10251634.1/12920_2023_1560_Figa_HTML.jpg",
+      "sha256": "bd5407b4a313d6d2c014715d9fe05794fd11db23b2fd631e0035e9bb8f8f9c9a",
+      "set": 2
+    },
+    {
+      "id": "HS077",
+      "image": "/diagrams/4f2d9473d9a436741b2f.jpg",
+      "caption": "The procedure for the multiple pairwise comparisons",
+      "difficulty": "hard",
+      "source": "PMC12241273.1/13428_2025_2729_Fig1_HTML.jpg",
+      "sha256": "4f2d9473d9a436741b2f8bec78daed3d995e2b449e32c931702794dc4f945724",
+      "set": 4
+    },
+    {
+      "id": "HS078",
+      "image": "/diagrams/1acc612a8cf4b94bb0c0.jpg",
+      "caption": "CONSORT flow diagram summarizing patients eligible for the study",
+      "difficulty": "easy",
+      "source": "PMC9568961.2/44158_2022_71_Fig1_HTML.jpg",
+      "sha256": "1acc612a8cf4b94bb0c06b3a39c805d9108f839d172b44704da85b73d1a139e8",
+      "set": 3
+    },
+    {
+      "id": "HS079",
+      "image": "/diagrams/340c9712fe0625f003a5.jpg",
+      "caption": "Overview of all patients that received surgery on the LFCN at both centers, available follow-up data and the types of procedures that were performed on the evaluated patients.",
+      "difficulty": "easy",
+      "source": "PMC13141792.1/gr1.jpg",
+      "sha256": "340c9712fe0625f003a532b5a1c00bb01b0f1e94162c753a2cc16437e4b01dfa",
+      "set": 4
+    },
+    {
+      "id": "HS080",
+      "image": "/diagrams/6df5de9400e0e0ac78bc.jpg",
+      "caption": "Schematic flow chart of the enrolled patients. CHC: chronic hepatitis C virus infection; DAA: direct-acting antiviral; SVR: sustained virological response.",
+      "difficulty": "hard",
+      "source": "PMC8616092.1/cells-10-02934-g001.jpg",
+      "sha256": "6df5de9400e0e0ac78bc9937b43f7c1c1cfd0a882db49acec5b7d871766413f7",
+      "set": 5
+    },
+    {
+      "id": "HS081",
+      "image": "/diagrams/de85e774c0e8ef08173c.jpg",
+      "caption": "PRISMA flow diagram of study identification process. PRISMA, Preferred Reporting Items for Systematic Reviews and Meta-Analyses.",
+      "difficulty": "easy",
+      "source": "PMC12306253.1/bmjno-7-2-g001.jpg",
+      "sha256": "de85e774c0e8ef08173c68e2c739a56bda51d7d511fb640e1665d25621283092",
+      "set": 5
+    },
+    {
+      "id": "HS082",
+      "image": "/diagrams/315a96cd2c5e72153b92.jpg",
+      "caption": "Flow chart illustrating the complete clinical and laboratory workflow of the randomized clinical trial. The diagram summarizes patient recruitment, diagnostic procedures, matrix fabrication protocols, trial restoration transfer, intraoral scanning, and digital analysis steps. IOS = intraoral scanning; STL = standard tessellation language; PVS = polyvinyl siloxane; CAD = computer-aided design; CAM = computer-aided manufacturing; RMS = root mean square.",
+      "difficulty": "easy",
+      "source": "PMC12072445.1/jcm-14-03240-g001.jpg",
+      "sha256": "315a96cd2c5e72153b921d4936b63983590eb21e77de0ea57102253c09471427",
+      "set": 6
+    },
+    {
+      "id": "HS083",
+      "image": "/diagrams/2ec401bb96da6afdb14a.jpg",
+      "caption": "Flowchart for determining the urine collection rate in neonates with defecation.",
+      "difficulty": "easy",
+      "source": "PMC8304071.1/children-08-00561-g005.jpg",
+      "sha256": "2ec401bb96da6afdb14ab516e34ea1b46dace83650a96a1d542244af0b15e2c8",
+      "set": 7
+    },
+    {
+      "id": "HS084",
+      "image": "/diagrams/5ca136ab185cda224a7d.jpg",
+      "caption": "Diagnostic algorithm. Histology should be obtained from tumors suspected of NEN to confirm the diagnosis of a neuroendocrine origin. Morphological examination will subsequently divide neoplasms into well-differentiated tumors or poorly differentiated carcinomas. Uncertain cases can be categorized through the use of genetic analysis or p53 staining. Within the NETs mitotic and Ki-67 indices will classify the tumor into grade 1 to 3. Further prognostic and therapeutic information can be obtained by performing 68Ga-labelled somatostatin receptor imaging and for higher grade or clinically aggressive tumors an 18F-FDG PET. FDG, fluorodeoxyglucose NEN, neuroendocrine neoplasm; WD, well-differentiated; PD, poorly differentiated; NET, neuroendocrine tumor; NEC, neuroendocrine carcinoma; SUV, standardized uptake value; PET, positron emission tomography; Pan, pancreas; GI, gastrointestinal.",
+      "difficulty": "hard",
+      "source": "PMC7080342.1/edrv_41_2_371_f5.jpg",
+      "sha256": "5ca136ab185cda224a7dd8803b5f9b70255c644a12c883517dc4f1b0e40c9777",
+      "set": 6
+    },
+    {
+      "id": "HS085",
+      "image": "/diagrams/6ba639758e13a5ae1cff.jpg",
+      "caption": "Neoantigen prediction on the basis of the biological mechanism of neoantigen-induced immune attack. The overall prediction pipeline takes tumor DNA-seq, normal (i.e. nontumor) DNA-seq, and tumor RNA-seq data as inputs and outputs the predicted neoantigens. Each computational step in the pipeline corresponds to some neoantigen-related biological processes, which, together, result in T cells attacking cancer cells. Solid arrows are from prerequisite inputs of computational steps to the corresponding outputs. Dashed arrows indicate biological processes. Dotted arrows describe the relationships between the computational steps and the biological processes. This figure was created with Biorender.com. MHC, major histocompatibility complex. TCR, T-cell receptor. Alt text: Neoantigen prediction on the basis of the biological mechanism of neoantigen-induced immune attack.",
+      "difficulty": "hard",
+      "source": "PMC12222050.1/bbaf302f1.jpg",
+      "sha256": "6ba639758e13a5ae1cffcfcf3940784e95d1fb172a16866da79185930f281633",
+      "set": 7
+    },
+    {
+      "id": "HS086",
+      "image": "/diagrams/2398e889ebb943087755.jpg",
+      "caption": "Workflow of the PV patient with multple coronary occlusion from the diagnosis, intervention, complication, treatment, and outcome. PV = polycythemia vera.",
+      "difficulty": "medium",
+      "source": "PMC7478610.1/medi-99-e19288-g006.jpg",
+      "sha256": "2398e889ebb943087755713e28a1256f369b4190a7c8cdf1a5181194e4bcf5ae",
+      "set": 2
+    },
+    {
+      "id": "HS087",
+      "image": "/diagrams/d21a248ed87a4a94bc81.jpg",
+      "caption": "A schematic of the pipeline for novel lncRNA discovery (Illumina sequencing) and validation (Nanopore sequencing).",
+      "difficulty": "medium",
+      "source": "PMC8583240.1/ijms-22-11324-g002.jpg",
+      "sha256": "d21a248ed87a4a94bc81c970a66def14a92b1b1931593ecfc6d0eb9977e8709f",
+      "set": 3
+    },
+    {
+      "id": "HS088",
+      "image": "/diagrams/418a5f17fb3f69e1961a.jpg",
+      "caption": "Flowchart of included and excluded patients in the study. ABPA Allergic Bronchopulmonary Aspergillosis. AF Aspergillus fumigatus. CF Cystic fibrosis",
+      "difficulty": "medium",
+      "source": "PMC9258124.1/12890_2022_2054_Fig2_HTML.jpg",
+      "sha256": "418a5f17fb3f69e1961a06b2f9ea805454299bf03cfc887ea1851ddeb3214c65",
+      "set": 4
+    },
+    {
+      "id": "HS089",
+      "image": "/diagrams/295f3c5e1600c5344f25.jpg",
+      "caption": "Patients’ categorized flow diagram according to intraoperative fluid load in this group patient population",
+      "difficulty": "easy",
+      "source": "PMC11322412.1/431_2024_5628_Fig1_HTML.jpg",
+      "sha256": "295f3c5e1600c5344f25f6cd37c03797d7e58c64efc903116edc76734fb4513a",
+      "set": 8
+    },
+    {
+      "id": "HS090",
+      "image": "/diagrams/18695208b22bdd00f4da.jpg",
+      "caption": "Participant flow.AKDN = Alberta Kidney Disease Network; RRT = renal replacement therapy (receipt of kidney transplant or chronic dialysis).",
+      "difficulty": "easy",
+      "source": "PMC11163929.1/10.1177_20543581241255781-fig1.jpg",
+      "sha256": "18695208b22bdd00f4dafa2712bebb10c7e4ceaa8d5e7a2513fda1a7f50a2ded",
+      "set": 9
+    },
+    {
+      "id": "HS091",
+      "image": "/diagrams/574a36fddae52610b6c0.jpg",
+      "caption": "Thromboprophylaxis protocol. CUS, compression ultrasonography; GCS, graduated compression stocking; IPC, intermittent pneumatic compression; VTE, venous thromboembolism",
+      "difficulty": "hard",
+      "source": "PMC9746213.1/12959_2022_439_Fig1_HTML.jpg",
+      "sha256": "574a36fddae52610b6c0ab1d196ab65d22bda1924e12eed96e2a6f7c17457143",
+      "set": 8
+    },
+    {
+      "id": "HS092",
+      "image": "/diagrams/7ecfc09848cda7b7f65e.jpg",
+      "caption": "Automated classification pipeline architecture. CARS atherosclerotic plaque images are input to the first image preprocessing stage, undergoing contrast adjustment and sharpening. Output of image preprocessing for all 566 images is fed into the four segmentation methods, OTS, IFCT, MCW and KMS to isolate the lipid-rich structures of the plaques. Features with high predictive power are computed from the isolated outputs. Refined features are fed into the four supervised ML algorithms, MCSVM, DT and KNN to output the classification of atherosclerotic plaque severity as early fatty streak development (EFS), early fibroatheroma (EF) and advancing atheroma (AA)",
+      "difficulty": "medium",
+      "source": "PMC9753267.1/12859_2022_5059_Fig3_HTML.jpg",
+      "sha256": "7ecfc09848cda7b7f65eb59b0c1203ce0702040428bf747963149f030b9fa71a",
+      "set": 5
+    },
+    {
+      "id": "HS093",
+      "image": "/diagrams/fce9691d2746e940c452.jpg",
+      "caption": "PRISMA flow diagram of database searching and screening",
+      "difficulty": "easy",
+      "source": "PMC11752810.1/12883_2024_4000_Fig1_HTML.jpg",
+      "sha256": "fce9691d2746e940c4529055dd73bd9414f301a9915555ecd9b9e942273e8931",
+      "set": 10
+    },
+    {
+      "id": "HS094",
+      "image": "/diagrams/049c23e323e20d744281.jpg",
+      "caption": "Flow diagram of the patients included in and excluded from the analysis.",
+      "difficulty": "easy",
+      "source": "PMC10748070.1/pharmaceuticals-16-01694-g001.jpg",
+      "sha256": "049c23e323e20d744281e10036cb654a9e4495c1f9a998b7b14ea00fea4516da",
+      "set": 1
+    },
+    {
+      "id": "HS095",
+      "image": "/diagrams/377a15b3c69b28c0c444.jpg",
+      "caption": "Flowchart of our lung resections’ surgical series collected between 2015 and 2021 answering to inclusion and exclusion criteria.",
+      "difficulty": "hard",
+      "source": "PMC10607558.1/jcm-12-06609-g001.jpg",
+      "sha256": "377a15b3c69b28c0c444cc7d684444401b0526bc370a33c401ff805178bf93e3",
+      "set": 9
+    },
+    {
+      "id": "HS096",
+      "image": "/diagrams/0c5664ecfe9c6000c7a8.jpg",
+      "caption": "The complete visual analytics pipeline.It can be seen as a process in which data is transformed by a series of processing modules (brown boxes) that can be realized by a series of software tools (blue boxes). Specifically, the raw data is first stored in data files or databases after data pre-processing, then the analysis results are generated by data analysis methods, and finally multiple views are formed through visual mapping and presented to users. Users can interact with the data at various stages of this pipeline according to their analysis tasks to achieve a comprehensive analysis of the data.",
+      "difficulty": "medium",
+      "source": "PMC10497676.1/41538_2023_226_Fig1_HTML.jpg",
+      "sha256": "0c5664ecfe9c6000c7a89bfd4db4a728edb942bf85d678a5b683d1a9541f9d1e",
+      "set": 6
+    },
+    {
+      "id": "HS097",
+      "image": "/diagrams/2cc5558dc29e54b9146f.jpg",
+      "caption": "Flow diagram of the selection of study subpopulations.",
+      "difficulty": "easy",
+      "source": "PMC4377933.1/ijerph-12-02793-g001.jpg",
+      "sha256": "2cc5558dc29e54b9146f3b2eaa922b37732ef6ed746874942a9f57d95bb41c11",
+      "set": 2
+    },
+    {
+      "id": "HS098",
+      "image": "/diagrams/598d031a544b066440f1.jpg",
+      "caption": "Flow chart showing study intervention participation and HIV-testing eligibility.",
+      "difficulty": "hard",
+      "source": "PMC5497780.1/aids-31-s221-g001.jpg",
+      "sha256": "598d031a544b066440f12949c95a283b172ea12a7c509db3119b1903c33c2a7e",
+      "set": 10
+    },
+    {
+      "id": "HS099",
+      "image": "/diagrams/042fd312ec6afee936a4.jpg",
+      "caption": "The local algorithm for neurological prognostication designed and used at the Charité Universitätsmedizin Berlin hospital. The pathway includes current recommendations of several intensive care and neurological societies.OHCA - out-of-hospital cardiac arrest; EEG - electroencephalography; SEP - somatosensory evoked potentials; Cct - cerebral computer tomography; NSE - neuron specific enolase.",
+      "difficulty": "hard",
+      "source": "PMC4828083.1/rbti-28-01-0001-g01.jpg",
+      "sha256": "042fd312ec6afee936a417549ae541264a4a34988f096e9e998688e1925ba803",
+      "set": 1
+    },
+    {
+      "id": "HS100",
+      "image": "/diagrams/468ca12b67c11e20ae65.jpg",
+      "caption": "Arkansas State University (STAR) Herbarium digitization workflow developed and applied in this project.",
+      "difficulty": "easy",
+      "source": "PMC5400430.1/apps.1600125fig1.jpg",
+      "sha256": "468ca12b67c11e20ae650374e7d9f344de7fdccc33eabe183b7d770a64363eb6",
+      "set": 3
+    },
+    {
+      "id": "HS101",
+      "image": "/diagrams/e20ad671181ef310b2fd.jpg",
+      "caption": "(a) CONSORT flowchart and (b) conditions and sequences for randomised triple crossover design. aAdditional eligibility criteria were only considered for infants with gestational age at birth less than 32 weeks.",
+      "difficulty": "hard",
+      "source": "PMC10092656.1/JPC-59-81-g002.jpg",
+      "sha256": "e20ad671181ef310b2fd49f5c6a92bfc4abc0434ba0bec8af1763f184346a1ce",
+      "set": 2
+    },
+    {
+      "id": "HS102",
+      "image": "/diagrams/99271a39419543e3c416.jpg",
+      "caption": "Participant flow. KSS and KOOS show how many participants were evaluated for KSS or turned in KOOS questionnaires at that follow-up",
+      "difficulty": "hard",
+      "source": "PMC6151190.1/12891_2018_2256_Fig2_HTML.jpg",
+      "sha256": "99271a39419543e3c416c797129c7b81083005016bcdf8b58f05e1656432e8c5",
+      "set": 3
+    },
+    {
+      "id": "HS103",
+      "image": "/diagrams/b454fb37db4038d7d5a9.jpg",
+      "caption": "Flowchart for selecting the study population",
+      "difficulty": "easy",
+      "source": "PMC9059457.1/330_2022_8805_Fig1_HTML.jpg",
+      "sha256": "b454fb37db4038d7d5a9c217c71f40f80c188ea226b551f2da8421dcd61c49b4",
+      "set": 4
+    },
+    {
+      "id": "HS104",
+      "image": "/diagrams/f1a34c31c57c686b5118.jpg",
+      "caption": "Analytical workflow. Least absolute shrinkage and selection operator (LASSO) least absolute shrinkage and selection operator, AUC, area under the curve; BMI, body mass index; DCA, decision curve analysis; NLR, negative likelihood ratio; NPV, negative predictive value; PLR, positive likelihood ratio; PPV, positive predictive value; ROC, receiver operating characteristic; SEN, sensitivity; SPE, specificity; WHR, waist-to-hip ratio.",
+      "difficulty": "hard",
+      "source": "PMC13193282.1/ct9-17-e01011-g002.jpg",
+      "sha256": "f1a34c31c57c686b5118f5cf30dd24a080b800f9a318ea8c9a0da4aeb315e586",
+      "set": 4
+    },
+    {
+      "id": "HS105",
+      "image": "/diagrams/e1c3b64e7346f90a0cf5.jpg",
+      "caption": "Flow diagram of data extraction. PTC: papillary carcinoma; LNM: lymph node metastasis.",
+      "difficulty": "easy",
+      "source": "PMC12225339.1/reports-07-00078-g001.jpg",
+      "sha256": "e1c3b64e7346f90a0cf56fa4dd688761773548002d8b82d56c40f77094f67b7d",
+      "set": 5
+    },
+    {
+      "id": "HS106",
+      "image": "/diagrams/8cbfefa76131598f0c10.jpg",
+      "caption": "Diagnostic and treatment algorithm for the patient with suspected S. maltophilia SSTI. † In the case of sulfonamide allergy, desensitization may be pursued. If this is not possible, treatment with levofloxacin or minocycline should be initiated if the culture demonstrates sensitivity. * Consider combination therapy such as trimethoprim–sulfamethoxazole plus a third-generation cephalosporin or extended-spectrum penicillin [15].",
+      "difficulty": "easy",
+      "source": "PMC9598652.1/antibiotics-11-01398-g004.jpg",
+      "sha256": "8cbfefa76131598f0c1041043a96a24f1b45fbd2c5c66ad25797bc5aeea6c549",
+      "set": 6
+    },
+    {
+      "id": "HS107",
+      "image": "/diagrams/7c30c1727be3f19a058a.jpg",
+      "caption": "Flowchart of outcome assessment responses by assessment periods for each health topic. HA, hours active; SB, sedentary behavior.",
+      "difficulty": "hard",
+      "source": "PMC10485275.1/fpubh-11-1185702-g0003.jpg",
+      "sha256": "7c30c1727be3f19a058a48c9e34cce7480f4be69e436154f005dd015df7b2dcb",
+      "set": 5
+    },
+    {
+      "id": "HS108",
+      "image": "/diagrams/32f44ba7ea871986a39f.jpg",
+      "caption": "Patient selection process. AAA, abdominal aortic aneurysm; TC, total cholesterol; HDL-c, high-density lipoprotein cholesterol",
+      "difficulty": "easy",
+      "source": "PMC10626699.1/12944_2023_1939_Fig1_HTML.jpg",
+      "sha256": "32f44ba7ea871986a39f15081a21261dc0d3446343d2727867814f2318f08ea5",
+      "set": 7
+    },
+    {
+      "id": "HS109",
+      "image": "/diagrams/3f89381cb83e1678e0f5.jpg",
+      "caption": "Experimental Workflow and Folder Structure:(a) Directory tree hierarchical diagram of the main script folder, subfolders per video (named by h264 file), and contents (.h264 video + CSV Metadata). (b) Processing workflow chart showing loop over video folders → conversion & splitting → vial detection → fly tracking & plotting → post-iteration aggregation → statistical analysis.",
+      "difficulty": "hard",
+      "source": "PMC12919220.1/nihpp-rs8769384v1-f0001.jpg",
+      "sha256": "3f89381cb83e1678e0f50c589cfb46cc90c6f4b4c75c08ad2c7aa1641232a0d5",
+      "set": 6
+    },
+    {
+      "id": "HS110",
+      "image": "/diagrams/d95f0476169de1dac527.jpg",
+      "caption": "PRISMA flow diagram.Papers collected considering the search string in the databases.",
+      "difficulty": "easy",
+      "source": "PMC6277099.1/pone.0208052.g002.jpg",
+      "sha256": "d95f0476169de1dac52732569c4eb9fa8f73251440228dfa69f2529743d8a8a0",
+      "set": 8
+    },
+    {
+      "id": "HS111",
+      "image": "/diagrams/d6fd25610df6dca754aa.jpg",
+      "caption": "The flowchart diagram of the proposed HIE system.",
+      "difficulty": "medium",
+      "source": "PMC10935374.1/sensors-24-01582-g003.jpg",
+      "sha256": "d6fd25610df6dca754aadb4c4a537e5710e2530c7868a1ba12b366a61b5037a6",
+      "set": 7
+    },
+    {
+      "id": "HS112",
+      "image": "/diagrams/e45cfaaccd65f80e6f36.jpg",
+      "caption": "The flow diagram of the search strategy.",
+      "difficulty": "easy",
+      "source": "PMC10695523.1/medi-102-e36137-g001.jpg",
+      "sha256": "e45cfaaccd65f80e6f366d5c015b112b460fb23377314d83e81eb65f9dc539aa",
+      "set": 9
+    },
+    {
+      "id": "HS113",
+      "image": "/diagrams/6bbddd179d2326973e27.jpg",
+      "caption": "Flowchart of patient selection–comparison A.",
+      "difficulty": "medium",
+      "source": "PMC11567555.1/pone.0310822.g002.jpg",
+      "sha256": "6bbddd179d2326973e277e2cd74d20d828170cfd7962a085dc663b7ee28cd833",
+      "set": 8
+    },
+    {
+      "id": "HS114",
+      "image": "/diagrams/82a194a14e715de85d9e.jpg",
+      "caption": "Algorithm for diagnosis and treatment of confirmed/suspected coronavirus infectious disease-19 patients with non-ST-segment elevation acute coronary syndrome",
+      "difficulty": "hard",
+      "source": "PMC8958946.1/cp-5-21-g003.jpg",
+      "sha256": "82a194a14e715de85d9e3acf1e79016ab35cd775b897e8c2f8954c7e6a49653a",
+      "set": 7
+    },
+    {
+      "id": "HS115",
+      "image": "/diagrams/125c1406c3064ff51b99.jpg",
+      "caption": "Flowchart showing the population screened and excluded in the study.",
+      "difficulty": "medium",
+      "source": "PMC9699918.1/IJPC-28-434-g002.jpg",
+      "sha256": "125c1406c3064ff51b9936f1c29f9c8284f9083b69a298c5d5131e3866df7307",
+      "set": 9
+    },
+    {
+      "id": "HS116",
+      "image": "/diagrams/c53d8f1674dc22f5d851.jpg",
+      "caption": "STROBE flow diagram for cross-sectional study.",
+      "difficulty": "easy",
+      "source": "PMC13275219.1/fendo-17-1867755-g001.jpg",
+      "sha256": "c53d8f1674dc22f5d8518de0de0b5196c80a8c6c6d49f1cc24b6aa2b3fc087da",
+      "set": 10
+    },
+    {
+      "id": "HS117",
+      "image": "/diagrams/79dec240d528cc06854d.jpg",
+      "caption": "Preferred reporting items for systematic reviews flow diagram. Two reports by Glenn et al. (27, 28) originated from the same randomized controlled trial and were therefore treated as a single study in the analysis.",
+      "difficulty": "medium",
+      "source": "PMC13294097.1/fnut-13-1857513-g001.jpg",
+      "sha256": "79dec240d528cc06854d2cdf1b5490689e108e7fa166bfcb5fc36338a655b3ba",
+      "set": 10
+    },
+    {
+      "id": "HS118",
+      "image": "/diagrams/cb10087558a718861aeb.jpg",
+      "caption": "Flow chart of study population and tumor characteristics. SIAC, small intestinal adenocarcinoma; IHC, immunohistochemistry; MSI, microsatellite instability—high; MSS, microsatellite stable.",
+      "difficulty": "medium",
+      "source": "PMC8624293.1/jcm-10-05398-g001.jpg",
+      "sha256": "cb10087558a718861aebe1c48f9b3182aba5d392c3370c2545f30ea8600bf3ea",
+      "set": 1
+    },
+    {
+      "id": "HS119",
+      "image": "/diagrams/452e9c774224fe09a23a.jpg",
+      "caption": "Flow chart for maternal mortality study, United States, 2016–2017.",
+      "difficulty": "hard",
+      "source": "PMC7592741.1/pone.0240701.g002.jpg",
+      "sha256": "452e9c774224fe09a23a1b328704b3238e884dcc59e299de55e6856d0c96d324",
+      "set": 8
+    },
+    {
+      "id": "HS120",
+      "image": "/diagrams/3961e8545910a31e0e3f.jpg",
+      "caption": "GA-VirReport and GA-VirReport-Stats workflows. GA-VirReport workflow is shown in green, and the GA-VirReport-Stats workflow is shown in orange.",
+      "difficulty": "hard",
+      "source": "PMC9317486.1/viruses-14-01480-g001.jpg",
+      "sha256": "3961e8545910a31e0e3f5db066e803bf6b1cbf4c9aeeac71be84d2d932982991",
+      "set": 9
+    },
+    {
+      "id": "HS121",
+      "image": "/diagrams/233263baefd20d33ff70.jpg",
+      "caption": "Flow diagram of the workers involved in the effectiveness and process evaluation.",
+      "difficulty": "medium",
+      "source": "PMC8037176.1/ijerph-18-03546-g002.jpg",
+      "sha256": "233263baefd20d33ff70ffbd1619329db709fce7c3ac2f46249b1e558180b45c",
+      "set": 2
+    },
+    {
+      "id": "HS122",
+      "image": "/diagrams/ca2b0fca6f917e5b9179.jpg",
+      "caption": "Algorithm for determining if a patient is a suitable candidate for simultaneous UKA and ACLR. MOA, medial osteoarthritis; ACL, anterior cruciate ligament; UKA, unicompartmental knee replacement; TKA, total knee replacement.",
+      "difficulty": "medium",
+      "source": "PMC12471026.1/jcm-14-06439-g001.jpg",
+      "sha256": "ca2b0fca6f917e5b9179aab0c8f274bf193276e84c93d4d5b8d9023ad6e87606",
+      "set": 3
+    },
+    {
+      "id": "HS123",
+      "image": "/diagrams/d55bf1f6174ccf5f356b.jpg",
+      "caption": "Patient disposition. “Analyzed” refers to the full analysis set rather than the per protocol set",
+      "difficulty": "hard",
+      "source": "PMC5859088.1/12325_2018_668_Fig2_HTML.jpg",
+      "sha256": "d55bf1f6174ccf5f356b96838a615285b81b2f52b3650f8ab5786edcf49691dd",
+      "set": 10
+    },
+    {
+      "id": "HS124",
+      "image": "/diagrams/bb6e0c66cd3443fb1118.jpg",
+      "caption": "Flow chart of records retrieved, screened and included in the systematic review.",
+      "difficulty": "medium",
+      "source": "PMC4762152.1/bmjopen2015008119f01.jpg",
+      "sha256": "bb6e0c66cd3443fb1118cfb5dd62ecdf080fb6c1cd8d73536375f9dc8deb109b",
+      "set": 4
+    },
+    {
+      "id": "HS125",
+      "image": "/diagrams/ce868f12677445d50e86.jpg",
+      "caption": "Shows the flow diagram of the included participants",
+      "difficulty": "medium",
+      "source": "PMC12379490.1/12912_2025_3681_Fig1_HTML.jpg",
+      "sha256": "ce868f12677445d50e86870aab3fbf1f0eac85cad72cbdd6e07eb030befd46f7",
+      "set": 5
+    },
+    {
+      "id": "HS126",
+      "image": "/diagrams/29f8ad29efa851271100.jpg",
+      "caption": "Flow diagram of the experience of the participants in the current research",
+      "difficulty": "easy",
+      "source": "PMC10367362.1/12909_2023_4493_Fig1_HTML.jpg",
+      "sha256": "29f8ad29efa851271100923d557230871088f79e5335887a66865f7856e0147f",
+      "set": 1
+    },
+    {
+      "id": "HS127",
+      "image": "/diagrams/4a7b7bd4ec22a109c9be.png",
+      "caption": "Shaka 2 Ownership Diagram of a media player. Player owns ManifestParser, StreamingEngine, DrmEngine, AbrManager, NetworkingEngine, Manifest, MediaSourceEngine and TextDisplayer; MediaSourceEngine owns MediaSource, TextEngine, SourceBuffer and Transmuxer, TextEngine owns TextParser, NetworkingEngine owns HttpFetchPlugin and TextDisplayer owns TextTrack. Dotted weak references link several components, and a legend explains the edge and node types.",
+      "difficulty": "hard",
+      "source": "cdda4010-2874-4aa5-b19c-70aa068f56e6",
+      "sha256": "4a7b7bd4ec22a109c9bed9627f02aa84a52d1284ca13815642819ac46f2fcab4",
+      "set": 1
+    },
+    {
+      "id": "HS128",
+      "image": "/diagrams/f4bb86ba5fbf3264fdd7.jpg",
+      "caption": "Flowchart of the study patient selection.",
+      "difficulty": "easy",
+      "source": "PMC12853967.1/CRE2-12-e70271-g001.jpg",
+      "sha256": "f4bb86ba5fbf3264fdd760c7f7ad89b2404b0ea974693776cb677b1b11854448",
+      "set": 2
+    },
+    {
+      "id": "HS129",
+      "image": "/diagrams/996d1bcb636c9c2f34e0.jpg",
+      "caption": "Proposed treatment algorithm for patients with recurrent or refractory Clostridioides difficile infection (CDI) during the COVID-19 pandemic. FMT, faecal microbiota transplantation.",
+      "difficulty": "medium",
+      "source": "PMC7456726.1/gutjnl-2020-321829f01.jpg",
+      "sha256": "996d1bcb636c9c2f34e0618e5af59c2e5cee0f66efe2e307ef9336b35b19afb0",
+      "set": 6
+    },
+    {
+      "id": "HS130",
+      "image": "/diagrams/1d5731bcd83c1b677f8e.jpg",
+      "caption": "Flowchart of CUSUM-AA-PCA based fault prognosis.",
+      "difficulty": "hard",
+      "source": "PMC6021969.1/sensors-18-01804-g002.jpg",
+      "sha256": "1d5731bcd83c1b677f8e89a0e72f16956e01d697b95d6f804c16bcf8e933c59e",
+      "set": 2
+    },
+    {
+      "id": "HS131",
+      "image": "/diagrams/557f32d43b7b5f4ac21e.jpg",
+      "caption": "Flow chart of in vitro treatment of subgingival biofilm samples from patients with severe periodontitis with 10% and 5% PV-I.PV-I: Povidone-iodine.",
+      "difficulty": "medium",
+      "source": "PMC12883002.1/cureus-0018-00000101128-i01.jpg",
+      "sha256": "557f32d43b7b5f4ac21e5160f5b99696d6ab2fb3e559bc7c63fa2df7ecb8788c",
+      "set": 7
+    },
+    {
+      "id": "HS132",
+      "image": "/diagrams/de19ca4b0caf767f9e04.jpg",
+      "caption": "Schematic representation of extraction and fractionation procedure of A. theiformis leaves.",
+      "difficulty": "hard",
+      "source": "PMC7248941.1/molecules-25-02081-g001.jpg",
+      "sha256": "de19ca4b0caf767f9e04a94b4c62015fd75f242c2622dd561a09ba0cb665d98e",
+      "set": 3
+    },
+    {
+      "id": "HS133",
+      "image": "/diagrams/eeac046de1c9da0867d0.jpg",
+      "caption": "Flowchart of the construction of the GWAS and the calculation of PRS in Taiwanese patients with HCC. Commands prefixed with double hyphens signify instructions executed via the PLINK software suite, allowing replication of our analytic outcomes. The “geno” option assesses the missing rate of variants, while “mind” evaluates the missing rate among participants. The “hwe” command checks for Hardy–Weinberg equilibrium compliance. “maf” filters for minor allele frequency, and “pca” executes principal component analysis. “het” analyzes the heterozygote ratio. Following this quality control sequence, we employed Beagle 5.2 for imputation analysis. Alleles with a dosage r-squared (DR2) of less than or equal to 0.3 and a genotype posterior probability (GP) of less than 0.9 are excluded from subsequent analysis.",
+      "difficulty": "hard",
+      "source": "PMC10671380.1/ijms-24-16417-g001.jpg",
+      "sha256": "eeac046de1c9da0867d0c6e5e471f2e62bcec47f4543458fe886daa9b14e3754",
+      "set": 4
+    },
+    {
+      "id": "HS134",
+      "image": "/diagrams/fa06d3af77fb526cd153.jpg",
+      "caption": "Flow diagram of the screening and enrollment of study participants.",
+      "difficulty": "medium",
+      "source": "PMC11269092.1/fendo-15-1391013-g001.jpg",
+      "sha256": "fa06d3af77fb526cd153b9917c3d986ca1f60e3b28db58aa2c44d03f9a6cfed2",
+      "set": 8
+    },
+    {
+      "id": "HS135",
+      "image": "/diagrams/aa2ab2742cb610f3cceb.jpg",
+      "caption": "Workflow for the compilation, cleaning, harmonization, and analysis of ReSurveyEurope time series of vegetation plots.Different colours indicate separate analyses for different habitat types and habitat-change trajectories. Designed by FreePik. WFO-Logo: World Flora Online (2026). Published on the Internet, www.worldfloraonline.org.1 EUNIS-ESy: Expert system for automatic classification of European vegetation plots to EUNIS habitats91.",
+      "difficulty": "hard",
+      "source": "PMC13156317.1/41467_2026_72112_Fig2_HTML.jpg",
+      "sha256": "aa2ab2742cb610f3cceb1914fb861da578c1b5e363c97d09d435a2f9c9b59e9b",
+      "set": 5
+    },
+    {
+      "id": "HS136",
+      "image": "/diagrams/e9ef7aad441ead51dcea.jpg",
+      "caption": "Flowchart of the data analysis strategy.",
+      "difficulty": "easy",
+      "source": "PMC4305320.1/pone.0116753.g001.jpg",
+      "sha256": "e9ef7aad441ead51dceaf6e57a3c944d9f89d41d63c58f87d5a678c4f9489c26",
+      "set": 3
+    },
+    {
+      "id": "HS137",
+      "image": "/diagrams/bf0c56eb5b1572e1c6b5.jpg",
+      "caption": "(a and b) Proposed sedation protocol in ICU patients in 2010 and 2015. (a) 2010 (b) 2015",
+      "difficulty": "hard",
+      "source": "PMC10228859.1/SJA-17-223-g001.jpg",
+      "sha256": "bf0c56eb5b1572e1c6b564e55bfec947c0d48dd7737924f142f7b150f1259718",
+      "set": 6
+    },
+    {
+      "id": "HS138",
+      "image": "/diagrams/7c587a77df75e26c93f2.jpg",
+      "caption": "Flow diagram of cohort selection in the pre–post quality improvement study. Infants with congenital heart disease (CHD) admitted to the cardiac intensive care unit during the study period were screened for eligibility. Exclusion criteria included gestational age <37 weeks, major gastrointestinal malformations, preoperative necrotizing enterocolitis or severe gastrointestinal disease, death or withdrawal of care within 48 h postoperatively, and incomplete enteral nutrition documentation. A total of 301 infants met analytic inclusion criteria and were categorized into pre-implementation (2022, n = 148) and post-implementation (2023, n = 153) cohorts according to the timing of standardized feeding-tolerance pathway implementation.",
+      "difficulty": "easy",
+      "source": "PMC13066188.1/fresc-07-1765642-g001.jpg",
+      "sha256": "7c587a77df75e26c93f22960563296743e26779a9ed7988d8069c33dc40b67b0",
+      "set": 4
+    },
+    {
+      "id": "HS139",
+      "image": "/diagrams/f1fd3a91b1635d8bf8b8.jpg",
+      "caption": "Flow chart showing data and processes for the ModFOLD8 methods. The inputs at the top are simply a single 3D model and the target sequence. The target sequence was then pre-processed to produce predicted secondary structures, contacts, disorder and reference model sets. These data were then fed into the individual local/per-residue scoring methods. Subsequently, these local scores were fed into the two different neural networks, trained to predict the S-scores and lDDT scores. The global scores for each method were calculated from the mean local scores. Different combinations of the global scores were used to generate the final ModFOLD8_rank, ModFOLD8_cor and ModFOLD8 global scores.",
+      "difficulty": "hard",
+      "source": "PMC8218196.2/gkab321fig1.jpg",
+      "sha256": "f1fd3a91b1635d8bf8b8f3b8d3d8c763a9dff790a9eba528812519ed47181c2b",
+      "set": 7
+    },
+    {
+      "id": "HS140",
+      "image": "/diagrams/6f147969ec6b64a5317a.jpg",
+      "caption": "Therapeutic algorithm (MHBO: malignant hilar biliary obstruction; FLR: future liver remnant; PVE: portal vein embolization; PTBD: percutaneous transhepatic biliary drainage; PS: plastic stent; NBD: nasobiliary drainage; EUS-BD: echoendoscopic biliary drainage; U-SEMS: uncovered self-expandable metal stent; SEMS: self-expandable metal stent; ERCP: endoscopic retrograde cholangiopancreatography; RFA: radiofrequency ablation; PDT: photodynamic therapy).",
+      "difficulty": "hard",
+      "source": "PMC7911877.1/jpm-11-00078-g011.jpg",
+      "sha256": "6f147969ec6b64a5317a7315ffad4d98ddecfd9e2b478787cad75a437556bc04",
+      "set": 8
+    },
+    {
+      "id": "HS141",
+      "image": "/diagrams/7a3befaf55a755082f1e.jpg",
+      "caption": "Flow chart of the study population selection. Abbreviation: KNHANES, Korea National and Nutritional Examination Survey; CRS, chronic rhinosinusitis; CRSsNP, chronic rhinosinusitis without nasal polyps; CRSwNP, chronic rhinosinusitis with nasal polyps.",
+      "difficulty": "easy",
+      "source": "PMC7665152.1/ijerph-17-08291-g001.jpg",
+      "sha256": "7a3befaf55a755082f1ecc6af11603956b1daa0d3b69472094d7700ce46f1ea5",
+      "set": 5
+    },
+    {
+      "id": "HS142",
+      "image": "/diagrams/3025a4b70567167c0e73.jpg",
+      "caption": "Flowchart of feature selection and texture analysis.",
+      "difficulty": "medium",
+      "source": "PMC7997774.1/CJGH2021-6677821.003.jpg",
+      "sha256": "3025a4b70567167c0e73571abc63418e10c9c23e9ddb90c97ce442aba0068ab0",
+      "set": 9
+    },
+    {
+      "id": "HS143",
+      "image": "/diagrams/5a25a3f63e02401a0bd3.jpg",
+      "caption": "Study flow representing methodological details including screening, consent and enrolment, randomisation, initiation of study procedures and follow-up. EHR, electronic health record; ICUs, intensive care units; LAR, legally authorised representative.",
+      "difficulty": "hard",
+      "source": "PMC11086423.1/bmjopen-2023-081120f03.jpg",
+      "sha256": "5a25a3f63e02401a0bd35a1aa4000497717b0d9c9b649263471ba3586d53521f",
+      "set": 9
+    },
+    {
+      "id": "HS144",
+      "image": "/diagrams/90d1ca4917ad000bbea6.jpg",
+      "caption": "Flow diagram of the data selection process. COU, context-of-use; RCT, randomized controlled trial; TTC, Transplant Therapeutics Consortium.",
+      "difficulty": "easy",
+      "source": "PMC10563802.1/ti-36-11951-g002.jpg",
+      "sha256": "90d1ca4917ad000bbea699779b1147a73d1ff08a8f417773f6e7e32e5abc23a5",
+      "set": 6
+    },
+    {
+      "id": "HS145",
+      "image": "/diagrams/1edd10bb570eac8b9f1a.jpg",
+      "caption": "Flow diagram of included and excluded patients.",
+      "difficulty": "easy",
+      "source": "PMC8970878.1/BMRI2022-9212895.001.jpg",
+      "sha256": "1edd10bb570eac8b9f1a723568d5722b4a0bb2f7c6bb6de80782891d544f422f",
+      "set": 7
+    },
+    {
+      "id": "HS146",
+      "image": "/diagrams/e1ce7abc260adb4387ff.jpg",
+      "caption": "Mechanistic flowchart of gut microbiota-derived metabolites in atherosclerosis. TMAO promotes foam cell formation and endothelial inflammation; LPS activates TLR4/NF-κB signaling and cytokine release; SCFAs induce anti-inflammatory effects and barrier protection; secondary bile acids act via FXR/TGR5 with dual effects. All converge to endothelial dysfunction, inflammation, and plaque formation.",
+      "difficulty": "easy",
+      "source": "PMC12429262.1/ijms-26-08488-g003.jpg",
+      "sha256": "e1ce7abc260adb4387ff7eaf418b6ba28c3e0212a8fbb5bf80e488a9b19db847",
+      "set": 8
+    },
+    {
+      "id": "HS147",
+      "image": "/diagrams/e8822d29076bdf6efd2a.jpg",
+      "caption": "MSKI risk assessment framework in the military; (A) application of MSKI risk assessment (green): collect relevant existing data on service members; (B) data analysis: machine learning pipeline (blue): data analysis pipeline utilized for the creation of machine learning models in the manuscript. In application, the Service member's data would be inputted into the MSKI risk machine learning model for categorization of the risk bin; (C) future model: in-depth screening and evaluation in the high-performance model (orange): In application, if the service member is flagged in risk bin four, then further screening assessments are performed to determine if any modifiable risk factors can be addressed by the human performance staff for further intervention.",
+      "difficulty": "hard",
+      "source": "PMC11325721.1/frai-07-1420210-g0001.jpg",
+      "sha256": "e8822d29076bdf6efd2a96cfa6e025c2f6432562e50161fea8c0202be000616f",
+      "set": 10
+    },
+    {
+      "id": "HS148",
+      "image": "/diagrams/bf4e72a303458a42922f.jpg",
+      "caption": "Recommended treatment algorithm for urticaria. Source: Zuberbier T, Asero R, Godse K, Grattan C, Maurer M et al. The EAACI/GA2LEN/EDF/WAO Guideline for the definition, classification, diagnosis, and management of urticaria: the 2013 revision and update. Allergy 2014; 69: 868–887",
+      "difficulty": "easy",
+      "source": "PMC4458932.1/IJD-60-230-g001.jpg",
+      "sha256": "bf4e72a303458a42922fc538b163d04aa126d18367d5f2b43a49ae0ece7909eb",
+      "set": 9
+    },
+    {
+      "id": "HS149",
+      "image": "/diagrams/47d1c190c312c0c65b5a.jpg",
+      "caption": "Workflow of the VMD-PSO-1DCNN-LSTM centrifugal pump pressure pulsation prediction model.",
+      "difficulty": "hard",
+      "source": "PMC11244424.1/sensors-24-04196-g006.jpg",
+      "sha256": "47d1c190c312c0c65b5a9c68d36f8d43b1db99944f67b050d9121e31d31e47ad",
+      "set": 1
+    },
+    {
+      "id": "HS150",
+      "image": "/diagrams/8e20b2143092bb7a7e5b.jpg",
+      "caption": "Decision tree outlining the sequence of clinical decisions prior to discharge or referral to cardiomyopathy clinic. ExCMR exercise cardiovascular magnetic resonance, DCM dilated cardiomyopathy, CMR cardiovascular magnetic resonance.",
+      "difficulty": "medium",
+      "source": "PMC12780291.1/gr1.jpg",
+      "sha256": "8e20b2143092bb7a7e5b162f3db633f5d297531bbfe3034c22281ccd125338c5",
+      "set": 10
+    },
+    {
+      "id": "HS151",
+      "image": "/diagrams/33bc934bcf10177a2cd0.jpg",
+      "caption": "Flow chart showing characteristics of study population.ITU: Intensive treatment unit; PE: Pulmonary embolism.",
+      "difficulty": "medium",
+      "source": "PMC8317973.1/figure1.jpg",
+      "sha256": "33bc934bcf10177a2cd01647f2dfa9fb1ca714ad399b9925cfbcbcb476f6088a",
+      "set": 1
+    },
+    {
+      "id": "HS152",
+      "image": "/diagrams/4dca46220e48dfae2107.jpg",
+      "caption": "The flowchart of GSAlign. Each rectangle is an LMEM (simple pair) and the width is the size of the LMEM. They are then clustered into similar regions, each of which consists of adjacent LMEMs and gaps in between. We then perform gapped/un-gapped alignment to close those gaps to build the complete alignment for each similar region",
+      "difficulty": "easy",
+      "source": "PMC7041101.1/12864_2020_6569_Fig1_HTML.jpg",
+      "sha256": "4dca46220e48dfae2107c3d2281b7c82eca7168149b26b9f54ebe03838ea6490",
+      "set": 10
+    },
+    {
+      "id": "HS153",
+      "image": "/diagrams/8235dadefefad9d9f6b6.jpg",
+      "caption": "Scheme of the single-worm RNA-seq workflow. The workflow includes five steps: worm lysis and RNA extraction, cDNA synthesis using the SMART-Seq v4 Ultra Low Input RNA Kit, cDNA library prep using the Nextera XT DNA Library Prep Kit, sequencing, and sequence data analysis including alignment and differential gene expression analysis",
+      "difficulty": "easy",
+      "source": "PMC9472404.1/12864_2022_8878_Fig1_HTML.jpg",
+      "sha256": "8235dadefefad9d9f6b6107b468098af634c0bb274efbceed7d346de872faf02",
+      "set": 1
+    },
+    {
+      "id": "HS154",
+      "image": "/diagrams/0de3cb339d015037a97b.jpg",
+      "caption": "Flowchart showing the selection of cases.",
+      "difficulty": "easy",
+      "source": "PMC10529497.1/diagnostics-13-02968-g001.jpg",
+      "sha256": "0de3cb339d015037a97b51afb5b92fb233d13ed9613154135c5270cbd94188d2",
+      "set": 2
+    },
+    {
+      "id": "HS155",
+      "image": "/diagrams/4918b8dbf3b824985ea9.jpg",
+      "caption": "Flowchart of the trial. EPDS, Edinburgh Postnatal Depression Scale; ASA, American Society of Anesthesiologists.",
+      "difficulty": "medium",
+      "source": "PMC9774481.1/fsurg-09-1050232-g001.jpg",
+      "sha256": "4918b8dbf3b824985ea99439c155e139a8bc329ce8abd0a156a46b3316ff7519",
+      "set": 2
+    },
+    {
+      "id": "HS156",
+      "image": "/diagrams/c94e4b175076b3fa6283.jpg",
+      "caption": "Flowchart of determining the threshold displacement value in SPH.",
+      "difficulty": "easy",
+      "source": "PMC10927073.1/pone.0300293.g001.jpg",
+      "sha256": "c94e4b175076b3fa628302b9b70d0a6ef52b5f3ac67ac0427ae3a2cad00660e6",
+      "set": 3
+    },
+    {
+      "id": "HS157",
+      "image": "/diagrams/280ea09578f35d5b2a69.jpg",
+      "caption": "Flowchart for modeling of the consolidation process.",
+      "difficulty": "medium",
+      "source": "PMC9658174.1/polymers-14-04785-g002.jpg",
+      "sha256": "280ea09578f35d5b2a69c2dc01c28117ac850364fde98d314e81f3058a64841c",
+      "set": 3
+    },
+    {
+      "id": "HS158",
+      "image": "/diagrams/57e6b85ee3a5013600a4.jpg",
+      "caption": "Patient selection flowchart for deformity correction surgeries.",
+      "difficulty": "easy",
+      "source": "PMC11926813.1/10.1177_21925682251328285-fig3.jpg",
+      "sha256": "57e6b85ee3a5013600a4edf6c4ce48a5709210a75dd7d8ba63b3896691f8d9d2",
+      "set": 4
+    },
+    {
+      "id": "HS159",
+      "image": "/diagrams/7c573c91a419299f1174.jpg",
+      "caption": "Workflow chart of integrative bioinformatics in this study.",
+      "difficulty": "easy",
+      "source": "PMC10560035.1/j_med-2023-0806-fig001.jpg",
+      "sha256": "7c573c91a419299f117478e3b8d0d7896fe6b38dd009a25727b1c39b4c3bd663",
+      "set": 5
+    },
+    {
+      "id": "HS160",
+      "image": "/diagrams/72e5345fb4109fde9fcf.jpg",
+      "caption": "Flow chart of priority setting partnership process indicating the number of questions at each stage.",
+      "difficulty": "easy",
+      "source": "PMC4838711.1/bmjopen2015010412f01.jpg",
+      "sha256": "72e5345fb4109fde9fcf639a5a9327d47bfde8d4720efb371c8b8cd2e5480b22",
+      "set": 6
+    },
+    {
+      "id": "HS161",
+      "image": "/diagrams/971e43aad58f474e2310.jpg",
+      "caption": "Flow chart of the studyThe initial cohort included 880 HCC patients admitted from 2008 to 2014 to Niigata University (n = 520) and Niigata Prefectural Central Hospital (n = 360). The data were available for a total of 251 patients, who were treated by surgical tumour resection (n = 247) or liver transplantation (n = 4). Patients lost to follow-up and/or without accurate data on serum AFP, AFP-L3, or DCP levels were excluded as necessary in each stage of the study.",
+      "difficulty": "hard",
+      "source": "PMC5955154.1/oncotarget-09-21844-g008.jpg",
+      "sha256": "971e43aad58f474e2310502c71e0a55bf8c3a6f3a78c3a10a41c177733816018",
+      "set": 2
+    },
+    {
+      "id": "HS162",
+      "image": "/diagrams/6fb7f2b227abbcc24728.png",
+      "caption": "Supplemental Information 1 Flow chart presentation of the studyIDD, intervertebral disc degeneration; DEG, differential expression gene; RFE, recursive feature elimination; SVM, support vector machine; DEM, differential expression miRNA; DEL, differential expression lncRNA; DEC, differential expression circRNA; ceRNA, competing endogenous RNA.",
+      "difficulty": "medium",
+      "source": "PMC7566771.1/peerj-08-10120-s001.png",
+      "sha256": "6fb7f2b227abbcc2472881307fdaf2c7e242ef39b83269de9375d72b53002a5f",
+      "set": 4
+    },
+    {
+      "id": "HS163",
+      "image": "/diagrams/d69331615edf38a1fd85.jpg",
+      "caption": "Preferred Reporting Items and Meta-Analyses (PRISMA) flow diagram for studies reporting on platelet-rich plasma in plantar fasciitis.",
+      "difficulty": "easy",
+      "source": "PMC9793046.1/10.1177_24730114221144049-fig1.jpg",
+      "sha256": "d69331615edf38a1fd85ea5e27095e3f399395c4994ef65f05cbfdb4fdcf4a4f",
+      "set": 7
+    },
+    {
+      "id": "HS164",
+      "image": "/diagrams/8e1a8759b2c7c178c8c6.jpg",
+      "caption": "Workflow of generating global runoff data in Google Earth Engine.",
+      "difficulty": "medium",
+      "source": "PMC9669002.1/41597_2022_1834_Fig1_HTML.jpg",
+      "sha256": "8e1a8759b2c7c178c8c6c36d9a97228d7b9d68162d2c4872677b94f9e12e3968",
+      "set": 5
+    },
+    {
+      "id": "HS165",
+      "image": "/diagrams/9b9c0bf5b623add656e8.jpg",
+      "caption": "Flowchart on the processing of the metabolic profiles of non-CVD patients and patients with IHD.",
+      "difficulty": "hard",
+      "source": "PMC10834974.1/41598_2024_53215_Fig1_HTML.jpg",
+      "sha256": "9b9c0bf5b623add656e89c9d28262909680533b30827bbe886da82e32158bae2",
+      "set": 3
+    },
+    {
+      "id": "HS166",
+      "image": "/diagrams/f83ec228592d7a193222.jpg",
+      "caption": "Study design and participant flowchart. Flow diagram of participants throughout the study, starting with the total number of infants initially included. It shows the stratification of participants based on gestational age (GA) and the administration of palivizumab prophylaxis.",
+      "difficulty": "hard",
+      "source": "PMC10747417.1/vaccines-11-01807-g001.jpg",
+      "sha256": "f83ec228592d7a1932225256fa23977b18e71dbd8c15eabdb5349333a6aa9f1b",
+      "set": 4
+    },
+    {
+      "id": "HS167",
+      "image": "/diagrams/241caca7d3626c7164d2.jpg",
+      "caption": "Study selection flowchart (adapted from PRISMA-2020 flow diagram).",
+      "difficulty": "medium",
+      "source": "PMC10473489.1/pone.0290948.g002.jpg",
+      "sha256": "241caca7d3626c7164d22d945131d76f2bff2a13f84a5fc00827621dc75db078",
+      "set": 6
+    },
+    {
+      "id": "HS168",
+      "image": "/diagrams/1c18c20a89a2a06d299f.jpg",
+      "caption": "Helmet installation protocol/NIMV helmet wean protocol",
+      "difficulty": "hard",
+      "source": "PMC11623150.1/AMS-20-5-183947-g002.jpg",
+      "sha256": "1c18c20a89a2a06d299f2a1414863efa01a489c3459cfe31e8272d60d9906386",
+      "set": 5
+    },
+    {
+      "id": "HS169",
+      "image": "/diagrams/563a275a0719e2c4965e.jpg",
+      "caption": "A diagnostic and therapeutic algorithm for severe brain-injured patients, initially guided by intracranial pressure (ICP) values, with subsequent individualized assessment of brain compliance or oxygenation for patients with ICP values ranging between 15 and 25 mmHg. At the end of each potential decision, the algorithm should circle back to ICP values. DC decompressive craniectomy, TIL therapy intensity level, CMD cerebral microdialysis, LPR lactate-to-pyruvate ratio, SSBI secondary systemic brain injuries",
+      "difficulty": "hard",
+      "source": "PMC10985991.1/13054_2024_4893_Fig4_HTML.jpg",
+      "sha256": "563a275a0719e2c4965edb29de3c239801a06916f89b39d8b6e5d6af0e56c359",
+      "set": 6
+    },
+    {
+      "id": "HS170",
+      "image": "/diagrams/20c679ab6ff7b5922a34.jpg",
+      "caption": "The work flow chart of the receive system.",
+      "difficulty": "medium",
+      "source": "PMC5421696.1/sensors-17-00736-g009.jpg",
+      "sha256": "20c679ab6ff7b5922a3444113027c7e76da9e36483d7a9f2ab586262456f2d6c",
+      "set": 7
+    },
+    {
+      "id": "HS171",
+      "image": "/diagrams/8a7fdfd2776288eb8e0c.jpg",
+      "caption": "Preferred Reporting Items for Systematic Reviews and Meta-Analyses flow diagram of study inclusion. RCT = randomized controlled trials.",
+      "difficulty": "easy",
+      "source": "PMC10426774.1/ccm-51-e179-g001.jpg",
+      "sha256": "8a7fdfd2776288eb8e0ceab2fc004956a9412169794e6ca509096edecc629b85",
+      "set": 8
+    },
+    {
+      "id": "HS172",
+      "image": "/diagrams/72d2c5fcd90d2685f8c9.jpg",
+      "caption": "Flowchart of the trial. **Patients available for analysis. Nevertheless, intention-to-treat analysis (ITT) was undertaken. Therefore, finalized number of patients for analysis were 108 of them from each group.",
+      "difficulty": "hard",
+      "source": "PMC7585263.1/PPA-14-1979-g0001.jpg",
+      "sha256": "72d2c5fcd90d2685f8c9a4bdb87261c92e70d746917ce67988e0bac7f110251f",
+      "set": 7
+    },
+    {
+      "id": "HS173",
+      "image": "/diagrams/57edc9a8e4ffc91764f7.jpg",
+      "caption": "Flow diagram of the literature search and studies selection process.",
+      "difficulty": "easy",
+      "source": "PMC4059748.1/pone.0100044.g001.jpg",
+      "sha256": "57edc9a8e4ffc91764f75b0aa47d6e27581bd362394d3074ad5053be7485111c",
+      "set": 9
+    },
+    {
+      "id": "HS174",
+      "image": "/diagrams/f945c058cfbfdf4cfd9b.jpg",
+      "caption": "A CONSORT diagram of patient selection for this study",
+      "difficulty": "easy",
+      "source": "PMC8255009.1/12885_2021_8485_Fig1_HTML.jpg",
+      "sha256": "f945c058cfbfdf4cfd9b71e6e6cc12487d8701d0269e986e04463640b7941db6",
+      "set": 10
+    },
+    {
+      "id": "HS175",
+      "image": "/diagrams/2c89ebc110ed964c7825.jpg",
+      "caption": "Flowchart of outcomes for the study cohort (n = 109). IUFD, intrauterine fetal demise; PX, pregnancy; SAB, spontaneous abortion; TOP, termination of pregnancy. aSix cases underwent both fetal and placental testing. bIn two cases the cfDNA screening result was discordant with both fetus and placenta. cThe cfDNA screening result was confirmed in placental tissue in four of these cases: three liveborn (trisomy 8 case with FGR and premature birth; trisomy 16 case with spontaneous premature birth; trisomy 16 case with induced premature birth for preeclampsia) and one selective TOP (trisomy 15 with severe FGR). dThe other two TOP cases were a trisomy 20 case with multiple abnormalities noted on autopsy and a trisomy 7 case with cleft lip/palate identified on ultrasound following the cfDNA screen. eOne case (trisomy 7) had a mutation in SLC12A6; the other case (trisomy 8) had abnormalities but no further details are available.",
+      "difficulty": "hard",
+      "source": "PMC9465083.1/fgene-13-975987-g003.jpg",
+      "sha256": "2c89ebc110ed964c7825dc79f78be98bdb11d62e8de2c1249c0c3ba27e31c092",
+      "set": 8
+    },
+    {
+      "id": "HS176",
+      "image": "/diagrams/3953209f23b04acea457.jpg",
+      "caption": "Flow diagram for adolescent and adult mothers.",
+      "difficulty": "medium",
+      "source": "PMC6821872.1/fpsyt-10-00761-g001.jpg",
+      "sha256": "3953209f23b04acea4577751fab53646148441bf9b9b68353ae0a620108ddd7e",
+      "set": 8
+    },
+    {
+      "id": "HS177",
+      "image": "/diagrams/e484bcab83423614b06d.jpg",
+      "caption": "Integrated adaptive hybrid surgery workflow, illustrating the preoperative, intraoperative, and postoperative steps.",
+      "difficulty": "medium",
+      "source": "PMC9599809.1/brainsci-12-01326-g001.jpg",
+      "sha256": "e484bcab83423614b06d2942760078ffcfd7053fbd6701027a86a13bc1dc38da",
+      "set": 9
+    },
+    {
+      "id": "HS178",
+      "image": "/diagrams/b4f97ed79cf509b1131e.jpg",
+      "caption": "Trial flow diagram.The trial flow diagram shows the selection of participants for the SOS study and reasons for exclusion in the current analysis.",
+      "difficulty": "medium",
+      "source": "PMC10511310.1/41366_2023_1332_Fig1_HTML.jpg",
+      "sha256": "b4f97ed79cf509b1131e569939a266e8e209d9a1fc1f44570360bbe0b78c3cf4",
+      "set": 10
+    },
+    {
+      "id": "HS179",
+      "image": "/diagrams/33ea420873496862cd36.jpg",
+      "caption": "Consolidated Standard of Reporting Trials (CONSORT) flowchart in the research. SICS, the Self-efficacy in Infant Care Scale; EPDS, Edinburgh Postnatal Depression Scale; PSSS, Postnatal Social Support Scale.",
+      "difficulty": "medium",
+      "source": "PMC9947783.1/fpubh-11-1035872-g0001.jpg",
+      "sha256": "33ea420873496862cd36e3cbf345c2c1711cbb79e2672603e27afe5164a7ef40",
+      "set": 1
+    },
+    {
+      "id": "HS180",
+      "image": "/diagrams/ab3f90f4dfb17605b5f1.jpg",
+      "caption": "Flow chart of rice panicle number counting. (A) The counting flow of APP (B) The counting flow of RiceGrainCounter. Rice panicle counting is performed using an APP or the RiceGrainCounter software. With the APP, users can take photos or select images from their album and then view results. Using RiceGrainCounter, users can import files or select multiple images from a folder for counting before viewing results.",
+      "difficulty": "medium",
+      "source": "PMC12003412.1/fpls-16-1494564-g007.jpg",
+      "sha256": "ab3f90f4dfb17605b5f1f57dd0f03532c67ec09c26e7e376357d99fdc5b071c2",
+      "set": 2
+    },
+    {
+      "id": "HS181",
+      "image": "/diagrams/eac16a77f49e27da9a64.jpg",
+      "caption": "The PRISMA flow diagram illustrates the detailed process used for selecting articles included in this evaluation.",
+      "difficulty": "medium",
+      "source": "PMC12732830.1/healthcare-13-03319-g001.jpg",
+      "sha256": "eac16a77f49e27da9a6468d5729b37ae2b6cd554390eade313f63f7c9f76101d",
+      "set": 3
+    },
+    {
+      "id": "HS182",
+      "image": "/diagrams/1d3e113edff66f6174ae.jpg",
+      "caption": "Flow diagram of the process for including patients in this study.",
+      "difficulty": "medium",
+      "source": "PMC5149688.1/GRP2016-4134053.001.jpg",
+      "sha256": "1d3e113edff66f6174aefa4c27e4a02ddc235a281a65a9b18742cae1dea2fb0b",
+      "set": 4
+    },
+    {
+      "id": "HS183",
+      "image": "/diagrams/183fa53baf74a0551f08.jpg",
+      "caption": "Flowchart of literature search. MAGE: mean amplitude of glycemic excursion; SD: standard deviation.",
+      "difficulty": "medium",
+      "source": "PMC9643761.1/10.1177_14791641221137736-fig1.jpg",
+      "sha256": "183fa53baf74a0551f0877700d6ea90b17ca6c6a2f5fe8a6e24709db8d46e7cc",
+      "set": 5
+    },
+    {
+      "id": "HS184",
+      "image": "/diagrams/937a6f2ff7a476ed09e2.jpg",
+      "caption": "A diagram showing the workflow of the proposed novel hybrid- MCL-FWA-BILSTM based architecture to classify intrusions.",
+      "difficulty": "hard",
+      "source": "PMC11115263.1/pone.0302294.g002.jpg",
+      "sha256": "937a6f2ff7a476ed09e2515d146ee51bdbe5ae1cdf5bf6ce913e7930b8f4121d",
+      "set": 9
+    },
+    {
+      "id": "HS185",
+      "image": "/diagrams/39344aa51f5f53745d0a.jpg",
+      "caption": "Flow chart of study selection. ACLF, acute-on-chronic liver failure; APASL, Asian-Pacific Association for the Study of the Liver; INR, international normalised ratio; MELD, model for end-stage liver disease; TBiL, total bilirubin; WBC, white blood cell count.",
+      "difficulty": "hard",
+      "source": "PMC11770428.1/egastro-2-3-g001.jpg",
+      "sha256": "39344aa51f5f53745d0abc9b953db84e3b9d9412031536d5399ea3c6af82ef8b",
+      "set": 10
+    },
+    {
+      "id": "HS186",
+      "image": "/diagrams/6dd25ceb5dc28412b96d.jpg",
+      "caption": "Flow chart. SUA—serum uric acid, ULT—urate-lowering therapy (treatment with xanthin oxidase inhibitors).",
+      "difficulty": "easy",
+      "source": "PMC8509603.1/jcm-10-04505-g001.jpg",
+      "sha256": "6dd25ceb5dc28412b96d3659d5cfa61775069d03115f03ec2726b53f9ce0e9e7",
+      "set": 1
+    },
+    {
+      "id": "HS187",
+      "image": "/diagrams/9f14d1f0ede8a90dfc43.png",
+      "caption": "Gate-level netlist of the module testmod. Inputs a0, b0 and cin drive the gates and11, xor1f, and12 and and13; xor1foutT and b0 feed xor2f to give xor1fout, and the outputs and11out, and12out and and13out are combined by or1f and or2f into or1fout. Nodes b1, a1 and cout are unconnected.",
+      "difficulty": "hard",
+      "source": "601c4188-7607-4966-9476-96d439abeb4d",
+      "sha256": "9f14d1f0ede8a90dfc4388d3fb60dbc21795bf4116bb4288fdc1a1736a2d2da6",
+      "set": 1
+    },
+    {
+      "id": "HS188",
+      "image": "/diagrams/1eac910307d6485a1f64.jpg",
+      "caption": "Schematic overview of the procedure used to create a unified DM v4 and v6 potato genome annotation resource.",
+      "difficulty": "hard",
+      "source": "PMC11196761.1/fpls-15-1352253-g001.jpg",
+      "sha256": "1eac910307d6485a1f645f630ccd256d05b6dd08ee6d2c9feb3d0874ebe5945f",
+      "set": 2
+    },
+    {
+      "id": "HS189",
+      "image": "/diagrams/88e86baa58e606eca807.jpg",
+      "caption": "Flow chart for reconstructing the spectral reflectance vector SRefRec from the signal vector C. Refer to Section 3.2 for details.",
+      "difficulty": "medium",
+      "source": "PMC9269503.1/sensors-22-04923-g005.jpg",
+      "sha256": "88e86baa58e606eca807ce41e21d712a16217b0e1330366ab4fdc6256f7a9ba5",
+      "set": 6
+    },
+    {
+      "id": "HS190",
+      "image": "/diagrams/71db1b7332cbbb9007dc.jpg",
+      "caption": "Proposed algorithm for work-up of idiopathic thrombocytosis.",
+      "difficulty": "medium",
+      "source": "PMC11430442.1/cancers-16-03149-g004.jpg",
+      "sha256": "71db1b7332cbbb9007dc689374edecc5be33654ed9e66f949a60aa58c9518c1c",
+      "set": 7
+    },
+    {
+      "id": "HS191",
+      "image": "/diagrams/782451cddea947712e55.jpg",
+      "caption": "Flow chart of patient management and overall recurrence for patients initially allocated to neoadjuvant therapy (NAT) and upfront surgery.",
+      "difficulty": "medium",
+      "source": "PMC7408905.1/jcm-09-02132-g002.jpg",
+      "sha256": "782451cddea947712e55bd0ddccf953494f555619ac9b4a36c1b48544424c928",
+      "set": 8
+    },
+    {
+      "id": "HS192",
+      "image": "/diagrams/ac75b0a550f999d582ab.jpg",
+      "caption": "Flowchart of the PRISMA literature search criteria used in the current meta‐analysis.",
+      "difficulty": "easy",
+      "source": "PMC7496870.1/TOPS-12-875-g001.jpg",
+      "sha256": "ac75b0a550f999d582ab1a667937bc2daeffad4e6c25e6eea2ddce2dcf5b229b",
+      "set": 2
+    },
+    {
+      "id": "HS193",
+      "image": "/diagrams/d8b8953ea0f56d7a69f8.jpg",
+      "caption": "The flowchart of participant selection in the training data set. ASA: American Society of Anesthesiologists.",
+      "difficulty": "easy",
+      "source": "PMC11294761.1/aging-v7-e54872-g001.jpg",
+      "sha256": "d8b8953ea0f56d7a69f8d10ecba80945ad0c0e04a650eb4ba724eb8afeda4f77",
+      "set": 3
+    },
+    {
+      "id": "HS194",
+      "image": "/diagrams/f25916cda3a66b097857.jpg",
+      "caption": "PRISMA (Preferred Reporting Items for Systematic Reviews and Meta-Analyses) flow diagram. The literature search was conducted on June 19 and updated on October 22, 2020. The screening, full-text review, and extraction were managed online using Covidence. CP: convalscent plasma.",
+      "difficulty": "easy",
+      "source": "PMC8245055.1/publichealth_v7i4e25500_fig1.jpg",
+      "sha256": "f25916cda3a66b097857474fdd295c1bb69387f710da6594a642a4c18e05bb3a",
+      "set": 4
+    },
+    {
+      "id": "HS195",
+      "image": "/diagrams/ca4a02739725644f04cc.jpg",
+      "caption": "The general pipeline of our unsupervised FigSum+ systems.Each implementation of the FigSum+ system differs by including only one of the five modules described in Section 3.2.1 and shown in the Figure Summarization component above: Similarity, TFIDF, SurfaceCue, Paragraph, or Hybrid.",
+      "difficulty": "easy",
+      "source": "PMC4313946.1/pone.0115671.g003.jpg",
+      "sha256": "ca4a02739725644f04cc8ec1d65bbe59d3c0a7e697e41cccd11465006017d945",
+      "set": 5
+    },
+    {
+      "id": "HS196",
+      "image": "/diagrams/ddca54b7e4f0cd6c11e7.jpg",
+      "caption": "A schematic representation of the experimental workflow is depicted. The first step consisted of particle characterization by scanning electron microscopy (SEM). As the formulation to be delivered by microneedling was in liquid suspension, dispersion and morphology were further analyzed by confocal microscopy to establish the most suitable protocol. Nine experimental groups were initially evaluated in hematoxylin and eosin (H&E) staining, followed by fluorescence microscopy to confirm specific product distribution. Fluorescence analysis provided an advantage over H&E, as it selectively detected the labeled particles, reducing nonspecific signals. Finally, functional validation was performed using epithelial cell cultures, the primary biological target of the proposed treatment.",
+      "difficulty": "easy",
+      "source": "PMC12562168.1/biomedicines-13-02463-g001.jpg",
+      "sha256": "ddca54b7e4f0cd6c11e7e1b2cc353aafe08b34c6c9e45f272ab3f3a5f6ba789e",
+      "set": 6
+    },
+    {
+      "id": "HS197",
+      "image": "/diagrams/20f3ff9fef95846f9193.jpg",
+      "caption": "Actual protocol.A total of 4 sets were performed, with the last 2 sets performed on different days. * Each task was performed 9 times with different delay settings, as follows: Delay 0 ms → Delay 0 ms → Delay 0 ms → Delay 70 ms → Delay 100 ms → Delay 150 ms → Delay 200 ms → Delay 300 ms → Delay 0 ms.",
+      "difficulty": "easy",
+      "source": "PMC9536636.1/pone.0274328.g001.jpg",
+      "sha256": "20f3ff9fef95846f919394323011ae5fe0274ead7b6722d5ed81abe9f0bddab3",
+      "set": 7
+    },
+    {
+      "id": "HS198",
+      "image": "/diagrams/b7b872cbd03a38a4fe7e.jpg",
+      "caption": "PRISMA 2020 flow diagram for systematic reviews [42] which included searches of PubMed, EMBASE, Cochrane, and Web of Science databases, registers and other sources.",
+      "difficulty": "medium",
+      "source": "PMC9911851.1/jos-2022-03755f1.jpg",
+      "sha256": "b7b872cbd03a38a4fe7e02c2089b2c8754a156e65b589e2613abde981a439e16",
+      "set": 9
+    },
+    {
+      "id": "HS199",
+      "image": "/diagrams/2f6cda5c989fcae74933.jpg",
+      "caption": "Study flow chart. ICU intensive care unit, Sepsis-3 Third International Consensus Definitions for Sepsis and Septic Shock, CKD chronic kidney disease, EGDT early goal-directed therapy, CCUGDT critical care ultrasound goal-directed therapy, CVP central venous pressure, MAP mean arterial pressure, SCVO2 central venous oxygen saturation, LVEF left ventricular ejection fraction, TAPSE tricuspid annular plane systolic excursion, SV stroke volume, SVC superior vena cava, NE norepinephrine, HCT hematocrit. *To avoid excessive fluid infusion during fluid resuscitation we adopted a descending fluid infusion strategy: the first dose was given at 15 mL/kg body weight the second dose was given at 10 mL/kg body weight and the third dose was given at 5 mL/kg body weight. Whether to give the next fluid infusion was dependent upon on the critical care ultrasound evaluation result after the last fluid infusion.",
+      "difficulty": "hard",
+      "source": "PMC8724081.1/134_2021_6538_Fig1_HTML.jpg",
+      "sha256": "2f6cda5c989fcae749337ee5097be53db78e550e540f85408da7ba4772de8bdb",
+      "set": 3
+    },
+    {
+      "id": "HS200",
+      "image": "/diagrams/a3843d05994df77a6154.jpg",
+      "caption": "Algorithm for evaluating OHT, POAG, and POAG suspect (adapted from EGS guideline)",
+      "difficulty": "hard",
+      "source": "PMC8917547.1/IJO-70-24-g006.jpg",
+      "sha256": "a3843d05994df77a6154ddbdcd296aca80ab694dd28cf8c56f3acddaf0a1aa3e",
+      "set": 4
+    },
+    {
+      "id": "HS201",
+      "image": "/diagrams/1094da1037669ac62241.jpg",
+      "caption": "Flow diagram of the cohort selection, modelling, and evaluation. Heart failure is used for demonstration of the seven models for comparison, but the Stroke and coronary heart disease risk prediction follow the same protocol. The colour in predictor and modelling section represents a path that flows from the cohort to a specific set of predictors and how the predictors are used by the models.",
+      "difficulty": "hard",
+      "source": "PMC9779795.1/ztac061f1.jpg",
+      "sha256": "1094da1037669ac6224169345b97babf58d770d84164165355bebc9c5b467e40",
+      "set": 5
+    },
+    {
+      "id": "HS202",
+      "image": "/diagrams/1bafdb24f1d79a97a7ba.jpg",
+      "caption": "Flow diagram of participants included in the analysis.Notes: ASPREE, ASPirin in Reducing Events in the Elderly; CVD, cardiovascular disease; HDL, high-density lipoprotein cholesterol; ASCVDRS, atherosclerotic cardiovascular disease risk score; FRS, Framingham risk score; n, sample size.",
+      "difficulty": "hard",
+      "source": "PMC10866179.1/ger-2024-0070-0002-535284_F01.jpg",
+      "sha256": "1bafdb24f1d79a97a7baddcdb4e3bcf7dcf1bd7fcc5f7cf05ed68fc0e70fab2b",
+      "set": 6
+    },
+    {
+      "id": "HS203",
+      "image": "/diagrams/06f2c9decd123891628e.jpg",
+      "caption": "The procedure of the algorithm establishment and prediction.",
+      "difficulty": "medium",
+      "source": "PMC12444072.1/10.1177_20552076251377938-fig3.jpg",
+      "sha256": "06f2c9decd123891628e26b442f15c95e605040f73265d19132383b33f4417b2",
+      "set": 10
+    },
+    {
+      "id": "HS204",
+      "image": "/diagrams/535082b15251e0d8280c.jpg",
+      "caption": "The assembly and annotation pipeline of the tea tree mitochondrial genome.",
+      "difficulty": "medium",
+      "source": "PMC6797725.1/41597_2019_201_Fig2_HTML.jpg",
+      "sha256": "535082b15251e0d8280cd8ef8e25b9d44e1de7e3e0b1e33c33a6526e0d582229",
+      "set": 1
+    },
+    {
+      "id": "HS205",
+      "image": "/diagrams/e6344bc22538082232da.jpg",
+      "caption": "Study sample selection flowchart from the SFC Study Group database. ERC, extended right colectomy; LC, left colectomy; SLC, segmental left colectomy for splenic flexure carcinomas (SFCs)",
+      "difficulty": "easy",
+      "source": "PMC8086132.1/13017_2021_365_Fig1_HTML.jpg",
+      "sha256": "e6344bc22538082232da2017d35bdd4b241f05ec290af766414cd8267b70490b",
+      "set": 8
+    },
+    {
+      "id": "HS206",
+      "image": "/diagrams/c864c412014acebdc598.jpg",
+      "caption": "Markov decision-analytic model diagram for each risk group with four transition or health states. The arrows in the graph show the transition probabilities, representing the likelihood of transitioning between various states during a treatment cycle. Deaths were assumed to be in community or regional hospitals. All states were mutually exclusive, and death was an absorbing state, meaning those in the model who died could not later transition to any other state. We considered zero transition probabilities as the situation where backward transitions are not considered feasible in our model.",
+      "difficulty": "hard",
+      "source": "PMC11257706.1/jogh-14-04126-F1.jpg",
+      "sha256": "c864c412014acebdc598193eb44e9165367396ee47c53ba72936fa35b27288aa",
+      "set": 7
+    },
+    {
+      "id": "HS207",
+      "image": "/diagrams/29650b9419d4ecc62832.jpg",
+      "caption": "The flowchart illustrates the process of selecting documents for bibliometric analysis.",
+      "difficulty": "medium",
+      "source": "PMC12558097.1/NSS-17-2771-g0001.jpg",
+      "sha256": "29650b9419d4ecc62832d413c41b9597be128ef99ed2580b72afcb263efc2a26",
+      "set": 2
+    },
+    {
+      "id": "HS208",
+      "image": "/diagrams/871bbffc0692fffcecc9.jpg",
+      "caption": "Flowchart of Urdu image caption generation process.",
+      "difficulty": "medium",
+      "source": "PMC12129323.1/pone.0320701.g005.jpg",
+      "sha256": "871bbffc0692fffcecc96b9238c62feb39840efd27feba71900d3dd672c841e6",
+      "set": 3
+    },
+    {
+      "id": "HS209",
+      "image": "/diagrams/691988b2580410d7610f.jpg",
+      "caption": "Study patient selection flowchart. AMI, Acute myocardial infarction.",
+      "difficulty": "easy",
+      "source": "PMC12058642.1/CLC-48-e70146-g001.jpg",
+      "sha256": "691988b2580410d7610fa43a220a2b25e3e634c8e3f8816e51df0a96cfb317a4",
+      "set": 9
+    },
+    {
+      "id": "HS210",
+      "image": "/diagrams/eeffd4936782dff7a135.jpg",
+      "caption": "PRISMA flowchart showing the study selection process.",
+      "difficulty": "medium",
+      "source": "PMC9695766.1/life-12-01941-g001.jpg",
+      "sha256": "eeffd4936782dff7a135e3701fc55b741c96f3d95e515e6c72d0f79f007a2318",
+      "set": 4
+    },
+    {
+      "id": "HS211",
+      "image": "/diagrams/a182ce94833292b7ca4d.jpg",
+      "caption": "SPARE trial treatment scheme flowchart in Patient Information Sheet: Old and New. Following findings from the qualitative recruitment investigation that the SPARE trial was difficult to explain, a simpler version of the study flowchart was incorporated in all study documentation including the Patient Information Sheet (PIS). The old and new versions of the study flowchart in the PIS are provided in Figure 1.",
+      "difficulty": "hard",
+      "source": "PMC3068963.1/1745-6215-12-78-1.jpg",
+      "sha256": "a182ce94833292b7ca4d818f8b4951fd2ed82672007465410d5cea2e97677a46",
+      "set": 8
+    },
+    {
+      "id": "HS212",
+      "image": "/diagrams/5e694576ac8491442561.jpg",
+      "caption": "Study flow diagram of admissions to neonatal intensive care units (n= 32 in Canada andn= 8 in Sweden).",
+      "difficulty": "hard",
+      "source": "PMC9747725.1/neo-0119-0619-g01.jpg",
+      "sha256": "5e694576ac84914425612b9185b25d8c26f39798599f375c46e9fa058c3edcd2",
+      "set": 9
+    },
+    {
+      "id": "HS213",
+      "image": "/diagrams/d194f8e83f15d65bd563.jpg",
+      "caption": "Flow diagram depicting infant details.NICU, neonatal intensive care unit.",
+      "difficulty": "medium",
+      "source": "PMC11825359.1/41372_2024_2093_Fig1_HTML.jpg",
+      "sha256": "d194f8e83f15d65bd56338e459a8e3ef83efa90e831cdb2c369a77fb99adb645",
+      "set": 5
+    },
+    {
+      "id": "HS214",
+      "image": "/diagrams/d06e5287e88751b6979c.jpg",
+      "caption": "Flow chart for study eligibility screening of the research articles related to drug-resistant bacterial contamination of commercial herbal medicine in Africa, following PRISMA criterion",
+      "difficulty": "medium",
+      "source": "PMC8781441.1/13756_2022_1054_Fig1_HTML.jpg",
+      "sha256": "d06e5287e88751b6979c56e547cd00f5300699924381f561e2c4b26831580087",
+      "set": 6
+    },
+    {
+      "id": "HS215",
+      "image": "/diagrams/a880419ff7791842ea77.jpg",
+      "caption": "The sample preparation procedure, including the melt compounding process and the sample shaping/preparation concept.",
+      "difficulty": "medium",
+      "source": "PMC13030397.1/polymers-18-00768-g004.jpg",
+      "sha256": "a880419ff7791842ea773d17429ea5d2ad642111bb63cbb3d66fd91c9d667a7c",
+      "set": 7
+    },
+    {
+      "id": "HS216",
+      "image": "/diagrams/105838431c142309dccf.jpg",
+      "caption": "Algorithmic view of a neural network-enabled KG creation, b natural language processing-enabled KG creation, c rule learning-based knowledge graph creation",
+      "difficulty": "hard",
+      "source": "PMC9361271.1/40747_2022_806_Fig4_HTML.jpg",
+      "sha256": "105838431c142309dccf4beaf3525c378a1d018e3fa3817fb7519d428f931065",
+      "set": 10
+    },
+    {
+      "id": "HS217",
+      "image": "/diagrams/784a6f8ad5777128262f.jpg",
+      "caption": "Flow chart of the study participants. DBP = diastolic blood pressure, EIHG = exercise-induced hypertension group, GXT = graded exercise testing, NBPG = normal blood pressure group, SBP = systolic blood pressure.",
+      "difficulty": "easy",
+      "source": "PMC7440091.1/medi-99-e19911-g001.jpg",
+      "sha256": "784a6f8ad5777128262f2956b8ae17ef156dcddcfdbf76931b881abe148a26af",
+      "set": 10
+    },
+    {
+      "id": "HS218",
+      "image": "/diagrams/33a8429f548e447c3c30.jpg",
+      "caption": "Flow diagram. ASA: American Society of Anesthesiologists, BMI: body mass index.",
+      "difficulty": "easy",
+      "source": "PMC11089297.1/apm-23161f1.jpg",
+      "sha256": "33a8429f548e447c3c3056f52f04ccfac1e0e3a7a8658f001ce88cef9d550661",
+      "set": 1
+    },
+    {
+      "id": "HS219",
+      "image": "/diagrams/83cbb8dfb6d9b12227f2.jpg",
+      "caption": "Diagram outlining the procedures for selecting the study population used to describe clinical data and compare age groups in patients with hematogenous septic arthritis. The diagram details the exclusion of patients with infections due to direct inoculation (e.g., direct inoculation or post-operative within 3 months) and the inclusion of those with hematogenous spread, along with the identification of organisms.",
+      "difficulty": "medium",
+      "source": "PMC11510638.1/pathogens-13-00891-g001.jpg",
+      "sha256": "83cbb8dfb6d9b12227f2a3648f241783d32d583901d9469fc7eab7a6cece6334",
+      "set": 8
+    },
+    {
+      "id": "HS220",
+      "image": "/diagrams/4f38428b1750ab869bbd.jpg",
+      "caption": "Machine learning framework. A 4-steps workflow of the machine learning-based classification model",
+      "difficulty": "easy",
+      "source": "PMC7017449.1/13023_2020_1305_Fig1_HTML.jpg",
+      "sha256": "4f38428b1750ab869bbd58209b34212c532efdb35a4132e62be63eb0f6806eaa",
+      "set": 2
+    },
+    {
+      "id": "HS221",
+      "image": "/diagrams/29b82cc1b7e76a70b5a4.jpg",
+      "caption": "Flow diagram of study groups and times data was collected.",
+      "difficulty": "medium",
+      "source": "PMC5457418.1/41598_2017_2843_Fig1_HTML.jpg",
+      "sha256": "29b82cc1b7e76a70b5a4951801079e86b131ce559c3568a478d41c53d5d8dcd9",
+      "set": 9
+    },
+    {
+      "id": "HS222",
+      "image": "/diagrams/c3f3ca06aa2ac5e2cb3a.jpg",
+      "caption": "CONSORT flow diagram of recruitment and assessment of study participants.",
+      "difficulty": "medium",
+      "source": "PMC6255773.1/41598_2018_35857_Fig1_HTML.jpg",
+      "sha256": "c3f3ca06aa2ac5e2cb3ac6bc6766ddc8a4f1905afd9c708b81e38b18f1cc2098",
+      "set": 10
+    },
+    {
+      "id": "HS223",
+      "image": "/diagrams/4da3fad405745094f1d7.jpg",
+      "caption": "The flowchart for the data analysis. HbO, oxyhemoglobin; HbR, deoxyhemoglobin; HC, control group; pDOC, prolonged disorders of consciousness; ROC, receiver operating characteristic.",
+      "difficulty": "medium",
+      "source": "PMC11345494.1/BRB3-14-e70002-g006.jpg",
+      "sha256": "4da3fad405745094f1d7e230bb275574a78737f28f983a86a92de01d0dd6246a",
+      "set": 1
+    },
+    {
+      "id": "HS224",
+      "image": "/diagrams/638a9a3e33f1dbf85d1c.jpg",
+      "caption": "Flowchart of parameters assessed at baseline, follow-up 1 and follow-up 2 for all patients groups.",
+      "difficulty": "medium",
+      "source": "PMC10203630.1/fphar-14-1176815-g001.jpg",
+      "sha256": "638a9a3e33f1dbf85d1c6148710405b7ae2ef7d24ac27a24822d68d35ab3c3e8",
+      "set": 2
+    },
+    {
+      "id": "HS225",
+      "image": "/diagrams/84da9f9f245223e003f6.jpg",
+      "caption": "Flow chart of sample selection for the current study, SEER 2000–2021.",
+      "difficulty": "easy",
+      "source": "PMC12384198.1/curroncol-32-00447-g001.jpg",
+      "sha256": "84da9f9f245223e003f697ea87900232b7eeb0a8c915c88190eb2b7cb98e81c7",
+      "set": 3
+    },
+    {
+      "id": "HS226",
+      "image": "/diagrams/34575ab8803e1676a9a0.jpg",
+      "caption": "Schematic flowchart of the methodology sections.",
+      "difficulty": "medium",
+      "source": "PMC11080391.1/10.1177_19375867231225395-fig1.jpg",
+      "sha256": "34575ab8803e1676a9a0229c8ccf00a8cc4e5a761fff772be6f43ad547f7dc06",
+      "set": 3
+    },
+    {
+      "id": "HS227",
+      "image": "/diagrams/2df074c5d60a42850e11.jpg",
+      "caption": "Flow chart for extraction and partial separation of active compounds by acid–base solvent partitioning.",
+      "difficulty": "medium",
+      "source": "PMC11314032.1/plants-13-02085-g008.jpg",
+      "sha256": "2df074c5d60a42850e115ed7e788308d5e904f673f9219ae5d2bab62938ebe08",
+      "set": 4
+    },
+    {
+      "id": "HS228",
+      "image": "/diagrams/4849d4bed82ce3f66c2d.jpg",
+      "caption": "Fontan-associated liver disease algorithm based on the liver stiffness measurement by transient elastography and elapsed time since Fontan surgery. The algorithm rules-out Fontan-associated liver disease (FALD) when the liver stiffness measurement by transient elastography (FibroScan®) is < 15 kPa, and rules-in FALD when it is ≥ 25 kPa. For patients in the “grey area” of 15-25 kPa, elapsed time since Fontan surgery is used. When the time elapsed is ≤ 10 years, FALD is ruled-out, and when it is > 10 years, it is ruled-in. FALD: Fontan-associated liver disease; PPV: Positive predictive value; NPV: Negative predictive value.",
+      "difficulty": "medium",
+      "source": "PMC11924006.1/103178-g002.jpg",
+      "sha256": "4849d4bed82ce3f66c2d413c9d1b4707419bcd774d7ff090c627fde1a6c0c4d7",
+      "set": 5
+    },
+    {
+      "id": "HS229",
+      "image": "/diagrams/980ba2b805cfddcda072.jpg",
+      "caption": "Schematic overview of the study design and analysis pipeline. Image time series from Scan 1 (S1) and the repeated Scan 2 (S2) were retrospectively truncated to 15, 30, 45, and 55 s. The 55‐s dataset was evaluated twice to account for potential nondeterministic registration effects, with the first analysis defined as the ground truth (GT). All chunks were processed with the PREFUL pipeline using two registration variants (Forsberg and ANTs). Resulting parameters were compared to the 55‐s GT using global and regional measures (black arrows) and between Ex. 1 and Ex. 2 using intraclass correlation coefficients (ICC, black dashed lines). The 55‐s datasets were additionally used to directly compare registration methods (red arrows). Finally, all results were correlated with pulmonary function test measures (black dashed arrows).",
+      "difficulty": "hard",
+      "source": "PMC13066768.1/NBM-39-e70283-g004.jpg",
+      "sha256": "980ba2b805cfddcda072d5be2d9728e33e0fbef013f9b4c88ee8129e5051ee7f",
+      "set": 1
+    },
+    {
+      "id": "HS230",
+      "image": "/diagrams/cdfa8d5bc6294b55f4a4.jpg",
+      "caption": "Flow chart of the proposed fusion method in this paper.",
+      "difficulty": "hard",
+      "source": "PMC7146212.1/sensors-20-01789-g001.jpg",
+      "sha256": "cdfa8d5bc6294b55f4a456b1b14ed64b2410993b9322661ab8e10d799bab1afe",
+      "set": 2
+    },
+    {
+      "id": "HS231",
+      "image": "/diagrams/b8e7b9fb193a700f28ce.png",
+      "caption": "Dialogue flow graph of a stock-price conversation. START branches to END and to action_session_start, which leads to the intent what is TSLA worth, then to action_get_stock_price, a second what is TSLA worth, and finally get_current_stock_price.",
+      "difficulty": "easy",
+      "source": "d10a1cbf-8aef-43a1-ac8c-68acc1482c37",
+      "sha256": "b8e7b9fb193a700f28ce8b7349f4f40f194025108a9a9bba2e0e13ac777b26b2",
+      "set": 4
+    },
+    {
+      "id": "HS232",
+      "image": "/diagrams/e38ad491acf79f75cf73.png",
+      "caption": "Markov chain on states 0, 1, 2, ..., N, N+1. Every state has a self-loop, labeled p_(0,0) through p_(N+1,N+1), and states advance with p_(0,1), p_(1,2), p_(2,3), ..., p_(N-1,N), p_(N,N+1); return arcs lead from N to 0, labeled p_(N,N), and from N+1 to 1, labeled p_(N+1,N+1).",
+      "difficulty": "medium",
+      "source": "19007740-c8c8-4df8-be15-347d3f114a97",
+      "sha256": "e38ad491acf79f75cf73c6c24743b74ecc66222934d5030e148b4a195d5d29d7",
+      "set": 6
+    },
+    {
+      "id": "HS233",
+      "image": "/diagrams/9217cb22fe9dddf030e8.jpg",
+      "caption": "The decision support system (DSS) architecture. Rule-based reasoning (RBR) and case-based reasoning (CBR).",
+      "difficulty": "easy",
+      "source": "PMC6891629.1/sensors-19-05057-g003.jpg",
+      "sha256": "9217cb22fe9dddf030e88f8990bf2349e46306a234af84a78c804edc385538c0",
+      "set": 5
+    },
+    {
+      "id": "HS234",
+      "image": "/diagrams/cf24451b25e01098836d.jpg",
+      "caption": "The WordCount problem MapReduce algorithm workflow. The algorithm counts the number of occurrences for every word in the file. The file is chunked and distributed over the computing nodes in the cluster. The mapper must be completed to start the reducer phase, otherwise an error will be reported and the execution will be stopped.",
+      "difficulty": "hard",
+      "source": "PMC4224309.1/1756-0381-7-22-2.jpg",
+      "sha256": "cf24451b25e01098836dd51c0d214aad6946b74ac4b1ed1e479ffa6fcc7b62c2",
+      "set": 3
+    },
+    {
+      "id": "HS235",
+      "image": "/diagrams/6ae4b014a13d784931aa.jpg",
+      "caption": "Flowchart describing the inclusion process of patients with cranial infection.",
+      "difficulty": "easy",
+      "source": "PMC10628042.1/fmed-10-1202969-g001.jpg",
+      "sha256": "6ae4b014a13d784931aa0f7017feae924ca2a7d7c8f92dc18d0d6244650f4a8f",
+      "set": 6
+    },
+    {
+      "id": "HS236",
+      "image": "/diagrams/488ebf1be703c35e6d4e.jpg",
+      "caption": "Literature and sequence retrieval workflow for Orthoebolaviruses. EBOV, Orthoebolavirus zairense; SUDV, Orthoebolavirus sudanense; BDBV, Orthoebolavirus bundibugyoense; TAFV, Orthoebolavirus taiense; RESTV, Orthoebolavirus restonense; BOMV, Orthoebolavirus bombaliense.",
+      "difficulty": "hard",
+      "source": "PMC12547875.1/gr1.jpg",
+      "sha256": "488ebf1be703c35e6d4e0f36d99ee68c89ffdfffbc510003a1a9696479d019e5",
+      "set": 4
+    },
+    {
+      "id": "HS237",
+      "image": "/diagrams/daf30837117f7766fe19.jpg",
+      "caption": "Flow diagram of the study search and selection process. CNKI, China National Knowledge Infrastructure.",
+      "difficulty": "medium",
+      "source": "PMC9207927.1/bmjopen-2021-056680f01.jpg",
+      "sha256": "daf30837117f7766fe195713b631f6b70cd80937d393ada43e91b3303f3db5c5",
+      "set": 7
+    },
+    {
+      "id": "HS238",
+      "image": "/diagrams/c77220eae3109d5f6883.jpg",
+      "caption": "Work flow for identification of genome wide lncRNA from Cucumber transcriptome.",
+      "difficulty": "medium",
+      "source": "PMC9383263.1/fpls-13-884476-g001.jpg",
+      "sha256": "c77220eae3109d5f68833aa216cc8b734ef3e6bee656084d91967be71057dd5c",
+      "set": 8
+    },
+    {
+      "id": "HS239",
+      "image": "/diagrams/4af569d864c4904c0194.jpg",
+      "caption": "Workflow diagram. a Typical architecture of the 101-layer ResNet. b The flowchart of Faster-RCNN. Abbreviations: Conv, convolutional layer; RPN, region proposal network; ROI, region of interest; AvgPool, average pool; FC, full connected layer; CNN, convolutional neural network; Faster-RCNN, faster region-based convolutional neural network",
+      "difficulty": "hard",
+      "source": "PMC7395360.1/40662_2020_206_Fig3_HTML.jpg",
+      "sha256": "4af569d864c4904c01942e7b5535710e44c315b08e5dd01b05de5160b9f2355e",
+      "set": 5
+    },
+    {
+      "id": "HS240",
+      "image": "/diagrams/e733a8add6b5758f20bc.jpg",
+      "caption": "Pipeline of the study. CE contrast-enhancing, PT peritumoral T2 hyperintense, CE-T1WI contrast-enhanced T1-weighted image, T2WI T2-weighted image, GLCM gray level co-occurrence matrix, GLRLM gray level run length matrix, GLSZM gray level size zone matrix, NGTDM neighboring gray tone difference matrix, MI mutual information, RFE recursive feature elimination, Lasso least absolute shrinkage and selection operator, kNN k-nearest neighbor, NB naïve Bayes, RF random forest, Ada adaptive boosting, L-SVM linear support vector machine, R-SVM radial basis function support vector machine, LDA linear discriminant analysis, AUC area under the receiver operating characteristic curve.",
+      "difficulty": "hard",
+      "source": "PMC7374174.1/41598_2020_68980_Fig3_HTML.jpg",
+      "sha256": "e733a8add6b5758f20bc40fa175a79fb13e965e2116318171b5594777f5a6282",
+      "set": 6
+    },
+    {
+      "id": "HS241",
+      "image": "/diagrams/58ed21fd43942698272f.jpg",
+      "caption": "OmicIntegrator workflow diagram. Data ingestion into a relational SQLite database is handled in C#. After loading the genome of the organism of interest (GFF files, chromosomal FASTA sequences and GO annotations, orange boxes), omics datasets corresponding to different experimental conditions can be imported (green boxes). Dataset standardization for each condition is carried out in the R environment, and the normalized data are loaded back into the database (yellow box). Results of external analytical tools (e.g., ScanProSite, TMHMM-2.0, and NORSp) can also be integrated (pink box). The C# program provides multiple data processing and export utilities (blue boxes) and can generate outputs in Excel format. Data visualization is performed in R, using either these outputs or direct queries to the SQLite database. All source code, scripts, and datasets used in this study are available on GitHub (https://github.com/ifgitman/OmicIntegrator, accessed on 20 October 2025).",
+      "difficulty": "medium",
+      "source": "PMC12845079.1/plants-15-00334-g001.jpg",
+      "sha256": "58ed21fd43942698272f9315f035f4a932a72bacb6d47b2b7c7ff6633ccb8fb0",
+      "set": 9
+    },
+    {
+      "id": "HS242",
+      "image": "/diagrams/c652283b6e5f691ddd61.jpg",
+      "caption": "Flow diagram of the analysis and selection criteria for severe acute respiratory syndrome coronavirus 2 re-positive cases, Madrid, Spain, March 2020–March 2021. Re-positive cases were those that had 2 sequential positive RT-PCR tests taken >45 days apart with >1 negative RT-PCRs between the positive tests. Ct, cycle threshold; SNP, single-nucleotide polymorphism; STR, short tandem repeat; VOC, variant of concern; VOI, variant of interest; WGS, whole-genome sequencing.",
+      "difficulty": "hard",
+      "source": "PMC8714233.1/21-1952-F1.jpg",
+      "sha256": "c652283b6e5f691ddd619da9aed4effba48efb2d863d55fcd92fb4cdec41f3ab",
+      "set": 7
+    },
+    {
+      "id": "HS243",
+      "image": "/diagrams/b57870adac7883f46c85.jpg",
+      "caption": "Intubation. Algorithm for managing the airway and producing the least possible disruption in chest compressions DL = direct laryngoscopy; LMAD = laryngeal mask airway device; ETT = endotracheal tube",
+      "difficulty": "hard",
+      "source": "PMC3345112.1/12630_2012_9699_Fig5_HTML.jpg",
+      "sha256": "b57870adac7883f46c85b46b184e97c1aeed2f31d6cb48df1f49ea3d0c6c3c0a",
+      "set": 8
+    },
+    {
+      "id": "HS244",
+      "image": "/diagrams/63affba269175f1a09ee.jpg",
+      "caption": "Flow charts of inclusion and exclusion criteria",
+      "difficulty": "easy",
+      "source": "PMC6028845.1/330_2018_5331_Fig2_HTML.jpg",
+      "sha256": "63affba269175f1a09ee289e08654aa3477987781acaa561f15e7ab75eb14f1b",
+      "set": 7
+    },
+    {
+      "id": "HS245",
+      "image": "/diagrams/417b856461c638db66b6.jpg",
+      "caption": "Flowchart of study selection for inclusion in the meta-analysis.",
+      "difficulty": "medium",
+      "source": "PMC8810655.1/fonc-11-770894-g001.jpg",
+      "sha256": "417b856461c638db66b65adcb100dc720f497e5091acd5fb803f03d0580ee870",
+      "set": 10
+    },
+    {
+      "id": "HS246",
+      "image": "/diagrams/036ed9b02c48ff0bf99a.jpg",
+      "caption": "Workflow of a children’s digestive endoscopy center during the epidemic of COVID-19. ER: Emergency; Non-ER: Non-emergency; COVID-19: Coronavirus disease-2019; CT: Computed tomography.",
+      "difficulty": "hard",
+      "source": "PMC7190955.1/WJCC-8-1343-g001.jpg",
+      "sha256": "036ed9b02c48ff0bf99aa284296f6f5cee854304b0673159de1645c48180081d",
+      "set": 9
+    },
+    {
+      "id": "HS247",
+      "image": "/diagrams/855751ed4d8a8bf48ad1.jpg",
+      "caption": "PRISMA 2020 flow diagram for systematic reviews which included searches of databases.",
+      "difficulty": "medium",
+      "source": "PMC11718365.1/fonc-14-1515756-g001.jpg",
+      "sha256": "855751ed4d8a8bf48ad1e9c509fc3bb90ab72dd277eafb8197ef67b91502199a",
+      "set": 1
+    },
+    {
+      "id": "HS248",
+      "image": "/diagrams/b28dba64ec817da59f4b.jpg",
+      "caption": "Preferred reporting items for systematic reviews and meta-analyses (PRISMA) flow diagram.",
+      "difficulty": "medium",
+      "source": "PMC11874586.1/10.1177_13674935231184919-fig1.jpg",
+      "sha256": "b28dba64ec817da59f4b1f2d740603a127b41ac08c60e32b3a03b356137f11c0",
+      "set": 2
+    },
+    {
+      "id": "HS249",
+      "image": "/diagrams/07e3dce0366c2ac8f08f.jpg",
+      "caption": "Flow chart of (A) patient selection; (B) statistical process. Abbreviations: BC, breast cancer; NAC, neoadjuvant chemotherapy; HER2, human epidermal growth factor receptor 2; ER, estrogen receptor; ROC, receiver operating characteristic; AUC, area under the curve.",
+      "difficulty": "hard",
+      "source": "PMC9867383.1/ijerph-20-01617-g001.jpg",
+      "sha256": "07e3dce0366c2ac8f08fca8213564616a97f28fb9ca35ee9f60ae8596238d430",
+      "set": 10
+    },
+    {
+      "id": "HS250",
+      "image": "/diagrams/32db070b84454b5e12ef.jpg",
+      "caption": "Flowchart of dietary exposure estimates for the AFB1 in peanuts sold in both open and supermarkets. Note: The dose/effect curve was not established in this study.",
+      "difficulty": "medium",
+      "source": "PMC10818750.1/toxins-16-00050-g004.jpg",
+      "sha256": "32db070b84454b5e12efc690bfa0aaae007db3ef643d92f54566bd636bd9adb0",
+      "set": 3
+    },
+    {
+      "id": "HS251",
+      "image": "/diagrams/eadda9a1b28b30af813f.jpg",
+      "caption": "Sample selection flow chart. †Initial eligibility criteria were: Medicare beneficiaries with ICD‐9 codes for renal cell carcinoma and first metastasis in liver, lung, or bone; with fee‐for‐service Part D plan coverage 6 months before and after the date of the first metastasis claim (index date); without missing data for LIS status; and without a targeted therapy claim 6 months before the index date. ‡Refers to site of initial metastasis. Categories are not mutually exclusive; patients were assigned to multiple categories if the first date of reported metastatic diagnosis in medical claims included multiple sites.",
+      "difficulty": "hard",
+      "source": "PMC5774001.1/CAM4-7-75-g002.jpg",
+      "sha256": "eadda9a1b28b30af813fedcbf7f14a49bb60e9983660d6c4ba2aa174dee53b28",
+      "set": 1
+    },
+    {
+      "id": "HS252",
+      "image": "/diagrams/a5c1ff51b62ae7b88b37.jpg",
+      "caption": "Classification and regression tree analysis (C&RT) of the 728 patients with known follow-up. Classification and regression tree analysis of 728 patients with known follow-up predicts which patient belongs to which specific class (good or poor clinical outcome) on the basis of clinical and biopathological information. Diagram shows diagnostic algorithm generated by AnswerTree 3.1 software, Statistical Package for the Social Sciences (SPSS Inc., Chicago, IL, USA). CHT, chemotherapy; ER-β, estrogen receptor-beta; HT, hormonal therapy, N-, node-negative; N+, node-positive; No, absence of recurrences; PgR, progesterone receptor; Yes, presence of recurrences.",
+      "difficulty": "hard",
+      "source": "PMC2614505.1/bcr2139-4.jpg",
+      "sha256": "a5c1ff51b62ae7b88b3708468a72e464796ce8c3da4c22122d5a52c67f524cc3",
+      "set": 2
+    },
+    {
+      "id": "HS253",
+      "image": "/diagrams/99a4f0b490aef62dfa4e.jpg",
+      "caption": "Research workflow diagram. The AI‐assisted system developed in this study, named “EffiPolyMarker,” is capable of automatically recognizing and marking polyp locations in colonoscopy videos.",
+      "difficulty": "hard",
+      "source": "PMC12212408.1/JGH-40-1797-g005.jpg",
+      "sha256": "99a4f0b490aef62dfa4edbcbc6cc625f97f09f071b09015f5523bec3d0577b1a",
+      "set": 3
+    },
+    {
+      "id": "HS254",
+      "image": "/diagrams/0bff0bcf741cac2192a8.jpg",
+      "caption": "Flow diagram of the cohort, showing the numbers of included and excluded individuals at different stages and the number of incident pancreatic cancer cases in EPIC.",
+      "difficulty": "medium",
+      "source": "PMC12293992.1/cancers-17-02275-g001.jpg",
+      "sha256": "0bff0bcf741cac2192a8dfc40d5d36ae25dd73b1573d0e3b72a939e4bc9967b9",
+      "set": 4
+    },
+    {
+      "id": "HS255",
+      "image": "/diagrams/568caf845357eb6d32c2.jpg",
+      "caption": "PRISMA flow diagram of systematic scoping review for anaesthetics.",
+      "difficulty": "medium",
+      "source": "PMC11054096.1/toxics-12-00270-g002.jpg",
+      "sha256": "568caf845357eb6d32c2532bdc72b0cbb786770ffca5e4d84f4aa2abe76761a4",
+      "set": 5
+    },
+    {
+      "id": "HS256",
+      "image": "/diagrams/6c49d9fcf433cc6d038d.jpg",
+      "caption": "Suggested flowchart to check for video head impulse test (vHIT) quality. In our study, we could reduce the relevant restrictive mistakes to four categories (insufficient head stimulus velocity, slippage, calibration problems, and noise). As a result, we suggest a simplified flowchart to check for sufficient vHIT quality.",
+      "difficulty": "easy",
+      "source": "PMC6107793.1/fneur-09-00659-g0005.jpg",
+      "sha256": "6c49d9fcf433cc6d038d500573bf6b92b21377c8ad481cfe04031f8a65d03dae",
+      "set": 8
+    },
+    {
+      "id": "HS257",
+      "image": "/diagrams/9da45b7b2ac19cb5ec6f.jpg",
+      "caption": "Proposed algorithm for IBD medical management, excluding cases where surgery is needed. Created with BioRender.com.IBD, inflammatory bowel disease; DTT, dual targeted therapy; IMM, immunosuppressor; TNF, tumour necrosis factor.",
+      "difficulty": "hard",
+      "source": "PMC8082976.1/10.1177_17562848211006669-fig4.jpg",
+      "sha256": "9da45b7b2ac19cb5ec6f365574c1ce2c7ba34ad75be6f31ad1f345a5b9b2991b",
+      "set": 4
+    },
+    {
+      "id": "HS258",
+      "image": "/diagrams/e4ffa8d88fe59d5319d0.jpg",
+      "caption": "Parallel and sequential strategies for Update workflows",
+      "difficulty": "hard",
+      "source": "PMC9948795.1/42979_2022_1616_Fig8_HTML.jpg",
+      "sha256": "e4ffa8d88fe59d5319d0a51f307e0b9b54fe949256416e034771caf25d8ec896",
+      "set": 5
+    },
+    {
+      "id": "HS259",
+      "image": "/diagrams/9126d2c58e69e2f4a7ec.jpg",
+      "caption": "PRISMA flow chart for the systematization of original articles 2014–2020.",
+      "difficulty": "easy",
+      "source": "PMC8949547.1/medicina-58-00451-g001.jpg",
+      "sha256": "9126d2c58e69e2f4a7ec125347cf66f2e2633e37875bb54c73574076ac02c9b0",
+      "set": 9
+    },
+    {
+      "id": "HS260",
+      "image": "/diagrams/3cb73e760725ac48d829.jpg",
+      "caption": "Flowchart for Comprehensive Analysis of PRDEGs.DM, diabetes mellitus; DEGs, differentially expressed genes; PRGs, pyroptosis-related genes; PRDEGs, pyroptosis-related differentially expressed genes; GSEA, gene set enrichment analysis; GO, Gene Ontology; KEGG, Kyoto Encyclopedia of Genes and Genomes; PPI, protein-protein interaction; ROC Curve, receiver operating characteristic curve; TF, transcription factor; RBP, RNA-binding protein.",
+      "difficulty": "hard",
+      "source": "PMC13298936.1/pone.0352310.g001.jpg",
+      "sha256": "3cb73e760725ac48d8296a70a4098448aea71e8cb93cc301b88e80df45527e97",
+      "set": 6
+    },
+    {
+      "id": "HS261",
+      "image": "/diagrams/d386d3baaacde79ac15a.jpg",
+      "caption": "Algorithm for decision-making related to AEFIs following COVID-19 immunization, WHO Western Pacific Region, July 2022",
+      "difficulty": "hard",
+      "source": "PMC10363418.1/wpsar-14-1016-g001.jpg",
+      "sha256": "d386d3baaacde79ac15a7b85cdea15f37a0a16edbf28f53c706da8ca8b6735dd",
+      "set": 7
+    },
+    {
+      "id": "HS262",
+      "image": "/diagrams/0bbe58aff50a70883aa4.jpg",
+      "caption": "Flowchart of the study. Abbreviations: ADA, American Diabetes Association; TL, telomere length.",
+      "difficulty": "medium",
+      "source": "PMC10813241.1/antioxidants-13-00125-g001.jpg",
+      "sha256": "0bbe58aff50a70883aa4a612160ffa5579fc29f0c8decece6176902ffe1a6824",
+      "set": 6
+    },
+    {
+      "id": "HS263",
+      "image": "/diagrams/93873d81b1f75e984f05.jpg",
+      "caption": "Flow diagram for the scientific paper selection from databases.",
+      "difficulty": "medium",
+      "source": "PMC5115794.1/pone.0166718.g001.jpg",
+      "sha256": "93873d81b1f75e984f05468f2200195ad1e3545a9b830d7ece2e7d7f8f00bfbc",
+      "set": 7
+    },
+    {
+      "id": "HS264",
+      "image": "/diagrams/17d0de76b00d97b3dc9f.jpg",
+      "caption": "Scaling-up experiment ED concentration process optimization flow chart.",
+      "difficulty": "easy",
+      "source": "PMC12471754.1/membranes-15-00283-g004.jpg",
+      "sha256": "17d0de76b00d97b3dc9f37edc9f8c3221aae098a4e647adac936de357e39e2da",
+      "set": 10
+    },
+    {
+      "id": "HS265",
+      "image": "/diagrams/1592e2b3e7aa6c15c6f1.jpg",
+      "caption": "Metasynthesis operationalization flowchart according to the Preferred Reporting Items for Systematic Reviews and Meta-Analyses",
+      "difficulty": "medium",
+      "source": "PMC12707607.1/0034-7167-reben-78-06-e20250021-gf01.jpg",
+      "sha256": "1592e2b3e7aa6c15c6f11225b230f842f435cc2e271bb6987150c2cb2d247ce6",
+      "set": 8
+    },
+    {
+      "id": "HS266",
+      "image": "/diagrams/45f3fbc33b323aa6aac5.jpg",
+      "caption": "The determination of TMJ parameters workflow.",
+      "difficulty": "easy",
+      "source": "PMC8125202.1/sensors-21-03070-g002.jpg",
+      "sha256": "45f3fbc33b323aa6aac51ed1081105e356ad287215e344a3c753702a93ba8172",
+      "set": 1
+    },
+    {
+      "id": "HS267",
+      "image": "/diagrams/4d033dc22f1d369d2c7d.jpg",
+      "caption": "Flow chart of study participants from the three large Swedish public endurance competitions: cross-country running (CCR Lidingöloppet), cross-country skiing (CCS Vasaloppet), and open-water swimming (OWS Vansbrosimningen). 1Age < 18 years/unknown age.",
+      "difficulty": "hard",
+      "source": "PMC6032657.1/CRJ2018-3238546.001.jpg",
+      "sha256": "4d033dc22f1d369d2c7d59c81117122d9e22e11ee74a400577a7066fec98ada9",
+      "set": 8
+    },
+    {
+      "id": "HS268",
+      "image": "/diagrams/7b34db0538fe1648eefa.jpg",
+      "caption": "Therapeutic algorithm for spontaneous hepatic rupture in pregnancy",
+      "difficulty": "hard",
+      "source": "PMC9270816.1/13017_2022_444_Fig3_HTML.jpg",
+      "sha256": "7b34db0538fe1648eefaa16545c6711c8cd653054c1ceee4606410b122de3c83",
+      "set": 9
+    },
+    {
+      "id": "HS269",
+      "image": "/diagrams/8887876199888c3bdabf.jpg",
+      "caption": "Flowchart of the motion-planning algorithm.",
+      "difficulty": "medium",
+      "source": "PMC10648392.1/sensors-23-08795-g008.jpg",
+      "sha256": "8887876199888c3bdabfb07b5ca53b336eb006199ab405aa3727b1d5e5ef3c12",
+      "set": 9
+    },
+    {
+      "id": "HS270",
+      "image": "/diagrams/8b89f4cc498d3dd4c32d.jpg",
+      "caption": "Suggested protocol for biologic selection before psoriasis treatment.",
+      "difficulty": "easy",
+      "source": "PMC11118157.1/biomedicines-12-01115-g003.jpg",
+      "sha256": "8b89f4cc498d3dd4c32d28974f9478f48fc2e213515d79ccd57a3fe8379a4122",
+      "set": 2
+    },
+    {
+      "id": "HS271",
+      "image": "/diagrams/b9a8588e7192fb84a06e.jpg",
+      "caption": "Experimental procedure. The same procedure was used in the both thinned and crowding forest sessions.",
+      "difficulty": "medium",
+      "source": "PMC5551238.1/ijerph-14-00800-g004.jpg",
+      "sha256": "b9a8588e7192fb84a06e614cc598c92e5667816e78958cac1d3aff6759400377",
+      "set": 10
+    },
+    {
+      "id": "HS272",
+      "image": "/diagrams/e60326c3aac8125604ac.jpg",
+      "caption": "Inclusion criteria flow diagram. Patients selected from the Juvenile Dermatomyositis Registry at Lurie Children’s meeting inclusion criteria for the study.",
+      "difficulty": "easy",
+      "source": "PMC9953073.1/biomedicines-11-00552-g001.jpg",
+      "sha256": "e60326c3aac8125604acf288e7407a572b18c6f800b875223ac7c3a410ce7bb1",
+      "set": 3
+    },
+    {
+      "id": "HS273",
+      "image": "/diagrams/c6d2ccb8cb8d3a3552de.jpg",
+      "caption": "Methodology flow chart adopted in this work.",
+      "difficulty": "hard",
+      "source": "PMC9320924.1/foods-11-02019-g001.jpg",
+      "sha256": "c6d2ccb8cb8d3a3552deb6a433395b881483fd0170d47d67c3351f6e290a987f",
+      "set": 10
+    },
+    {
+      "id": "HS274",
+      "image": "/diagrams/77bd1c81ea5da9201113.jpg",
+      "caption": "Algorithm for an adaptive application of the BDST",
+      "difficulty": "medium",
+      "source": "PMC7934397.1/12916_2021_1927_Fig3_HTML.jpg",
+      "sha256": "77bd1c81ea5da920111351e6281af006879f28413353d2f03d9beac4ac267d6f",
+      "set": 1
+    },
+    {
+      "id": "HS275",
+      "image": "/diagrams/73c1d6a06d38484996be.jpg",
+      "caption": "Flow chart of participants in the analysis",
+      "difficulty": "medium",
+      "source": "PMC6381747.1/12884_2019_2213_Fig1_HTML.jpg",
+      "sha256": "73c1d6a06d38484996be647c72a86b0a3d832866045b7cff27685d7f55dc30a9",
+      "set": 2
+    },
+    {
+      "id": "HS276",
+      "image": "/diagrams/85c4f1b8c6fcb9f3dc78.jpg",
+      "caption": "Annex 5 Triage flow chart - Musculoskeletal infection.",
+      "difficulty": "medium",
+      "source": "PMC6362691.1/1809-4406-aob-27-01-0050-gf05.jpg",
+      "sha256": "85c4f1b8c6fcb9f3dc789deee6af4e4bf7a919383ac345d834713e7fd2e22d24",
+      "set": 3
+    },
+    {
+      "id": "HS277",
+      "image": "/diagrams/e263351991d7081610ba.jpg",
+      "caption": "Diagram illustrating the procedure for analyzing the source articles.",
+      "difficulty": "medium",
+      "source": "PMC9140108.1/children-09-00695-g003.jpg",
+      "sha256": "e263351991d7081610baccf642cda3218d1f71486332c94ccbbdb5aff5afd29a",
+      "set": 4
+    },
+    {
+      "id": "HS278",
+      "image": "/diagrams/2aa0588b54d739123285.jpg",
+      "caption": "Multi-View Double-Triangle Algorithm for Star Identification Flow.",
+      "difficulty": "hard",
+      "source": "PMC7308879.1/sensors-20-03027-g005.jpg",
+      "sha256": "2aa0588b54d73912328582b4fa3b09b0569efe84dfebf7c1957aead6d6d4b536",
+      "set": 1
+    },
+    {
+      "id": "HS279",
+      "image": "/diagrams/ebc75833765f82038a91.jpg",
+      "caption": "PRISMA Diagram for the scoping review of the genetic architecture of treatment-resistant schizophrenia.",
+      "difficulty": "medium",
+      "source": "PMC13229485.1/fgene-17-1802472-g001.jpg",
+      "sha256": "ebc75833765f82038a91f4ce4651bf6d861d22ce017cb22566d676e812ce083f",
+      "set": 5
+    },
+    {
+      "id": "HS280",
+      "image": "/diagrams/ba62181dea8fad9d5704.jpg",
+      "caption": "Flowchart for including studies to review.",
+      "difficulty": "medium",
+      "source": "PMC12066699.1/fnins-19-1595253-g001.jpg",
+      "sha256": "ba62181dea8fad9d5704133d5ba8bda7e201e32aefa75bb9ca0d02944a18f168",
+      "set": 6
+    },
+    {
+      "id": "HS281",
+      "image": "/diagrams/00e80a9e37110822b399.jpg",
+      "caption": "Study design and workflow of the longevity case–control GWAS, calculation of ARD-PRSs, meta-PRS for the diseases and the GPS for longevity. AD, Alzheimer´s disease; AF, atrial fibrillation; ARD, age-related disease; CAD, coronary artery disease; CRC, colorectal cancer; ISS, ischemic stroke; GPS, genome-wide polygenic score; GWAS, genome-wide association study; PD, Parkinson´s disease; PRS, polygenic risk score; SNV, single nucleotide variant; T2D, type 2 diabetes mellitus.",
+      "difficulty": "hard",
+      "source": "PMC9504529.1/ijms-23-10949-g003.jpg",
+      "sha256": "00e80a9e37110822b399faa9903d4aeae150afa1b28034f292794b6f65ec98bf",
+      "set": 2
+    },
+    {
+      "id": "HS282",
+      "image": "/diagrams/e717cbf40d4946e947b7.jpg",
+      "caption": "Flow chart of systematic literature review",
+      "difficulty": "easy",
+      "source": "PMC5777804.1/oncotarget-08-115691-g001.jpg",
+      "sha256": "e717cbf40d4946e947b789dc9fc6a8bef475ad054e9ca09005554ce58bd54cd0",
+      "set": 4
+    },
+    {
+      "id": "HS283",
+      "image": "/diagrams/9736773a8668e2b02dd3.jpg",
+      "caption": "Annex 1 Algorithm for the diagnosis and treatment of variceal bleed from extrahepatic portal vein obstruction in children.",
+      "difficulty": "hard",
+      "source": "PMC8042811.1/GMJ5404-0274Fig1.jpg",
+      "sha256": "9736773a8668e2b02dd3d03a0685d9785e13b3a403e759f0e275f13fe1720b4d",
+      "set": 3
+    },
+    {
+      "id": "HS284",
+      "image": "/diagrams/e7c686559b472893d62e.jpg",
+      "caption": "Workflow of the MR study demonstrating the link between Graves’ disease and micronutrients. IVW, inverse variance weighted; MR, Mendelian randomization; WME, weighted median, SNP, single-nucleotide polymorphisms.",
+      "difficulty": "easy",
+      "source": "PMC11663635.1/fnut-11-1432420-g001.jpg",
+      "sha256": "e7c686559b472893d62e4798c10cc4757283b8ab192c19e680aa33c65ca42463",
+      "set": 5
+    },
+    {
+      "id": "HS285",
+      "image": "/diagrams/201489c8058fa7b925bd.jpg",
+      "caption": "Flow chart of the study protocol. HF heart failure, MACEs major adverse cardiovascular events",
+      "difficulty": "medium",
+      "source": "PMC9900939.1/12968_2023_919_Fig2_HTML.jpg",
+      "sha256": "201489c8058fa7b925bd7415391c42ddabad4e6ef5e2defb6ade4f768d1295d6",
+      "set": 7
+    },
+    {
+      "id": "HS286",
+      "image": "/diagrams/c451bca222450a9b28ae.jpg",
+      "caption": "Stepwise flowchart of the EEG-based learning disorder diagnosis method. The figure presents a vertically aligned stepwise methodology for diagnosing learning disorders using EEG. The process includes data acquisition, signal processing, feature extraction, statistical comparison, 5-fold cross-validation, ANN-based classification, and performance evaluation.",
+      "difficulty": "easy",
+      "source": "PMC12293141.1/diagnostics-15-01772-g002.jpg",
+      "sha256": "c451bca222450a9b28ae43b5c4356b6ef18c2497b1f005c591a36692b8c6d70d",
+      "set": 6
+    },
+    {
+      "id": "HS287",
+      "image": "/diagrams/be04fc09054f1b5b643b.jpg",
+      "caption": "Purification protocol of LHR-Bed. The figure summarizes the four stages of the purification protocol. Stage I (green): lysis and fraction-obtaining. Stage II (red): Akta Prime preparation in manual mode. Stage III (yellow): refolding. Stage IV (purple): elution analysis.",
+      "difficulty": "easy",
+      "source": "PMC9688765.1/cimb-44-00387-g001.jpg",
+      "sha256": "be04fc09054f1b5b643b5893cf39ec97ee4e84846afb6f43260624b2fd2d3a80",
+      "set": 7
+    },
+    {
+      "id": "HS288",
+      "image": "/diagrams/a171689d35f72aa12b8b.jpg",
+      "caption": "Proposed diagnostic flow chart for differentiating MOGAD, NMOSD and MS based on CSF biomarkers. Flow diagram illustrating a proposed decision pathway for the differential diagnosis of myelin oligodendrocyte glycoprotein antibody-associated disease (MOGAD), neuromyelitis optica spectrum disorder (NMOSD) and multiple sclerosis (MS) in patients presenting with acute clinical worsening and MRI evidence of new lesion formation. Initial separation is based on CSF levels of granulocyte activation markers (GAM) and complement factors C5/C5a. If elevated, differentiation between MOGAD and NMOSD is guided by astrocytic damage markers GFAP and S100B. Absence of biomarker increases suggests a diagnosis of MS.",
+      "difficulty": "easy",
+      "source": "PMC13058455.1/awaf345f6.jpg",
+      "sha256": "a171689d35f72aa12b8b3955a8c48530bb8ab9c4832848df5bfa059b4d8b3603",
+      "set": 8
+    },
+    {
+      "id": "HS289",
+      "image": "/diagrams/f4b7c248c231b3cd1b99.jpg",
+      "caption": "Flowchart of study selection process, adapted from the Preferred Reporting Items for Systematic Review and Meta-Analysis (PRISMA 2020) [8].",
+      "difficulty": "medium",
+      "source": "PMC10218631.1/healthcare-11-01487-g002.jpg",
+      "sha256": "f4b7c248c231b3cd1b99d6122d4d9307fdc72d513bd0e4ce1312bb943d386f33",
+      "set": 8
+    },
+    {
+      "id": "HS290",
+      "image": "/diagrams/51899d2f5d5b12c5adbd.jpg",
+      "caption": "Flow chart. nEGD, transnasal gastroscopy; ns-oEGD, unsedated peroral gastroscopy; s-oEGD, peroral gastroscopy under sedation.",
+      "difficulty": "hard",
+      "source": "PMC6506089.1/bmjgast-2018-000264f01.jpg",
+      "sha256": "51899d2f5d5b12c5adbdca936bc939df34370ae54ca6f5ba1cad3bd243654c3f",
+      "set": 4
+    },
+    {
+      "id": "HS291",
+      "image": "/diagrams/77f89b478160bb462112.jpg",
+      "caption": "Model flow diagram. States highlighted in grey represent starting health states. CKD chronic kidney disease, HF heart failure, HK hyperkalaemia, MACE major adverse cardiovascular events, NYHA New York Heart Association, RAASi renin-angiotensin-aldosterone system inhibitor",
+      "difficulty": "hard",
+      "source": "PMC9440184.1/41669_2022_357_Fig1_HTML.jpg",
+      "sha256": "77f89b478160bb4621122a256224360cbf74263a2be3440541de8dfcf28fc45b",
+      "set": 5
+    },
+    {
+      "id": "HS292",
+      "image": "/diagrams/aa1f17c313ff2f8e72f9.jpg",
+      "caption": "The processing pipeline of the hybrid indoor positioning.",
+      "difficulty": "hard",
+      "source": "PMC6359285.1/sensors-19-00424-g006.jpg",
+      "sha256": "aa1f17c313ff2f8e72f97cf901a6190623c7749ec8683b5003d067b648275d9f",
+      "set": 6
+    },
+    {
+      "id": "HS293",
+      "image": "/diagrams/c9bbc48a949698c39f40.jpg",
+      "caption": "Flowchart of the improved YOLOv8n model in this paper.",
+      "difficulty": "hard",
+      "source": "PMC11768800.1/sensors-25-00436-g001.jpg",
+      "sha256": "c9bbc48a949698c39f405b4eb305b135287a555aa087a92eea8d2f5cf6f4b721",
+      "set": 7
+    },
+    {
+      "id": "HS294",
+      "image": "/diagrams/30a316220feccebebbe8.jpg",
+      "caption": "Carbapenemase testing algorithms directly from specimens (A) or isolate testing for low (B) to high (C) carbapenemase-producing CRE prevalence settings. a A similar testing and reporting algorithm should be considered for dual serine and MBL producers. b Option #2 may be pursued if alternative carbapenemase targets are commonly encountered, for instance, blaSPM in South America or alternative OXA carbapenemases are more common among Acinetobacter species, such as blaOXA-23 or blaOXA-24.",
+      "difficulty": "hard",
+      "source": "PMC13059724.1/jcm.00451-25.f002.jpg",
+      "sha256": "30a316220feccebebbe8bd205772cee6a36acef95acaae5368708d68b8166ddd",
+      "set": 8
+    },
+    {
+      "id": "HS295",
+      "image": "/diagrams/8ef675b67dbabfccfe2e.jpg",
+      "caption": "PRISMA flow chart of the study search process",
+      "difficulty": "medium",
+      "source": "PMC12560371.1/12903_2025_6533_Fig1_HTML.jpg",
+      "sha256": "8ef675b67dbabfccfe2efb75e78358929919a631289f9f5d883c050784f6ecc2",
+      "set": 9
+    },
+    {
+      "id": "HS296",
+      "image": "/diagrams/53c52b5b0ceff20fd9d0.jpg",
+      "caption": "Flow diagram for the study selection process in this meta-analysis",
+      "difficulty": "easy",
+      "source": "PMC6612339.1/13300_2019_656_Fig1_HTML.jpg",
+      "sha256": "53c52b5b0ceff20fd9d05575ef14ee51772b8af5107f8ca4b1cdf7dbf5e53e0b",
+      "set": 9
+    },
+    {
+      "id": "HS297",
+      "image": "/diagrams/fe443f229d6372d29614.jpg",
+      "caption": "Surgical algorithm of peripheral nerve repair [4].",
+      "difficulty": "hard",
+      "source": "PMC4167952.1/BMRI2014-698256.007.jpg",
+      "sha256": "fe443f229d6372d2961459d779b244ad3d848b77c9525f868eb180f5c36d27e7",
+      "set": 9
+    },
+    {
+      "id": "HS298",
+      "image": "/diagrams/0537e623f37d6001e29f.jpg",
+      "caption": "Algorithm workflow. The events (in reciprocal-space coordinates) are histogrammed to a regular grid. Detector positions, lattice parameters and sample orientations are used to calculate the trajectories in reciprocal space for each detector. The intersections of these trajectories with the given grid, together with counting time and solid-angle information, are used to calculate the statistical weights. Finally, the histogrammed event data are divided by the normalization (the weight) histogram, to obtain the normalized intensity histogram.",
+      "difficulty": "hard",
+      "source": "PMC9721335.1/j-55-01514-fig5.jpg",
+      "sha256": "0537e623f37d6001e29f9ae2f1aecb73b6204067c64b1fabb70fc044982a5cb6",
+      "set": 10
+    },
+    {
+      "id": "HS299",
+      "image": "/diagrams/480064cce79a0df73167.jpg",
+      "caption": "Study flow chart. This flow chart shows the sequence of the selection of the subgroups for the statistical analyzes. Of the 5785 originally measured samples, 5667 were included in the statistical analysis. Of these, subgroups were determined for the ROC (receiver operating characteristic) analyses (n = 1998) as well as for the dynamic analyses (n = 1329).",
+      "difficulty": "medium",
+      "source": "PMC8305654.1/jcm-10-03148-g001.jpg",
+      "sha256": "480064cce79a0df73167f59d8291b5032b286e263772c0c26b854da26d25c16a",
+      "set": 10
+    },
+    {
+      "id": "HS300",
+      "image": "/diagrams/3ea0c2d1d39f3d2ab4ad.jpg",
+      "caption": "STROBE flow diagram depicting patient selection. AVR: aortic valve replacement; echo: echocardiography.",
+      "difficulty": "easy",
+      "source": "PMC12941163.1/jcdd-13-00071-g001.jpg",
+      "sha256": "3ea0c2d1d39f3d2ab4ad0e319aa69d1b711c22cdd4c9a18c0ff1e34f514a43f9",
+      "set": 10
     }
   ]
 }
