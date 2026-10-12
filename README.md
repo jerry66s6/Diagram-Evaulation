@@ -132,10 +132,13 @@ python3 -m unittest discover -s tests -p 'test_dimension_ablation.py'
 
 ## Beauty-axis isolation experiment
 
-The [historical Beauty-axis dashboard](examples/beauty_ablation/index.html) and
+The [historical Beauty-axis dashboard](examples/beauty_ablation/index.html),
+[three v3 iteration dashboards](examples/beauty_ablation/ceres/), and
 [design notes](docs/beauty_axis_experiment.md) cover five visual-quality dimensions:
-Aesthetics, Palette, Ink Balance, Density, and Balance. The experiment compares a
-synthetic baseline flowchart with one targeted intervention per dimension and
+Aesthetic Craft, Palette, Ink Balance, Density, and Balance. The v3 prompt suite
+assigns each judge one concrete observable, requires the observation before the
+score, and reports sensitivity, specificity, and isolation. The experiment compares
+a synthetic baseline flowchart with one targeted intervention per dimension and
 reports off-diagonal score changes.
 
 The portable runner excludes the prototype's internal API transport and uses this
@@ -149,6 +152,9 @@ PYTHONPATH=src python3 scripts/run_beauty_ablation.py
 Or set `OPENAI_API_KEY` and pass `--live` to score the generated diagrams with the
 model configured in `config/evaluator.json`.
 
+The latest measured v3 iteration reached 89.2/100 overall isolation. Its remaining
+Ink Balance-to-Density leak led to a fixture-only correction that has not yet been
+rerun, so no corrected score is inferred.
 ## Revised degradation experiment (experimental v2)
 
 The v2 experiment evaluates the original, the five existing partial edits, and

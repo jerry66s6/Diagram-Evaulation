@@ -2,8 +2,11 @@
 
 ## Mission
 
-The main aim is to build a high-quality dataset of flowcharts and the evaluation
-system needed to curate it reliably.
+The main aim is to develop a robust, source-agnostic diagram quality evaluation
+ecosystem that can determine whether an incoming diagram is high quality. Building
+a high-quality dataset of flowcharts is an important application of this system,
+but the central deliverable is the evaluation pipeline used to curate candidates
+reliably.
 
 The intended dataset will contain two primary sources:
 
@@ -13,13 +16,17 @@ The intended dataset will contain two primary sources:
    specifications by large language models.
 
 Both sources can contain malformed, incomplete, misleading, illegible, or visually
-poor diagrams. The project therefore also aims to build a robust judge LLM that can
-identify high-quality flowcharts and explain why a candidate should be retained,
-rejected, or sent for human review.
+poor diagrams. Evaluation should therefore combine judge LLMs with deterministic,
+static, or computer-vision signals where they provide more reliable or measurable
+evidence. The resulting system should identify high-quality flowcharts, produce
+per-dimension scores and explanations, express confidence, and recommend whether a
+candidate should be retained, rejected, or sent for human review.
 
-The end goal is not simply to collect as many diagrams as possible. It is to create
-a traceable, diverse, and well-evaluated dataset suitable for research and model
-development involving diagram understanding, generation, and evaluation.
+The end goal is not simply to collect as many diagrams as possible, nor is it tied
+to a single acquisition or generation method. It is to create a reusable evaluation
+pipeline that reliably filters incoming diagrams and supports a traceable, diverse,
+and well-evaluated dataset suitable for research and model development involving
+diagram understanding, generation, and evaluation.
 
 ## End-to-end vision
 
@@ -59,7 +66,12 @@ To begin with, we care about two top-level axes:
    - Density - Whether diagram elements are evenly and comfortably spaced rather than cramped or clustered.
    - Balance - Whether the overall composition and whitespace are centered rather than visually biased toward one side or corner.
 
-At the judge LLM level, we ask the judge LLM to rate a given image across these dimensions.
+The evaluator may use a judge LLM, deterministic checks, static analysis, computer
+vision metrics, or an ensemble of these methods. Each candidate should receive
+per-dimension scores, supporting evidence, confidence, and an overall
+accept/reject/human-review recommendation. Source-specific acquisition systems,
+such as scientific-paper harvesting or LLM generation, are upstream components and
+should feed the same evaluation contract.
 
 Future work - Accessibility, maybe as part of beauty dimension.
 
