@@ -22,7 +22,7 @@ A React/Vinext interface with a Cloudflare Worker backend and durable D1 (SQLite
 node scripts/import-diagrams.mjs ../diagrams/human_study/data.csv --sets 10 --mode research --id human-study-300-v2
 ```
 
-Each set has 5 positive and 5 negative diagrams per difficulty, shown in a shuffled order. Participants see only the image and caption; the researcher export adds each diagram's `label` and `defects`.
+Each set has 5 positive and 5 negative diagrams per difficulty, shown in a shuffled order. Participants see only the image and caption; the researcher export adds each diagram's `label` and `defects`. The welcome page shows the same preview to everyone (`config/preview.json`, D07876 from the dataset), which is deliberately not one of the 300 study diagrams, so no participant sees a study diagram before rating it.
 
 The importer copies these images into `public/diagrams/`, which Git ignores (like `../diagrams/`). `config/study.json` is also kept out of Git, because it records which diagrams are negatives and the repository is public. A fresh checkout therefore needs the local dataset folder and this import before it can build or deploy.
 

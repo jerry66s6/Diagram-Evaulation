@@ -1,7 +1,7 @@
 import StudyClient from '../components/study/study-client';
-import { STUDY, DIAGRAMS, SESSION_SIZE, publicDiagram } from '../lib/catalog';
-// The landing preview is seen by everyone, so it is never one of the deliberately broken diagrams.
-const PREVIEW = DIAGRAMS.find(d => d.label !== 'negative') ?? DIAGRAMS[0];
+import { STUDY, SESSION_SIZE } from '../lib/catalog';
+// Everyone sees the landing preview before starting, so it is a dataset diagram that is not in the study.
+import preview from '../config/preview.json';
 export default function Home() {
-  return <StudyClient preview={publicDiagram(PREVIEW)} sampleSize={SESSION_SIZE} demo={STUDY.mode === 'demo'} />;
+  return <StudyClient preview={{ id: preview.id, image: preview.image, caption: preview.caption }} sampleSize={SESSION_SIZE} demo={STUDY.mode === 'demo'} />;
 }
