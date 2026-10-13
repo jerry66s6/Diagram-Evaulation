@@ -206,11 +206,10 @@ small edit must score zero. Severe edits may affect multiple dimensions.
 ## Diagram dataset
 
 The diagram dataset lives in `diagrams/`, which is kept out of Git because of its size
-(about 750 MB). It has 7,971 diagrams, each with a caption and an easy, medium, or hard
-label for structural complexity: 7,856 flowchart-like and other diagram figures from
-PubMed Central Open Access articles, and 115 DiagramGen benchmark images. 4,835 are
-positive (the original figure) and 3,136 negative (the figure with one to three deliberate
-errors, such as a removed box, a reversed arrow, or faded text). `diagrams/README.md`
+(about 750 MB). It has 7,856 flowchart-like and other diagram figures from PubMed Central
+Open Access articles, each with a caption and an easy, medium, or hard label for structural
+complexity. 4,751 are positive (the original figure) and 3,105 negative (the figure with one
+to three deliberate errors, such as a removed box, a reversed arrow, or faded text). `diagrams/README.md`
 describes it, `diagrams/data.csv` lists it, and `diagrams/pipeline/` rebuilds it.
 
 ## Install
