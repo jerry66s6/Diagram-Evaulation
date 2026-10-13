@@ -1,7 +1,7 @@
 import catalog from '../config/study.json';
 import { createHash } from 'node:crypto';
 export type Difficulty = 'easy' | 'medium' | 'hard';
-export type Diagram = { id: string; image: string; caption: string; difficulty: Difficulty; source: string; sha256: string; set?: number };
+export type Diagram = { id: string; image: string; caption: string; difficulty: Difficulty; source: string; sha256: string; set?: number; label?: string; defects?: string };
 export const STUDY = catalog;
 export const DIAGRAMS = catalog.diagrams as Diagram[];
 export const STUDY_VERSION = catalog.id + '-' + createHash('sha256').update(JSON.stringify(catalog)).digest('hex').slice(0, 12);

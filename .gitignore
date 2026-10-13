@@ -27,3 +27,5 @@ correctness-report.json
 /diagrams/
 # Study images copied from diagrams/ by the importer stay out of Git too (already-tracked demo images remain).
 /user-study/public/diagrams/
+# The study catalog names which diagrams are negatives; keep it out of the public repository.
+/user-study/config/study.json

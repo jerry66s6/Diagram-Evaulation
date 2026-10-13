@@ -16,13 +16,15 @@ A React/Vinext interface with a Cloudflare Worker backend and durable D1 (SQLite
 
 ## Demo versus a real study
 
-`config/study.json` now holds the human-study set: the 300 diagrams in `../diagrams/human_study/` (100 easy, 100 medium, 100 hard), as 10 fixed sets of 30 in research mode, imported with
+`config/study.json` now holds the human-study set: the 300 diagrams in `../diagrams/human_study/` (100 easy, 100 medium, 100 hard; half of each positive and half negative), as 10 fixed sets of 30 in research mode, imported with
 
 ```bash
-node scripts/import-diagrams.mjs ../diagrams/human_study/data.csv --sets 10 --mode research --id human-study-300-v1
+node scripts/import-diagrams.mjs ../diagrams/human_study/data.csv --sets 10 --mode research --id human-study-300-v2
 ```
 
-The importer copies these images into `public/diagrams/`, which Git ignores (like `../diagrams/`), so a fresh checkout needs the local dataset folder and this import before it can build or deploy.
+Each set has 5 positive and 5 negative diagrams per difficulty, shown in a shuffled order. Participants see only the image and caption; the researcher export adds each diagram's `label` and `defects`.
+
+The importer copies these images into `public/diagrams/`, which Git ignores (like `../diagrams/`). `config/study.json` is also kept out of Git, because it records which diagrams are negatives and the repository is public. A fresh checkout therefore needs the local dataset folder and this import before it can build or deploy.
 
 The original demo catalog contained **24 existing repository diagrams** (10 DiagramGen examples, 11 Transformer ablations, 3 Beauty variants). Their captions were written for the demo from each diagram's generation prompt; real studies should use the diagrams' own captions. All images are under `public/diagrams/`; the DiagramGen source card is retained as `DATASET_SOURCE.md`. Difficulty labels are **provisional demonstration labels**, deliberately balanced to exercise the allocator. They are not validated measures of quality or rating difficulty. Demo sessions and CSV rows are explicitly marked `mode=demo`. No model APIs are called by this app.
 

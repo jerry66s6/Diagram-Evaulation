@@ -9,14 +9,16 @@
 //   caption_file      path to a .txt/.md file with the caption } of these two
 //   id                optional stable ID; defaults to D-<first 10 hex of image SHA-256>
 //   source            optional provenance, e.g. "arXiv:2401.01234 Fig. 3"
+//   label, defects    optional ground truth (positive | negative, and the errors added);
+//                     never shown to participants, only in the researcher export
 //
 // Options:
 //   --sample-size N   diagrams per participant, 20-30 (default: current value)
 //   --fixed-order     every participant sees every diagram, in manifest row order;
 //                     no sampling and no difficulty-balance check
 //   --sets N          split the diagrams into N fixed sets with the same number of each
-//                     difficulty (dealt in manifest order); each participant gets the
-//                     next unused set, so no diagram goes to two participants
+//                     difficulty and label (dealt in manifest order); each participant gets
+//                     the next unused set, so no diagram goes to two participants
 //   --mode M          demo | research (default: current value)
 //   --id ID           catalog id; change it for each real study round
 //   --title T         study title
@@ -126,7 +128,10 @@ export function buildCatalog(rows, { manifestDir, settings }) {
 
     const imageName = `${sha256.slice(0, 20)}${extension === '.jpeg' ? '.jpg' : extension}`;
     copies.push({ from: sourcePath, name: imageName });
-    diagrams.push({ id, image: `/diagrams/${imageName}`, caption, difficulty, source: row.source?.trim() || file, sha256 });
+    const label = row.label?.trim().toLowerCase() ?? '';
+    if (label && !['positive', 'negative'].includes(label)) throw new Error(`${where}: label must be positive or negative; got "${row.label}".`);
+    diagrams.push({ id, image: `/diagrams/${imageName}`, caption, difficulty, source: row.source?.trim() || file, sha256,
+      ...(label ? { label, defects: row.defects?.trim() ?? '' } : {}) });
   });
   const catalog = { ...settings, diagrams };
   if (catalog.order === 'sets') {
@@ -136,7 +141,13 @@ export function buildCatalog(rows, { manifestDir, settings }) {
     if (LEVELS.some(level => counts[level] % sets)) {
       throw new Error(`${sets} sets need each difficulty count to be a multiple of ${sets}; the manifest has easy=${counts.easy}, medium=${counts.medium}, hard=${counts.hard}.`);
     }
-    for (const level of LEVELS) diagrams.filter(d => d.difficulty === level).forEach((d, i) => { d.set = i % sets + 1; });
+    for (const level of LEVELS) {
+      for (const label of new Set(diagrams.map(d => d.label))) {
+        const group = diagrams.filter(d => d.difficulty === level && d.label === label);
+        if (group.length % sets) throw new Error(`${sets} sets need each difficulty and label count to be a multiple of ${sets}; ${level} ${label ?? ''} has ${group.length}.`);
+        group.forEach((d, i) => { d.set = i % sets + 1; });
+      }
+    }
     catalog.sampleSize = diagrams.length / sets;
     return { catalog, copies, counts };
   }

@@ -40,9 +40,9 @@ Each failure is counted in one dimension only:
 
 ## Description-first GPT design
 
-The default configuration uses **only GPT-5.5** as the VLM source.
+The default configuration uses **only gpt-6-luna** as the VLM source.
 
-1. **Expectation stage:** GPT-5.5 receives only the written description—no reference or candidate image. The description may be a detailed specification or a short figure caption, so the model imagines drawing the diagram and writes a sketch of what it should contain: the components by role (the exact name only where the description gives one) and the directed connections of the intended flow, with any label the description gives an arrow (for example a YES/NO branch). Each item has a tier: `required` when the description states it or it follows directly, `typical` when such a diagram usually shows it but the description does not call for it. Only required items are scored for Presence and Connectivity recall; typical ones are noted in the report. The stage also lists placeholder strings to reject.
+1. **Expectation stage:** The model receives only the written description—no reference or candidate image. The description may be a detailed specification or a short figure caption, so the model imagines drawing the diagram and writes a sketch of what it should contain: the components by role (the exact name only where the description gives one) and the directed connections of the intended flow, with any label the description gives an arrow (for example a YES/NO branch). Each item has a tier: `required` when the description states it or it follows directly, `typical` when such a diagram usually shows it but the description does not call for it. Only required items are scored for Presence and Connectivity recall; typical ones are noted in the report. The stage also lists placeholder strings to reject.
 2. **Scoring stage:** the same model receives one candidate image, the description, and the frozen inventory. It cannot redefine what should exist while scoring. It matches by meaning, not exact wording: one drawn box may cover several sketch items and several boxes may cover one (only repeated components with the same label need separate boxes), and a connection counts as drawn when arrows lead from one component to the other through intermediate drawn steps. It answers item by item:
    - **Components:** `present`, `mislabeled`, `absent`, or `uncertain` for every inventory component, with the quoted visible text, a bounding box, and whether the text is legible. `uncertain` means the image is too small or blurry to tell; it is not counted under Presence and instead counts as unreadable under Legibility.
    - **Connections:** `present`, `reversed`, `absent`, or `uncertain` for every inventory connection, with the text written on the arrow.
@@ -197,62 +197,15 @@ views. Overall weights are unchanged. The minimum rule is an experimental,
 conservative design choice, not a human-calibrated scale or a guarantee that any
 small edit must score zero. Severe edits may affect multiple dimensions.
 
-## DiagramGen 10-example pilot
-
-The [self-contained pilot page](examples/diagramgen10/index.html) contains ten
-original DiagramGen PNGs and their unmodified `expanded_query` descriptions.
-Selection is fixed before scoring: 4 model-architecture-labeled examples,
-4 flowcharts, and 2 directed graphs, ordered within category by
-`SHA256("20260930:" + id)`. The downloaded 270-record generation index is hash
-checked; the manifest records every selected ID, caption hash, and image hash.
-The [dataset card](examples/diagramgen10/source/README.md) is retained with the data.
-
-Prepare the inputs or rebuild the HTML without model calls:
-
-```bash
-python3 scripts/run_diagramgen10.py
-```
-
-Run or resume the existing GPT evaluator after configuring `OPENAI_API_KEY` locally:
-
-```bash
-.venv/bin/python scripts/run_diagramgen10.py --live
-```
-
-A fresh successful run uses 10 description-only expectation calls and 10 image
-judgment calls; all five dimensions come from each image judgment. The original
-dataset PNG is the candidate, not a newly generated diagram. This pilot uses the
-GPT component only: LaTeX/DOT source is archived, but SVG geometry is
-omitted. Core evaluator code, prompts, rubric, and weights are unchanged.
-
-Each example saves its frozen inventory, exact text prompts, structured model
-responses, and complete report under `examples/diagramgen10/results/`. Completed
-reports and inventories are reused when resuming. Configuration and evaluator
-source hashes prevent mixing different protocols; use `--output-dir` for a new
-protocol. Failed or blocked examples have no numeric score. `scores.csv`,
-`summary.json`, and the standalone HTML update after each example. Copying just
-`index.html` preserves all images, descriptions, and available results offline.
-
-This is a small pilot, not a calibrated accuracy benchmark. Dataset category
-labels are broad, some descriptions underspecify connections, and reference
-images need not satisfy every expanded-description request. Review inventories
-and evidence manually before drawing conclusions. No beauty judge is run here.
-
 ## Diagram dataset
 
 The diagram dataset lives in `diagrams/`, which is kept out of Git because of its size
 (about 750 MB). It has 7,971 diagrams, each with a caption and an easy, medium, or hard
 label for structural complexity: 7,856 flowchart-like and other diagram figures from
-PubMed Central Open Access articles, and 115 DiagramGen benchmark images. `diagrams/README.md`
+PubMed Central Open Access articles, and 115 DiagramGen benchmark images. 4,835 are
+positive (the original figure) and 3,136 negative (the figure with one to three deliberate
+errors, such as a removed box, a reversed arrow, or faded text). `diagrams/README.md`
 describes it, `diagrams/data.csv` lists it, and `diagrams/pipeline/` rebuilds it.
-
-The 99 hand-labeled DiagramGen images (33 easy, 33 medium, 33 hard) are listed in
-`scripts/diagramgen99_selection.csv`. Their original descriptions and source code can be
-downloaded again; this makes no evaluator or model calls:
-
-```bash
-python3 scripts/prepare_diagramgen99.py --output-dir /path/to/folder
-```
 
 ## Install
 
