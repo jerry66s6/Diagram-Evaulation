@@ -10,7 +10,7 @@
     {
       "id": "HS001",
       "image": "/diagrams/c7e075d1f1136b380dcc.jpg",
-      "caption": "Flow diagram illustrating the study design, including participant selection and the quantity of data included within this open dataset.",
+      "caption": "Flow diagram of the study design, from participant selection to the data included in this open dataset. Of 200 recruited and assessed for eligibility, 8 are excluded (no consent for data publishing), and 192 included in the dataset complete genetic screening, psychometric tests, health, and demographic questionnaires. Participants allocation for neuroimaging and blood tests (N = 79) then branches into fMRI (N = 69, after exclusions), EEG (N = 79), and Blood tests (N = 77, after withdrawals).",
       "difficulty": "medium",
       "source": "PMC10920678.1/41597_2024_3106_Fig2_HTML.jpg",
       "sha256": "c7e075d1f1136b380dcc227122b02d031d4dbec473ff92ace9a797cbcd148489",
@@ -19,7 +19,7 @@
     {
       "id": "HS002",
       "image": "/diagrams/e71e77bb741f25d9703c.jpg",
-      "caption": "The flow chart of patient enrollment. The exclusion criteria and case numbers excluded were listed on the side",
+      "caption": "Flow chart of patient enrollment, with exclusions listed on the side. From 604 patients with high probability for choledocholithiasis, those with malignant biliary obstruction or altered GI anatomy are excluded (297 non cancer patients), then those whose initial abdominal CT scan revealed choledocholithiasis (127 with negative CT scan), then delayed ERCP cases. The rest split into EUS-first attempt (N=44) and ERCP-first attempt (N=64), yielding the EUS-first group (N=44) and ERCP-first group (N=60), followed by Follow-up 3 months.",
       "difficulty": "medium",
       "source": "PMC8895914.1/12876_2022_2162_Fig1_HTML.jpg",
       "sha256": "e71e77bb741f25d9703c3fd3588f0ee8d3c45b589ddcd29610a4a3d6ed95cb62",
@@ -28,7 +28,7 @@
     {
       "id": "HS003",
       "image": "/diagrams/6d8922c5df437c204c44.jpg",
-      "caption": "Case selection flow chart.All chest examinations of patients with suspected or confirmed coronavirus disease 2019 (COVID-19) causing additional workload due to hygienic measures were included.",
+      "caption": "Case selection flow chart for chest examinations of patients with coronavirus disease 2019 (COVID-19). From 10522 examinations of the chest, 9971 are excluded, leaving 551 COVID-19 related examinations of the chest. These split into 181 examinations of outpatients (20 chest CTs and 161 chest x-rays) and 370 examinations of in-patients (62 chest CTs and 308 chest x-rays).",
       "difficulty": "easy",
       "source": "PMC7928469.1/pone.0247686.g001.jpg",
       "sha256": "6d8922c5df437c204c443262f32ec57dea1589adf958584a7f46cae77cae1992",
@@ -37,7 +37,7 @@
     {
       "id": "HS004",
       "image": "/diagrams/efa6847976cd0f663430.jpg",
-      "caption": "Flowchart and general information of research objects. CHCs, community health centers; MCH, maternal and child health hospital; RPD, renal pelvis dilatation; CHFU, children's hospital of fudan university.",
+      "caption": "Flowchart of research objects. Neonates from local CHCs undergo Candidates identification (No: Not study objects; Yes: n=18983), then Ultrasound in Minhang MCH, which separates normal or other abnormalities from RPD (renal pelvis dilatation, n=2392). At Meet referral criteria?, Yes leads to Further examination, diagnosis and intervention in CHFU (n=47), and No leads to Follow-up in Minhang MCH (n=1409), which ends in meet referral criteria (feeding back to CHFU), Mid-term termination of follow-up, or Normal termination of follow-up.",
       "difficulty": "medium",
       "source": "PMC10164980.1/fped-11-1162952-g001.jpg",
       "sha256": "efa6847976cd0f66343068ee6ae75e2edda50933cb5e0b548c5f9a8a2bd06f2a",
@@ -46,7 +46,7 @@
     {
       "id": "HS005",
       "image": "/diagrams/4ea50a3844896e1120fe.jpg",
-      "caption": "Flowchart illustrating the process of defining cases and controls among migraine patients.",
+      "caption": "Flowchart of defining cases and controls among migraine patients from an EHR database. Patients meeting exclusion criteria (coexistent brain disorders, age < 18) are Excluded; the rest pass sequential Migraine with aura, Migraine without aura, and Unclassified migraine decisions, each requiring enough codes in at least two encounters, yielding three migraine case groups, with unclassifiable patients excluded. A Stroke decision excludes stroke diagnosed before migraine and divides patients into Hemorrhagic stroke cases, Ischemic stroke cases, and Controls (stroke-free migraine patients).",
       "difficulty": "hard",
       "source": "PMC11213090.1/nihpp-2024.06.11.24308801v1-f0001.jpg",
       "sha256": "4ea50a3844896e1120fea0a8fa7d8b8e1f0dfa75cac48fe17100aff7e4953989",
@@ -55,7 +55,7 @@
     {
       "id": "HS006",
       "image": "/diagrams/e215115df6ce69650d1d.jpg",
-      "caption": "The workflow for reconstructing CT and spectral images using the proposed dataset.",
+      "caption": "Workflow for reconstructing CT and spectral images using the proposed dataset. High and Total Energy Counting Projections pass through Correction and Reconstruction to produce Low, High, Total CT Images. Spectral Reconstruction of these images then yields a group of outputs: Basis Material Images, Virtual Monoenergetic Images, and further images indicated by an ellipsis.",
       "difficulty": "easy",
       "source": "PMC12714755.1/41597_2025_6246_Fig3_HTML.jpg",
       "sha256": "e215115df6ce69650d1da1218272360c98a325048c387d93d753b2ab3755141d",
@@ -64,7 +64,7 @@
     {
       "id": "HS007",
       "image": "/diagrams/cc5a84aebc9aa6b228e4.jpg",
-      "caption": "Proposed workflow for applying the TGx-DDI biomarker for genotoxicity assessment of (A) candidates in pharmaceutical drug development or of (B) industrial and environmental chemicals.",
+      "caption": "Proposed workflow for applying the TGx-DDI biomarker for genotoxicity assessment. In (A), a Drug Candidate tested under ICH S2(R1) Option 1 (AMES negative, In vitro chromosome damage positive, In vivo micronucleus negative) yields TGx-DDI Results feeding a WoE Assessment judged Relevant or Irrelevant. In (B), a Chemical tested by TGx-DDI (probability analysis, 2D clustering, principle component analysis) gets an overall positive or negative DDI call informing Hazard ID, Mode of Action and Weight of Evidence assessment, and Potency assessment.",
       "difficulty": "medium",
       "source": "PMC7931968.1/fdata-02-00036-g0004.jpg",
       "sha256": "cc5a84aebc9aa6b228e481ce4a0ca20932225108aad1b9c1f7f3fd1208073174",
@@ -73,7 +73,7 @@
     {
       "id": "HS008",
       "image": "/diagrams/3dff5e51c493f2d3b150.jpg",
-      "caption": "General overview of the HC4N strategy.The IP/MS dataset is analyzed with 4N to create the clusters of level 1. The dataset is split up into subsets where each subset contains all proteins from a level–1 cluster. 4N is applied to each of the subsets to create level 2. The procedure is repeated to create levels 3 and above, until no further splits are possible.",
+      "caption": "General overview of the HC4N strategy, arranged along an axis of increasing protein similarity level. The whole IP dataset (level 0) is analyzed with 4N to give possibly overlapping clusters (level 1). The proteins of each cluster form IP subsets, and 4N on each subset gives level 2 clusters; repeating this on IP sub-subsets gives level 3. A legend distinguishes clusters that are leaf nodes, inner nodes, and overlapping clusters sharing proteins.",
       "difficulty": "hard",
       "source": "PMC4598013.1/pone.0139704.g002.jpg",
       "sha256": "3dff5e51c493f2d3b1506044016e4a9984087e9c4dc54a92ba525196a84461c7",
@@ -82,7 +82,7 @@
     {
       "id": "HS009",
       "image": "/diagrams/9924dcd3c71004f322ca.jpg",
-      "caption": "Flowchart of the number of participants included in the analysis from 2006 to 2016.",
+      "caption": "Flowchart of the number of participants included in the analysis from 2006 to 2016. It starts with 18,465 eligible participants with data on wealth and education in 2006; after excluding those lost to follow-up, 14,627 with data on behaviours remain in 2010. Excluding further losses and those with no data on Allostatic Load leaves 4100 in 2012, and after losses to follow-up between 2012 and 2016, 3336 participants are included in the analysis.",
       "difficulty": "medium",
       "source": "PMC12286139.1/geriatrics-10-00084-g001.jpg",
       "sha256": "9924dcd3c71004f322ca94182891667cf04aaee1e1e0a3af7f16c72ace239fd8",
@@ -91,7 +91,7 @@
     {
       "id": "HS010",
       "image": "/diagrams/d6e36daebed72a058f96.jpg",
-      "caption": "Figure. PRACTICAL Study CONSORT DiagramMCID indicates minimal clinically important difference; PRACTICAL, Optimizing Remote Access to Urinary Incontinence Treatments for Women Veterans trial; UI, urinary incontinence.",
+      "caption": "CONSORT diagram of the PRACTICAL trial of remote urinary incontinence (UI) treatments. Of 2082 assessed for eligibility, 292 consent and 286 are randomized to UI app (147) or video visit (139). In each arm, the 8-wk Assessment classifies participants as Responder (minimal clinically important difference, MCID ≥2.52) or Nonresponder (MCID <2.52); nonresponders either continue their assigned treatment or receive a Video visit booster. All paths then merge for analysis of 12-wk and 24-wk outcomes.",
       "difficulty": "hard",
       "source": "PMC12441875.1/jamanetwopen-e2532111-g001.jpg",
       "sha256": "d6e36daebed72a058f961852365435c245e37a8401a27cc38e5b03dc6295542a",
@@ -100,7 +100,7 @@
     {
       "id": "HS011",
       "image": "/diagrams/aa7ffae39de1014f39d2.jpg",
-      "caption": "Supplementary Figure 2 Flowchart of treatment and outcomes for ACTH secreting pituitary adenomas. ACTH, adrenocorticotropic hormone.",
+      "caption": "Flowchart of treatment and outcomes for adrenocorticotropic hormone (ACTH) secreting pituitary adenomas (N=4). The tumors split into Macroadenomas (N=1), treated by Surgery and ending in hormonal control and no visible tumor, and Microadenomas (N=3), treated by surgery, surgery+medication+bilateral adrenalectomy, or medication (N=1 each). Microadenoma outcomes are hormonal control (N=3), no visible tumor (N=2), and size stable (N=1).",
       "difficulty": "easy",
       "source": "PMC11493648.1/Image2.jpeg",
       "sha256": "aa7ffae39de1014f39d2fd03c90e4ca6278c2ff73e783379e87702c13c70f2d2",
@@ -109,7 +109,7 @@
     {
       "id": "HS012",
       "image": "/diagrams/dfe4e20a6cb56b9d0990.jpg",
-      "caption": "The PRISMA flowchartPRISMA: Preferred Reporting Items for Systematic Reviews and Meta-Analyses",
+      "caption": "PRISMA (Preferred Reporting Items for Systematic Reviews and Meta-Analyses) flowchart organized into Identification, Screening, Eligibility, and Included phases. Records identified through database searching (n = 1894) fall to 1871 after duplicates removed; of the records screened, 1843 are excluded. Of 28 full-text articles assessed for eligibility, some are excluded for listed reasons (lack comparison group, did not report required outcomes, review articles, others), leaving 14 studies included.",
       "difficulty": "medium",
       "source": "PMC10339149.1/cureus-0015-00000040348-i01.jpg",
       "sha256": "dfe4e20a6cb56b9d0990b5ef8cb86f3d73f46cca4e405106dc4af9d6a141fa19",
@@ -118,7 +118,7 @@
     {
       "id": "HS013",
       "image": "/diagrams/0bbf595589e4ae136729.jpg",
-      "caption": "Flowchart displaying reported pediatric COVID-19 cases with COVID-19-related hospitalization, ICU admission and death from July to October 2021",
+      "caption": "Flowchart of reported pediatric COVID-19 cases with COVID-19-related hospitalization, ICU admission and death from July to October 2021. It starts from children ≤17 years of age in Germany, then children with SARS-CoV-2 IgG positivity, case reporting to registries in German children's hospitals, and hospitalization associated with SARS-CoV-2. Hospitalizations split into <5, 5-11, and 12-17 years old, each leading to COVID-19 requiring treatment and ICU admission, with lines from all three age groups converging on Death (nS = 9).",
       "difficulty": "medium",
       "source": "PMC9925936.1/15010_2023_1996_Fig1_HTML.jpg",
       "sha256": "0bbf595589e4ae136729b34e03478d92997658bc7ae0e337394bf9115e32bb38",
@@ -127,7 +127,7 @@
     {
       "id": "HS014",
       "image": "/diagrams/9e4f47f0670afc774cc4.jpg",
-      "caption": "BDT of the reduced model representing the decisions in input variables causing bifurcations and affecting the presence of different attractor phenotypes. The tree is first segmented based on the detection of virus replication by the cell. Then, the decisions marked (1–3) are significant with respect to the studied biological phenotypes: (1) corresponds to the total absence of IIR, (2) shows the interferon production switched off, and (3) makes IIR either off in some instances, or bistable (no instance with IIR positive and stable)",
+      "caption": "BDT of the reduced model showing decisions in input variables that cause bifurcations and affect attractor phenotypes. The root splits on Viral_dsRNA_rna_reduced (virus replication detection), and each branch then splits on GRL0617_drug, leading to either an Nsp15 split or an Azithromycin_drug split followed by further Nsp15 splits. Leaves show attractor outcomes or Mixed Phenotype nodes (3, 4, or 2 types), and decisions marked (1)–(3) are those significant for the IIR phenotypes.",
       "difficulty": "hard",
       "source": "PMC9092939.1/12859_2022_4708_Fig4_HTML.jpg",
       "sha256": "9e4f47f0670afc774cc44c9f37b8a22eeeb4a6c41bbb8d3a31cc73a42167a1c5",
@@ -136,7 +136,7 @@
     {
       "id": "HS015",
       "image": "/diagrams/1dba6d39c5d8070c1ac2.jpg",
-      "caption": "Flow chart for selecting the participants according to the OSTA risk level.",
+      "caption": "Flow chart for selecting the participants according to the OSTA risk level. From 3,104 women aged ≥ 45 years old who underwent spirometry and DXA, those pre-menopausal, using medication for osteoporosis, or with thyroid or chronic kidney disease are excluded, leaving 1,770 participants. Excluding respiratory conditions (asthma, tuberculosis or pleurisy, bronchiectasis, lung cancer, other respiratory disease) and abnormal FEV1 values leaves 1,580 participants, divided into OSTA low risk (645), moderate risk (752), and high risk (183).",
       "difficulty": "easy",
       "source": "PMC11227986.1/COPD-19-1547-g0001.jpg",
       "sha256": "1dba6d39c5d8070c1ac2cce99b47a95d5e5f8e80984d22d3602c7b108f97f315",
@@ -145,7 +145,7 @@
     {
       "id": "HS016",
       "image": "/diagrams/7624e94362c718d6893f.jpg",
-      "caption": "Patients flow chart. CAD, coronary artery disease; ICA, invasive coronary angiography; IMR, index of microcirculatory resistance.",
+      "caption": "Patients flow chart. Of 192 patients suspected with coronary artery disease (CAD), 19 are excluded for angiography image loss, LVEF ≤ 50%, or missing target vessel information, leaving 173 who underwent invasive coronary angiography (ICA) and wire-based index of microcirculatory resistance (IMR) measurement. After 34 more exclusions for poor contrast opacification, projections separated by <25°, or severe overlap or distortion, 139 patients (involving 201 vessels) finished CAG-IMR measurement.",
       "difficulty": "easy",
       "source": "PMC11782551.1/fmed-12-1490346-g0002.jpg",
       "sha256": "7624e94362c718d6893f029ded47f2913dc08edaebf9b8bee2db2b95a570ab43",
@@ -154,7 +154,7 @@
     {
       "id": "HS017",
       "image": "/diagrams/48c54dbb1550262930cb.jpg",
-      "caption": "Flow chart of participants in the study.",
+      "caption": "Flow chart of participants in the study. The total of 63 participants splits into a Silence condition (N=26) and a Noise condition (N=37). Each condition is further divided into Non-habituated and Habituated participants: 2 and 24 in the silence condition, and 13 and 24 in the noise condition.",
       "difficulty": "easy",
       "source": "PMC4796902.1/srep23329-f1.jpg",
       "sha256": "48c54dbb1550262930cb37b6b8805083a002e2dda3181bd64ae26b04f54e9cac",
@@ -163,7 +163,7 @@
     {
       "id": "HS018",
       "image": "/diagrams/e25666aafadce0a3a2d5.jpg",
-      "caption": "Flowchart of patient selection. *Eligible patients were consecutively collected backward or forward from a specific date until reaching the target number (50 or 100). Control CTs were not included in the training dataset because the deep learning architecture in this study utilized only positive cases as input features",
+      "caption": "Flowchart of patient selection for training, validation, and test datasets. From 872 Appendicitis CTs (2011–2020), exclusions (age < 20, duplicate patient, perforation, unclear appendix location, appendix tumor identified) leave 567; 50 are randomly selected for validation and 517 form the Training dataset. These 50 join 50 Control CTs performed for acute abdomen to form the Validation dataset (n = 100). Similarly, 100 Appendicitis CTs and 100 Control CTs after 1/1/2021 form the Test dataset (n = 200).",
       "difficulty": "medium",
       "source": "PMC12575542.1/11604_2025_1834_Fig4_HTML.jpg",
       "sha256": "e25666aafadce0a3a2d5ca8050b5c2b346041838ce30d5618c1b6c508587a9de",
@@ -172,7 +172,7 @@
     {
       "id": "HS019",
       "image": "/diagrams/5d89df9079ae83243903.jpg",
-      "caption": "Flowchart of participant enrolment and study progression. SAFETY, Safe Alternatives for Teens and Youths.",
+      "caption": "Flowchart of participant enrolment and study progression in a trial of SAFETY (Safe Alternatives for Teens and Youths). Of 53 referrals, 15 are excluded and 38 are assessed for eligibility; after 8 more exclusions, 30 are randomized to SAFETY treatment 12 weeks (n = 15) or Supportive Therapy treatment 12 weeks (n = 15). Each arm proceeds through Post-treatment and 3-month post-treatment assessments to an Intention-to-treat analysis (n = 15).",
       "difficulty": "medium",
       "source": "PMC12049871.1/bmjment-28-1-g001.jpg",
       "sha256": "5d89df9079ae8324390373a378574cf126714481138cb194a8562da14849f9af",
@@ -181,7 +181,7 @@
     {
       "id": "HS020",
       "image": "/diagrams/efb2a1994da60e88efb4.jpg",
-      "caption": "Flow chart of individuals fully vaccinated for at least 14 days on 5 December 2021 in Belgium, with the occurrence of (symptomatic) breakthrough COVID-19 infections. Breakthrough infection = laboratory confirmed COVID-19 infection after at least 14 days after the last vaccine dose; symptomatic breakthrough infection = laboratory confirmed COVID-19 infection after at least 14 days after the last vaccine dose with compatible COVID-19 symptoms.",
+      "caption": "Flow chart of individuals in Belgium fully vaccinated for at least 14 days and their breakthrough COVID-19 infections. Of 8,062,600 individuals aged ≥18 fully vaccinated between 1 February and 5 December 2021, 373,070 have breakthrough infections (4.6%). After excluding 156,256 without information on symptoms, 216,814 breakthrough infections with information on symptoms remain, of which 151,888 are symptomatic (70.1%) and 64,926 asymptomatic (29.9%).",
       "difficulty": "easy",
       "source": "PMC9029338.1/viruses-14-00802-g001.jpg",
       "sha256": "efb2a1994da60e88efb4f4da1f546cc39d035df29e60a662ec5740411eac6e91",
@@ -190,7 +190,7 @@
     {
       "id": "HS021",
       "image": "/diagrams/ffc7636357e6078d1cb0.jpg",
-      "caption": "Flow chart of the literature identification and screening process",
+      "caption": "Flow chart of the literature identification and screening process via databases and ancestral search, organized into Identification, Screening, and Included phases. Records identified from Scopus, Web of Science, PubMed, and Academic Premier (n = 826) lose 335 duplicates before screening. Of 491 records screened, 346 are excluded, and of 145 reports assessed for eligibility, 130 are excluded; Ancestral Searching (n = 5) then leads to 20 studies included in review.",
       "difficulty": "medium",
       "source": "PMC11461589.1/10803_2023_6130_Fig1_HTML.jpg",
       "sha256": "ffc7636357e6078d1cb06571402f9a5226874b095c24525da281d0fb174b771f",
@@ -199,7 +199,7 @@
     {
       "id": "HS022",
       "image": "/diagrams/50880ab5bbd47d808468.jpg",
-      "caption": "The flow chart of enrolled patients in our study",
+      "caption": "Flow chart of enrolled patients in the study. Of 561 esophageal cancer patients who had undergone contrast-enhanced CT (CECT) between January 2017 and February 2019, 343 patients with ESCC meet the inclusion criteria, such as confirmed ESCC with definite LVI status after radical resection. After exclusion criteria (antitumor treatment before surgery, multiple tumors, unidentifiable lesions, artefacts), 224 eligible patients are included and divided into a Training set (n=158) and a Testing set (n=66).",
       "difficulty": "medium",
       "source": "PMC11488362.1/40644_2024_786_Fig1_HTML.jpg",
       "sha256": "50880ab5bbd47d80846898cb0ebf8bc35ee6765e0330fe7c56242a99ca77f462",
@@ -208,7 +208,7 @@
     {
       "id": "HS023",
       "image": "/diagrams/c7f90138dd4eb57ab17a.jpg",
-      "caption": "Adaptive management displayed as a cycle with double-loop learning. A deliberative phase includes problem assessment, design of the decision architecture, and implementation. An iterative phase includes monitoring, evaluation of monitoring results, and adjustment of management strategy (from Williams and Brown 2014)",
+      "caption": "Adaptive Management Cycle with double-loop learning. In the deliberative phase, Assess problem leads to Design and then Implement; in the iterative phase, Monitor leads to Evaluate and then Adjust. From Adjust, a single loop (adjusting decisions based on technical learning) returns to Monitor, while a double loop (reformulating the decision architecture based on technical and institutional learning) returns to Assess problem, closing the cycle.",
       "difficulty": "easy",
       "source": "PMC6244979.1/267_2018_1107_Fig1_HTML.jpg",
       "sha256": "c7f90138dd4eb57ab17a2167ef6025b163b7cedb18043eee30b8449cfbac038a",
@@ -217,7 +217,7 @@
     {
       "id": "HS024",
       "image": "/diagrams/95351e74e15e9297aa43.jpg",
-      "caption": "Process flow diagram of circRNA vaccine productions.",
+      "caption": "Process flow diagram of circRNA vaccine production in four stages. Plasmid linearization runs from Design the sequence through recombinant plasmid building, transformation and bacteria proliferation, plasmid extraction, and enzyme digestion to linear plasmid purification. RNA circularization covers in vitro transcription, RNA purification, circularization by group I/II intron or T4 RNA ligase, and circular RNA purification. Encapsulation by lipid nanoparticles or other delivery systems and Filtration precede Fill-to-finish manufacturing: filling into containers, capping, sealing, and labeling and packaging.",
       "difficulty": "medium",
       "source": "PMC9878156.1/fimmu-13-1091797-g004.jpg",
       "sha256": "95351e74e15e9297aa43333ef093a89073457c1e7bec1add6cf8c442766343f6",
@@ -226,7 +226,7 @@
     {
       "id": "HS025",
       "image": "/diagrams/9be04491cfad3d5a40d8.jpg",
-      "caption": "Patient selection flowchart for the training dataset based on VFSS data quality.",
+      "caption": "Patient selection flowchart for the training dataset based on VFSS data quality. From 2343 cases, 456 clear cases are rated Quality 1, reduced to 309 after excluding 147 cases due to incomplete study or long study time. The next 1885 cases yield 758 with severe oral phase delay or transparent airway intubation (Quality 2), the next 1127 yield 243 with severe oral phase delay, airway intubation, or artifact like necklace (Quality 3), and 884 unidentifiable cases are Quality 4.",
       "difficulty": "easy",
       "source": "PMC12786073.1/diagnostics-16-00045-g002.jpg",
       "sha256": "9be04491cfad3d5a40d825da65e5c1747aa03f66b0661ddacbaace4890500101",
@@ -235,7 +235,7 @@
     {
       "id": "HS026",
       "image": "/diagrams/c03a86a7487393297bf7.jpg",
-      "caption": "Flow diagram of evaluations of talaromycosis in children with IEI.",
+      "caption": "Flow diagram of evaluations of talaromycosis in children with IEI. Of 329 patients with talaromycosis from 2012 to 2024, exclusions for age > 14, lacking WES test, and lacking clinical data leave 18 children with complete clinical data and WES test. These split into novel IEI genetic defects (n=5; IL7R, LYST, PLCG2, DOCK8, KRAS) and reported IEI genetic defects (n=13; STAT1, IL2RG, CD40L, STAT3, CARD9), followed through induction phase, maintenance phase, and long time follow-up, ending with 10/18 confirmed alive.",
       "difficulty": "hard",
       "source": "PMC13212303.1/fimmu-17-1834635-g001.jpg",
       "sha256": "c03a86a7487393297bf7b9c18713afaabd5b1b300b4c38bfaf2d70c22ff584a8",
@@ -244,7 +244,7 @@
     {
       "id": "HS027",
       "image": "/diagrams/9e6279bf51400eb89fbc.jpg",
-      "caption": "CONSORT flow diagram of participant enrollment, randomization, follow-up, and analysis.",
+      "caption": "CONSORT flow diagram of participant enrollment, randomization, follow-up, and analysis. Enrollment proceeds from subject selection (n = 60) to checking general health and completing consent forms, then measurement of anthropometric data. At allocation, after a pre-test, subjects are randomized into six groups of 10: CON, USRPT, PLA+USRPT, PRO+USRPT, OMEGA+USRPT, and PRO+OMEGA+USRPT, each with its own protocol. All groups converge on a post-test after eight weeks (n=60), followed by data analysis.",
       "difficulty": "hard",
       "source": "PMC12473082.1/nutrients-17-02959-g002.jpg",
       "sha256": "9e6279bf51400eb89fbc13076859e9c18b746a47b943fbf7b127580f29a1850a",
@@ -253,7 +253,7 @@
     {
       "id": "HS028",
       "image": "/diagrams/1b528ae94e7d7f36151e.jpg",
-      "caption": "Flowchart of the inclusion of mammographic screening examinations",
+      "caption": "Flowchart of the inclusion of mammographic screening examinations. 2,610 diagnosed cancers split into 1,916 screen detected cancers and 694 interval cancers; after exclusions such as not invasive or not all images available, 768 screen detected and 411 interval cancers remain. Each arm is divided into mass visible and no mass visible, and after calculating masking risk, cases are grouped as low versus high masking risk (Analysis 1) and as low, unknown, intermediate, and high masking risk (Analysis 2).",
       "difficulty": "hard",
       "source": "PMC12634747.1/330_2025_11687_Fig1_HTML.jpg",
       "sha256": "1b528ae94e7d7f36151ed57871d6eba891b63f898a0eb2951499a1f65ab5dd45",
@@ -262,7 +262,7 @@
     {
       "id": "HS029",
       "image": "/diagrams/8695915d69f9a8180747.jpg",
-      "caption": "Decision tree and Markov model for estimating the cost-effectiveness of screening for HTN. (A) Structure of the decision tree with the single screening examination only. (B) Structure of the decision tree with the first screening examination and the second confirmatory examination. (C) Different health status in the Markov model.CKD = chronic kidney disease; HTN = hypertension; MI = myocardial infarction.",
+      "caption": "Decision tree and Markov model for estimating the cost-effectiveness of screening for HTN. (A) In the single-screening tree, normal and hypertension cohorts receive screening or no screening; results are true/false positive or negative, and hypertension leads to treatment (controlled or uncontrolled) or no treatment, each ending in a Markov node. (B) A 2nd screening or no 2nd screening follows a positive first result. (C) Markov states run from Healthy to HTN to MI, stroke, CKD, or heart failure, then Death.",
       "difficulty": "hard",
       "source": "PMC8263297.1/kcj-51-610-g001.jpg",
       "sha256": "8695915d69f9a8180747a13cf70d95dbb8c4971f0296e5f3d20f07c20678556c",
@@ -271,7 +271,7 @@
     {
       "id": "HS030",
       "image": "/diagrams/3868c251c9c2e512b705.jpg",
-      "caption": "Flowchart of patient inclusion, allocation, and follow-up.",
+      "caption": "Flowchart of patient inclusion, allocation, and follow-up. Sixty patients were enrolled and randomised, with 30 assigned to the probiotic group and 30 to the placebo group. In the probiotic group, 6 discontinued (2 started immunotherapy, 1 had nausea, 3 by own decision), leaving 24 who completed the trial; in the placebo group, 14 discontinued (1 had abdominal pain, 2 had pruritic episodes, 11 by own decision), leaving 16 who completed the trial.",
       "difficulty": "easy",
       "source": "PMC8826069.1/fnut-08-833666-g0001.jpg",
       "sha256": "3868c251c9c2e512b70597cda5be4788659e6fd59b55957c47879d1c0d20337c",
@@ -280,7 +280,7 @@
     {
       "id": "HS031",
       "image": "/diagrams/873d446f1058b1766fc8.jpg",
-      "caption": "Workflow for screening carbapenemase-producing Enterobacterales (CPE)and vancomycin-resistant enterococci (VRE)using molecular pooling techniques and comparative culture-based methods.",
+      "caption": "Workflow for screening carbapenemase-producing Enterobacterales (CPE) and vancomycin-resistant enterococci (VRE) from inpatient rectal swabs, in two parallel arms. The pooling samples + Xpert Assay arm splits into positive and negative pools, which are compared with cultures to give true positive, false positive, true negative, and false negative results. The cultures + MALDI-TOF MS arm sends CPE and VRE culture-positive isolates to Xpert Carba-R and Xpert-vanA/B, respectively, each yielding negative or positive results.",
       "difficulty": "hard",
       "source": "PMC12502523.1/spectrum.01080-25.f001.jpg",
       "sha256": "873d446f1058b1766fc81aff89c7e1e4dd3a12e2ed9315a7979d6fa2688fe797",
@@ -289,7 +289,7 @@
     {
       "id": "HS032",
       "image": "/diagrams/ad956a2328b9d173fca6.jpg",
-      "caption": "Flow chart showing number (%) of participations in the primary outcome measurements in 2006 and 2008.",
+      "caption": "Flow chart showing number (%) of participations in the primary outcome measurements in 2006 and 2008. Six elementary schools in Reykjavik (N=321) undergo cluster randomization into 3 intervention schools (N=151) and 3 control schools (N=170) of children attending 2nd class in fall 2006. After children who refused or were absent at baseline are removed (22 and 30), a table gives participation in 2006, 2008, and both years for blood tests, blood pressure, DXA scans, and fitness tests.",
       "difficulty": "easy",
       "source": "PMC4278391.1/pri-32-149_g001.jpg",
       "sha256": "ad956a2328b9d173fca6935681781b2ca2a5ab0d45ab3475f42320a70f7f809c",
@@ -298,7 +298,7 @@
     {
       "id": "HS033",
       "image": "/diagrams/c4076ae4208cd29701ab.jpg",
-      "caption": "Flow chart of WES and transcriptome data processing. Detailed information on the data mapping process and the variant calling process is given",
+      "caption": "Flow chart of WES and transcriptome data processing. The DNA arm pre-processes whole exome sequencing reads (mapping to GRCh37.p13+mm10, duplicate marking, human/mouse read splitting, realignment, recalibration), then performs variants calling, filtering, annotation, second filtering, and cancer related 381 genes filtering, yielding total and cancer related somatic mutations. The RNA arm pre-processes mRNA sequencing (mapping, read counting, normalization by FPKM), then branches into hierarchical clustering and DEG analysis, where up- and down-regulated genes undergo ontology analysis.",
       "difficulty": "hard",
       "source": "PMC7789010.1/12967_2020_2607_Fig1_HTML.jpg",
       "sha256": "c4076ae4208cd29701abb00f62686e331b045bee91c47ec71dca901c53f3443e",
@@ -307,7 +307,7 @@
     {
       "id": "HS034",
       "image": "/diagrams/4a9b993752c466f2e41f.jpg",
-      "caption": "Flow chart. CCQ, Clinical COPD Questionnaire; COPD, chronic obstructive pulmonary disease; PHCC, primary health care centre.",
+      "caption": "Flow chart of chronic obstructive pulmonary disease (COPD) patient follow-up. COPD patients randomly selected from 56 primary health care centres (PHCCs) and 14 hospitals (N = 1,548) narrow to 1,111 who consented to questionnaires and record review, then 970 with completed Clinical COPD Questionnaire (CCQ) forms in 2005. After removing deceased patients and those with no present address, 692 received a follow-up questionnaire in 2012, 501 returned it, and 413 had completed CCQ forms in 2012.",
       "difficulty": "easy",
       "source": "PMC5072388.1/npjpcrm201673-f3.jpg",
       "sha256": "4a9b993752c466f2e41fcd4f496492339ea2a111490fbfd8186d5e3606f4fcad",
@@ -316,7 +316,7 @@
     {
       "id": "HS035",
       "image": "/diagrams/01a4fe13e86a048c8cf1.jpg",
-      "caption": "Consort flow chart showing how the analytical sample was derived from the patients who were assessed for eligibility. Abbreviations: AMI, acute myocardial infarction; COPD, chronic obstructive pulmonary disease; NSTEMI, non ST-segment elevation myocardial infarction; PFTs, pulmonary function tests; STEMI, ST-segment elevation myocardial infarction; TTE, transthoracic echocardiogram.",
+      "caption": "Consort flow chart showing how the analytical sample was derived from the patients who were assessed for eligibility. Of 184 acute myocardial infarction (AMI) patients with recent/current pulmonary function tests (PFTs) assessed (STEMI and NSTEMI), 75 were excluded for no adequate post-AMI transthoracic echocardiogram (TTE). The 109 enrolled patients (41 STEMI, 68 NSTEMI) were then divided into COPD (n = 45) and non-COPD (n = 64) groups.",
       "difficulty": "easy",
       "source": "PMC8999583.1/jcm-11-01917-g001.jpg",
       "sha256": "01a4fe13e86a048c8cf1ccb1ed0c4f0c67a1e754b8d05786c65b662a7bcf750f",
@@ -325,7 +325,7 @@
     {
       "id": "HS036",
       "image": "/diagrams/f0e971d29e0a2fafbc57.jpg",
-      "caption": "Flowchart describing the logic of the RIA procedure. Note: P = Number of scale items to distribute.",
+      "caption": "Flowchart describing the logic of the RIA procedure, where P is the number of scale items to distribute. It starts by choosing P_X << P, then randomly allocates P_X items to the X-Block, and finally randomly divides the remaining (P − P_X) items among the A-, B-, and C-Blocks.",
       "difficulty": "easy",
       "source": "PMC7327835.1/gr1.jpg",
       "sha256": "f0e971d29e0a2fafbc570ecc66264b5d907b4006e65b70217e5feaf42e7e68ab",
@@ -334,7 +334,7 @@
     {
       "id": "HS037",
       "image": "/diagrams/de66825fff92cc2f90f2.jpg",
-      "caption": "Common collision avoidance pipeline based on MPPI algorithm.The red elements on scheme demonstrate the components that were added to MPPI procedure to adapt in for decentralized multi-agent scenario. (*) The main contribution of our work is introducing of a method for taking into account linear constraints in the sampling process. The corresponding component is marked with an asterisk on the scheme.",
+      "caption": "Common collision avoidance pipeline based on the MPPI algorithm, adapted for decentralized multi-agent scenarios. Actuators act on the environment, which returns the agent state and neighbors states to MPPI, alongside parameters μ, Σ, T, K. Inside MPPI, neighbors states feed ORCA linear constraints and neighbors trajectories prediction; the asterisked step computes μ′, Σ′ from ORCA lines for t = 0 to seed control/trajectory sampling of K samples. Trajectories weights are computed, and control based on weights goes to the actuators.",
       "difficulty": "hard",
       "source": "PMC11639165.1/peerj-cs-10-2220-g004.jpg",
       "sha256": "de66825fff92cc2f90f23371f0fd6546481c29201d4b286b76e25e167c7cbb55",
@@ -343,7 +343,7 @@
     {
       "id": "HS038",
       "image": "/diagrams/ae6f60f806eedba17203.jpg",
-      "caption": "Procedure of obtained patients for the study, Alert Hospital, 2016–2021.",
+      "caption": "Procedure of obtaining patients for the study, Alert Hospital, 2016–2021. Of 443 MDR TB patients enrolled from 2016-2021, patients excluded were those who discontinued TB treatment (5) or had missing information (3), leaving a final sample of 435.",
       "difficulty": "easy",
       "source": "PMC11471762.1/41598_2024_73209_Fig1_HTML.jpg",
       "sha256": "ae6f60f806eedba1720305d62783b9519bcf4f03add2a330394f14a3d356d251",
@@ -352,7 +352,7 @@
     {
       "id": "HS039",
       "image": "/diagrams/1e8f07482b4ac8b9f0f4.jpg",
-      "caption": "Flowchart of a general machine learning pipeline to process acoustic/prosodic correlates of disease. Adapted from Braga et al. [31].",
+      "caption": "Flowchart of a general machine learning pipeline to process acoustic/prosodic correlates of disease, adapted from Braga et al. [31]. In training, recordings undergo feature extraction and normalization and, with metadata, fill a database split into training and validation subsets; model training yields a candidate data model whose estimated classification undergoes performance evaluation, looping back through optimization. At run-time, a new recording passes through feature extraction and the optimized data model, producing an Alzheimer's Disease classification estimate.",
       "difficulty": "hard",
       "source": "PMC8772820.1/bioengineering-09-00027-g003.jpg",
       "sha256": "1e8f07482b4ac8b9f0f45af47c6bb73ad2ece4dcfff83f96031a16ae10d05ee7",
@@ -361,7 +361,7 @@
     {
       "id": "HS040",
       "image": "/diagrams/2ca34f5b4b07911f9ab5.jpg",
-      "caption": "Decision scheme on transmission pattern for countries in the WHO African region.",
+      "caption": "Decision scheme on transmission pattern for countries in the WHO African region. It first asks how many COVID-19 cases occurred in the past 28 days; zero cases leads to No Cases. Otherwise, mostly imported cases in the last 14 days give Sporadic Cases, while locally transmitted cases with at least 80% linked to a confirmed case (Yes) give Clusters of Cases. If No, cases/million in the past 14 days define community transmission with low, moderate, high, or uncontrolled incidence.",
       "difficulty": "hard",
       "source": "PMC8712964.1/S0950268821001126_fig1.jpg",
       "sha256": "2ca34f5b4b07911f9ab5c84af59eed4b35767ece6b4e68d8c46fca7e1c22329a",
@@ -370,7 +370,7 @@
     {
       "id": "HS041",
       "image": "/diagrams/b6dd461b1dd65ac623b0.jpg",
-      "caption": "Flow diagram illustrating the participant selection process.",
+      "caption": "Flow diagram illustrating the participant selection process. Starting from 50,965 participants from NHANES 2005-2014, excluding those aged <20 or pregnant leaves 27,909. Excluding those with missing dietary or sleep questionnaire data or unknown survival data leaves 24,929, and excluding those missing other covariates (such as PIR, BMI, drinking, and PHQ9) yields the final 21,233.",
       "difficulty": "easy",
       "source": "PMC12193041.1/pone.0326663.g001.jpg",
       "sha256": "b6dd461b1dd65ac623b0daf20786fbfdcc2b6f31708a3d5d2552acc2d3c235bf",
@@ -379,7 +379,7 @@
     {
       "id": "HS042",
       "image": "/diagrams/9a0ed592bea194be31bd.jpg",
-      "caption": "Adapted allocation guidelines for referral decisions after detoxifications.",
+      "caption": "Adapted allocation guidelines for referral decisions after detoxifications. At treatment intake, three criteria (physical condition, psychiatric condition, crisis intervention) are reviewed, and the allocation guidelines are used only if none is met. Recommendations draw on history of substance use disorder treatment and severity of the addiction, psychiatric comorbidity, and social disintegration. Few treatments and low severity lead to LOC 1: Outpatient advice; more treatments or higher severity escalate to LOC 2: Outpatient treatment, LOC 3: Day/Residential, and LOC 4: Care.",
       "difficulty": "hard",
       "source": "PMC4198792.1/12888_2014_286_Fig1_HTML.jpg",
       "sha256": "9a0ed592bea194be31bdfd114ad473823c3a9a597e68309b1d7f910835fac5f7",
@@ -388,7 +388,7 @@
     {
       "id": "HS043",
       "image": "/diagrams/d1defb4975f2bd5f2d13.jpg",
-      "caption": "CoTracker Pipeline.After data collection with two GoPro cameras, the videos (i.e., “L” for the left video and “R” for the right video in the perspective of the experimenters facing the participant) were time-synchronized using a clapboard sound (“Time Sync Stereo Videos”). Each video included 5 to 10 seconds of calibration checkerboard motions, which were used for calibrating using the OpenCV library [32] (“Compute Calibration Matrices”). After the videos were trimmed for each trial using FFmpeg [33], SPIGA placed points on facial landmarks on the initial frames for each video (see pink color points). Using the initial lip coordinates, CoTracker tracked the lip points of interest (see light blue points). The pixel coordinates from each video were used to compute 3D coordinates in millimeters (“Compute 3D Coordinates”). The 3D lip aperture data was then calculated.",
+      "caption": "CoTracker Pipeline. Stereo videos are time-synchronized, used to compute calibration matrices, and trimmed for each trial; SPIGA then places facial landmarks on the left (L) and right (R) videos. The CoTracker Transformer Model takes the trimmed L and R videos and SPIGA landmarks to track lip points across frames, and the L and R results are used to compute 3D coordinates and then calculate 3D lip aperture.",
       "difficulty": "medium",
       "source": "PMC11844461.1/nihpp-2025.02.13.638009v1-f0001.jpg",
       "sha256": "d1defb4975f2bd5f2d130fc767ae083eb407e0181085b4d2de0ad43700088c5e",
@@ -397,7 +397,7 @@
     {
       "id": "HS044",
       "image": "/diagrams/cf4e674ca0d88e70e9b9.jpg",
-      "caption": "The workflow of crop water footprint simulations in this study.",
+      "caption": "The workflow of crop water footprint simulations in this study. It runs from input data collection (climate, soil, crop, management, and distribution data) to crop modelling of crop yield and green and blue crop water use in each grid cell. Post processing then scales national harvested area and simulated yields to FAOSTAT and estimates water footprints per grid cell and country, ending in water footprints of 175 crops in 1990–2019.",
       "difficulty": "easy",
       "source": "PMC10866886.1/41597_2024_3051_Fig1_HTML.jpg",
       "sha256": "cf4e674ca0d88e70e9b9dc60a5b9f553cc0579306330771c56852fd23f73d93d",
@@ -406,7 +406,7 @@
     {
       "id": "HS045",
       "image": "/diagrams/86c97a0d01383ad17070.jpg",
-      "caption": "Flow chart of cumulative hemostasis rate at different time intervals.",
+      "caption": "Flow chart of cumulative hemostasis rate at different time intervals. It runs from 24-hour hemostasis (22/25, 88%) to 72-hour hemostasis (17/19, 89%), 7-day hemostasis (11/19, 58%), and 14-day hemostasis (9/18, 50%). Side branches show that 6 patients died after 24-hour hemostasis (respiratory failure 2, progression of cancer 4) and 1 patient died of perforated ulcer after 7-day hemostasis.",
       "difficulty": "easy",
       "source": "PMC6507283.1/gwy03102.jpg",
       "sha256": "86c97a0d01383ad17070a866cc124d31494495e8bb35acf06a88100bc75b1480",
@@ -415,7 +415,7 @@
     {
       "id": "HS046",
       "image": "/diagrams/43934508e1092819a05c.jpg",
-      "caption": "Flow diagram of the patients included in the study. CMT, conventional microbiological test.",
+      "caption": "Flow diagram of the patients included in the study. Hematology patients at West China Hospital with suspected infection who underwent plasma mNGS from October 2020 to July 2023 were enrolled (n = 183 tests). After excluding incomplete information, no hematologic disease, and repeat tests, 153 patients were included, with all CMT results within 3 and 7 days of mNGS collected. These lead to mNGS detection (positive rate 88.24%) and CMT detection (3-day and 7-day positive rates).",
       "difficulty": "easy",
       "source": "PMC10869557.1/fcimb-14-1338307-g001.jpg",
       "sha256": "43934508e1092819a05cdb57b2fa441e0cddfc0367de4275a7fdbb10a7c8338d",
@@ -424,7 +424,7 @@
     {
       "id": "HS047",
       "image": "/diagrams/0bd6176063a94c050e6e.jpg",
-      "caption": "PRISMA Flow Diagram for Final Article Inclusion.Note. Articles excluded after title & abstract review include the following apparent reasons: not the self-monitoring concept developed by Snyder (1974), such as “self-monitoring” in computer, biology, health care, etc.; non-empirical paper; not at all relevant to leadership.Kudret et al. (2019) examined post-2000 studies, Day et al. (2002) focused on leadership emergence and behavior, and Hoffman et al. (2011) concentrated on leadership effectiveness. The three reviews included studies on self-monitoring and leadership, along with a list of other variables. This is why they only have a few duplicates, and many studies could be excluded after title and abstract screening.",
+      "caption": "PRISMA flow diagram for final article inclusion. Two parallel arms, articles from previous reviews (Day et al., Hoffman et al., Kudret et al.) and from databases (Web of Science, PsycINFO, ProQuest), each remove duplicates, assess eligibility for title review, exclude articles after title & abstract review, and review full texts for eligibility. The arms then merge, removing further duplicates and excluded articles (for example, self-monitoring or leadership not measured), leaving 51 articles included in review.",
       "difficulty": "medium",
       "source": "PMC12130612.1/10.1177_01461672231210778-fig1.jpg",
       "sha256": "0bd6176063a94c050e6ee7d69f07d3d366af36cb2371757c92b2fbf21c3b7f6a",
@@ -433,7 +433,7 @@
     {
       "id": "HS048",
       "image": "/diagrams/02e44d24e69e68bf6bd3.jpg",
-      "caption": "Preferred reporting items for systematic reviews and meta-analyses (PRISMA) flow diagram.",
+      "caption": "Preferred reporting items for systematic reviews and meta-analyses (PRISMA) flow diagram. In identification, 944 records are identified from databases. In screening, 908 records are excluded and 36 are screened, and 18 full-text articles are excluded with reasons such as no outcome reported for population of interest, no aTSA patients, and no full-text. The included stage ends with 18 studies included in qualitative synthesis.",
       "difficulty": "easy",
       "source": "PMC11523180.1/10.1177_17585732231192991-fig1.jpg",
       "sha256": "02e44d24e69e68bf6bd3656dc592183bfb8b83b76e062c160b5779dadf085aa6",
@@ -442,7 +442,7 @@
     {
       "id": "HS049",
       "image": "/diagrams/2871da2145a24b687dae.jpg",
-      "caption": "Enrollment and analysis of patients. ICU: intensive care unit; SNUH: Seoul National University Hospital; ARDS: acute respiratory distress syndrome.",
+      "caption": "Enrollment and analysis of patients. Of 3,309 patients admitted to the intensive care unit (ICU) at Seoul National University Hospital (SNUH) between January 2005 and December 2010, 3,015 did not have acute respiratory distress syndrome (ARDS), leaving 294 eligible. After 112 were excluded (not intubated within 24 hours of ICU transfer, ICU stays less than 48 hours, or transferred from outside hospitals), 182 were finally analyzed.",
       "difficulty": "easy",
       "source": "PMC6786717.1/kjccm-2016-00976f1.jpg",
       "sha256": "2871da2145a24b687daee3b78557816049f1ef785aeda4f3d5f7f8298d4da7d5",
@@ -451,7 +451,7 @@
     {
       "id": "HS050",
       "image": "/diagrams/a5a0b5a591f07397369f.jpg",
-      "caption": "Study flowchart demonstrating a total of 12,889 SARS-CoV-2 RT-PCR tests from 812 patients were available to evaluate the primary outcome of percentage of tests that were positive. Thirty-six patients testing positive from screening testing were available to evaluate secondary outcomes of false positives, delays in cancer care, and length of isolation, determined from chart review.",
+      "caption": "Study flowchart of SARS-CoV-2 RT-PCR tests. From 13,096 PCR tests from 812 HCT or CAR T-cell therapy patients, 207 tests are excluded, leaving 12,889 tests from 812 patients. These split into symptomatic test indication (17 positive tests) and asymptomatic test indication, which divides into outpatient weekly surveillance, inpatient surveillance, and pre-procedural/pre-admission testing (32, 1, and 3 positive tests). The asymptomatic positive tests lead to chart review completed.",
       "difficulty": "medium",
       "source": "PMC12415789.1/S2732494X25101125_fig1.jpg",
       "sha256": "a5a0b5a591f07397369fcc6949235a6ee26376c56f523fee95be37f3bcdbab5f",
@@ -460,7 +460,7 @@
     {
       "id": "HS051",
       "image": "/diagrams/ffc43e573b5eb35c532c.jpg",
-      "caption": "Flowchart of the stages of cross-cultural adaptation.",
+      "caption": "Flowchart of the stages of cross-cultural adaptation. It starts with Planning the process phases, followed by two parallel translations (Translation 1 and Translation 2) that are combined in a Synthesis. The synthesis then undergoes two parallel back translations (Back Translation 1 and Back Translation 2), which both lead to the Expert Committee. The flow continues to the Pre-test (Pilot) and ends with the Committee of judges.",
       "difficulty": "easy",
       "source": "PMC11216591.1/pone.0305414.g001.jpg",
       "sha256": "ffc43e573b5eb35c532cffc9cda99409688b05bdab9a7658814ef3f23841d7b3",
@@ -469,7 +469,7 @@
     {
       "id": "HS052",
       "image": "/diagrams/a11781ea2efff909ad98.jpg",
-      "caption": "PRISMA 2020 flow diagram. * In total, 30 records were additionally identified through reference list screening; ** 220 records were excluded at title/abstract stage: did not meet inclusion criteria.",
+      "caption": "PRISMA 2020 flow diagram with Identification, Screening, and Included phases. Records identified from databases (n = 350), registers (n = 0), and reference list screening (n = 30) lose 80 duplicates, leaving 300 records screened, of which 220 are excluded at the title/abstract stage. All 80 reports sought are retrieved and assessed for eligibility; those not AI-focused, not on DR/DME, or commentary/non-original data are excluded, and 60 studies are included in the review.",
       "difficulty": "medium",
       "source": "PMC12729270.1/bioengineering-12-01342-g001.jpg",
       "sha256": "a11781ea2efff909ad98b84c111e14be7ca571c25020140de118b04a0a85f243",
@@ -478,7 +478,7 @@
     {
       "id": "HS053",
       "image": "/diagrams/769b1bca785eae095f41.jpg",
-      "caption": "Stepwise procedure for PROMETHEE [62,63].",
+      "caption": "Stepwise procedure for PROMETHEE, drawn as five sequential steps. Step 1 constructs and normalizes the decision matrix, with separate equations for beneficial and non-beneficial criteria; Step 2 applies the preference function Pj(i, i′); Step 3 calculates an overall or aggregated preference π(i, i′) weighted by each criterion's importance Wj. Step 4 calculates the positive and negative outranking flows, and Step 5 ends with the net outranking flow Φ(i) for each alternative.",
       "difficulty": "easy",
       "source": "PMC10146861.1/sensors-23-04041-g003.jpg",
       "sha256": "769b1bca785eae095f41deae7d61eb76d6e23a66c3042ef71637e38907d3195d",
@@ -487,7 +487,7 @@
     {
       "id": "HS054",
       "image": "/diagrams/468fde720cc9fe815437.jpg",
-      "caption": "Flow chart for analyzing the hemodynamic profile according to De Backer. ScvO2, central venous oxygen saturation; CO, cardiac output; Microcir, microcirculatory; PvaCO2, venous-to-arterial carbon dioxide partial pressure difference. Reproduced with permission [54].",
+      "caption": "Flow chart for analyzing the hemodynamic profile according to De Backer. LACTATE splits into > 2 and ≤ 2 mEq/L, each then by ScvO2 (< 70% or ≥ 70%) and PvaCO2 (≤ 6 or > 6 mmHg). High-lactate end points are high CO with dysoxia (anemia), low CO with dysoxia, high CO with dysoxia (sepsis), and microcir. alterations with dysoxia; low-lactate end points are high CO with dysoxia (anemia), low CO without dysoxia, normal, and microcir. alterations without dysoxia.",
       "difficulty": "hard",
       "source": "PMC8469937.1/diagnostics-11-01559-g002.jpg",
       "sha256": "468fde720cc9fe815437eb13cc4798e894970e8253d4b234d710c24766c9e061",
@@ -496,7 +496,7 @@
     {
       "id": "HS055",
       "image": "/diagrams/ce5e3002e48358d052d9.jpg",
-      "caption": "Table 1 Timing for tissue processing steps, from time-of-death to start of flux testing.",
+      "caption": "Timing for tissue processing steps for fresh never frozen human temporal bones, shown as mean time required with range. Time-of-death leads to placement in NS at 4°C after 28 h [12 h - 48 h], which leads to the start of flux testing after 15 h [4 h - 20 h]. A bracket spanning the whole sequence gives an overall time of 43 h [32 h - 63 h].",
       "difficulty": "easy",
       "source": "PMC7940379.1/fneur-12-580392-i0001.jpg",
       "sha256": "ce5e3002e48358d052d9b2fb42130f2b0402f8f118f301f94a9962b76807db37",
@@ -505,7 +505,7 @@
     {
       "id": "HS056",
       "image": "/diagrams/65c2dcfb04b972ffceeb.jpg",
-      "caption": "Decision tree model to predict the likelihood of primary aldosteronism in patients with recent stroke. AF, atrial fibrillation; DBP, diastolic blood pressure.",
+      "caption": "Decision tree model to predict the likelihood of primary aldosteronism in patients with recent stroke. The root node (Absent, 186 6) splits on AF: AF = N leads to the leaf Absent (179 3), while Y leads to a node Absent (7 3) that splits on DBP. DBP < 83 ends in the leaf Absent (7 0), and DBP >= 83 ends in the leaf Present (0 3).",
       "difficulty": "easy",
       "source": "PMC9063461.1/fendo-13-869980-g003.jpg",
       "sha256": "65c2dcfb04b972ffceebf4a1002995f1c60f330abbc486932778b7ba7845e00d",
@@ -514,7 +514,7 @@
     {
       "id": "HS057",
       "image": "/diagrams/cf66a0a010b46dea4292.jpg",
-      "caption": "PD-Fuzzy-P controller using decentralize algorithm.",
+      "caption": "Block diagram of the PD-Fuzzy-P controller using a decentralize algorithm. The error e.g between q ref. and fed-back q passes through R(-θ) to give e.b, which feeds the PD Fuzzy controller and the P controller; the output u passes through Eq.12, Eq.9, and an integrator to give q, alongside a top view of the three-motor base. The PD Fuzzy controller expands into eH, eV, and eth channels, each with Kp and du/dt-Kd paths into the Horizontal, Vertical, or Rotational Controller.",
       "difficulty": "hard",
       "source": "PMC7378770.1/sensors-20-03525-g004.jpg",
       "sha256": "cf66a0a010b46dea4292a6c51d7f9c7e0d42f6aa15ebc3b84cbcda2854f38949",
@@ -523,7 +523,7 @@
     {
       "id": "HS058",
       "image": "/diagrams/0bc5d24ea1f363ab3f98.jpg",
-      "caption": "Flowchart of the research sample analyzed.",
+      "caption": "Flowchart of the research sample analyzed. It starts with 1,323 patients intubated between June 2020 and February 2022, from whom those meeting the exclusion criteria (inadequate medical records, age < 18 years, use of etomidate and others, no induction agent used, loss of follow-up) are removed, leaving 1,117 patients. These are divided into an ETOMIDATE group (563 patients) and a NO ETOMIDATE group (554 patients).",
       "difficulty": "easy",
       "source": "PMC11383194.1/1678-2674-acb-39-e395724-gf01.jpg",
       "sha256": "0bc5d24ea1f363ab3f989d92f74e3b7710296079ec163371dd1cb17d7615e219",
@@ -532,7 +532,7 @@
     {
       "id": "HS059",
       "image": "/diagrams/fd0410e46b812ceb504c.jpg",
-      "caption": "Algorithm flowchart for model construction.",
+      "caption": "Algorithm flowchart for model construction. Patients aged 15-89 y from MIMICS-III, with lactate, pH, bicarbonate, potassium, calcium, glucose, chloride, and sodium, are split into a Survivors Data Subset and a Nonsurvivors Data Subset of four time windows. These form the EMA 48-72, EMA 24-48, EMA 8-24, and LEMA 0-8 models, each split into testing and training sets, trained with DL, RF, GLM, and evaluated by ROC, specificity, sensitivity & accuracy. LEMA is also applied to earlier testing sets for backcasting.",
       "difficulty": "hard",
       "source": "PMC7746262.1/pone.0242878.g002.jpg",
       "sha256": "fd0410e46b812ceb504c32fab573624df5096989c6ae072a908023cc1d79f9b7",
@@ -541,7 +541,7 @@
     {
       "id": "HS060",
       "image": "/diagrams/43a34441f084c84010a8.jpg",
-      "caption": "Study flowchart in line with the STROBE (Strengthening the Reporting of Observational Studies in Epidemiology) statement (http://www.strobestatement.org accessed on 16 April 2022).",
+      "caption": "Study flowchart in line with the STROBE statement for retrospective data collection (January 1, 2020-February 18, 2022). Of 1,326,754 Abruzzo residents assessed for eligibility, 63,673 with a positive SARS-CoV-2 swab before follow-up are excluded, leaving 1,279,694 subjects. After merging the vaccination dataset, subjects branch into unvaccinated, one-dose, two-dose, and three-dose groups, which all converge on merging of the hospitalization and co-pay exemption datasets, ending in Analyses (mean follow-up: 244 days).",
       "difficulty": "medium",
       "source": "PMC9146679.1/vaccines-10-00662-g001.jpg",
       "sha256": "43a34441f084c84010a8ec7519842194886ea9454a1ae81c7e83198fa435c63e",
@@ -550,7 +550,7 @@
     {
       "id": "HS061",
       "image": "/diagrams/7a201835132336e97651.jpg",
-      "caption": "Study flow chart comparing endoscopic recurrence in low-risk and high-risk Crohn’s disease patients after ileocolonic resection. AReasons for exclusion were as follows: no ileocecal resection performed [n = 8], no histological ileal disease at time of surgery [n = 1], presence of malignancy in resection specimen leading to differences in postoperative follow-up [n = 1] and withdrawn informed consent [n = 1]. BRisk factors present: active smoking n = 45, previous resections n = 51, penetrating disease n = 51. C,DIncluding n = 2 with colonoscopy, but no available images for central read.",
+      "caption": "Study flow chart comparing endoscopic recurrence in low-risk and high-risk Crohn's disease patients after ileocolonic resection. After exclusions, loss to follow-up, waiting on stoma removal, and still in follow-up, the RAP-CD cohort (n = 260) yields a study population of 213, split into Low risk (n = 93) and High risk (n = 120). In each arm, treatment advice leads to adherence or non adherence, then prophylaxis or no prophylaxis, and, apart from patients with no endoscopy, endoscopic recurrence.",
       "difficulty": "hard",
       "source": "PMC10024543.1/jjac128f0001.jpg",
       "sha256": "7a201835132336e97651e9aa69fc3217279fb982b5e708b8fa1cd41cb283183f",
@@ -559,7 +559,7 @@
     {
       "id": "HS062",
       "image": "/diagrams/fadacf4bd381a41323de.jpg",
-      "caption": "Example flow charts created from reported tissue clearing protocols. (A) Example flow charts of successful tissue-clearing protocols. The tissue cleared is indicated in the right-most box. (B) Example flow charts of not successful tissue-clearing protocols. The tissue cleared is indicated in the right-most box.",
+      "caption": "Example flow charts created from reported tissue clearing protocols, with columns Fixation, Pre-treatment, Labeling, Delipidation, Refractive Index Matching, and Organism/Tissue. (A) Successful protocols: PFA, 4% overnight and methanol dehydration branch into four labeling options, each followed by THF, dibenzyl ether, DCM and dibenzyl ether (RI: 1.54), ending in whole brain, mouse whole brain, or mouse cortex section. (B) Not successful protocols: three flows ending in mouse embryo, human brain (via hydrogel embedding or SHIELD), and mouse section of cortex.",
       "difficulty": "hard",
       "source": "PMC11439823.1/fbioe-12-1304622-g002.jpg",
       "sha256": "fadacf4bd381a41323de73cde10c07c757c580a06e1864e0fd133dd229469f40",
@@ -568,7 +568,7 @@
     {
       "id": "HS063",
       "image": "/diagrams/15e82a3193227ef441fd.jpg",
-      "caption": "The algorithm showing the identification of articles included in the review. * Other sources: references from meta-analyses and guidelines.",
+      "caption": "Algorithm showing the identification of articles included in the review, across Identification, Screening, and Eligibility phases. Records identified through database searching (n = 428) and through other sources (n = 5) merge into records after duplicates removed (25 meta-analyses, 16 RCT, 7 guidelines), from which 5 records are excluded. The remaining records (21 meta-analyses, 14 RCT, 7 guidelines) lead to 42 full-text articles assessed for eligibility.",
       "difficulty": "easy",
       "source": "PMC8535422.1/healthcare-09-01287-g001.jpg",
       "sha256": "15e82a3193227ef441fd4be0c6eb3d6130a2427fda0f760a6bd657de2eb7f032",
@@ -577,7 +577,7 @@
     {
       "id": "HS064",
       "image": "/diagrams/938145a56b711faa9d3c.jpg",
-      "caption": "Flow chart of the dummy run. Step 1, RT planning according to each institution’s policies; Step 2, RT planning incorporating additional information from the host institution. Abbreviations: CT, computed tomography; DVH, dose-volume histogram; AI, artificial intelligence; LN, lymph node; OAR, organ at risk.",
+      "caption": "Flow chart of the dummy run in two steps. In Step 1, the host institution provides anonymized CT for Scenarios 1-3; 7 institutions plan radiotherapy according to each institution's policies, and DVHs are analyzed based on the reference structure set. This leads to Step 2, where the anonymized CT plus additional information (AI auto-contoured structures, LN boost target volumes, target area definition, OAR dose constraints) goes to the 7 institutions for planning referring to it, again ending with DVH analysis.",
       "difficulty": "medium",
       "source": "PMC13150357.1/gr1.jpg",
       "sha256": "938145a56b711faa9d3c164d188dc63ebeaf8814a23afc23ba63ca9f17d90356",
@@ -586,7 +586,7 @@
     {
       "id": "HS065",
       "image": "/diagrams/01a2f847a5bbc7644dea.jpg",
-      "caption": "Diagram of eligible studies selection procedures.",
+      "caption": "Diagram of eligible studies selection procedures across Identification, Screening, Eligibility, and Included phases. Records from electronic databases (n=406), Clinicaltrial.gov, and the Cochrane Central Registry of Controlled Trials are combined; 370 records are excluded after reading the abstract, leaving 146 articles identified for eligibility. After 129 are excluded (not finished, outcomes not interested, not target drugs), 17 trials remain to review, and after 7 more trials are excluded, 10 trials are involved in quantitative analysis.",
       "difficulty": "medium",
       "source": "PMC6640487.1/fphar-10-00795-g001.jpg",
       "sha256": "01a2f847a5bbc7644dea9cf3f7563362733b404bc9499170c0ce2ac625428a7c",
@@ -595,7 +595,7 @@
     {
       "id": "HS066",
       "image": "/diagrams/cfdae9a70ddc9dee9ef5.jpg",
-      "caption": "Trial profile: Consolidated Standards of Reporting Trials (CONSORT) diagram.",
+      "caption": "Trial profile in the form of a Consolidated Standards of Reporting Trials (CONSORT) diagram. Of 21 patients assessed for eligibility, 16 are excluded (declined, withdrawn prior to randomisation, TIA/cancer, no reply) and 5 are randomised. Randomisation branches into Active treatment (n=4), where all complete 6 M f/up and one is deceased after 6M f/up, and Placebo (n=1), who completes 6 M f/up.",
       "difficulty": "easy",
       "source": "PMC7744277.1/41434_2020_171_Fig1_HTML.jpg",
       "sha256": "cfdae9a70ddc9dee9ef5949c8c3e26c321ae777cf762a3e8b38d7cfe19f030fc",
@@ -604,7 +604,7 @@
     {
       "id": "HS067",
       "image": "/diagrams/5d0445e0f374c810bae9.jpg",
-      "caption": "Flowchart of the STL-PCA-BWO-BiLSTM model.",
+      "caption": "Flowchart of the STL-PCA-BWO-BiLSTM model. Pig price data are decomposed using STL and modeled per component, influencing factors undergo Spearman correlation and PCA, and BWO parameters are initialized. Each iteration calculates Bf and Wf, updates the Beluga whale position in the search phase (Bf > 0.5) or prey phase, computes fitness, and updates again if Wf > Bf, repeating until max iters is reached. The optimal BiLSTM hyperparameters then establish the model, which yields prediction results before the end.",
       "difficulty": "hard",
       "source": "PMC12204532.1/pone.0324646.g005.jpg",
       "sha256": "5d0445e0f374c810bae9c20ee07e0263048543a6c4ed4908e3eb75c2895715f9",
@@ -613,7 +613,7 @@
     {
       "id": "HS068",
       "image": "/diagrams/4bc3de888debd718b178.jpg",
-      "caption": "Reseasrch flowchart of systems medicine design for human skin aging. Flowchart of using systems biology methods to construct the candidate GWGEN, real GWGENs, core GWGENs, and core signaling pathways to find skin aging progression mechanisms for identifying essential biomarkers. After obtaining the essential biomarkers, we applied trained a deep neural network of drug–target interactions to predict the potential candidate drugs holding higher probability. To narrow down the candidate drugs, we considered drug regulation ability by querying the CMap dataset and drug sensitivity by referring to the sensitivity dataset from DepMap portal. Consequently, we proposed two multiple-molecule drugs to mitigate the skin aging from young-adult to middle-aged and middle-aged to elderly-stage.",
+      "caption": "Research flowchart of systems medicine design for human skin aging. Candidate PPIN and GRN networks are combined into a candidate GWGEN, modeled stochastically, and identified with skin microarray data to give real GWGENs in young-, middle-, and elder-stage skin. Principal network projection yields core GWGENs, core signaling pathways for young-to-middle and middle-to-elder aging, the aging molecular mechanism, and essential biomarkers as drug targets. A deep neural network of drug-target interaction with two filters, using BindingDB, ends with two multiple-molecule drugs.",
       "difficulty": "hard",
       "source": "PMC8197996.1/molecules-26-03178-g002.jpg",
       "sha256": "4bc3de888debd718b178bce2125ab5a2936bac479d1d6bcdc4e31b84369967f9",
@@ -622,7 +622,7 @@
     {
       "id": "HS069",
       "image": "/diagrams/a9078e6ca5f6de9ecad4.jpg",
-      "caption": "Diagnostic algorithm for soft tissue tumors suspected of EHE.",
+      "caption": "Diagnostic algorithm for soft tissue tumors suspected of EHE. IHC for CAMTA1 and TFE3 gives three branches. CAMTA1+, TFE3- leads directly to diagnosis; for CAMTA1-, TFE3+, a clinically and histologically typical case leads to diagnosis, while an atypical case goes to TFE3 FISH (positive to diagnosis, negative/atypical signal to NGS). CAMTA1-, TFE3- goes to TFE3/CAMTA1 FISH, where TFE3- or CAMTA1-rearrangement leads to diagnosis and both negative leads to NGS.",
       "difficulty": "hard",
       "source": "PMC11876046.1/fonc-15-1478036-g006.jpg",
       "sha256": "a9078e6ca5f6de9ecad44fd7c2d840e5acdfc3f33b835a4ffbff0b0020203d99",
@@ -631,7 +631,7 @@
     {
       "id": "HS070",
       "image": "/diagrams/82e205c2bbb2c6e7b608.jpg",
-      "caption": "Retrospective workflow. CEUS, contrast-enhanced ultrasound.",
+      "caption": "Retrospective workflow of thyroid nodule (C-TIRADS 4) contrast-enhanced ultrasound (CEUS) examinations collected from September 2019 to February 2023 (n=571). Exclusions (missing pathology or Bethesda I/III/IV results, CEUS without \"flash\" procedure, macro-calcification in 2D-US, poor image quality or incomplete clinical data) leave 313 eligible patients (malignant=203, benign=110). These are split at a ratio of 9:1 into a training cohort (n=282) and a test cohort (n=31).",
       "difficulty": "easy",
       "source": "PMC11021584.1/fendo-15-1299686-g003.jpg",
       "sha256": "82e205c2bbb2c6e7b608b09e284e798423209d21bad3b5a4463c5c2c2444e7c9",
@@ -640,7 +640,7 @@
     {
       "id": "HS071",
       "image": "/diagrams/345413d3ee9d1c80a017.jpg",
-      "caption": "Flow chart of TB/HIV patients from Minsk, Belarus, enrolled into the TB : HIV study during 2011-2013, who have Mycobacterium tuberculosis (Mtb) culture samples available and with various drug susceptibly tests performed on these samples. Abbreviations: DST = drug-susceptibility testing; LPA = line probe assay; WGS = whole-genome sequencing. Patients were enrolled and followed up from the Republican Scientific and Practical Center for Pulmonology and TB, Minsk, Belarus. Mtb cultures were sent to the WHO TB Supranational Reference Laboratory, Copenhagen, Denmark, where drug-susceptibility testing was performed using phenotypic, LPA, and WGS methods.",
+      "caption": "Flow chart of TB/HIV patients from Minsk, Belarus, with Mycobacterium tuberculosis (Mtb) cultures and drug-susceptibility testing (DST). Of 62 HIV-positive patients with TB, 55 are culture positive, 34 samples are sent to Copenhagen, and 30 remain available after unidentified PIDs. Samples undergo phenotypic DST and whole-genome sequencing (WGS) in parallel; culture failures and resistance-detected cultures go to line probe assay (LPA), while no-resistance cultures stop. WGS and LPA each end in results available or failed.",
       "difficulty": "hard",
       "source": "PMC8035031.1/TRT2021-6646239.001.jpg",
       "sha256": "345413d3ee9d1c80a017c070d2e2abe1c086f5b06ad8a61a736c984b268cd88f",
@@ -649,7 +649,7 @@
     {
       "id": "HS072",
       "image": "/diagrams/44d6d50c2690a96d7ffd.jpg",
-      "caption": "Quantification of resilience metrics. Residuals from linear regression models in which a cognitive score was regressed on age, sex, and amyloid levels were extracted and entered as indicator variables in a partial least squares path model using established procedures. Combined resilience was quantified as a second order latent trait in the model in which educational attainment was included as an additional indicator variable. PACC = Preclinical Alzheimer Cognitive Composite.",
+      "caption": "Path model for the quantification of resilience metrics. The latent trait Residual Cognitive Resilience has three indicators: Residual (PACC|Amyloid), Residual (Memory|Amyloid), and Residual (Executive|Amyloid). Combined Resilience is a second-order latent trait whose indicators are Residual Cognitive Resilience and Educational Attainment. PACC = Preclinical Alzheimer Cognitive Composite.",
       "difficulty": "easy",
       "source": "PMC7447518.1/awaa209f1.jpg",
       "sha256": "44d6d50c2690a96d7ffdfbb35d246107c500d4465e41c449f6e2180b9082aaab",
@@ -658,7 +658,7 @@
     {
       "id": "HS073",
       "image": "/diagrams/289ec570af5a450b1b75.jpg",
-      "caption": "Flow of decision-making on cases to simulate.",
+      "caption": "Flow of decision-making on cases to simulate, starting from whether once-through design with horizontal serpentine tubes and vertical headers is valid for super- and subcritical sandTES heat exchangers. Five questions follow in sequence, each answered by simulations and a conclusion: super- versus subcritical and heating versus cooling differences (both relevant), part-load unbalance (increases), header design modifications (Yes), start-up and shut-down (shut-down might need a thorough concept), and scale-up height (sufficient for sandTES technology).",
       "difficulty": "medium",
       "source": "PMC11636907.1/gr008.jpg",
       "sha256": "289ec570af5a450b1b75cafc86a49040f920c73b876a279c8eb29c5b02301e20",
@@ -667,7 +667,7 @@
     {
       "id": "HS074",
       "image": "/diagrams/a1808a6bd14c19984f32.jpg",
-      "caption": "Flow chart of 324 C-P class HCV cirrhotic patients included in the study.",
+      "caption": "Flow chart of 324 C-P class A HCV cirrhotic patients included in the study. It starts with 360 hepatitis C virus (HCV) cirrhotic patients who started direct antiviral agents (DAA) therapy from April 2015 to December 2016. Patients with a transplanted liver (6), HBV/HCV co-infection (5), advanced liver disease (C-P class B, 15), or no follow-up after DAA therapy (10) are excluded, and the flow ends with 324 patients included.",
       "difficulty": "easy",
       "source": "PMC9699534.1/jpm-12-01794-g001.jpg",
       "sha256": "a1808a6bd14c19984f32108b3c87a21c6f98be41ef361917a2a6c50a41fa0b91",
@@ -676,7 +676,7 @@
     {
       "id": "HS075",
       "image": "/diagrams/d74ad9c8d771239bcbec.jpg",
-      "caption": "Flow diagram of literature search and selection.",
+      "caption": "Flow diagram of literature search and selection through Identification, Screening, Eligibility, and Included phases. Records identified through database (796) and other sources (9) give 684 records after duplicates removed, all screened, of which 648 are excluded. Of 36 full-text articles assessed for eligibility, 30 are excluded with reasons (review, case report, surgical techniques, different study design, non-comparative study), and 6 studies are included in quantitative synthesis (meta-analysis).",
       "difficulty": "medium",
       "source": "PMC11999397.1/medi-104-e42060-g001.jpg",
       "sha256": "d74ad9c8d771239bcbecb764dfe66f29ea935517c1116265516a2ae2a4535475",
@@ -685,7 +685,7 @@
     {
       "id": "HS076",
       "image": "/diagrams/bd5407b4a313d6d2c014.jpg",
-      "caption": "Overview of MR rationale, design, and procedures. There are three key assumptions for MR study. Assumption 1: the GVs selected as IVs should be strongly associated with the exposures; Assumption 2: the used GVs should not be associated with any potential confounder; Assumption 3: the GVs should influence the outcome risk merely through the exposures, not via any alternative pathway. Abbreviations: ctrl = control; FGP = female genital prolapse; GVs = genetic variants; IV = instrumental variable; IVW = inverse variance weighted; MR = Mendelian randomization; MVMR = multivariable Mendelian randomization; SNP = single-nucleotide polymorphism; TDI = Townsend deprivation index; UVMR = univariable Mendelian randomization; WM = weighted median",
+      "caption": "Overview of MR rationale, design, and procedures for socioeconomic traits and FGP. GVs (SNP1 to SNPn) lead through IV selection (Assumption 1) to the exposures, socioeconomic traits such as education, heavy physical work, income, TDI, pub or club, and sports, which lead through MR analysis (major: IVW UVMR, IVW MVMR; secondary: WM, MR Egger, simple and weighted mode) to the outcome, FGP. Crossed-out dashed paths from GVs via confounders (Assumption 2) and alternative pathways (Assumption 3) to FGP are excluded.",
       "difficulty": "easy",
       "source": "PMC10251634.1/12920_2023_1560_Figa_HTML.jpg",
       "sha256": "bd5407b4a313d6d2c014715d9fe05794fd11db23b2fd631e0035e9bb8f8f9c9a",
@@ -694,7 +694,7 @@
     {
       "id": "HS077",
       "image": "/diagrams/4f2d9473d9a436741b2f.jpg",
-      "caption": "The procedure for the multiple pairwise comparisons",
+      "caption": "Tree diagram of the procedure for the multiple pairwise comparisons. It starts at 50 and branches into (a) prefer sure win option, leading to 25, or (b) prefer uncertain option, leading to 75. Each later comparison branches again by (a) or (b), through values such as 10, 40, 65, and 90, to end values ranging from 1 to 99. A note states that numbers are dollars in certainty equivalent tasks and probabilities in matching probability tasks.",
       "difficulty": "hard",
       "source": "PMC12241273.1/13428_2025_2729_Fig1_HTML.jpg",
       "sha256": "4f2d9473d9a436741b2f8bec78daed3d995e2b449e32c931702794dc4f945724",
@@ -703,7 +703,7 @@
     {
       "id": "HS078",
       "image": "/diagrams/1acc612a8cf4b94bb0c0.jpg",
-      "caption": "CONSORT flow diagram summarizing patients eligible for the study",
+      "caption": "CONSORT flow diagram summarizing patients eligible for the study. It starts with patients tested positive for SARS-CoV-2 and admitted to ICU (n=581), from which patients are excluded for ICU stay <24h (n=28) or declined to participate (n=0). The flow ends with enrolled patients tested positive for SARS-CoV-2 and admitted to ICU (n=553).",
       "difficulty": "easy",
       "source": "PMC9568961.2/44158_2022_71_Fig1_HTML.jpg",
       "sha256": "1acc612a8cf4b94bb0c06b3a39c805d9108f839d172b44704da85b73d1a139e8",
@@ -712,7 +712,7 @@
     {
       "id": "HS079",
       "image": "/diagrams/340c9712fe0625f003a5.jpg",
-      "caption": "Overview of all patients that received surgery on the LFCN at both centers, available follow-up data and the types of procedures that were performed on the evaluated patients.",
+      "caption": "Overview of patients who received surgery on the LFCN, available follow-up data, and procedure types. Of 137 patients screened, 43 had no follow-up data, leaving patients with follow-up (n=94) and surgeries with follow-up (n=108). The surgeries branch into three groups: neurolysis (n=98, mostly primary idiopathic), neurectomy (n=4, all secondary surgeries after failed primary neurolysis), and others (n=6: re-neurolysis, neuroma resections, and translocation of nerve stumps).",
       "difficulty": "easy",
       "source": "PMC13141792.1/gr1.jpg",
       "sha256": "340c9712fe0625f003a532b5a1c00bb01b0f1e94162c753a2cc16437e4b01dfa",
@@ -721,7 +721,7 @@
     {
       "id": "HS080",
       "image": "/diagrams/6df5de9400e0e0ac78bc.jpg",
-      "caption": "Schematic flow chart of the enrolled patients. CHC: chronic hepatitis C virus infection; DAA: direct-acting antiviral; SVR: sustained virological response.",
+      "caption": "Schematic flow chart of the enrolled patients. Of 415 CHC patients, 50 who underwent DAA therapy but had not finished the course are excluded, leaving 365 who completed a course of DAA therapy, from which 5 SVR (-) patients branch off. SVR (+) patients are followed at 12, 24, 48, 72, 96, and 120 weeks posttherapy (n=360 down to 96), and each time point is compared with the baseline CHC patients and with controls (n=470).",
       "difficulty": "hard",
       "source": "PMC8616092.1/cells-10-02934-g001.jpg",
       "sha256": "6df5de9400e0e0ac78bc9937b43f7c1c1cfd0a882db49acec5b7d871766413f7",
@@ -730,7 +730,7 @@
     {
       "id": "HS081",
       "image": "/diagrams/de85e774c0e8ef08173c.jpg",
-      "caption": "PRISMA flow diagram of study identification process. PRISMA, Preferred Reporting Items for Systematic Reviews and Meta-Analyses.",
+      "caption": "PRISMA flow diagram of study identification process. It starts with 3 787 titles and abstracts, leading to full-text screening of 185, from which articles are excluded for wrong publication type (n=68), not about risk communication (n=13), or duplicate (n=1). The 103 articles that met the inclusion criteria lead both directly and via reference list screening (12) to 115 articles included in the review.",
       "difficulty": "easy",
       "source": "PMC12306253.1/bmjno-7-2-g001.jpg",
       "sha256": "de85e774c0e8ef08173c68e2c739a56bda51d7d511fb640e1665d25621283092",
@@ -739,7 +739,7 @@
     {
       "id": "HS082",
       "image": "/diagrams/315a96cd2c5e72153b92.jpg",
-      "caption": "Flow chart illustrating the complete clinical and laboratory workflow of the randomized clinical trial. The diagram summarizes patient recruitment, diagnostic procedures, matrix fabrication protocols, trial restoration transfer, intraoral scanning, and digital analysis steps. IOS = intraoral scanning; STL = standard tessellation language; PVS = polyvinyl siloxane; CAD = computer-aided design; CAM = computer-aided manufacturing; RMS = root mean square.",
+      "caption": "Flow chart of the complete clinical and laboratory workflow of the randomized clinical trial. It proceeds linearly from patient recruitment and informed consent to a diagnostic phase (records, intraoral scans, CAD wax-up, 3D printed model), then matrix fabrication with four matrices (condensation silicone, addition PVS, transparent PVS, CAD/CAM combination matrix), trial restoration fabrication in randomized sequence, and IOS of each trial restoration. It ends with dimensional accuracy analysis (linear and volumetric RMS deviation) and statistical analysis.",
       "difficulty": "easy",
       "source": "PMC12072445.1/jcm-14-03240-g001.jpg",
       "sha256": "315a96cd2c5e72153b921d4936b63983590eb21e77de0ea57102253c09471427",
@@ -748,7 +748,7 @@
     {
       "id": "HS083",
       "image": "/diagrams/2ec401bb96da6afdb14a.jpg",
-      "caption": "Flowchart for determining the urine collection rate in neonates with defecation.",
+      "caption": "Flowchart for determining the urine collection rate in neonates with defecation. Of 138 subjects, 92 with stool (–) are excluded, leaving 46 with stool (+). These split into urination (+) (n = 41) and urination (–) (n = 5), and each group is divided by filter papers with color change into presence and absence: 40 and 1 for urination (+), and 1 and 4 for urination (–).",
       "difficulty": "easy",
       "source": "PMC8304071.1/children-08-00561-g005.jpg",
       "sha256": "2ec401bb96da6afdb14ab516e34ea1b46dace83650a96a1d542244af0b15e2c8",
@@ -757,7 +757,7 @@
     {
       "id": "HS084",
       "image": "/diagrams/5ca136ab185cda224a7d.jpg",
-      "caption": "Diagnostic algorithm. Histology should be obtained from tumors suspected of NEN to confirm the diagnosis of a neuroendocrine origin. Morphological examination will subsequently divide neoplasms into well-differentiated tumors or poorly differentiated carcinomas. Uncertain cases can be categorized through the use of genetic analysis or p53 staining. Within the NETs mitotic and Ki-67 indices will classify the tumor into grade 1 to 3. Further prognostic and therapeutic information can be obtained by performing 68Ga-labelled somatostatin receptor imaging and for higher grade or clinically aggressive tumors an 18F-FDG PET. FDG, fluorodeoxyglucose NEN, neuroendocrine neoplasm; WD, well-differentiated; PD, poorly differentiated; NET, neuroendocrine tumor; NEC, neuroendocrine carcinoma; SUV, standardized uptake value; PET, positron emission tomography; Pan, pancreas; GI, gastrointestinal.",
+      "caption": "Diagnostic algorithm for NEN. Morphology divides NEN into WD NEN, uncertain differentiation, and PD NEN. WD NEN is graded by Ki67 mitotic index into G1, G2, and G3 NET; uncertain cases undergo genetics, with other leading to G3 NET and TP53/RB1 to G3 NEC, while PD NEN leads to G3 NEC and poor prognosis. 68GaPET/FDGPET then assigns G1 and G2 NET to very good, good, or moderate prognosis, and G3 NET to moderate or worse prognosis.",
       "difficulty": "hard",
       "source": "PMC7080342.1/edrv_41_2_371_f5.jpg",
       "sha256": "5ca136ab185cda224a7dd8803b5f9b70255c644a12c883517dc4f1b0e40c9777",
@@ -766,7 +766,7 @@
     {
       "id": "HS085",
       "image": "/diagrams/6ba639758e13a5ae1cff.jpg",
-      "caption": "Neoantigen prediction on the basis of the biological mechanism of neoantigen-induced immune attack. The overall prediction pipeline takes tumor DNA-seq, normal (i.e. nontumor) DNA-seq, and tumor RNA-seq data as inputs and outputs the predicted neoantigens. Each computational step in the pipeline corresponds to some neoantigen-related biological processes, which, together, result in T cells attacking cancer cells. Solid arrows are from prerequisite inputs of computational steps to the corresponding outputs. Dashed arrows indicate biological processes. Dotted arrows describe the relationships between the computational steps and the biological processes. This figure was created with Biorender.com. MHC, major histocompatibility complex. TCR, T-cell receptor. Alt text: Neoantigen prediction on the basis of the biological mechanism of neoantigen-induced immune attack.",
+      "caption": "Neoantigen prediction based on the biological mechanism of neoantigen-induced immune attack. Tumor DNA-seq, normal DNA-seq, and tumor RNA-seq data feed somatic variant calling, RNA transcript quantification, and HLA typing, which lead to pMHC presentation prediction, then pMHC recognition prediction, and output predicted neoantigens. Each step is linked to a process in the cancer cell, from mutated DNA to mutated mRNA, aberrant protein, aberrant peptide binding MHC, and pMHC recognized by the TCR, leading to T-cell immune attack.",
       "difficulty": "hard",
       "source": "PMC12222050.1/bbaf302f1.jpg",
       "sha256": "6ba639758e13a5ae1cffcfcf3940784e95d1fb172a16866da79185930f281633",
@@ -775,7 +775,7 @@
     {
       "id": "HS086",
       "image": "/diagrams/2398e889ebb943087755.jpg",
-      "caption": "Workflow of the PV patient with multple coronary occlusion from the diagnosis, intervention, complication, treatment, and outcome. PV = polycythemia vera.",
+      "caption": "Workflow of the PV patient with multiple coronary occlusion. A 46-year-old woman with polycythemia vera and inferior STEMI undergoes coronary angiography showing total occlusion of the proximal RCA and LAD, and the flow splits. The RCA arm proceeds via direct stenting to TIMI flow 3; the LAD arm passes through failed balloon dilatation and stenting, aspiration thrombectomy, no-reflow with VF and hypotension, CPR, and thrombolysis to TIMI flow 2. Both arms converge on intensive cardiac care, then discharge.",
       "difficulty": "medium",
       "source": "PMC7478610.1/medi-99-e19288-g006.jpg",
       "sha256": "2398e889ebb943087755713e28a1256f369b4190a7c8cdf1a5181194e4bcf5ae",
@@ -784,7 +784,7 @@
     {
       "id": "HS087",
       "image": "/diagrams/d21a248ed87a4a94bc81.jpg",
-      "caption": "A schematic of the pipeline for novel lncRNA discovery (Illumina sequencing) and validation (Nanopore sequencing).",
+      "caption": "Schematic of the pipeline for novel lncRNA discovery (Illumina sequencing) and validation (Nanopore sequencing). In the short read pipeline, Illumina reads undergo alignment, assembly, and transcript classification, which separates annotated mRNA/lncRNA; in parallel, the long read pipeline aligns, clusters, and classifies Nanopore reads. Both feed a novel pipeline filtering for multi-exonic, >200 bp transcripts lacking coding potential with class code u, i, x, or y (illustrated in an inset), and novels from both pipelines are compared to give validated novels.",
       "difficulty": "medium",
       "source": "PMC8583240.1/ijms-22-11324-g002.jpg",
       "sha256": "d21a248ed87a4a94bc81c970a66def14a92b1b1931593ecfc6d0eb9977e8709f",
@@ -793,7 +793,7 @@
     {
       "id": "HS088",
       "image": "/diagrams/418a5f17fb3f69e1961a.jpg",
-      "caption": "Flowchart of included and excluded patients in the study. ABPA Allergic Bronchopulmonary Aspergillosis. AF Aspergillus fumigatus. CF Cystic fibrosis",
+      "caption": "Flowchart of included and excluded patients in the study. It starts with 751 patients in the Swedish CF registry from 2014 - 2018, excluding organ transplantation, age<6 years, deceased, lacking relevant check-ups, ABPA or unknown AF-colonization at baseline, and positive AF the whole period, to leave 437 patients included. These split into non-colonized with AF (n=373) and colonized with AF (n=64), which divides into with symptoms (n=22) and without symptoms (n=42), the latter into treated and non-treated.",
       "difficulty": "medium",
       "source": "PMC9258124.1/12890_2022_2054_Fig2_HTML.jpg",
       "sha256": "418a5f17fb3f69e1961a06b2f9ea805454299bf03cfc887ea1851ddeb3214c65",
@@ -802,7 +802,7 @@
     {
       "id": "HS089",
       "image": "/diagrams/295f3c5e1600c5344f25.jpg",
-      "caption": "Patients’ categorized flow diagram according to intraoperative fluid load in this group patient population",
+      "caption": "Patients' categorized flow diagram according to intraoperative fluid load. It starts with 1336 neonatal surgical cases occurring from Apr 1, 2020 to Sep 30, 2022, from which 396 excluded cases are removed for reasons such as non-tracheal intubation general anesthesia, cardiac surgery, and a history of surgery, leaving 940 final study cases. These are divided into five groups of 188: Q1 restrictive, Q2 moderately restrictive, Q3 moderate, Q4 moderately liberal, and Q5 liberal.",
       "difficulty": "easy",
       "source": "PMC11322412.1/431_2024_5628_Fig1_HTML.jpg",
       "sha256": "295f3c5e1600c5344f25f6cd37c03797d7e58c64efc903116edc76734fb4513a",
@@ -811,7 +811,7 @@
     {
       "id": "HS090",
       "image": "/diagrams/18695208b22bdd00f4da.jpg",
-      "caption": "Participant flow.AKDN = Alberta Kidney Disease Network; RRT = renal replacement therapy (receipt of kidney transplant or chronic dialysis).",
+      "caption": "Participant flow from the AKDN cohort (n=5,107,510). Participants are excluded (n=4,771,134) for no type 2 diabetes, no follow-up in 2018, not adult, or RRT, leaving the type 2 diabetes cohort (n=336,376).",
       "difficulty": "easy",
       "source": "PMC11163929.1/10.1177_20543581241255781-fig1.jpg",
       "sha256": "18695208b22bdd00f4dafa2712bebb10c7e4ceaa8d5e7a2513fda1a7f50a2ded",
@@ -820,7 +820,7 @@
     {
       "id": "HS091",
       "image": "/diagrams/574a36fddae52610b6c0.jpg",
-      "caption": "Thromboprophylaxis protocol. CUS, compression ultrasonography; GCS, graduated compression stocking; IPC, intermittent pneumatic compression; VTE, venous thromboembolism",
+      "caption": "Thromboprophylaxis protocol for patients admitted in RICU at high risk of VTE. Bleeding risk evaluation sends low risk of bleeding to pharmacological prophylaxis measures, combined with mechanical measures if immobile, and high risk or active bleeding to mechanical prophylaxis measures, where CUS selects IPC+GCS if negative or GCS if positive. Bleeding checks cross-link the arms, with Yes switching arms; both No branches end in continued until VTE risk relieved or new VTE event needing therapeutic dose or thrombolysis.",
       "difficulty": "hard",
       "source": "PMC9746213.1/12959_2022_439_Fig1_HTML.jpg",
       "sha256": "574a36fddae52610b6c0ab1d196ab65d22bda1924e12eed96e2a6f7c17457143",
@@ -829,7 +829,7 @@
     {
       "id": "HS092",
       "image": "/diagrams/7ecfc09848cda7b7f65e.jpg",
-      "caption": "Automated classification pipeline architecture. CARS atherosclerotic plaque images are input to the first image preprocessing stage, undergoing contrast adjustment and sharpening. Output of image preprocessing for all 566 images is fed into the four segmentation methods, OTS, IFCT, MCW and KMS to isolate the lipid-rich structures of the plaques. Features with high predictive power are computed from the isolated outputs. Refined features are fed into the four supervised ML algorithms, MCSVM, DT and KNN to output the classification of atherosclerotic plaque severity as early fatty streak development (EFS), early fibroatheroma (EF) and advancing atheroma (AA)",
+      "caption": "Automated classification pipeline architecture. A dataset of 566 CARS images passes through image pre-processing (contrast adjustment, sharpen), plaque segmentation (OTS, IFCT, MCW, KMS), feature extraction (first order statistics, shape features, Haralick texture features), refined feature selection (coefficient of variation and filter type feature selection), and supervised ML classifiers (MCSVM, DT, kNN). The output is class I: EFS, class II: EF, or class III: AA.",
       "difficulty": "medium",
       "source": "PMC9753267.1/12859_2022_5059_Fig3_HTML.jpg",
       "sha256": "7ecfc09848cda7b7f65eb59b0c1203ce0702040428bf747963149f030b9fa71a",
@@ -838,7 +838,7 @@
     {
       "id": "HS093",
       "image": "/diagrams/fce9691d2746e940c452.jpg",
-      "caption": "PRISMA flow diagram of database searching and screening",
+      "caption": "PRISMA flow diagram of database searching and screening. In identification, 1601 records are identified from database searching and 649 duplicate records are removed before screening. In screening, 952 records are screened and 912 excluded, then 40 reports are assessed for eligibility, with reports excluded for wrong study design, wrong population, duplicated, or wrong comparison. The flow ends with 21 studies included in systematic review and meta-analysis.",
       "difficulty": "easy",
       "source": "PMC11752810.1/12883_2024_4000_Fig1_HTML.jpg",
       "sha256": "fce9691d2746e940c4529055dd73bd9414f301a9915555ecd9b9e942273e8931",
@@ -847,7 +847,7 @@
     {
       "id": "HS094",
       "image": "/diagrams/049c23e323e20d744281.jpg",
-      "caption": "Flow diagram of the patients included in and excluded from the analysis.",
+      "caption": "Flow diagram of the patients included in and excluded from the analysis. It starts with 510 patients prescribed BB and AD medications, of whom 152 were prescribed BB or AD drugs within 730 days. After 7 patients are excluded because BB and AD were dispensed on the same date, 145 patients are included.",
       "difficulty": "easy",
       "source": "PMC10748070.1/pharmaceuticals-16-01694-g001.jpg",
       "sha256": "049c23e323e20d744281e10036cb654a9e4495c1f9a998b7b14ea00fea4516da",
@@ -856,7 +856,7 @@
     {
       "id": "HS095",
       "image": "/diagrams/377a15b3c69b28c0c444.jpg",
-      "caption": "Flowchart of our lung resections’ surgical series collected between 2015 and 2021 answering to inclusion and exclusion criteria.",
+      "caption": "Flowchart of lung resections collected between 2015 and 2021, laid out along a timeline from Jul 2015 to Jan 2022. For each of seven yearly periods, a lung resections box is linked, past an excluded box listing reasons such as open surgery, other resections, other histology, and synchronous/previous lung cancer, to the minimally-invasive lobectomies for NSCLC included. Inclusions rise from 17 of 98 resections in the first period to 178 of 432 in the last.",
       "difficulty": "hard",
       "source": "PMC10607558.1/jcm-12-06609-g001.jpg",
       "sha256": "377a15b3c69b28c0c444cc7d684444401b0526bc370a33c401ff805178bf93e3",
@@ -865,7 +865,7 @@
     {
       "id": "HS096",
       "image": "/diagrams/0c5664ecfe9c6000c7a8.jpg",
-      "caption": "The complete visual analytics pipeline.It can be seen as a process in which data is transformed by a series of processing modules (brown boxes) that can be realized by a series of software tools (blue boxes). Specifically, the raw data is first stored in data files or databases after data pre-processing, then the analysis results are generated by data analysis methods, and finally multiple views are formed through visual mapping and presented to users. Users can interact with the data at various stages of this pipeline according to their analysis tasks to achieve a comprehensive analysis of the data.",
+      "caption": "The complete visual analytics pipeline. Raw data passes through data pre-processing to data files/database, then through data analysis to analysis results, and through visual mapping to multi-view visualization, which is presented to users with their analysis tasks. Computing, storage, analysis, and visualization tools support each processing module, and user interaction feeds back to data pre-processing, data analysis, and visual mapping.",
       "difficulty": "medium",
       "source": "PMC10497676.1/41538_2023_226_Fig1_HTML.jpg",
       "sha256": "0c5664ecfe9c6000c7a89bfd4db4a728edb942bf85d678a5b683d1a9541f9d1e",
@@ -874,7 +874,7 @@
     {
       "id": "HS097",
       "image": "/diagrams/2cc5558dc29e54b9146f.jpg",
-      "caption": "Flow diagram of the selection of study subpopulations.",
+      "caption": "Flow diagram of the selection of study subpopulations. The population (n=1514) splits into normotensive (n=860) and hypertensive (n=654). Normotensive participants lead to the control group, normotensive ≥ 40 years old (n=429); hypertensive participants divide into hypertension diagnosed (n=376) and hypertension not previously diagnosed (n=278), the latter leading to cases, hypertension not diagnosed ≥ 40 years old (n=246).",
       "difficulty": "easy",
       "source": "PMC4377933.1/ijerph-12-02793-g001.jpg",
       "sha256": "2cc5558dc29e54b9146f3b2eaa922b37732ef6ed746874942a9f57d95bb41c11",
@@ -883,7 +883,7 @@
     {
       "id": "HS098",
       "image": "/diagrams/598d031a544b066440f1.jpg",
-      "caption": "Flow chart showing study intervention participation and HIV-testing eligibility.",
+      "caption": "Flow chart of study intervention participation and HIV-testing eligibility. It starts with 46,762 HH counted in HH census and narrows through visited, consented, and enumerated households to HH members aged 15-19 years, with refusals and other age groups branching off. The 11,175 members who accepted the intervention split into males and females; each arm proceeds through health data recorded, eligible for testing, and accepted HCT, ending in HIV+ (21 males, 114 females) or HIV- results.",
       "difficulty": "hard",
       "source": "PMC5497780.1/aids-31-s221-g001.jpg",
       "sha256": "598d031a544b066440f12949c95a283b172ea12a7c509db3119b1903c33c2a7e",
@@ -892,7 +892,7 @@
     {
       "id": "HS099",
       "image": "/diagrams/042fd312ec6afee936a4.jpg",
-      "caption": "The local algorithm for neurological prognostication designed and used at the Charité Universitätsmedizin Berlin hospital. The pathway includes current recommendations of several intensive care and neurological societies.OHCA - out-of-hospital cardiac arrest; EEG - electroencephalography; SEP - somatosensory evoked potentials; Cct - cerebral computer tomography; NSE - neuron specific enolase.",
+      "caption": "Local algorithm for neurological prognostication after OHCA, designed at the Charité Universitätsmedizin Berlin. On day 1, unclear cause or focal signs (Yes) leads to CCT, otherwise to targeted temperature management and rewarming. On day 3, pupils, NSE, and SSEP findings give 0, 1-2, or 3 positive: prognosis uncertain, poor prognosis very likely, or poor prognosis certain (recommend therapy limitation). The first two proceed via day-7 examination and repeat SEP, EEG, CCT to continue therapy or discuss therapy limitation.",
       "difficulty": "hard",
       "source": "PMC4828083.1/rbti-28-01-0001-g01.jpg",
       "sha256": "042fd312ec6afee936a417549ae541264a4a34988f096e9e998688e1925ba803",
@@ -901,7 +901,7 @@
     {
       "id": "HS100",
       "image": "/diagrams/468ca12b67c11e20ae65.jpg",
-      "caption": "Arkansas State University (STAR) Herbarium digitization workflow developed and applied in this project.",
+      "caption": "Arkansas State University (STAR) Herbarium digitization workflow. In pre-digitization and imaging of existing specimens, the steps are check nomenclature with The Plant List, annotate (if needed), and image. In databasing and dissemination using Specify, images are uploaded to Specify WorkBench, label information is databased from images, uploaded into the Specify database from WorkBench, and finally exported into a virtual herbarium on the Web.",
       "difficulty": "easy",
       "source": "PMC5400430.1/apps.1600125fig1.jpg",
       "sha256": "468ca12b67c11e20ae650374e7d9f344de7fdccc33eabe183b7d770a64363eb6",
