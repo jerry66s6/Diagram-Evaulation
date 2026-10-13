@@ -3,14 +3,14 @@
     {
       "id": "presence.elements",
       "dimension": "presence",
-      "description": "Every component, group, input, output, repeated block, and operation expected from the written description is visibly drawn in the candidate, even if its label is imperfect or hard to read. A component the judge cannot make out counts as not drawn. Connections are judged under Connectivity, not here.",
+      "description": "Every component the description calls for (a step, group, input, output, decision, or repeated block, stated or directly implied) is visibly drawn, matched by meaning rather than exact wording, even if its label is imperfect. Components such a diagram typically shows but the description does not call for are noted, not scored. A component that cannot be made out because the image is too small or blurry is not counted here; it is scored under Legibility. Connections are judged under Connectivity, not here.",
       "severity": "high",
       "deterministic_metric": "description_presence"
     },
     {
       "id": "presence.unexpected",
       "dimension": "presence",
-      "description": "Every drawn component corresponds to something in the description; invented, duplicated, or unrelated boxes fail. Titles, captions, legends, arrowheads, and container frames around listed components are not components.",
+      "description": "No drawn component is out of place: unrelated to what the description is about, duplicated by mistake, or contradicting the description. Additional detail that fits the described diagram (extra steps, sub-steps, counts, exclusion boxes) is fine. Titles, captions, legends, arrowheads, and container frames are not components.",
       "severity": "medium",
       "deterministic_metric": "unexpected_components"
     },
@@ -36,23 +36,30 @@
       "deterministic_metric": "unintended_overlap"
     },
     {
+      "id": "layout.routing",
+      "dimension": "layout",
+      "description": "Arrows are routed cleanly: they do not pass through components or across text, cross other arrows only where unavoidable, and take no confusing detours.",
+      "severity": "medium",
+      "deterministic_metric": "connector_routing"
+    },
+    {
       "id": "connectivity.connections",
       "dimension": "connectivity",
-      "description": "Every connection expected from the description is drawn as an arrow between its two components. A connection to a component that is not drawn is judged under Presence, not here.",
+      "description": "Every connection the description calls for is drawn, directly or through intermediate drawn steps, in the right direction. A connection to a component that is not drawn is judged under Presence, not here.",
       "severity": "critical",
       "deterministic_metric": "description_connections"
     },
     {
       "id": "connectivity.endpoints",
       "dimension": "connectivity",
-      "description": "Every drawn arrow joins two components that the description says are connected, in the stated direction. Reversed, extra, duplicate, and dangling arrows fail.",
+      "description": "Every drawn arrow is right: none points the wrong way, contradicts the described flow, connects parts that should not be connected, dangles with an end attached to nothing, or duplicates another arrow.",
       "severity": "critical",
       "deterministic_metric": "connector_attachment"
     },
     {
       "id": "details.labels",
       "dimension": "details",
-      "description": "Each drawn component carries its complete, accurate, meaningful expected label rather than an abbreviated, generic, missing, or placeholder label. Components that are not drawn are judged under Presence, and labels too small to read under Legibility.",
+      "description": "Each drawn component carries a meaningful label that names its role and agrees with the description (the exact name, where the description gives one), rather than a missing, generic, or placeholder label. Components that are not drawn are judged under Presence, and labels too small to read under Legibility.",
       "severity": "high",
       "deterministic_metric": "meaningful_labels"
     },
@@ -73,9 +80,16 @@
     {
       "id": "legibility.minimum_font",
       "dimension": "legibility",
-      "description": "Every label is large and clear enough to read at the size the diagram is displayed.",
+      "description": "Every label is large and clear enough to read at the size the diagram is displayed. A component too small or blurry to make out at all also fails here.",
       "severity": "high",
       "deterministic_metric": "minimum_font_size"
+    },
+    {
+      "id": "legibility.contrast",
+      "dimension": "legibility",
+      "description": "Text stands out clearly from its background; there is no light text on a light fill or dark text on a dark fill.",
+      "severity": "medium",
+      "deterministic_metric": "text_contrast"
     }
   ]
 }

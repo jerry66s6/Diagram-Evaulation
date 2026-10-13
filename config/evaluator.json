@@ -1,7 +1,7 @@
 {
   "models": {
-    "expectation": "gpt-5.5",
-    "judge": "gpt-5.5"
+    "expectation": "gpt-6-luna",
+    "judge": "gpt-6-luna"
   },
   "judge_samples": 3,
   "deterministic_judge": false,
@@ -31,6 +31,7 @@
     "legibility": 1.0
   },
   "weight_history": "config/issue_history.json",
-  "weighting": "severity",
-  "dimension_reducer": "mean"
+  "weighting": "equal",
+  "dimension_reducer": "minimum",
+  "error_factor": 0.75
 }

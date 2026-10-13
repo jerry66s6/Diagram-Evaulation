@@ -36,6 +36,8 @@ class PipelineConfig:
     weighting: str = "auto"
     # How criteria combine into a dimension: "mean" or "minimum".
     dimension_reducer: str = "mean"
+    # Each detected issue multiplies a criterion's score by this factor (None: share passed only).
+    error_factor: float | None = None
 
 
 class CorrectnessPipeline:
@@ -96,7 +98,9 @@ class CorrectnessPipeline:
                     )
                 )
 
-        dimensions = aggregate_panel(metrics, self.config.criteria, self.config.dimension_reducer)
+        dimensions = aggregate_panel(
+            metrics, self.config.criteria, self.config.dimension_reducer, self.config.error_factor
+        )
         raw_weights = resolve_weights(
             self.config.weighting,
             self.config.criteria,
@@ -118,6 +122,7 @@ class CorrectnessPipeline:
                 "vlm_samples": {judge.name: getattr(judge, "samples", 1) for judge in self.config.judges},
                 "weighting": self.config.weighting,
                 "dimension_reducer": self.config.dimension_reducer,
+                "error_factor": self.config.error_factor,
                 # Criteria where judges differ by 0.25 or more; the median would hide these.
                 "criterion_disagreements": criterion_disagreements(metrics),
                 "expectation_model": (
@@ -130,6 +135,11 @@ class CorrectnessPipeline:
                 # Per-component verdicts from every judge, with disagreements flagged for review.
                 "component_verdicts": agreement,
                 "component_disagreements": sum(1 for row in agreement if not row["agree"]),
+                # Model calls and tokens for this run (OpenAI backends), for working out the cost.
+                "api_usage": {
+                    "expectation": getattr(getattr(self.config.expectation_extractor, "backend", None), "usage", None),
+                    "judges": {judge.name: getattr(getattr(judge, "backend", None), "usage", None) for judge in self.config.judges},
+                },
             },
         )
 

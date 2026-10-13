@@ -61,7 +61,7 @@ class Verdict(StrEnum):
     PRESENT = "present"  # the role is drawn and carries the expected label
     MISLABELED = "mislabeled"  # the role is drawn, but its label is wrong, abbreviated, missing, or a placeholder
     ABSENT = "absent"  # nothing in the candidate plays this role
-    UNCERTAIN = "uncertain"  # the judge cannot tell whether the role is drawn; scored as not visibly drawn
+    UNCERTAIN = "uncertain"  # the image is too small or blurry to tell; scored under Legibility, not Presence
 
 
 class ConnectionStatus(StrEnum):
@@ -210,6 +210,7 @@ def aggregate_panel(
     metrics: Iterable[MetricScore],
     criteria: Iterable[Criterion],
     reducer: str = "mean",
+    error_factor: float | None = None,
 ) -> dict[Dimension, DimensionScore]:
     """Aggregate judge signals criterion-first, then criteria into dimensions.
 
@@ -217,6 +218,10 @@ def aggregate_panel(
     for the cases this hides. Criteria are combined per dimension with ``reducer``:
     "mean" lets a passing check offset a failing one, "minimum" does not. Missing or
     non-measurable results do not become perfect scores.
+
+    With ``error_factor`` (for example 0.75), every detected issue also multiplies the
+    criterion's score by that factor, so a single error in a large diagram still costs
+    a visible amount: the score is min(share passed, error_factor ** issues).
     """
     if reducer not in {"mean", "minimum"}:
         raise ValueError(f"Unknown dimension reducer: {reducer}")
@@ -235,7 +240,7 @@ def aggregate_panel(
             ]
             if not aligned:
                 continue
-            criterion_scores[criterion.id] = float(median(metric.score for metric in aligned if metric.score is not None))
+            criterion_scores[criterion.id] = float(median(_penalized(metric, error_factor) for metric in aligned))
             judges.update(metric.judge for metric in aligned)
         if criterion_scores:
             dimensions[dimension] = DimensionScore(
@@ -248,23 +253,32 @@ def aggregate_panel(
     return dimensions
 
 
+def _penalized(metric: MetricScore, error_factor: float | None) -> float:
+    score = metric.score if metric.score is not None else 0.0
+    return min(score, error_factor ** metric.detected_issues) if error_factor else score
+
+
 def component_metrics(
     verdicts: list[ComponentVerdict],
     judge: str,
     presence: Criterion | None,
     details: Criterion | None,
+    typical: frozenset[str] = frozenset(),
 ) -> list[MetricScore]:
     """Score Presence and Details from one judge's per-component verdicts.
 
     Both denominators come from the frozen inventory, never from the judge:
-    - Presence: every inventory component; it fails when ABSENT or UNCERTAIN. A role the
-      judge cannot make out is not visibly drawn, and dropping it from the denominator
-      would make a less certain judge give a higher score.
+    - Presence: every inventory component the judge could decide; it fails when ABSENT.
+      UNCERTAIN components (the image is too small or blurry to tell) are left out here and
+      counted as unreadable under Legibility instead, so a blurry image loses points once,
+      under Legibility, rather than twice.
     - Details: components that are drawn (PRESENT or MISLABELED) with a readable label;
       a component fails only when it is MISLABELED. Unreadable labels are scored under
       Legibility instead.
     A missing component therefore costs Presence only, a wrong label costs Details only,
-    and tiny text costs Legibility only, so no failure is counted twice.
+    and tiny or blurry text costs Legibility only, so no failure is counted twice.
+    ``typical`` components (what such a diagram usually shows, beyond what the description
+    calls for) are not scored under Presence; whether they are drawn is only noted.
     """
     decided = list(verdicts)
     drawn = [
@@ -281,24 +295,31 @@ def component_metrics(
     results: list[MetricScore] = []
 
     if presence is not None:
+        scored = [
+            item for item in decided if item.verdict != Verdict.UNCERTAIN and item.component_id not in typical
+        ]
         issues = [
             Issue(
                 f"Expected component is not visibly drawn ({item.verdict.value}): {item.component_id}",
                 presence.severity,
                 [item.component_id],
             )
-            for item in decided
-            if item.verdict in {Verdict.ABSENT, Verdict.UNCERTAIN}
+            for item in scored
+            if item.verdict == Verdict.ABSENT
+        ]
+        typical_missing = [
+            item.component_id for item in decided if item.component_id in typical and item.verdict == Verdict.ABSENT
         ]
         results.append(
             MetricScore(
                 criterion_id=presence.id,
                 dimension=presence.dimension,
                 judge=judge,
-                expected_count=len(decided),
+                expected_count=len(scored),
                 detected_issues=len(issues),
                 issues=issues,
-                notes=_uncertain_note(uncertain),
+                notes=_uncertain_note([item for item in uncertain if item not in typical])
+                + (f" Typical components not drawn (noted, not scored): {', '.join(typical_missing)}." if typical_missing else ""),
                 component_verdicts=list(verdicts),
             )
         )
@@ -334,10 +355,26 @@ def component_metrics(
     return results
 
 
+def typical_items(inventory: dict[str, Any]) -> tuple[frozenset[str], frozenset[str]]:
+    """Ids of components and connections (C1, C2, ...) marked tier "typical" in the inventory.
+
+    Items without a tier (older frozen inventories) are required.
+    """
+    components = frozenset(
+        item["id"] for item in inventory.get("components", []) if item.get("tier") == "typical"
+    )
+    connections = frozenset(
+        f"C{index + 1}"
+        for index, item in enumerate(inventory.get("connections", []))
+        if item.get("tier") == "typical"
+    )
+    return components, connections
+
+
 def _uncertain_note(uncertain: list[str]) -> str:
     if not uncertain:
         return ""
-    return "Counted as not visibly drawn because the judge could not tell: " + ", ".join(uncertain)
+    return "Not scored here; too small or blurry to tell, so scored under Legibility: " + ", ".join(uncertain)
 
 
 def feedback_edges(components: list[dict[str, Any]], connections: list[dict[str, Any]]) -> set[int]:
@@ -391,6 +428,8 @@ def connection_metrics(
     precision: Criterion | None,
     labels: Criterion | None,
     accept_abbreviations: bool = False,
+    typical: frozenset[str] = frozenset(),
+    other_arrows: int = 0,
 ) -> list[MetricScore]:
     """Score Connectivity and connection labels from one judge's per-connection verdicts.
 
@@ -404,6 +443,10 @@ def connection_metrics(
     - Connection labels: applicable connections that are drawn and carry an expected
       label (for example YES/NO). The visible label is compared in code, not by the judge.
       Unreadable labels are left to Legibility.
+    ``typical`` connection ids (what such a diagram usually shows, beyond what the
+    description calls for) are not scored for recall, and a reversed one is not an error.
+    ``other_arrows`` counts drawn arrows that fit the diagram but are not on the checklist;
+    they are correct, so they only enlarge the precision denominator.
     """
     extras = [(item, []) if isinstance(item, str) else (item[0], list(item[1])) for item in extra_arrows]
     applicable = [
@@ -421,14 +464,15 @@ def connection_metrics(
                 [item.source, item.target],
             )
             for item in applicable
-            if item.status in {ConnectionStatus.ABSENT, ConnectionStatus.UNCERTAIN}
+            if item.connection_id not in typical
+            and item.status in {ConnectionStatus.ABSENT, ConnectionStatus.UNCERTAIN}
         ]
         results.append(
             MetricScore(
                 criterion_id=recall.id,
                 dimension=recall.dimension,
                 judge=judge,
-                expected_count=len(applicable),
+                expected_count=sum(1 for item in applicable if item.connection_id not in typical),
                 detected_issues=len(issues),
                 issues=issues,
                 notes=(
@@ -439,17 +483,20 @@ def connection_metrics(
         )
 
     if precision is not None:
-        reversed_items = [item for item in applicable if item.status == ConnectionStatus.REVERSED]
+        # A typical connection's direction is only a guess, so drawing it the other way is not an error.
+        reversed_items = [
+            item for item in applicable if item.status == ConnectionStatus.REVERSED and item.connection_id not in typical
+        ]
         issues = [
             Issue(f"Arrow points the wrong way: {item.target} -> {item.source}", precision.severity, [item.source, item.target])
             for item in reversed_items
-        ] + [Issue(f"Arrow that the description does not call for: {text}", precision.severity, ids) for text, ids in extras]
+        ] + [Issue(f"Wrong arrow (contradicts the described flow, dangling, or duplicate): {text}", precision.severity, ids) for text, ids in extras]
         results.append(
             MetricScore(
                 criterion_id=precision.id,
                 dimension=precision.dimension,
                 judge=judge,
-                expected_count=len(drawn) + len(extras),
+                expected_count=len(drawn) + other_arrows + len(extras),
                 detected_issues=len(issues),
                 issues=issues,
                 notes="Every drawn arrow is checked: reversed, extra, dangling, and duplicate arrows fail.",
@@ -508,14 +555,20 @@ def legibility_from_verdicts(
         for item_id, legible in texts
         if not legible
     ]
+    # Components the judge could not make out at all count here, not under Presence.
+    blurred = [item.component_id for item in components if item.verdict == Verdict.UNCERTAIN]
+    issues += [
+        Issue(f"Component cannot be made out; the image is too small or blurry: {item_id}", criterion.severity, [item_id])
+        for item_id in blurred
+    ]
     return MetricScore(
         criterion_id=criterion.id,
         dimension=criterion.dimension,
         judge=judge,
-        expected_count=len(texts),
+        expected_count=len(texts) + len(blurred),
         detected_issues=len(issues),
         issues=issues,
-        notes="One check per drawn component label and connection label.",
+        notes="One check per drawn component label and connection label, plus each component too blurry to make out.",
     )
 
 

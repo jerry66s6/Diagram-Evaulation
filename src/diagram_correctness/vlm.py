@@ -4,6 +4,7 @@ import base64
 import json
 import mimetypes
 import struct
+import threading
 from abc import ABC, abstractmethod
 from collections import Counter
 from concurrent.futures import ThreadPoolExecutor
@@ -37,6 +38,7 @@ from .models import (
     drawn_component_ids,
     feedback_edges,
     legibility_from_verdicts,
+    typical_items,
 )
 
 # Two component verdicts whose boxes overlap this much are treated as the same drawn element.
@@ -82,8 +84,10 @@ INVENTORY_SCHEMA: dict[str, Any] = {
                     "id": {"type": "string"},
                     "label": {"type": "string"},
                     "kind": {"type": "string"},
+                    # "required": the description calls for it; "typical": such a diagram usually shows it.
+                    "tier": {"type": "string", "enum": ["required", "typical"]},
                 },
-                "required": ["id", "label", "kind"],
+                "required": ["id", "label", "kind", "tier"],
                 "additionalProperties": False,
             },
         },
@@ -96,8 +100,9 @@ INVENTORY_SCHEMA: dict[str, Any] = {
                     "target": {"type": "string"},
                     # Text the description says the arrow carries, e.g. "YES"; "" if none.
                     "label": {"type": "string"},
+                    "tier": {"type": "string", "enum": ["required", "typical"]},
                 },
-                "required": ["source", "target", "label"],
+                "required": ["source", "target", "label", "tier"],
                 "additionalProperties": False,
             },
         },
@@ -192,6 +197,31 @@ JUDGE_SCHEMA: dict[str, Any] = {
                 "additionalProperties": False,
             },
         },
+        # Part C (continued): other drawn content that fits the diagram; it only enters denominators.
+        "other_components": {
+            "type": "array",
+            "items": {
+                "type": "object",
+                "properties": {
+                    "visible_text": {"type": "string"},
+                    "location": _LOCATION_SCHEMA,
+                },
+                "required": ["visible_text", "location"],
+                "additionalProperties": False,
+            },
+        },
+        "other_connections": {
+            "type": "array",
+            "items": {
+                "type": "object",
+                "properties": {
+                    "from_text": {"type": "string"},
+                    "to_text": {"type": "string"},
+                },
+                "required": ["from_text", "to_text"],
+                "additionalProperties": False,
+            },
+        },
         # Part D: failure counts only; the denominators are computed from Parts A-C.
         "metrics": {
             "type": "array",
@@ -226,7 +256,7 @@ JUDGE_SCHEMA: dict[str, Any] = {
             },
         },
     },
-    "required": ["components", "connections", "extra_components", "extra_connections", "metrics"],
+    "required": ["components", "connections", "extra_components", "extra_connections", "other_components", "other_connections", "metrics"],
     "additionalProperties": False,
 }
 
@@ -247,9 +277,9 @@ ATOMIC_METRICS = frozenset(
 # What one opportunity is for each counted criterion; the judge counts failures only.
 COUNTING_RULES = {
     "description_order": (
-        "Opportunities: expected connections whose two components are both drawn, except connections that loop "
-        "back to an earlier step. Count one issue per such connection that runs against the diagram's main "
-        "reading direction."
+        "Opportunities: required Part B connections whose two components are both drawn, except connections that "
+        "loop back to an earlier step. Count one issue per such connection that runs against the diagram's main "
+        "reading direction. Typical connections are guesses and are not checked here."
     ),
     "canvas_bounds": (
         "Opportunities: every drawn component and every drawn arrow. Count one issue per component or arrow that "
@@ -263,6 +293,14 @@ COUNTING_RULES = {
     "text_overflow": (
         "Opportunities: every drawn component label and every drawn connection label. Count one issue per text "
         "that spills out of its box, is clipped, or collides with other text."
+    ),
+    "connector_routing": (
+        "Opportunities: every drawn arrow. Count one issue per arrow that passes through a component or across "
+        "text, crosses other arrows where a cleaner route was possible, or takes a confusing detour."
+    ),
+    "text_contrast": (
+        "Opportunities: every drawn component label and every drawn connection label. Count one issue per text "
+        "whose color is too close to its background to read easily, such as light text on a light fill."
     ),
 }
 _DEFAULT_COUNTING_RULE = (
@@ -322,6 +360,7 @@ def _component_checklist(inventory: dict[str, Any]) -> list[dict[str, str]]:
                 "component_id": component_id,
                 "expected_label": component.get("label", ""),
                 "kind": component.get("kind", ""),
+                "tier": component.get("tier", "required"),
                 "context": "; ".join(context),
             }
         )
@@ -381,6 +420,7 @@ def parse_component_verdicts(
     component_ids: list[str],
     judge: str,
     image_size: tuple[int, int] | None = None,
+    labels: dict[str, str] | None = None,
 ) -> list[ComponentVerdict]:
     """Validate a judge's per-component answers and return them in inventory order.
 
@@ -390,7 +430,9 @@ def parse_component_verdicts(
     Downgraded to ABSENT (with a note), to guard against "yes" answers without evidence:
     - PRESENT without quoted visible text or without a usable location;
     - MISLABELED without a usable location;
-    - a component that claims the same drawn element as an earlier component.
+    - a component that claims the same drawn element as an earlier component. With
+      ``labels``, only components with the same expected label (repeated blocks) conflict;
+      one drawn element may otherwise cover several roles, such as a box combining two steps.
     """
     expected = set(component_ids)
     seen: dict[str, dict[str, Any]] = {}
@@ -422,6 +464,11 @@ def parse_component_verdicts(
                     earlier.verdict in {Verdict.PRESENT, Verdict.MISLABELED}
                     and earlier.bounds is not None
                     and _iou(earlier.bounds, bounds) >= SAME_ELEMENT_IOU
+                    and (
+                        labels is None
+                        or labels.get(earlier.component_id, "").strip().casefold()
+                        == labels.get(component_id, "").strip().casefold()
+                    )
                 ):
                     verdict = Verdict.ABSENT
                     notes = f"downgraded: claims the same drawn element as {earlier.component_id}"
@@ -459,6 +506,7 @@ def _connection_checklist(inventory: dict[str, Any]) -> list[dict[str, str]]:
             "from": name(edge.get("source", "")),
             "to": name(edge.get("target", "")),
             "expected_label": edge.get("label", "") or "",
+            "tier": edge.get("tier", "required"),
         }
         for index, edge in enumerate(inventory.get("connections", []))
     ]
@@ -510,6 +558,9 @@ class JudgeSample:
     connections: list[ConnectionVerdict]
     extra_components: list[str] = field(default_factory=list)
     extra_connections: list[str] = field(default_factory=list)
+    # Drawn content beyond the checklist that fits the diagram; counted in denominators only.
+    other_components: list[str] = field(default_factory=list)
+    other_connections: list[str] = field(default_factory=list)
     # criterion id -> (detected issues, issues, notes)
     counted: dict[str, tuple[int, list[Issue], str]] = field(default_factory=dict)
 
@@ -567,6 +618,8 @@ def merge_samples(samples: list[JudgeSample]) -> JudgeSample:
         connections=connections,
         extra_components=median_sample(lambda sample: len(sample.extra_components)).extra_components,
         extra_connections=median_sample(lambda sample: len(sample.extra_connections)).extra_connections,
+        other_components=median_sample(lambda sample: len(sample.other_components)).other_components,
+        other_connections=median_sample(lambda sample: len(sample.other_connections)).other_connections,
         counted=counted,
     )
 
@@ -586,6 +639,9 @@ class OpenAIBackend(VLMBackend):
         self.model = model
         self.name = model
         self.client = OpenAI()
+        # Token counts over every call this backend makes, so a run's cost can be worked out.
+        self.usage = {"calls": 0, "input_tokens": 0, "cached_input_tokens": 0, "output_tokens": 0, "reasoning_tokens": 0}
+        self._usage_lock = threading.Lock()
 
     def structured(self, prompt: str, images: list[str | Path], schema: dict[str, Any], schema_name: str) -> dict[str, Any]:
         content: list[dict[str, Any]] = [{"type": "input_text", "text": prompt}]
@@ -606,6 +662,14 @@ class OpenAIBackend(VLMBackend):
                 "verbosity": "low",
             },
         )
+        usage = response.usage
+        with self._usage_lock:
+            self.usage["calls"] += 1
+            if usage is not None:
+                self.usage["input_tokens"] += usage.input_tokens or 0
+                self.usage["output_tokens"] += usage.output_tokens or 0
+                self.usage["cached_input_tokens"] += getattr(usage.input_tokens_details, "cached_tokens", 0) or 0
+                self.usage["reasoning_tokens"] += getattr(usage.output_tokens_details, "reasoning_tokens", 0) or 0
         return json.loads(response.output_text)
 
 
@@ -616,20 +680,31 @@ class ExpectationExtractor:
     def extract(self, description: str, criteria: list[Criterion]) -> dict[str, Any]:
         prompt = (
             "You are stage 1 of a description-to-diagram alignment evaluator. Read only the written diagram "
-            "description below. There is no candidate image in this stage. Infer a frozen inventory of concrete, "
-            "countable expectations for all five dimensions. Presence must enumerate every expected component, "
-            "group, input, output, and repeated block, and nothing else: connections belong under Connectivity "
-            "only. Details must enumerate exact meaningful labels and content "
-            "and must explicitly reject missing or placeholder labels. Connectivity must list each intended "
-            "directed source-to-target connection. Layout must describe sensible ordering, containment, overlap, "
-            "and canvas expectations. Legibility must describe readable text expectations. Do not score. Do not "
-            "add decorative requirements not implied by the description. Also return an ordered components list. "
-            "Give each component a unique snake_case id, its exact expected visible label, and a short kind. Preserve "
-            "repeated components as separate entries with separate ids. Return connections using only those component "
-            "ids, directed from source to target. Give each connection the exact text the description says the "
-            "arrow carries, such as a condition or a YES/NO branch, in label; use an empty string when the "
-            "description gives none. Return explicit forbidden placeholder strings. Use short, atomic "
-            "strings.\n\nShared rubric:\n"
+            "description below; it may be a detailed specification or a short figure caption. There is no "
+            "candidate image in this stage. Imagine you were asked to draw this diagram, and write down what it "
+            "should contain: the components (steps, stages, groups, inputs, outputs, decisions, repeated blocks) "
+            "and the directed connections of the intended flow. Describe each component by its role; when the "
+            "description gives a component an exact name, use that name as its label, otherwise give a short label "
+            "naming the role (the drawing may word it differently). Mark each component and connection with a "
+            "tier: 'required' when the description states it or it follows directly from the description, and "
+            "'typical' when such a diagram usually shows it but the description does not call for it. For a "
+            "detailed specification most items are required; for a short caption keep required items to what the "
+            "caption actually says and put the rest under typical. Do not invent specific names, numbers, or "
+            "details the description does not give. Components are the boxes or nodes a reader would see: the "
+            "diagram's overall subject or title (such as 'Experimental procedure' or 'Flowchart of the trial') is "
+            "not a component, and notes, footnotes, abbreviation definitions, and remarks about the analysis are "
+            "not components unless they name a step that would be drawn as its own box. Presence must enumerate the components and nothing else: "
+            "connections belong under Connectivity only. Details must describe meaningful labels and reject missing "
+            "or placeholder labels. Layout must describe sensible ordering, containment, overlap, routing, and "
+            "canvas expectations. Legibility must describe readable text expectations. Do not score. Do not add "
+            "decorative requirements. Also return an ordered components list. Give each component a unique "
+            "snake_case id, its label, a short kind, and its tier. Preserve repeated components as separate entries "
+            "with separate ids. Return connections using only those component ids, directed from source to target, "
+            "each with a tier; a connection is required only when the description implies it and both its "
+            "components are required. Give a connection a label only when the description says that text is written "
+            "on the arrow itself, such as YES/NO on the branches of a decision; categories, conditions, or outcomes "
+            "the description names as steps or groups are components, not arrow labels. Otherwise use an empty "
+            "string. Return explicit forbidden placeholder strings. Use short, atomic strings.\n\nShared rubric:\n"
             + json.dumps(_criterion_payload(criteria), ensure_ascii=False)
             + "\n\nDiagram description:\n"
             + description
@@ -640,6 +715,9 @@ class ExpectationExtractor:
         }
         for edge in data.get("connections", []):
             edge.setdefault("label", "")
+            edge.setdefault("tier", "required")
+        for component in data.get("components", []):
+            component.setdefault("tier", "required")
         return data
 
 
@@ -670,7 +748,7 @@ class VLMJudge:
         counted = [criterion for criterion in criteria if _metric_key(criterion) not in ATOMIC_METRICS]
         checklist = _component_checklist(inventory)
         connections = [
-            {key: item[key] for key in ("connection_id", "from", "to", "expected_label")}
+            {key: item[key] for key in ("connection_id", "from", "to", "expected_label", "tier")}
             for item in _connection_checklist(inventory)
         ]
         return (
@@ -678,40 +756,58 @@ class VLMJudge:
             "CANDIDATE. Evaluate it against the written description and the frozen stage-1 inventory. Do not "
             "invent a different target. Evidence must refer to visible candidate elements. Judge every part on its "
             "own: a placement problem is not a missing component, a crossing arrow is not a missing connection, and "
-            "tiny text is not a wrong label.\n\n"
+            "tiny text is not a wrong label. Each checklist item has a tier: 'required' items are what the "
+            "description calls for; 'typical' items are only a guess at what such a diagram often shows. Answer "
+            "typical items the same way, but never treat the drawing as wrong because it is organized differently "
+            "from them (different groups, steps, branches, or directions).\n\n"
             "PART A - component checklist (field 'components'). Return exactly one entry for every component_id "
             "below, in any order, and no other ids. Answer each item on its own:\n"
-            "- present: a visible element plays this component's role and its label matches the expected label "
-            "(ignore case, punctuation, and line breaks).\n"
+            "- present: a visible element plays this component's role and its label names that role. Match by "
+            "meaning, not wording: different words with the same meaning count as present, and the expected label "
+            "only names the role. Ignore case, punctuation, and line breaks.\n"
             "- mislabeled: a visible element plays this role (recognizable from its label, position, grouping, or "
-            "arrows), but its label is abbreviated, incomplete, different, missing, or a placeholder.\n"
+            "arrows), but its label is missing, a placeholder, or names something else.\n"
             "- absent: no visible element plays this role.\n"
-            "- uncertain: you cannot tell whether any element plays this role. This is scored as not drawn, so use "
-            "it only when the image truly does not allow a decision.\n"
+            "- uncertain: the image is too small, blurry, or low-resolution to tell whether any element plays this "
+            "role. This is not counted as missing; it is scored as unreadable under Legibility. Use it only when image "
+            "quality prevents a decision; if you can see clearly that no element plays this role, answer absent.\n"
             + _policy_rules(self.policy)
             + "\nSet label_legible to false when the element is drawn but its text is too small, blurry, or clipped "
             "to read. In that case still decide present or mislabeled from what you can see, quote what you can "
             "read, and never call a label wrong only because it is hard to read. "
             "Rules: quote the element's visible text exactly as drawn in visible_text ('' if it has none). Give "
             "location as the element's bounding box in normalized image coordinates from 0 to 1 (x0, y0 top-left; "
-            "x1, y1 bottom-right); use all zeros when absent. Each drawn element may be used for at most one "
-            "component_id. Judge only whether the component itself is drawn and labeled; placement and arrows are "
-            "judged elsewhere.\n\n"
+            "x1, y1 bottom-right); use all zeros when absent. One drawn element may cover several checklist items when "
+            "it clearly plays all those roles (for example one box that combines two steps), and several drawn "
+            "elements may together cover one item; give the location of the main one. Components with the same "
+            "expected label (repeated blocks) must each match a different drawn element. Judge only whether the "
+            "component itself is drawn and labeled; placement and arrows are judged elsewhere.\n\n"
             "PART B - connection checklist (field 'connections'). Return exactly one entry for every connection_id "
             "below, and no other ids:\n"
-            "- present: an arrow joins the two components and points from 'from' to 'to'.\n"
-            "- reversed: an arrow joins them but points from 'to' to 'from'.\n"
-            "- absent: no arrow joins them, including when either component is not drawn.\n"
+            "- present: arrows lead from 'from' to 'to', directly or through drawn intermediate steps that are not "
+            "in the checklist (extra detail between the two is fine).\n"
+            "- reversed: they lead from 'to' to 'from' instead.\n"
+            "- absent: no arrows lead from one to the other, including when either component is not drawn.\n"
             "- uncertain: you cannot tell; this is scored as absent.\n"
             "Trace each arrow from end to end. Long routes, bends, crossings, and poor placement do not make a "
             "connection absent if you can follow it. Quote the text written on or next to the arrow in "
             "visible_label ('' if there is none), whether or not a label is expected, and set label_legible to "
             "false if that text is too small or blurry to read.\n\n"
-            "PART C - extras. In 'extra_components', list every drawn box or node that plays no role in the Part A "
-            "checklist, such as an invented or duplicated step. Do not list titles, captions, legends, arrowheads, "
-            "or a container frame that groups listed components. In 'extra_connections', list every drawn arrow "
-            "that matches no Part B connection in either direction, including duplicate arrows; give the text of "
-            "the elements at its two ends.\n\n"
+            "PART C - extras. The checklist is a sketch of what the diagram should contain, not a complete list, and "
+            "its typical items are guesses; judge the drawing against the description, not against the sketch. "
+            "additional detail that fits the described diagram (extra steps, sub-steps, counts, exclusion or "
+            "side boxes) is fine and is NOT extra. In 'extra_components', list only drawn boxes or nodes that do "
+            "not belong in this diagram: unrelated to what the description is about, duplicated by mistake, or "
+            "contradicting the description. Do not list titles, captions, legends, arrowheads, or a container frame "
+            "that groups components. In 'extra_connections', list only drawn arrows that are wrong: they contradict "
+            "the described flow, connect parts that should not be connected, dangle with an end attached to "
+            "nothing, or duplicate another arrow; give the text of the elements at its two ends. Arrows to or from "
+            "additional detail that fits the diagram are not extra. When unsure whether something belongs, it "
+            "belongs: list it under the other lists below, not as extra. Then list everything else that is drawn: in "
+            "'other_components', every other box or node that is neither a checklist component nor extra (the "
+            "additional detail that fits), with its visible text and location; in 'other_connections', every other "
+            "drawn arrow that is neither a Part B connection nor extra, with the text at its two ends. These lists "
+            "are not penalized; they make sure every drawn element is counted.\n\n"
             "PART D - counted criteria (field 'metrics'). Return one entry for every criterion listed here, with "
             "detected_issues as the number of failures under its counting rule. The number of opportunities is "
             "computed from your Part A-C answers, so report failures only, and count each failing item once.\n\n"
@@ -729,7 +825,7 @@ class VLMJudge:
             )
             + "\n\nDiagram description:\n"
             + description
-            + "\n\nFrozen description-derived inventory:\n"
+            + "\n\nFrozen description-derived inventory (a sketch of the expected diagram):\n"
             + json.dumps(inventory, ensure_ascii=False)
         )
 
@@ -784,6 +880,7 @@ class VLMJudge:
             [item["component_id"] for item in checklist],
             self.name,
             _png_size(candidate_image),
+            {item["component_id"]: item["expected_label"] for item in checklist},
         )
         if "connections" not in data and connection_checklist:
             raise RuntimeError(f"{self.name} returned no connection verdicts")
@@ -799,6 +896,16 @@ class VLMJudge:
         extra_connections = [
             f"'{item.get('from_text', '').strip()}' -> '{item.get('to_text', '').strip()}'"
             for item in data.get("extra_connections", [])
+        ]
+        other_components = []
+        for item in data.get("other_components", []):
+            box = _normalized_box(item["location"], _png_size(candidate_image)) if "location" in item else None
+            if box is not None and any(_iou(box, other) >= SAME_ELEMENT_IOU for other in drawn_boxes):
+                continue  # the same element as a listed component
+            other_components.append(item.get("visible_text", "").strip())
+        other_connections = [
+            f"'{item.get('from_text', '').strip()}' -> '{item.get('to_text', '').strip()}'"
+            for item in data.get("other_connections", [])
         ]
 
         counted_ids = {criterion.id for criterion in criteria if _metric_key(criterion) not in ATOMIC_METRICS}
@@ -822,7 +929,9 @@ class VLMJudge:
         missing = counted_ids - set(counted)
         if missing:
             raise RuntimeError(f"{self.name} omitted rubric criteria: {sorted(missing)}")
-        return JudgeSample(components, connections, extra_components, extra_connections, counted)
+        return JudgeSample(
+            components, connections, extra_components, extra_connections, other_components, other_connections, counted
+        )
 
     def _score(
         self,
@@ -835,7 +944,10 @@ class VLMJudge:
         presence = by_metric.get(METRIC_PRESENCE) or by_id.get(PRESENCE_CRITERION_ID)
         details = by_metric.get(METRIC_LABELS) or by_id.get(DETAILS_CRITERION_ID)
         drawn = drawn_component_ids(sample.components)
-        results = component_metrics(sample.components, self.name, presence=presence, details=details)
+        typical_components, typical_connections = typical_items(inventory)
+        results = component_metrics(
+            sample.components, self.name, presence=presence, details=details, typical=typical_components
+        )
         results += connection_metrics(
             sample.connections,
             drawn,
@@ -845,6 +957,8 @@ class VLMJudge:
             precision=by_metric.get(METRIC_ATTACHMENT),
             labels=by_metric.get(METRIC_CONNECTION_LABELS),
             accept_abbreviations=self.policy.accept_abbreviations,
+            typical=typical_connections,
+            other_arrows=len(sample.other_connections),
         )
         unexpected = by_metric.get(METRIC_UNEXPECTED)
         if unexpected is not None:
@@ -853,13 +967,13 @@ class VLMJudge:
                     criterion_id=unexpected.id,
                     dimension=unexpected.dimension,
                     judge=self.name,
-                    expected_count=len(drawn) + len(sample.extra_components),
+                    expected_count=len(drawn) + len(sample.other_components) + len(sample.extra_components),
                     detected_issues=len(sample.extra_components),
                     issues=[
-                        Issue(f"Drawn component that the description does not call for: {text}", unexpected.severity)
+                        Issue(f"Drawn component that does not belong in this diagram: {text}", unexpected.severity)
                         for text in sample.extra_components
                     ],
-                    notes="Denominator: drawn expected components plus unexpected ones.",
+                    notes="Denominator: every drawn component (checklist, other fitting detail, and extra).",
                 )
             )
         font = by_metric.get(METRIC_MINIMUM_FONT)
@@ -900,18 +1014,29 @@ class VLMJudge:
             item for item in sample.components
             if item.verdict in {Verdict.PRESENT, Verdict.MISLABELED} and item.visible_text.strip()
         ]
+        # Every drawn element counts: checklist items, other fitting detail, and extras.
+        boxes = [*drawn, *sample.other_components, *sample.extra_components]
+        arrows = [*drawn_links, *sample.other_connections, *sample.extra_connections]
+        texts = [
+            *component_texts,
+            *(text for text in sample.other_components if text),
+            *(item for item in drawn_links if item.visible_label.strip()),
+        ]
         return {
             "description_order": sum(
                 1
                 for index, edge in enumerate(connections)
                 if index not in feedback
+                and edge.get("tier") != "typical"
                 and edge.get("source") != edge.get("target")
                 and edge.get("source") in drawn
                 and edge.get("target") in drawn
             ),
-            "canvas_bounds": len(drawn) + len(drawn_links) + len(sample.extra_connections),
-            "unintended_overlap": len(drawn),
-            "text_overflow": len(component_texts) + sum(1 for item in drawn_links if item.visible_label.strip()),
+            "canvas_bounds": len(boxes) + len(arrows),
+            "unintended_overlap": len(boxes),
+            "text_overflow": len(texts),
+            "connector_routing": len(arrows),
+            "text_contrast": len(texts),
         }
 
 

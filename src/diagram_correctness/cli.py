@@ -2,6 +2,7 @@ from __future__ import annotations
 
 import argparse
 import json
+import os
 import sys
 from pathlib import Path
 
@@ -40,7 +41,10 @@ def main(argv: list[str] | None = None) -> int:
     try:
         settings = load_config(args.config)
         criteria = load_rubric(args.rubric)
-        models = settings["models"]
+        models = dict(settings["models"])
+        # OPENAI_MODEL (for example from .env) overrides both models in the config.
+        if os.environ.get("OPENAI_MODEL"):
+            models["judge"] = models["expectation"] = os.environ["OPENAI_MODEL"]
         policy = PresencePolicy.from_dict(settings.get("presence_policy"))
         judges = [VLMJudge(OpenAIBackend(models["judge"]), policy, samples=int(settings.get("judge_samples", 1)))]
         geometry = settings.get("geometry", {})
@@ -69,6 +73,7 @@ def main(argv: list[str] | None = None) -> int:
                 fallback_frequencies=settings.get("fallback_frequencies"),
                 weighting=settings.get("weighting", "auto"),
                 dimension_reducer=settings.get("dimension_reducer", "mean"),
+                error_factor=settings.get("error_factor"),
             )
         )
         description = Path(args.description).read_text(encoding="utf-8")

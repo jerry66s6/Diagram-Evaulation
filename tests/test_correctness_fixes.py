@@ -230,7 +230,9 @@ def _gpt_answer(a_verdict: str = "present", overlap: int = 9) -> dict:
             {"criterion_id": "layout.order", "detected_issues": 0, "issues": [], "notes": ""},
             {"criterion_id": "layout.canvas", "detected_issues": 0, "issues": [], "notes": ""},
             {"criterion_id": "layout.overlap", "detected_issues": overlap, "issues": [], "notes": ""},
+            {"criterion_id": "layout.routing", "detected_issues": 0, "issues": [], "notes": ""},
             {"criterion_id": "legibility.overflow", "detected_issues": 0, "issues": [], "notes": ""},
+            {"criterion_id": "legibility.contrast", "detected_issues": 0, "issues": [], "notes": ""},
         ],
     }
 
@@ -273,8 +275,8 @@ def test_gpt_scores_every_criterion_from_item_verdicts(tmp_path: Path) -> None:
     assert _counts(results["connectivity.connections"]) == (0, 2)
     assert _counts(results["connectivity.endpoints"]) == (2, 3)  # reversed C2 and the extra arrow
     assert _counts(results["details.connection_labels"]) == (1, 1)  # YES expected, NO drawn
-    # The model said 9 overlaps, but only three components are drawn.
-    assert _counts(results["layout.overlap"]) == (3, 3)
+    # The model said 9 overlaps, but only four components are drawn (three listed plus Logger).
+    assert _counts(results["layout.overlap"]) == (4, 4)
     assert _counts(results["layout.order"]) == (0, 2)
     assert "Connection checklist (Part B)" in backend.prompt
     assert "a crossing arrow is not a missing connection" in backend.prompt

@@ -16,6 +16,7 @@ from diagram_correctness.models import (
     Verdict,
     component_agreement,
     component_metrics,
+    legibility_from_verdicts,
 )
 from diagram_correctness.rubric import load_rubric
 from diagram_correctness.svg import parse_svg
@@ -26,6 +27,7 @@ ROOT = Path(__file__).resolve().parents[1]
 EXAMPLES = ROOT / "examples" / "transformer"
 PRESENCE = Criterion("presence.elements", Dimension.PRESENCE, "", Severity.HIGH, "description_presence")
 DETAILS = Criterion("details.labels", Dimension.DETAILS, "", Severity.HIGH, "meaningful_labels")
+LEGIBILITY = Criterion("legibility.minimum_font", Dimension.LEGIBILITY, "", Severity.HIGH, "minimum_font_size")
 
 
 def _verdicts(pairs: list[tuple[str, Verdict]]) -> list[ComponentVerdict]:
@@ -62,12 +64,14 @@ def test_each_failure_is_counted_in_exactly_one_dimension() -> None:
     assert results["details.labels"].score == pytest.approx(0.6)
 
 
-def test_uncertain_items_count_as_not_drawn() -> None:
-    # Dropping uncertain items from the denominator would let a less certain judge score higher.
+def test_uncertain_items_are_scored_under_legibility_not_presence() -> None:
+    # A component too blurry to make out costs Legibility once, not Presence as well.
     verdicts = _verdicts([("a", Verdict.PRESENT), ("b", Verdict.UNCERTAIN), ("c", Verdict.ABSENT)])
     presence = _by_criterion(component_metrics(verdicts, "judge", PRESENCE, DETAILS))["presence.elements"]
-    assert (presence.detected_issues, presence.expected_count) == (2, 3)
+    assert (presence.detected_issues, presence.expected_count) == (1, 2)
     assert "b" in presence.notes
+    legibility = legibility_from_verdicts(verdicts, [], "judge", LEGIBILITY)
+    assert [issue.element_ids for issue in legibility.issues] == [["b"]]
 
 
 def test_details_is_not_applicable_when_nothing_is_drawn() -> None:
