@@ -11,6 +11,7 @@ requires-python = ">=3.11"
 dependencies = [
   "cairosvg>=2.7.1",
   "openai>=1.99.0",
+  "pillow>=10.1",
 ]
 
 [project.optional-dependencies]

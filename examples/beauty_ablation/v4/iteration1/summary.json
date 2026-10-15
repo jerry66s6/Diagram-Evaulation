@@ -1,0 +1,421 @@
+{
+  "created_at": "2026-10-15T18:02:40.507611+00:00",
+  "mode": "Live run using internal vision judge, 3 repeats per image and dimension",
+  "repeats": 3,
+  "dimensions": [
+    "centering",
+    "space_use",
+    "color_consistency",
+    "contrast"
+  ],
+  "measurements": {
+    "baseline": {
+      "margins_px": [
+        195,
+        195,
+        170,
+        170
+      ],
+      "worst_margin_ratio": 1.0,
+      "span_width_pct": 67.5,
+      "span_height_pct": 54.5,
+      "min_gap_to_node_pct": 88.2,
+      "hue_families": 2,
+      "roles_consistent": true,
+      "fill_luminance": [
+        0.12,
+        0.119,
+        0.119,
+        0.119,
+        0.119,
+        0.12
+      ],
+      "min_box_contrast": 6.18,
+      "arrow_contrast": 9.65
+    },
+    "degraded_centering": {
+      "margins_px": [
+        24,
+        366,
+        24,
+        317
+      ],
+      "worst_margin_ratio": 15.25,
+      "span_width_pct": 67.5,
+      "span_height_pct": 54.5,
+      "min_gap_to_node_pct": 88.2,
+      "hue_families": 2,
+      "roles_consistent": true,
+      "fill_luminance": [
+        0.12,
+        0.119,
+        0.119,
+        0.119,
+        0.119,
+        0.12
+      ],
+      "min_box_contrast": 6.18,
+      "arrow_contrast": 9.65
+    },
+    "degraded_space_use": {
+      "margins_px": [
+        319,
+        319,
+        244,
+        244
+      ],
+      "worst_margin_ratio": 1.0,
+      "span_width_pct": 46.8,
+      "span_height_pct": 34.8,
+      "min_gap_to_node_pct": 15.3,
+      "hue_families": 2,
+      "roles_consistent": true,
+      "fill_luminance": [
+        0.12,
+        0.119,
+        0.119,
+        0.119,
+        0.119,
+        0.12
+      ],
+      "min_box_contrast": 6.18,
+      "arrow_contrast": 9.65
+    },
+    "degraded_color_consistency": {
+      "margins_px": [
+        195,
+        195,
+        170,
+        170
+      ],
+      "worst_margin_ratio": 1.0,
+      "span_width_pct": 67.5,
+      "span_height_pct": 54.5,
+      "min_gap_to_node_pct": 88.2,
+      "hue_families": 6,
+      "roles_consistent": false,
+      "fill_luminance": [
+        0.119,
+        0.122,
+        0.121,
+        0.12,
+        0.12,
+        0.122
+      ],
+      "min_box_contrast": 6.11,
+      "arrow_contrast": 9.65
+    },
+    "degraded_contrast": {
+      "margins_px": [
+        195,
+        195,
+        170,
+        170
+      ],
+      "worst_margin_ratio": 1.0,
+      "span_width_pct": 67.5,
+      "span_height_pct": 54.5,
+      "min_gap_to_node_pct": 88.2,
+      "hue_families": 2,
+      "roles_consistent": true,
+      "fill_luminance": [
+        0.86,
+        0.856,
+        0.856,
+        0.856,
+        0.856,
+        0.86
+      ],
+      "min_box_contrast": 1.15,
+      "arrow_contrast": 1.37
+    }
+  },
+  "results": {
+    "baseline": {
+      "centering": {
+        "score": 99,
+        "std": 0.5,
+        "runs": [
+          100,
+          99,
+          99
+        ],
+        "observation": "Foreground bounding box is approximately x=195\u20131006 and y=169\u2013580 on a 1200\u00d7750 canvas, giving left/right margins of about 16%/16% and top/bottom margins of about 23%/23%. The visual centroid is essentially at the canvas center.",
+        "reasoning": "Both opposing margin pairs are nearly symmetric, with no meaningful displacement of the overall foreground group on either axis."
+      },
+      "space_use": {
+        "score": 71,
+        "std": 4.7,
+        "runs": [
+          68,
+          78,
+          68
+        ],
+        "observation": "After re-centering, the node group spans about 68% of the canvas width and 43% of its height. Horizontal gaps are roughly 85\u201390% of a node's width, and the vertical gap is about 155% of a node's height, so neighboring nodes are comfortably separated rather than squeezed.",
+        "reasoning": "Width use and gaps are generous, but the group occupies only about 43% of the canvas height, leaving substantial usable vertical space. This makes the layout noticeably compact on one axis despite otherwise comfortable spacing."
+      },
+      "color_consistency": {
+        "score": 100,
+        "std": 0.0,
+        "runs": [
+          100,
+          100,
+          100
+        ],
+        "observation": "2 chromatic hue families: green is used consistently for the Start/End terminal role, and blue is used consistently for all process-step boxes. Arrows are neutral gray and do not count as a theme color. Elements sharing each role use the same hue family.",
+        "reasoning": "The diagram uses a coherent two-hue theme with a stable color-to-role mapping: green for terminals and blue for process steps. There are no chromatic role inconsistencies."
+      },
+      "contrast": {
+        "score": 96,
+        "std": 0.0,
+        "runs": [
+          96,
+          96,
+          96
+        ],
+        "observation": "In grayscale, all boxes are distinctly darker than the near-white background, and the dark connectors/arrows also separate clearly. No boxes touch or overlap. The weakest pair is the connectors versus the background, but they remain immediately visible.",
+        "reasoning": "Every box and arrow has strong lightness separation from what it sits against. The connectors are somewhat thinner than the box shapes, but their dark value preserves excellent contrast."
+      }
+    },
+    "degraded_centering": {
+      "centering": {
+        "score": 19,
+        "std": 1.9,
+        "runs": [
+          18,
+          18,
+          22
+        ],
+        "observation": "Foreground bounding box is approximately x=2%-70% and y=3%-58% of the canvas, giving margins of about 2% left, 30% right, 3% top, and 42% bottom. The visual centroid is substantially displaced toward the upper-left of the canvas center.",
+        "reasoning": "Both axes are severely asymmetric: the right margin is roughly 15x the left, and the bottom margin is roughly 14x the top. The content is therefore strongly pushed toward the upper-left."
+      },
+      "space_use": {
+        "score": 67,
+        "std": 0.9,
+        "runs": [
+          68,
+          66,
+          68
+        ],
+        "observation": "After re-centering, the node group spans about 68% of the canvas width and 43% of its height. Neighboring-node gaps are generally large\u2014roughly around a full node size or more\u2014so the nodes do not feel squeezed, though substantial vertical canvas space remains unused.",
+        "reasoning": "Horizontal space is used well and gaps are very comfortable, but the roughly 43% vertical span falls into the noticeably condensed band. The main space-use limitation is therefore the relatively shallow vertical footprint despite ample available height."
+      },
+      "color_consistency": {
+        "score": 100,
+        "std": 0.0,
+        "runs": [
+          100,
+          100,
+          100
+        ],
+        "observation": "2 chromatic hue families: green is used consistently for the Start/End terminal nodes, and blue is used consistently for all process-step nodes. Arrows are neutral gray and do not count as a theme color. Elements with the same role share one hue family.",
+        "reasoning": "The diagram uses a coherent two-family palette with stable color-to-role mapping: green for terminals and blue for processes."
+      },
+      "contrast": {
+        "score": 97,
+        "std": 0.9,
+        "runs": [
+          96,
+          98,
+          96
+        ],
+        "observation": "In grayscale, all filled boxes separate strongly from the white background, and no boxes touch or overlap. The weakest pair is the dark gray arrows/connectors against the white background; they remain immediately and clearly visible.",
+        "reasoning": "Both node silhouettes and connector lines have strong lightness contrast against the background. Even the relatively thinner connectors are unambiguous and do not require effort to see."
+      }
+    },
+    "degraded_space_use": {
+      "centering": {
+        "score": 100,
+        "std": 0.0,
+        "runs": [
+          100,
+          100,
+          100
+        ],
+        "observation": "Foreground bounding box is approximately x=319\u2013881 and y=244\u2013506 on a 1200\u00d7750 canvas, giving left/right margins of about 27%/27% and top/bottom margins of about 33%/33%. The visual centroid is essentially at the canvas center.",
+        "reasoning": "Both opposing margin pairs are nearly perfectly symmetric, with no meaningful horizontal or vertical displacement."
+      },
+      "space_use": {
+        "score": 38,
+        "std": 0.0,
+        "runs": [
+          38,
+          38,
+          38
+        ],
+        "observation": "After re-centering, the node group spans roughly 47% of the canvas width and about 28% of the canvas height. Horizontal gaps are only around 15-20% of a node's width, while the vertical gap is about 25-30% of node height; substantial unused canvas remains around the group.",
+        "reasoning": "The flow is notably compressed vertically, with the node group occupying under 30% of the canvas height despite abundant available space. Neighboring nodes are also fairly tightly spaced, so the layout reads as condensed rather than comfortably spread."
+      },
+      "color_consistency": {
+        "score": 100,
+        "std": 0.0,
+        "runs": [
+          100,
+          100,
+          100
+        ],
+        "observation": "2 chromatic hue families: green is used consistently for the start/end terminal nodes, and blue is used consistently for all process-step nodes. Arrows and text use neutrals. Elements with the same role share one hue family.",
+        "reasoning": "The diagram uses two related, stable theme colors with a clear and consistent color-to-role mapping throughout."
+      },
+      "contrast": {
+        "score": 96,
+        "std": 0.5,
+        "runs": [
+          97,
+          96,
+          96
+        ],
+        "observation": "In grayscale, all boxes separate strongly from the white background, and the dark connectors/arrows are immediately visible. There are no touching or overlapping boxes; the weakest pair is the arrows/connectors versus the white background, but their separation remains strong and clear.",
+        "reasoning": "Every box and connector is readily distinguishable from what it sits against. No element approaches blending into the background."
+      }
+    },
+    "degraded_color_consistency": {
+      "centering": {
+        "score": 99,
+        "std": 0.0,
+        "runs": [
+          99,
+          99,
+          99
+        ],
+        "observation": "Foreground bounding box is approximately x=16% to 84% and y=23% to 78%, giving left/right margins of about 16%/16% and top/bottom margins of about 23%/22%. The visual centroid is essentially at the canvas center, with at most a negligible vertical displacement.",
+        "reasoning": "Both opposing margin pairs are nearly symmetric, well within the 1.5x threshold. The overall foreground group is centered on both axes."
+      },
+      "space_use": {
+        "score": 70,
+        "std": 2.8,
+        "runs": [
+          74,
+          68,
+          68
+        ],
+        "observation": "After re-centering, the node group spans about 68% of the canvas width and 43% of the height. Horizontal gaps are roughly 85-90% of a node width, and the vertical row gap is about 155% of a node height, so neighboring nodes have very comfortable spacing.",
+        "reasoning": "The width and gaps use space well, but the group occupies under half the canvas height, leaving substantial usable vertical space empty. This makes the layout slightly compact on one axis rather than noticeably crammed."
+      },
+      "color_consistency": {
+        "score": 27,
+        "std": 1.9,
+        "runs": [
+          28,
+          28,
+          24
+        ],
+        "observation": "6 chromatic hue families: red (Start terminal), teal (End terminal), brown/ochre (Validate Input process), green (Process Data process), purple (Review Results process), and magenta (Generate Report process). Arrows are neutral gray. Elements with the same role do not share one hue family: the two terminals differ, and the process steps each use different families.",
+        "reasoning": "The diagram uses many unrelated hues with no stable color-to-role mapping; both terminal and process roles vary in hue. This produces an arbitrary rainbow-like scheme rather than a coherent role-based theme."
+      },
+      "contrast": {
+        "score": 94,
+        "std": 1.6,
+        "runs": [
+          94,
+          92,
+          96
+        ],
+        "observation": "In grayscale, all boxes separate clearly from the near-white background, and the dark arrows/connectors stand out strongly. No boxes touch or overlap; the weakest pair is the lightest box fill versus the white background, but it remains immediately visible.",
+        "reasoning": "Every box and connector is readily distinguishable from what it sits against. The weakest box/background contrast is still strong enough to require no effort to see."
+      }
+    },
+    "degraded_contrast": {
+      "centering": {
+        "score": 99,
+        "std": 0.5,
+        "runs": [
+          99,
+          99,
+          100
+        ],
+        "observation": "Foreground bounding box has approximately 16% left margin, 16% right margin, 22% top margin, and 23% bottom margin. The visual centroid is essentially at the canvas center, with at most a negligible vertical displacement.",
+        "reasoning": "Both opposing margin pairs are very nearly symmetric, well within the 1.5x threshold. The overall foreground group is centered on both axes."
+      },
+      "space_use": {
+        "score": 83,
+        "std": 0.9,
+        "runs": [
+          84,
+          82,
+          84
+        ],
+        "observation": "After re-centering, the node group spans roughly 68% of the canvas width and 43% of its height. Horizontal gaps are about 85-90% of a node width, and the vertical gap is around 150% of a node height, so neighboring nodes have very comfortable spacing.",
+        "reasoning": "The gaps are generous and nothing feels squeezed, but the group's vertical span is below the ~55% guideline, leaving noticeable unused canvas space above and below. This makes the layout only slightly compact overall."
+      },
+      "color_consistency": {
+        "score": 99,
+        "std": 0.9,
+        "runs": [
+          100,
+          98,
+          98
+        ],
+        "observation": "2 chromatic hue families: green is used consistently for the Start/End terminals, and blue is used consistently for all process steps. Arrows are neutral gray. Elements with the same role share one hue family.",
+        "reasoning": "The diagram uses a stable two-family color-to-role mapping throughout, forming a coherent and consistent theme."
+      },
+      "contrast": {
+        "score": 76,
+        "std": 0.5,
+        "runs": [
+          76,
+          75,
+          76
+        ],
+        "observation": "In grayscale, all boxes remain visible against the white background, but their very light fills provide only moderate lightness separation. The weakest pair is the pale gray arrows/connectors versus the white background; they are visible but distinctly soft.",
+        "reasoning": "No elements nearly disappear, so the diagram remains clearly traceable. However, the connectors have noticeably weaker contrast than the boxes, placing contrast in the somewhat-soft range."
+      }
+    }
+  },
+  "metrics": {
+    "degraded_centering": {
+      "target_dimension": "centering",
+      "sensitivity": 80,
+      "worst_leak_dimension": "space_use",
+      "worst_leak": 4,
+      "leaks": {
+        "space_use": 4,
+        "color_consistency": 0,
+        "contrast": -1
+      },
+      "specificity": 95.2,
+      "isolation_score": 95.2
+    },
+    "degraded_space_use": {
+      "target_dimension": "space_use",
+      "sensitivity": 33,
+      "worst_leak_dimension": "color_consistency",
+      "worst_leak": 0,
+      "leaks": {
+        "centering": -1,
+        "color_consistency": 0,
+        "contrast": 0
+      },
+      "specificity": 100.0,
+      "isolation_score": 100.0
+    },
+    "degraded_color_consistency": {
+      "target_dimension": "color_consistency",
+      "sensitivity": 73,
+      "worst_leak_dimension": "contrast",
+      "worst_leak": 2,
+      "leaks": {
+        "centering": 0,
+        "space_use": 1,
+        "contrast": 2
+      },
+      "specificity": 96.1,
+      "isolation_score": 96.1
+    },
+    "degraded_contrast": {
+      "target_dimension": "contrast",
+      "sensitivity": 20,
+      "worst_leak_dimension": "color_consistency",
+      "worst_leak": 1,
+      "leaks": {
+        "centering": 0,
+        "space_use": -12,
+        "color_consistency": 1
+      },
+      "specificity": 95.2,
+      "isolation_score": 95.2
+    }
+  },
+  "overall_isolation": 96.6,
+  "warnings": []
+}

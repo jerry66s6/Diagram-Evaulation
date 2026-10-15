@@ -115,6 +115,74 @@ and uses neutral full-canvas bands to increase only ink coverage. That corrected
 fixture was not rerun because of the source environment's hourly quota, so this
 repository does not claim a corrected score.
 
+## V4-V6: current Beauty set
+
+Content and structure are judged by correctness; these dimensions are purely visual.
+Each version was tested two ways: an **isolation** run (one baseline plus single-variable
+fixtures; each fixture should lower only its own dimension) and a **breaking** round
+(objectively bad flowcharts that try to score high on every dimension).
+
+### Dimensions (v6, final)
+
+| Dimension | Judge | Measures | Added |
+|---|---|---|---|
+| Centering | Model | Whole diagram centered; labels centered in their shapes; even gaps between neighbors | v4, expanded v6 |
+| Space Use | Model | Nodes not condensed while canvas space is empty | v4 |
+| Color Consistency | Model | One coherent theme; each role keeps one hue | v4 |
+| Contrast | Model | Boxes and arrows stand out from the background | v4 |
+| Alignment | Model | Upright shapes and labels; nodes on shared lines; horizontal/vertical arrows; consistent arrow endpoints | v5, expanded v6 |
+| Style Uniformity | Model | Same-role elements share shape, size, border, font, arrow style | v5 |
+| Resolution | Model | No blur, pixelation, or compression artifacts | v6 |
+| Canvas Fill | Python | Elements not so small that most of the canvas is empty (footprint score: 0 at 2%, 100 at 8%+) | v5 |
+
+Prompts: `src/diagram_correctness/beauty_v6.py`; Canvas Fill: `canvas_fill.py`.
+
+### Results by version
+
+| Version | Dimensions | Isolation | Mean off-target change | Bad diagrams passing every dimension |
+|---|---:|---:|---:|---|
+| [v4](../examples/beauty_ablation/v4/iteration2/index.html) | 4 | 97.5 | - | 5 of 7 |
+| [v5](../examples/beauty_ablation/v5/iteration1/index.html) | 7 | 96.9 | 0.48 pts | 7 of 8 new |
+| [v6](../examples/beauty_ablation/v6/iteration3/index.html) | 8 | 92.9 | 0.50 pts | 4 of 9 new |
+
+v4 breaks that were judged subjective (dominant title, decoration, oversized, neon colors)
+are excluded from later rounds.
+
+### v6 isolation
+
+Every fixture drops only its own dimension; the largest off-target change is 2 points.
+
+| Fixture | Target: baseline -> fixture |
+|---|---|
+| Diagram off-center / labels in corners / uneven gaps | Centering 99 -> 26 / 42 / 52 |
+| Nodes packed tightly | Space Use 98 -> 58 |
+| Random box colors | Color Consistency 100 -> 30 |
+| Pale boxes and arrows | Contrast 96 -> 35 |
+| Nodes off-grid / tilted / diagonal arrows / mixed detached arrows | Alignment 100 -> 53 / 55 / 42 / **86** |
+| Mixed shapes, fonts, borders | Style Uniformity 100 -> 35 |
+| Tiny elements | Canvas Fill 100 -> 35 |
+| Blur / pixelation | Resolution 99 -> 52 / 59 |
+
+### v6 breaking round
+
+| Group | Result |
+|---|---|
+| Confirmed defects from earlier rounds | 10 of 11 caught by their assigned dimension; missed: arrows detached inconsistently by 18px (caught at 45px) |
+| Design-choice control (all arrows equally detached) | Correctly not penalized |
+| New candidates caught | JPEG artifacts, noisy background (Resolution); rotated diagram (Alignment); hairline arrows (Contrast); mixed dashed/solid arrows (Style Uniformity) |
+| New candidates passing every dimension | Ghosting, labels touching box edges, arrowheads buried in boxes, stray marks (correctness does flag stray marks) |
+
+### Known gaps
+
+- Inconsistently detached arrows are only noticed when gaps are large; accepted for now.
+- One synthetic flowchart and a single model family; scores are not calibrated against
+  human ratings.
+
+```bash
+PYTHONPATH=src python3 scripts/run_beauty_v6_ablation.py          # fixtures + Canvas Fill only
+PYTHONPATH=src python3 scripts/run_beauty_v6_ablation.py --live   # 15 images x 7 model dimensions x 3 repeats
+```
+
 ## Limitations and next steps
 
 - One synthetic diagram and one intervention per dimension are not a calibrated

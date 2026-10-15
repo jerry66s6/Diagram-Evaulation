@@ -1,0 +1,1993 @@
+{
+  "created_at": "2026-10-15T21:24:29.191823+00:00",
+  "mode": "Live run using internal vision judge, 3 repeats per image and model-judged dimension",
+  "repeats": 3,
+  "dimensions": [
+    "centering",
+    "space_use",
+    "color_consistency",
+    "contrast",
+    "alignment",
+    "style_uniformity",
+    "resolution",
+    "canvas_fill"
+  ],
+  "variants": {
+    "baseline": {
+      "target": null,
+      "sub_check": null,
+      "description": "Centered, evenly spaced, axis-aligned six-node flowchart, two-hue theme on white."
+    },
+    "degraded_centering": {
+      "target": "centering",
+      "sub_check": "whole diagram",
+      "description": "Identical diagram translated to the top-left corner."
+    },
+    "degraded_centering_labels": {
+      "target": "centering",
+      "sub_check": "labels in shapes",
+      "description": "Every label jammed into its shape's bottom-left corner."
+    },
+    "degraded_centering_spacing": {
+      "target": "centering",
+      "sub_check": "even spacing",
+      "description": "Row gaps alternate 80px / 220px (both comfortable); same total width."
+    },
+    "degraded_space_use": {
+      "target": "space_use",
+      "sub_check": null,
+      "description": "Same nodes pulled tightly together, still centered."
+    },
+    "degraded_color_consistency": {
+      "target": "color_consistency",
+      "sub_check": null,
+      "description": "Every box an unrelated hue at the same luminance."
+    },
+    "degraded_contrast": {
+      "target": "contrast",
+      "sub_check": null,
+      "description": "Same hues as very pale tints, pale gray arrows."
+    },
+    "degraded_alignment": {
+      "target": "alignment",
+      "sub_check": "grid",
+      "description": "Nodes shifted 20-32px vertically off their rows; horizontal gaps unchanged."
+    },
+    "degraded_alignment_tilt": {
+      "target": "alignment",
+      "sub_check": "orientation",
+      "description": "Each node and its label rotated 4-9 degrees."
+    },
+    "degraded_alignment_arrows": {
+      "target": "alignment",
+      "sub_check": "connectors",
+      "description": "Arrows run diagonally corner-to-corner between aligned nodes."
+    },
+    "degraded_alignment_endpoints": {
+      "target": "alignment",
+      "sub_check": "endpoints",
+      "description": "Arrows 1, 3, 5 stop 18px short of both boxes; arrows 2 and 4 touch."
+    },
+    "degraded_style_uniformity": {
+      "target": "style_uniformity",
+      "sub_check": null,
+      "description": "Per-node shape, size, border, font, and arrow weight."
+    },
+    "degraded_canvas_fill": {
+      "target": "canvas_fill",
+      "sub_check": null,
+      "description": "Tiny boxes spread to the canvas edges."
+    },
+    "degraded_resolution_blur": {
+      "target": "resolution",
+      "sub_check": "blur",
+      "description": "Whole image Gaussian-blurred (radius 2.2px)."
+    },
+    "degraded_resolution_pixel": {
+      "target": "resolution",
+      "sub_check": "pixelation",
+      "description": "Rendered at 40% without anti-aliasing, then upscaled."
+    }
+  },
+  "measurements": {
+    "baseline": {
+      "worst_margin_ratio": 1.0,
+      "span_width_pct": 67.5,
+      "span_height_pct": 42.7,
+      "min_gap_to_node_pct": 88.2,
+      "hue_families": 2,
+      "roles_consistent": true,
+      "min_box_contrast": 6.18,
+      "arrow_contrast": 9.65,
+      "max_row_col_offset_pct": 0.0,
+      "style_variants_per_role": 1,
+      "arrow_treatments": 1,
+      "canvas_footprint_pct": 10.51,
+      "label_anchor": "center",
+      "row_gap_ratio": 1.0,
+      "max_rotation_deg": 0,
+      "diagonal_connectors": 0,
+      "endpoint_treatments": 1,
+      "blur_px": 0.0,
+      "render_scale": 1.0
+    },
+    "degraded_centering": {
+      "worst_margin_ratio": 15.25,
+      "span_width_pct": 67.5,
+      "span_height_pct": 42.7,
+      "min_gap_to_node_pct": 88.2,
+      "hue_families": 2,
+      "roles_consistent": true,
+      "min_box_contrast": 6.18,
+      "arrow_contrast": 9.65,
+      "max_row_col_offset_pct": 0.0,
+      "style_variants_per_role": 1,
+      "arrow_treatments": 1,
+      "canvas_footprint_pct": 10.55,
+      "label_anchor": "center",
+      "row_gap_ratio": 1.0,
+      "max_rotation_deg": 0,
+      "diagonal_connectors": 0,
+      "endpoint_treatments": 1,
+      "blur_px": 0.0,
+      "render_scale": 1.0
+    },
+    "degraded_centering_labels": {
+      "worst_margin_ratio": 1.0,
+      "span_width_pct": 67.5,
+      "span_height_pct": 42.7,
+      "min_gap_to_node_pct": 88.2,
+      "hue_families": 2,
+      "roles_consistent": true,
+      "min_box_contrast": 6.18,
+      "arrow_contrast": 9.65,
+      "max_row_col_offset_pct": 0.0,
+      "style_variants_per_role": 1,
+      "arrow_treatments": 1,
+      "canvas_footprint_pct": 10.51,
+      "label_anchor": "corner",
+      "row_gap_ratio": 1.0,
+      "max_rotation_deg": 0,
+      "diagonal_connectors": 0,
+      "endpoint_treatments": 1,
+      "blur_px": 0.0,
+      "render_scale": 1.0
+    },
+    "degraded_centering_spacing": {
+      "worst_margin_ratio": 1.0,
+      "span_width_pct": 67.5,
+      "span_height_pct": 42.7,
+      "min_gap_to_node_pct": 47.1,
+      "hue_families": 2,
+      "roles_consistent": true,
+      "min_box_contrast": 6.18,
+      "arrow_contrast": 9.65,
+      "max_row_col_offset_pct": 0.0,
+      "style_variants_per_role": 1,
+      "arrow_treatments": 1,
+      "canvas_footprint_pct": 10.51,
+      "label_anchor": "center",
+      "row_gap_ratio": 2.75,
+      "max_rotation_deg": 0,
+      "diagonal_connectors": 0,
+      "endpoint_treatments": 1,
+      "blur_px": 0.0,
+      "render_scale": 1.0
+    },
+    "degraded_space_use": {
+      "worst_margin_ratio": 1.0,
+      "span_width_pct": 46.8,
+      "span_height_pct": 27.5,
+      "min_gap_to_node_pct": 15.3,
+      "hue_families": 2,
+      "roles_consistent": true,
+      "min_box_contrast": 6.18,
+      "arrow_contrast": 9.65,
+      "max_row_col_offset_pct": 0.0,
+      "style_variants_per_role": 1,
+      "arrow_treatments": 1,
+      "canvas_footprint_pct": 10.53,
+      "label_anchor": "center",
+      "row_gap_ratio": 1.0,
+      "max_rotation_deg": 0,
+      "diagonal_connectors": 0,
+      "endpoint_treatments": 1,
+      "blur_px": 0.0,
+      "render_scale": 1.0
+    },
+    "degraded_color_consistency": {
+      "worst_margin_ratio": 1.0,
+      "span_width_pct": 67.5,
+      "span_height_pct": 42.7,
+      "min_gap_to_node_pct": 88.2,
+      "hue_families": 6,
+      "roles_consistent": false,
+      "min_box_contrast": 6.11,
+      "arrow_contrast": 9.65,
+      "max_row_col_offset_pct": 0.0,
+      "style_variants_per_role": 1,
+      "arrow_treatments": 1,
+      "canvas_footprint_pct": 10.51,
+      "label_anchor": "center",
+      "row_gap_ratio": 1.0,
+      "max_rotation_deg": 0,
+      "diagonal_connectors": 0,
+      "endpoint_treatments": 1,
+      "blur_px": 0.0,
+      "render_scale": 1.0
+    },
+    "degraded_contrast": {
+      "worst_margin_ratio": 1.0,
+      "span_width_pct": 67.5,
+      "span_height_pct": 42.7,
+      "min_gap_to_node_pct": 88.2,
+      "hue_families": 2,
+      "roles_consistent": true,
+      "min_box_contrast": 1.15,
+      "arrow_contrast": 1.37,
+      "max_row_col_offset_pct": 0.0,
+      "style_variants_per_role": 1,
+      "arrow_treatments": 1,
+      "canvas_footprint_pct": 10.14,
+      "label_anchor": "center",
+      "row_gap_ratio": 1.0,
+      "max_rotation_deg": 0,
+      "diagonal_connectors": 0,
+      "endpoint_treatments": 1,
+      "blur_px": 0.0,
+      "render_scale": 1.0
+    },
+    "degraded_alignment": {
+      "worst_margin_ratio": 1.0,
+      "span_width_pct": 67.5,
+      "span_height_pct": 50.9,
+      "min_gap_to_node_pct": 88.2,
+      "hue_families": 2,
+      "roles_consistent": true,
+      "min_box_contrast": 6.18,
+      "arrow_contrast": 9.65,
+      "max_row_col_offset_pct": 64.4,
+      "style_variants_per_role": 1,
+      "arrow_treatments": 1,
+      "canvas_footprint_pct": 10.52,
+      "label_anchor": "center",
+      "row_gap_ratio": 1.0,
+      "max_rotation_deg": 0,
+      "diagonal_connectors": 4,
+      "endpoint_treatments": 1,
+      "blur_px": 0.0,
+      "render_scale": 1.0
+    },
+    "degraded_alignment_tilt": {
+      "worst_margin_ratio": 1.0,
+      "span_width_pct": 67.5,
+      "span_height_pct": 42.7,
+      "min_gap_to_node_pct": 88.2,
+      "hue_families": 2,
+      "roles_consistent": true,
+      "min_box_contrast": 6.18,
+      "arrow_contrast": 9.65,
+      "max_row_col_offset_pct": 0.0,
+      "style_variants_per_role": 1,
+      "arrow_treatments": 1,
+      "canvas_footprint_pct": 10.53,
+      "label_anchor": "center",
+      "row_gap_ratio": 1.0,
+      "max_rotation_deg": 9,
+      "diagonal_connectors": 0,
+      "endpoint_treatments": 1,
+      "blur_px": 0.0,
+      "render_scale": 1.0
+    },
+    "degraded_alignment_arrows": {
+      "worst_margin_ratio": 1.0,
+      "span_width_pct": 67.5,
+      "span_height_pct": 42.7,
+      "min_gap_to_node_pct": 88.2,
+      "hue_families": 2,
+      "roles_consistent": true,
+      "min_box_contrast": 6.18,
+      "arrow_contrast": 9.65,
+      "max_row_col_offset_pct": 0.0,
+      "style_variants_per_role": 1,
+      "arrow_treatments": 1,
+      "canvas_footprint_pct": 10.52,
+      "label_anchor": "center",
+      "row_gap_ratio": 1.0,
+      "max_rotation_deg": 0,
+      "diagonal_connectors": 5,
+      "endpoint_treatments": 1,
+      "blur_px": 0.0,
+      "render_scale": 1.0
+    },
+    "degraded_alignment_endpoints": {
+      "worst_margin_ratio": 1.0,
+      "span_width_pct": 67.5,
+      "span_height_pct": 42.7,
+      "min_gap_to_node_pct": 88.2,
+      "hue_families": 2,
+      "roles_consistent": true,
+      "min_box_contrast": 6.18,
+      "arrow_contrast": 9.65,
+      "max_row_col_offset_pct": 0.0,
+      "style_variants_per_role": 1,
+      "arrow_treatments": 1,
+      "canvas_footprint_pct": 10.51,
+      "label_anchor": "center",
+      "row_gap_ratio": 1.0,
+      "max_rotation_deg": 0,
+      "diagonal_connectors": 0,
+      "endpoint_treatments": 2,
+      "blur_px": 0.0,
+      "render_scale": 1.0
+    },
+    "degraded_style_uniformity": {
+      "worst_margin_ratio": 1.1,
+      "span_width_pct": 69.0,
+      "span_height_pct": 45.3,
+      "min_gap_to_node_pct": 68.4,
+      "hue_families": 2,
+      "roles_consistent": true,
+      "min_box_contrast": 6.18,
+      "arrow_contrast": 9.65,
+      "max_row_col_offset_pct": 0.0,
+      "style_variants_per_role": 4,
+      "arrow_treatments": 5,
+      "canvas_footprint_pct": 10.83,
+      "label_anchor": "center",
+      "row_gap_ratio": 1.12,
+      "max_rotation_deg": 0,
+      "diagonal_connectors": 0,
+      "endpoint_treatments": 1,
+      "blur_px": 0.0,
+      "render_scale": 1.0
+    },
+    "degraded_canvas_fill": {
+      "worst_margin_ratio": 1.0,
+      "span_width_pct": 90.0,
+      "span_height_pct": 57.9,
+      "min_gap_to_node_pct": 300.0,
+      "hue_families": 2,
+      "roles_consistent": true,
+      "min_box_contrast": 6.18,
+      "arrow_contrast": 9.65,
+      "max_row_col_offset_pct": 0.0,
+      "style_variants_per_role": 1,
+      "arrow_treatments": 1,
+      "canvas_footprint_pct": 4.08,
+      "label_anchor": "center",
+      "row_gap_ratio": 1.0,
+      "max_rotation_deg": 0,
+      "diagonal_connectors": 0,
+      "endpoint_treatments": 1,
+      "blur_px": 0.0,
+      "render_scale": 1.0
+    },
+    "degraded_resolution_blur": {
+      "worst_margin_ratio": 1.0,
+      "span_width_pct": 67.5,
+      "span_height_pct": 42.7,
+      "min_gap_to_node_pct": 88.2,
+      "hue_families": 2,
+      "roles_consistent": true,
+      "min_box_contrast": 6.18,
+      "arrow_contrast": 9.65,
+      "max_row_col_offset_pct": 0.0,
+      "style_variants_per_role": 1,
+      "arrow_treatments": 1,
+      "canvas_footprint_pct": 11.8,
+      "label_anchor": "center",
+      "row_gap_ratio": 1.0,
+      "max_rotation_deg": 0,
+      "diagonal_connectors": 0,
+      "endpoint_treatments": 1,
+      "blur_px": 2.2,
+      "render_scale": 1.0
+    },
+    "degraded_resolution_pixel": {
+      "worst_margin_ratio": 1.0,
+      "span_width_pct": 67.5,
+      "span_height_pct": 42.7,
+      "min_gap_to_node_pct": 88.2,
+      "hue_families": 2,
+      "roles_consistent": true,
+      "min_box_contrast": 6.18,
+      "arrow_contrast": 9.65,
+      "max_row_col_offset_pct": 0.0,
+      "style_variants_per_role": 1,
+      "arrow_treatments": 1,
+      "canvas_footprint_pct": 10.47,
+      "label_anchor": "center",
+      "row_gap_ratio": 1.0,
+      "max_rotation_deg": 0,
+      "diagonal_connectors": 0,
+      "endpoint_treatments": 1,
+      "blur_px": 0.0,
+      "render_scale": 0.4
+    }
+  },
+  "results": {
+    "baseline": {
+      "canvas_fill": {
+        "score": 100,
+        "std": 0.0,
+        "runs": [
+          100
+        ],
+        "observation": "Diagram elements occupy 10.5% of the canvas (thin arrows and text strokes excluded).",
+        "reasoning": "At or above the 8% footprint where the canvas reads as used.",
+        "footprint_pct": 10.51
+      },
+      "centering": {
+        "score": 99,
+        "std": 0.0,
+        "runs": [
+          99,
+          99,
+          99
+        ],
+        "observation": "A: Foreground content spans roughly x=195\u20131006 and y=169\u2013580 on a 1200\u00d7750 canvas, giving left/right margins about 195/194 (ratio ~1.01) and top/bottom margins about 169/170 (ratio ~1.01). B: All six node labels appear essentially centered horizontally and vertically, with largest offset under ~2%. C: Horizontal neighbor gaps are about 150 px in both rows and roughly 150 px between the middle and right nodes, so within-row gap ratios are ~1.0; the right-column vertical gap is ~140 px and has no competing gap within that connected column.",
+        "reasoning": "The complete foreground group is almost perfectly centered on the canvas, node labels are centered within their shapes, and comparable consecutive-node gaps are highly even. All three centering checks fall comfortably in the 90\u2013100 band."
+      },
+      "space_use": {
+        "score": 98,
+        "std": 0.0,
+        "runs": [
+          98,
+          98,
+          98
+        ],
+        "observation": "The node group spans about 68% of the canvas width and roughly 43% of its height. The main direction is horizontal, with typical horizontal gaps around 85-90% of a node's width and a similarly comfortable vertical gap between rows; the nodes do not feel condensed together.",
+        "reasoning": "The layout comfortably exceeds the 55% main-axis span threshold and has generous gaps well above 40% of node size. There is no too-tight packing despite available canvas space."
+      },
+      "color_consistency": {
+        "score": 100,
+        "std": 0.0,
+        "runs": [
+          100,
+          100,
+          100
+        ],
+        "observation": "2 chromatic hue families: green is used consistently for the Start/End terminal role, and blue is used consistently for all process-step nodes. Arrows are neutral gray and do not count as a theme color. Elements sharing the same role use one hue family.",
+        "reasoning": "The diagram uses a coherent two-family palette with a stable role-to-color mapping throughout."
+      },
+      "contrast": {
+        "score": 96,
+        "std": 0.5,
+        "runs": [
+          97,
+          96,
+          96
+        ],
+        "observation": "In grayscale, all box fills are substantially darker than the white background, and the connectors/arrows are also dark and immediately visible. The weakest pair is the dark connector lines versus the white background, but they still separate very strongly.",
+        "reasoning": "Every box and connector stands out immediately from what it sits against. No box fill or arrow approaches the faint, near-background range."
+      },
+      "alignment": {
+        "score": 68,
+        "std": 0.0,
+        "runs": [
+          68,
+          68,
+          68
+        ],
+        "observation": "(A) All shapes are upright and all labels are horizontal; no visible tilt. (B) The intended top row (Start, Validate Input, Process Data) and bottom row (End, Generate Report, Review Results) have centers essentially on shared horizontal lines (<5% of node height), while the three columns also align essentially exactly (<5% of node width). (C) All five connectors are orthogonal: four are straight horizontal and one is straight vertical, with no diagonal/slanted segments. (D) Connector-by-connector: Start\u2192Validate Input touches Start and leaves about a 2 px gap at Validate; Validate Input\u2192Process Data touches Validate and leaves about 2 px at Process; Process Data\u2192Review Results touches Process and leaves about 2\u20133 px at Review; Review Results\u2192Generate Report touches Review and leaves about 2 px at Generate; Generate Report\u2192End touches Generate and leaves about 2 px at End. Thus tail ends touch while arrowhead ends consistently stop slightly short, creating a repeated touch/gap mix across connector ends.",
+        "reasoning": "Orientation, grid alignment, and connector routing are excellent. The limiting issue is endpoint treatment: multiple connectors consistently have one touching end and one slightly detached end, which under the specified bands counts as several attachment inconsistencies."
+      },
+      "style_uniformity": {
+        "score": 100,
+        "std": 0.0,
+        "runs": [
+          100,
+          100,
+          100
+        ],
+        "observation": "Start/end terminals share the same pill shape, size, border treatment, and bold sans-serif label styling. All four process steps share the same rounded-rectangle shape, size, border treatment, and font styling. Connectors consistently use the same solid stroke width and matching triangular arrowheads. The title uses one distinct, consistent bold sans-serif treatment appropriate to its separate role. No within-role differences are visible.",
+        "reasoning": "Each visual role has a single, clearly consistent treatment. There are no observable same-role variations in shape, size, border, typography, or connector styling."
+      },
+      "resolution": {
+        "score": 99,
+        "std": 0.5,
+        "runs": [
+          99,
+          99,
+          98
+        ],
+        "observation": "Edges, arrowheads, curves, and text render cleanly with smooth anti-aliasing; no visible blur, blockiness, stair-stepping, ringing, or compression artifacts.",
+        "reasoning": "The diagram is crisp throughout at the displayed size. Letter strokes and shape boundaries have sharp, clean transitions with only normal anti-aliasing."
+      }
+    },
+    "degraded_centering": {
+      "canvas_fill": {
+        "score": 100,
+        "std": 0.0,
+        "runs": [
+          100
+        ],
+        "observation": "Diagram elements occupy 10.5% of the canvas (thin arrows and text strokes excluded).",
+        "reasoning": "At or above the 8% footprint where the canvas reads as used.",
+        "footprint_pct": 10.55
+      },
+      "centering": {
+        "score": 26,
+        "std": 2.8,
+        "runs": [
+          28,
+          22,
+          28
+        ],
+        "observation": "A: Foreground bounding box is approximately x=24\u2013835, y=23\u2013434 on a 1200\u00d7750 canvas, giving margins L\u224824/R\u2248365 (>15\u00d7) and T\u224823/B\u2248316 (>13\u00d7), so the whole diagram is strongly shifted toward the upper-left. B: Node labels appear centered horizontally and vertically, with offsets under ~5%. C: Horizontal neighbor gaps are essentially equal at about 149 px on both rows (ratio ~1.0); the connected vertical pair has only one gap, so there is no within-column spacing inconsistency.",
+        "reasoning": "Labels and neighbor spacing satisfy the highest centering band, but the whole-diagram margins are extremely asymmetric, exceeding the >5\u00d7 threshold. Under the worst-of-A/B/C rule, the severe whole-diagram displacement determines the score."
+      },
+      "space_use": {
+        "score": 96,
+        "std": 0.5,
+        "runs": [
+          96,
+          97,
+          96
+        ],
+        "observation": "The main direction is horizontal: the three-node rows span roughly 68% of the canvas width after re-centering. Typical horizontal gaps are about 85% of a node width, and the vertical gap between rows is also generous; the nodes do not feel condensed together.",
+        "reasoning": "The main-direction span is comfortably above 55%, and neighboring nodes have gaps well above 40% of node size. Any remaining empty canvas does not result from overly tight packing."
+      },
+      "color_consistency": {
+        "score": 100,
+        "std": 0.0,
+        "runs": [
+          100,
+          100,
+          100
+        ],
+        "observation": "2 chromatic hue families: green is used consistently for the start/end terminals, and blue is used consistently for all process steps. Arrows and text use neutral tones and do not count as theme colors. Elements with the same role share one hue family.",
+        "reasoning": "The diagram uses a coherent two-family palette with a stable color-to-role mapping: green for terminals and blue for process steps."
+      },
+      "contrast": {
+        "score": 96,
+        "std": 0.5,
+        "runs": [
+          96,
+          96,
+          97
+        ],
+        "observation": "In grayscale, all boxes are substantially darker than the white background, and the dark connectors also separate clearly from white. The weakest pair is the connectors versus the white background, but they remain immediately visible.",
+        "reasoning": "No box or connector is faint or near-white against the canvas. Every flow element has strong lightness separation from what it sits against."
+      },
+      "alignment": {
+        "score": 87,
+        "std": 17.9,
+        "runs": [
+          62,
+          100,
+          100
+        ],
+        "observation": "A: All six shapes are upright and all labels are horizontal, with no visible tilt. B: The intended top row (Start, Validate Input, Process Data) and bottom row (End, Generate Report, Review Results) have centers essentially on shared horizontal lines (<5% node-height deviation); the three intended columns also align essentially exactly (<5% node-width deviation). C: All five connectors are straight horizontal or vertical segments with no diagonal/slanted routing. D: Connector-by-connector: Start\u2192Validate Input touches Start but its arrow tip leaves about a 2 px gap before Validate Input; Validate Input\u2192Process Data touches Validate Input but leaves about 2 px before Process Data; Process Data\u2192Review Results touches Process Data but leaves about 2\u20133 px before Review Results; Review Results\u2192Generate Report touches Review Results but leaves about 2\u20133 px before Generate Report; Generate Report\u2192End touches Generate Report but leaves about 2\u20133 px before End. Thus source ends touch while destination arrowheads consistently leave small gaps, so endpoint treatment is mixed across ends.",
+        "reasoning": "Orientation, grid alignment, and orthogonal connector routing are excellent. The repeated mix of touching source ends and slightly detached destination ends is an endpoint inconsistency across several connectors, placing the worst check in the 40\u201369 band."
+      },
+      "style_uniformity": {
+        "score": 100,
+        "std": 0.0,
+        "runs": [
+          100,
+          100,
+          100
+        ],
+        "observation": "Start/end terminals share the same pill shape, size, border treatment, and bold sans-serif label style. All four process steps share the same rounded-rectangle shape, size, border treatment, and font treatment. Connectors consistently use the same solid stroke width and triangular arrowhead style/size. The title uses one consistent bold sans-serif treatment; no within-role differences are visible.",
+        "reasoning": "Each role has a single, clearly consistent visual treatment. Differences between terminals, process steps, connectors, and title are role-appropriate rather than inconsistencies."
+      },
+      "resolution": {
+        "score": 99,
+        "std": 0.5,
+        "runs": [
+          98,
+          99,
+          99
+        ],
+        "observation": "Edges, arrowheads, curves, and lettering render sharply with smooth anti-aliasing; no visible blur, blockiness, ringing, or compression artifacts are apparent.",
+        "reasoning": "Text strokes and shape boundaries remain clean at the displayed size. Curved corners and diagonal arrowhead edges show smooth rendering with no meaningful resolution degradation."
+      }
+    },
+    "degraded_centering_labels": {
+      "canvas_fill": {
+        "score": 100,
+        "std": 0.0,
+        "runs": [
+          100
+        ],
+        "observation": "Diagram elements occupy 10.5% of the canvas (thin arrows and text strokes excluded).",
+        "reasoning": "At or above the 8% footprint where the canvas reads as used.",
+        "footprint_pct": 10.51
+      },
+      "centering": {
+        "score": 42,
+        "std": 0.0,
+        "runs": [
+          42,
+          42,
+          42
+        ],
+        "observation": "A: The full foreground bounding box is essentially centered: left/right margins are about 195/194 px (ratio ~1.01) and top/bottom about 170/170 px (ratio ~1.0). B: Node labels are horizontally reasonable but consistently placed near the bottoms of their shapes; the largest vertical center offset is roughly 30\u201335% of shape height. C: Neighbor gaps are very even: each multi-gap row has roughly equal ~150 px gaps (ratio ~1.0); columns have only one consecutive gap each, so no within-column variation.",
+        "reasoning": "Whole-diagram centering and neighbor spacing are excellent, but the visibly bottom-shifted labels fall at the severe end of the 15\u201335% off-center band. Since the score is the worst of A, B, and C, label centering determines the result."
+      },
+      "space_use": {
+        "score": 98,
+        "std": 0.5,
+        "runs": [
+          97,
+          98,
+          98
+        ],
+        "observation": "After re-centering, the node group spans roughly 68% of the canvas width and about 43% of its height. The main direction is horizontal, with typical horizontal gaps around 85-90% of a node's width; nodes do not feel condensed despite surrounding whitespace.",
+        "reasoning": "The main-direction span comfortably exceeds 55%, and neighboring nodes have generous separation well above the 40% threshold. There is no too-tight overall packing."
+      },
+      "color_consistency": {
+        "score": 100,
+        "std": 0.0,
+        "runs": [
+          100,
+          100,
+          100
+        ],
+        "observation": "2 chromatic hue families: green is used consistently for the Start/End terminal role; blue is used consistently for all process-step nodes. Arrows are neutral gray. Elements sharing the same role share one hue family.",
+        "reasoning": "The diagram uses a stable two-hue role mapping with no extra or inconsistent chromatic colors, forming a coherent theme."
+      },
+      "contrast": {
+        "score": 96,
+        "std": 0.5,
+        "runs": [
+          97,
+          96,
+          96
+        ],
+        "observation": "In grayscale, all box fills are substantially darker than the white background, and the connectors are also distinctly dark against white. The weakest pair is the connectors versus the background, but they remain immediately visible.",
+        "reasoning": "Every box and arrow separates clearly from what it sits against. No element is faint or close to blending into the background."
+      },
+      "alignment": {
+        "score": 76,
+        "std": 17.2,
+        "runs": [
+          100,
+          65,
+          62
+        ],
+        "observation": "(A) All six shapes are upright with level/orthogonal axes, and all labels are horizontal; no visible tilt. (B) Intended grid: top row Start\u2013Validate Input\u2013Process Data and bottom row End\u2013Generate Report\u2013Review Results; node centers share each row line to well under 5% of node height, and the three corresponding columns likewise align to well under 5% of node width. (C) All five connectors are straight horizontal or vertical segments; no diagonal/slanted segments. (D) Start\u2192Validate: source end touches Start, target arrowhead stops by a tiny gap at Validate; Validate\u2192Process: source touches Validate, target has the same tiny gap; Process\u2192Review: source touches Process, target has the same tiny gap; Review\u2192Generate: source touches Review, target has the same tiny gap; Generate\u2192End: source touches Generate, target has the same tiny gap. Endpoint treatment is consistent across connectors.",
+        "reasoning": "The diagram has a consistent orthogonal grid with aligned node centers and exclusively horizontal/vertical connectors. Connector endpoints use the same source-touch/target-small-gap convention throughout."
+      },
+      "style_uniformity": {
+        "score": 100,
+        "std": 0.0,
+        "runs": [
+          100,
+          100,
+          100
+        ],
+        "observation": "Start/end terminals share the same pill shape, size, border treatment, and label typography. All four process steps share the same rounded-rectangle shape, size, border treatment, and font styling. Connectors consistently use the same solid stroke width and triangular arrowhead treatment; the title has one consistent bold sans-serif style. No within-role differences are apparent.",
+        "reasoning": "Each visual role uses a single, consistent treatment throughout. There are no observable within-role variations in shape, sizing, borders, typography, or connector styling."
+      },
+      "resolution": {
+        "score": 98,
+        "std": 0.5,
+        "runs": [
+          98,
+          99,
+          98
+        ],
+        "observation": "Edges, arrowheads, curves, and letter strokes render cleanly with smooth anti-aliasing. No visible blur, blocky pixels, ringing, smearing, or compression artifacts are apparent at the displayed size.",
+        "reasoning": "The diagram is crisp throughout, including rounded corners and text. Any minor edge anti-aliasing is normal raster rendering rather than resolution degradation."
+      }
+    },
+    "degraded_centering_spacing": {
+      "canvas_fill": {
+        "score": 100,
+        "std": 0.0,
+        "runs": [
+          100
+        ],
+        "observation": "Diagram elements occupy 10.5% of the canvas (thin arrows and text strokes excluded).",
+        "reasoning": "At or above the 8% footprint where the canvas reads as used.",
+        "footprint_pct": 10.51
+      },
+      "centering": {
+        "score": 52,
+        "std": 2.9,
+        "runs": [
+          48,
+          52,
+          55
+        ],
+        "observation": "(A) Foreground bounding box is approximately x=195\u20131006, y=169\u2013580 on a 1200\u00d7750 canvas, giving left/right margins \u2248195/194 (ratio \u22481.01) and top/bottom margins \u2248169/170 (ratio \u22481.01). (B) All node labels appear centered within their shapes, with offsets under ~5%. (C) In both horizontal rows, consecutive node gaps are approximately 80 px and 219 px, for a largest-to-smallest ratio of \u22482.74; the right-hand vertical pair has only one gap, so no within-column ratio applies.",
+        "reasoning": "The overall diagram and labels are very well centered, but the horizontal spacing between neighboring nodes is clearly uneven. The ~2.74 gap ratio places the worst check, even spacing, in the 40\u201369 band."
+      },
+      "space_use": {
+        "score": 96,
+        "std": 0.5,
+        "runs": [
+          97,
+          96,
+          96
+        ],
+        "observation": "The layout's main direction is horizontal, with three nodes across each row. After re-centering, the node group spans roughly 68% of the canvas width and about 43% of its height; typical horizontal gaps are around 45-120% of a node's width, and the vertical gap is well over a node height. The nodes do not feel condensed while usable space remains around them.",
+        "reasoning": "The main-axis span comfortably exceeds 55%, and typical neighboring gaps are comfortably above the 40% threshold. Overall packing is spacious rather than too tight."
+      },
+      "color_consistency": {
+        "score": 100,
+        "std": 0.0,
+        "runs": [
+          100,
+          100,
+          100
+        ],
+        "observation": "2 chromatic hue families: green is used consistently for the Start/End terminal role, and blue is used consistently for all process-step boxes. Arrows are neutral gray and do not count as a theme color. Elements with the same role share one hue family.",
+        "reasoning": "The diagram uses a coherent two-family palette with stable color-to-role mapping throughout. No chromatic role inconsistency or extraneous hue is present."
+      },
+      "contrast": {
+        "score": 96,
+        "std": 0.0,
+        "runs": [
+          96,
+          96,
+          96
+        ],
+        "observation": "In grayscale, all boxes are substantially darker than the white background, and the connectors are also dark and immediately visible. The weakest pair is the dark-gray connectors versus the white background, but they still separate strongly.",
+        "reasoning": "Every box and arrow stands out clearly from what it sits against. No box or connector is faint or close to blending into the background."
+      },
+      "alignment": {
+        "score": 72,
+        "std": 7.4,
+        "runs": [
+          65,
+          68,
+          82
+        ],
+        "observation": "A: All six shapes are upright and all labels are horizontal; no visible tilt. B: Intended top row (Start, Validate Input, Process Data) and bottom row (End, Generate Report, Review Results) have centers on shared horizontal lines with <~5% node-height deviation; corresponding columns also align within <~5% of node width. C: All five connectors are straight horizontal or vertical segments with no diagonal/slanted routing. D: Start\u2192Validate touches Start and leaves ~1\u20132 px before Validate; Validate\u2192Process touches Validate and leaves ~1\u20132 px before Process; Process\u2192Review touches Process and leaves ~1\u20132 px before Review; Review\u2192Generate touches Review and leaves ~1\u20132 px before Generate; Generate\u2192End touches Generate and leaves ~1\u20132 px before End. Thus source ends touch while arrowhead ends consistently leave a tiny gap, so endpoint treatment is mixed across ends.",
+        "reasoning": "Orientation, grid alignment, and connector orthogonality are excellent. The limiting check is endpoint consistency: roughly half the ends touch shapes while the arrowhead ends leave small gaps, constituting several differently attached endpoints under the stated rubric."
+      },
+      "style_uniformity": {
+        "score": 100,
+        "std": 0.0,
+        "runs": [
+          100,
+          100,
+          100
+        ],
+        "observation": "Start/end terminals share the same pill shape, size, border treatment, and font styling. All four process steps share the same rounded-rectangle shape, essentially identical size, border treatment, and font family/size/weight. All connectors use the same solid stroke width and matching triangular arrowhead treatment. The title uses a single distinct title style. No within-role differences are apparent.",
+        "reasoning": "Each visual role has one consistent treatment throughout. Differences between terminals, process steps, connectors, and title are role-appropriate rather than inconsistencies."
+      },
+      "resolution": {
+        "score": 99,
+        "std": 0.0,
+        "runs": [
+          99,
+          99,
+          99
+        ],
+        "observation": "Edges, arrowheads, curves, and lettering render crisply with smooth anti-aliasing. No visible blur, blockiness, stair-stepping, ringing, or compression artifacts are apparent at the displayed size.",
+        "reasoning": "Text strokes and geometric boundaries are clean and sharply defined throughout. Rendering quality is consistently high with no meaningful resolution degradation."
+      }
+    },
+    "degraded_space_use": {
+      "canvas_fill": {
+        "score": 100,
+        "std": 0.0,
+        "runs": [
+          100
+        ],
+        "observation": "Diagram elements occupy 10.5% of the canvas (thin arrows and text strokes excluded).",
+        "reasoning": "At or above the 8% footprint where the canvas reads as used.",
+        "footprint_pct": 10.53
+      },
+      "centering": {
+        "score": 99,
+        "std": 0.5,
+        "runs": [
+          100,
+          99,
+          99
+        ],
+        "observation": "A: Foreground bounds are approximately x=319\u2013881 and y=244\u2013506 on a 1200\u00d7750 canvas, giving left/right margins \u2248319/319 (ratio \u22481.0) and top/bottom margins \u2248244/244 (ratio \u22481.0). B: All six node labels appear centered horizontally and vertically, with largest offset under ~2%. C: Neighbor gaps are highly even: top-row horizontal gaps \u224826 px and 26 px (ratio \u22481.0), bottom-row likewise \u224826 px and 26 px, and corresponding vertical node gaps \u224826 px (ratio \u22481.0).",
+        "reasoning": "The diagram is essentially perfectly centered on both canvas axes, labels are centered within their shapes, and neighboring-node spacing is uniform. All three checks fall comfortably within the 90\u2013100 band."
+      },
+      "space_use": {
+        "score": 58,
+        "std": 0.0,
+        "runs": [
+          58,
+          58,
+          58
+        ],
+        "observation": "After re-centering, the node group spans about 47% of the canvas width and 27% of its height. The main direction is horizontal (three columns); typical horizontal gaps are only about 15% of node width, while the two rows are separated by roughly 25\u201330% of node height, so the nodes feel somewhat condensed despite ample surrounding space.",
+        "reasoning": "The main-direction span is adequate for the 70\u201389 band, but the typical main-direction gaps fall in the noticeably condensed 10\u201325% range. Using the worse reading places Space Use in the 40\u201369 band."
+      },
+      "color_consistency": {
+        "score": 100,
+        "std": 0.0,
+        "runs": [
+          100,
+          100,
+          100
+        ],
+        "observation": "2 chromatic hue families: green is used consistently for the Start/End terminals, and blue is used consistently for all process-step boxes. Arrows are neutral gray. Elements with the same role share one hue family.",
+        "reasoning": "The diagram uses a coherent two-hue role mapping with no color-role inconsistencies or extraneous chromatic families."
+      },
+      "contrast": {
+        "score": 96,
+        "std": 0.0,
+        "runs": [
+          96,
+          96,
+          96
+        ],
+        "observation": "In grayscale, all box fills are substantially darker than the white background, and the connectors are also dark and immediately visible. The weakest pair is the dark-gray connectors against the white background, but they still separate strongly.",
+        "reasoning": "Every box and connector stands out clearly from its surroundings. No element has a faint or near-background lightness level."
+      },
+      "alignment": {
+        "score": 100,
+        "std": 0.5,
+        "runs": [
+          100,
+          99,
+          100
+        ],
+        "observation": "A: All six shapes are upright and all labels are horizontal, with no visible tilt. B: Two intended rows and three columns are clear; node centers align on shared row/column centerlines with offsets under ~5% of node size. C: All five connectors run straight horizontally or vertically between nodes sharing a row or column; no diagonal/slanted segments. D: Start\u2192Validate Input: both ends use consistent small gaps; Validate Input\u2192Process Data: both ends use consistent small gaps; Process Data\u2192Review Results: both ends use consistent small gaps; Review Results\u2192Generate Report: both ends use consistent small gaps; Generate Report\u2192End: both ends use consistent small gaps. Endpoint treatment appears uniform throughout.",
+        "reasoning": "The diagram has a consistent orthogonal grid, upright elements, and axis-aligned connectors. All connector endpoints use the same small detached-gap treatment, so there is no alignment inconsistency."
+      },
+      "style_uniformity": {
+        "score": 100,
+        "std": 0.0,
+        "runs": [
+          100,
+          100,
+          100
+        ],
+        "observation": "Start/end terminals share the same pill shape, size, border treatment, and bold sans-serif label styling. All four process steps share the same rounded-rectangle shape, size, border treatment, and font styling. Connectors consistently use solid strokes of the same apparent width with matching triangular arrowheads. The title uses one consistent bold sans-serif treatment; there are no within-role differences apparent.",
+        "reasoning": "Each visual role has a single consistent treatment. Role-appropriate differences between terminals, process boxes, connectors, and title do not count as inconsistency."
+      },
+      "resolution": {
+        "score": 98,
+        "std": 0.5,
+        "runs": [
+          98,
+          98,
+          99
+        ],
+        "observation": "Edges, rounded corners, arrowheads, and letter strokes render cleanly with smooth anti-aliasing. No visible blur, blocky pixels, ringing, or compression artifacts are apparent at the displayed size.",
+        "reasoning": "The diagram is crisp throughout, including the smaller label text and connector edges. Any tiny edge smoothing is normal anti-aliasing rather than resolution degradation."
+      }
+    },
+    "degraded_color_consistency": {
+      "canvas_fill": {
+        "score": 100,
+        "std": 0.0,
+        "runs": [
+          100
+        ],
+        "observation": "Diagram elements occupy 10.5% of the canvas (thin arrows and text strokes excluded).",
+        "reasoning": "At or above the 8% footprint where the canvas reads as used.",
+        "footprint_pct": 10.51
+      },
+      "centering": {
+        "score": 99,
+        "std": 0.0,
+        "runs": [
+          99,
+          99,
+          99
+        ],
+        "observation": "A: Foreground bounds are approximately x=195\u20131006 and y=170\u2013580 on a 1200\u00d7750 canvas, giving left/right margins about 195/194 (ratio ~1.01) and top/bottom margins about 170/170 (ratio ~1.00). B: All six node labels appear centered both horizontally and vertically, with largest offset well under ~5% of shape dimensions. C: In each three-node row, consecutive horizontal gaps are approximately equal (~149\u2013150 px; ratio ~1.01); the right-column vertical gap is also internally consistent where applicable.",
+        "reasoning": "The full diagram including title is essentially perfectly centered, labels are centered within their nodes, and neighboring-node gaps within each row are nearly identical. No meaningful centering defect is visible."
+      },
+      "space_use": {
+        "score": 97,
+        "std": 0.5,
+        "runs": [
+          97,
+          97,
+          98
+        ],
+        "observation": "The layout's main direction is horizontal, with three nodes per row. After re-centering, the node group spans about 68% of the canvas width and roughly 43% of its height; typical horizontal gaps are about 85-90% of a node's width, and the vertical gap is comfortably larger than a node's height.",
+        "reasoning": "The nodes are comfortably spread along the main axis with ample separation and do not feel condensed together. There is no too-tight overall packing despite the surrounding canvas space."
+      },
+      "color_consistency": {
+        "score": 30,
+        "std": 5.6,
+        "runs": [
+          28,
+          38,
+          25
+        ],
+        "observation": "6 distinct chromatic hue families: red (Start terminal), brown/gold (Validate Input process), green (Process Data process), purple (Review Results process), magenta (Generate Report process), and teal (End terminal). The same terminal role uses two different hue families, and the process-step role uses four different hue families; arrows are neutral gray.",
+        "reasoning": "The diagram uses many unrelated hue families, with both terminals and process steps changing hue across elements of the same role. This produces a rainbow-like scheme without stable color-to-role mapping."
+      },
+      "contrast": {
+        "score": 96,
+        "std": 0.0,
+        "runs": [
+          96,
+          96,
+          96
+        ],
+        "observation": "In grayscale, every box separates strongly from the white background, and the dark connectors/arrows are immediately visible against it. No boxes touch or overlap; the weakest separation is the lightest box fill versus the white background, but it remains clearly distinct.",
+        "reasoning": "All boxes and connectors have strong lightness contrast with what they sit against. There are no faint near-white fills or pale connectors that would weaken visibility."
+      },
+      "alignment": {
+        "score": 63,
+        "std": 3.3,
+        "runs": [
+          58,
+          65,
+          65
+        ],
+        "observation": "(A) All six shapes are upright and all labels are horizontal; no visible tilt. (B) Intended grid is two rows (Start/Validate Input/Process Data and End/Generate Report/Review Results) and three columns; node centers are essentially on shared lines, with offsets under ~5% of node size. (C) All five connectors are orthogonal: four are straight horizontal and one is straight vertical, with no diagonal/slanted segments. (D) Start\u2192Validate: source end touches Start, arrowhead stops ~2 px short of Validate; Validate\u2192Process: source touches Validate, arrowhead stops ~2 px short of Process; Process\u2192Review: source touches Process, arrowhead stops ~2\u20133 px short of Review; Review\u2192Generate: source touches Review, arrowhead stops ~1\u20132 px short of Generate; Generate\u2192End: source touches Generate, arrowhead stops ~1\u20132 px short of End. Thus endpoint treatment is mixed between touching source ends and slightly detached arrowhead ends.",
+        "reasoning": "Orientation, grid alignment, and connector routing are essentially exact. The limiting issue is endpoint consistency: across several connectors one end touches while the other leaves a small visible gap, which places the result in the 40\u201369 band."
+      },
+      "style_uniformity": {
+        "score": 100,
+        "std": 0.0,
+        "runs": [
+          100,
+          100,
+          100
+        ],
+        "observation": "Start/end terminals share the same pill shape, size, border treatment, and bold sans-serif label styling. All four process steps share the same rounded-rectangle shape, size, corner radius, border treatment, and font styling. Connectors consistently use the same solid stroke width and filled triangular arrowhead treatment. The title has one consistent bold sans-serif treatment; no within-role differences are visible.",
+        "reasoning": "Each role uses a single, clearly consistent visual treatment. The role-specific distinction between pill terminals and rounded process rectangles is appropriate and does not reduce style uniformity."
+      },
+      "resolution": {
+        "score": 99,
+        "std": 0.0,
+        "runs": [
+          99,
+          99,
+          99
+        ],
+        "observation": "Edges, arrowheads, and letter strokes render cleanly with smooth anti-aliasing. No visible blur, blockiness, jagged stair-stepping, ringing, or compression artifacts are apparent at the displayed size.",
+        "reasoning": "The diagram is crisp throughout, including text and connector edges. Rendering quality falls squarely in the 90\u2013100 band."
+      }
+    },
+    "degraded_contrast": {
+      "canvas_fill": {
+        "score": 100,
+        "std": 0.0,
+        "runs": [
+          100
+        ],
+        "observation": "Diagram elements occupy 10.1% of the canvas (thin arrows and text strokes excluded).",
+        "reasoning": "At or above the 8% footprint where the canvas reads as used.",
+        "footprint_pct": 10.14
+      },
+      "centering": {
+        "score": 99,
+        "std": 0.5,
+        "runs": [
+          98,
+          99,
+          99
+        ],
+        "observation": "A: Foreground content including the title is well centered overall; left/right margins are approximately 195/194 px (ratio ~1.0), while top/bottom margins are roughly 169/170 px (ratio ~1.0). B: All six node labels appear centered horizontally and vertically, with largest offset under ~3%. C: Horizontal gaps are essentially equal within each row (about 149-150 px, ratio ~1.01); the paired right-column nodes have a single vertical gap, so no unequal consecutive vertical spacing is present.",
+        "reasoning": "All three centering checks fall comfortably in the 90-100 band: the overall bounding box has near-symmetric margins, labels are centered in their shapes, and neighboring-node gaps are highly even."
+      },
+      "space_use": {
+        "score": 97,
+        "std": 0.5,
+        "runs": [
+          98,
+          97,
+          97
+        ],
+        "observation": "The layout's main direction is horizontal, with three nodes across each row. After re-centering, the node group spans about 68% of the canvas width and 43% of its height; typical horizontal gaps are roughly 85-90% of a node's width, and the vertical gap is about 155% of node height.",
+        "reasoning": "The nodes are comfortably spread along the main axis with gaps well above the 40% threshold, so the layout does not feel condensed despite the surrounding canvas space."
+      },
+      "color_consistency": {
+        "score": 99,
+        "std": 0.9,
+        "runs": [
+          98,
+          100,
+          100
+        ],
+        "observation": "2 chromatic hue families: green is used consistently for the start/end terminal role, and blue is used consistently for all process-step nodes. Arrows are neutral gray. Elements with the same role share one hue family.",
+        "reasoning": "The diagram uses a stable two-family role mapping: green for terminals and blue for process steps, forming a coherent color theme with no role inconsistencies."
+      },
+      "contrast": {
+        "score": 35,
+        "std": 2.4,
+        "runs": [
+          38,
+          32,
+          35
+        ],
+        "observation": "In grayscale, all box fills are very light against the white background, and the connectors are also pale gray on white. The weakest pair is the pale gray connectors versus the white background; they remain visible but are faint.",
+        "reasoning": "Both major element classes have weak lightness separation from the background: the pastel boxes are near-white and the arrows/connectors are pale gray. Because both are faint, this falls in the 0\u201339 band."
+      },
+      "alignment": {
+        "score": 100,
+        "std": 0.0,
+        "runs": [
+          100,
+          100,
+          100
+        ],
+        "observation": "(A) All six shapes are upright with level horizontal/vertical axes, and all labels are horizontal; no visible tilt. (B) Two intended rows are present: Start/Validate Input/Process Data and End/Generate Report/Review Results; centers on each row stray by <~1% of node height. Three intended columns also align vertically at <~1% of node width. (C) All five connectors are straight orthogonal segments: Start\u2192Validate Input horizontal, Validate Input\u2192Process Data horizontal, Process Data\u2192Review Results vertical, Review Results\u2192Generate Report horizontal, and Generate Report\u2192End horizontal; no diagonal/slanted segments. (D) For Start\u2192Validate Input, both ends touch their facing shape edges; Validate Input\u2192Process Data, both ends touch; Process Data\u2192Review Results, both ends touch; Review Results\u2192Generate Report, both ends touch; Generate Report\u2192End, both ends touch. Endpoint treatment is consistent throughout with no visible gaps.",
+        "reasoning": "The diagram has a precise orthogonal grid, upright elements, straight horizontal/vertical connectors, and consistent touching endpoints on every connection. No alignment deviation is apparent."
+      },
+      "style_uniformity": {
+        "score": 100,
+        "std": 0.0,
+        "runs": [
+          100,
+          100,
+          100
+        ],
+        "observation": "Start/end terminals share the same pill shape, size, borderless treatment, and bold sans-serif label style. All four process steps share the same rounded-rectangle shape, size, borderless treatment, and bold sans-serif label style. Connectors consistently use the same solid stroke width and triangular arrowhead treatment. The title uses one consistent bold sans-serif treatment; no within-role differences are visible.",
+        "reasoning": "Each role has a single, clearly consistent visual treatment. Differences between terminals, process boxes, connectors, and title are role-appropriate rather than inconsistencies."
+      },
+      "resolution": {
+        "score": 99,
+        "std": 0.5,
+        "runs": [
+          99,
+          98,
+          99
+        ],
+        "observation": "Text, box edges, rounded corners, connector lines, and arrowheads render cleanly with smooth anti-aliasing. No visible blur, blocky pixels, stair-stepping, ringing, or compression artifacts are apparent at the displayed size.",
+        "reasoning": "The diagram is crisp throughout, including fine text strokes and arrowhead edges. Rendering quality falls squarely in the 90\u2013100 band."
+      }
+    },
+    "degraded_alignment": {
+      "canvas_fill": {
+        "score": 100,
+        "std": 0.0,
+        "runs": [
+          100
+        ],
+        "observation": "Diagram elements occupy 10.5% of the canvas (thin arrows and text strokes excluded).",
+        "reasoning": "At or above the 8% footprint where the canvas reads as used.",
+        "footprint_pct": 10.52
+      },
+      "centering": {
+        "score": 99,
+        "std": 0.0,
+        "runs": [
+          99,
+          99,
+          99
+        ],
+        "observation": "A: Foreground bounds are approximately x=195\u20131006 and y=154\u2013596 on a 1200\u00d7750 canvas, giving left/right margins \u2248195/194 (ratio \u22481.01) and top/bottom margins \u2248154/154 (ratio \u22481.00). B: All node labels appear centered horizontally and vertically, with largest offset under ~3% of shape dimensions. C: Consecutive horizontal node gaps are approximately 150 px on both the upper and lower rows (ratio \u22481.0); the right-column vertical neighboring pair has a single gap of about 95 px, so there is no within-column spacing inconsistency.",
+        "reasoning": "The diagram as a whole is essentially perfectly centered, labels are centered within their shapes, and comparable neighboring gaps are extremely even. All three centering checks fall comfortably within the 90\u2013100 band."
+      },
+      "space_use": {
+        "score": 96,
+        "std": 0.5,
+        "runs": [
+          97,
+          96,
+          96
+        ],
+        "observation": "After re-centering, the node group spans roughly 68% of the canvas width and about 51% of its height. The main direction is horizontal, with typical neighboring gaps around 85-100% of a node's width; the nodes do not feel condensed despite the surrounding whitespace.",
+        "reasoning": "The main-direction span is comfortably above 55%, and typical gaps are well above 40% of node size. Overall packing is spacious rather than too tight."
+      },
+      "color_consistency": {
+        "score": 100,
+        "std": 0.0,
+        "runs": [
+          100,
+          100,
+          100
+        ],
+        "observation": "2 chromatic hue families: green is used consistently for the start/end terminal role, and blue is used consistently for all process-step nodes. Arrows and text use neutral dark/white colors and do not add theme hues. Elements with the same role share one hue family.",
+        "reasoning": "The diagram uses a coherent two-family palette with stable role mapping: green for terminals and blue for process steps. There are no extra chromatic hues or role-color inconsistencies."
+      },
+      "contrast": {
+        "score": 96,
+        "std": 0.0,
+        "runs": [
+          96,
+          96,
+          96
+        ],
+        "observation": "In grayscale, all box fills are substantially darker than the white background, and the dark connectors also separate clearly from it. The weakest pair is the connectors versus the white background, but they remain immediately visible.",
+        "reasoning": "Neither boxes nor arrows are faint or near the background lightness. Every relevant element has strong lightness separation from what it sits against."
+      },
+      "alignment": {
+        "score": 57,
+        "std": 1.4,
+        "runs": [
+          58,
+          55,
+          58
+        ],
+        "observation": "(A) All five node shapes are upright and all labels are horizontal; no visible tilt. (B) The layout does not form clean shared row lines: Start vs Validate Input and Review Results vs Generate Report/End have center offsets on the order of roughly 20\u201335% of a node height; Process Data and Review Results do share a clear column with negligible horizontal center offset. (C) Of five connectors, Start\u2192Validate Input, Validate Input\u2192Process Data, Review Results\u2192Generate Report, and Generate Report\u2192End use diagonal/slanted segments; only Process Data\u2192Review Results is vertical. (D) Start\u2192Validate: source line touches the Start edge and the arrow tip reaches/essentially touches Validate; Validate\u2192Process: both ends reach the facing shape edges; Process\u2192Review: both ends reach the facing edges; Review\u2192Generate: both ends reach the facing edges; Generate\u2192End: both ends reach the facing edges. Endpoint treatment is substantially consistent, with no conspicuous detached end or differing gap.",
+        "reasoning": "Shapes and text are upright and endpoint attachment is consistent, but several node centers do not share intended row lines and four of the five connectors are diagonal rather than orthogonal. Multiple such deviations place alignment in the 40\u201369 band."
+      },
+      "style_uniformity": {
+        "score": 100,
+        "std": 0.0,
+        "runs": [
+          100,
+          100,
+          100
+        ],
+        "observation": "Start/end terminals share the same pill shape, size, border treatment, and bold sans-serif label styling. All four process steps share the same rounded-rectangle shape, essentially identical size, border treatment, and bold sans-serif font styling. Connectors consistently use solid strokes with the same apparent width and matching filled triangular arrowheads. The title uses one consistent bold sans-serif treatment; there are no within-role style differences visible.",
+        "reasoning": "Each role has a single, clearly consistent visual treatment. Any differences are between roles rather than within them, so they do not count against style uniformity."
+      },
+      "resolution": {
+        "score": 98,
+        "std": 0.0,
+        "runs": [
+          98,
+          98,
+          98
+        ],
+        "observation": "Text strokes, box boundaries, rounded corners, connector lines, and arrowheads render cleanly with smooth anti-aliasing. No visible blur, blocky pixels, ringing, smearing, or compression artifacts are apparent at the displayed size.",
+        "reasoning": "The diagram is crisp throughout, including fine text and diagonal connector edges. Any tiny anti-aliasing softness is normal raster rendering rather than resolution degradation."
+      }
+    },
+    "degraded_alignment_tilt": {
+      "canvas_fill": {
+        "score": 100,
+        "std": 0.0,
+        "runs": [
+          100
+        ],
+        "observation": "Diagram elements occupy 10.5% of the canvas (thin arrows and text strokes excluded).",
+        "reasoning": "At or above the 8% footprint where the canvas reads as used.",
+        "footprint_pct": 10.53
+      },
+      "centering": {
+        "score": 98,
+        "std": 0.5,
+        "runs": [
+          98,
+          99,
+          98
+        ],
+        "observation": "A: foreground bounding box is approximately x=195\u20131008, y=170\u2013591 on a 1200\u00d7750 canvas, giving left/right margins \u2248195/192 (ratio \u22481.02) and top/bottom \u2248170/159 (ratio \u22481.07). B: all node labels appear centered within their shapes, with largest apparent offset under ~5%. C: top-row horizontal gaps are approximately 146 and 144 px (ratio \u22481.01); bottom-row gaps approximately 146 and 143 px (ratio \u22481.02); the right column has only one consecutive gap, so no within-column variation.",
+        "reasoning": "The complete diagram is very well centered on the canvas, labels are centered in their nodes, and neighboring gaps within each multi-node row are essentially equal. All three centering checks fall comfortably in the 90\u2013100 band."
+      },
+      "space_use": {
+        "score": 97,
+        "std": 0.9,
+        "runs": [
+          96,
+          96,
+          98
+        ],
+        "observation": "The layout\u2019s main direction is horizontal. After re-centering, the node group spans roughly 68% of the canvas width and about 45% of its height; typical horizontal gaps are around 80\u201390% of a node width, with the vertical row gap also comfortable. The nodes do not feel condensed despite surrounding canvas space.",
+        "reasoning": "The main-direction span comfortably exceeds the 55% threshold, and neighboring nodes have gaps well above 40% of node size. Overall packing is spacious rather than too tight."
+      },
+      "color_consistency": {
+        "score": 100,
+        "std": 0.0,
+        "runs": [
+          100,
+          100,
+          100
+        ],
+        "observation": "2 chromatic hue families: green is used consistently for the start/end terminal role, and blue is used consistently for all process-step nodes. Arrows and text are neutral and do not add theme colors. Elements with the same role share one hue family.",
+        "reasoning": "The diagram uses a coherent two-family palette with stable role-to-color mapping: green for terminals and blue for process steps. No chromatic role inconsistency is present."
+      },
+      "contrast": {
+        "score": 97,
+        "std": 0.8,
+        "runs": [
+          96,
+          97,
+          98
+        ],
+        "observation": "In grayscale, all box fills are substantially darker than the white background, and the dark connectors/arrows also stand out clearly. No boxes touch or overlap; the weakest pair is the connectors versus the white background, but they remain immediately visible.",
+        "reasoning": "Both boxes and connectors have strong lightness separation from the background. There are no faint or near-blending elements in the assessed classes."
+      },
+      "alignment": {
+        "score": 57,
+        "std": 1.4,
+        "runs": [
+          58,
+          55,
+          58
+        ],
+        "observation": "(A) Orientation: all six node shapes are visibly tilted rather than upright: Start about -5\u00b0, Validate Input about +8\u00b0, Process Data about -4\u00b0, Review Results about +5\u00b0, Generate Report about -9\u00b0, and End about +6\u00b0; their labels follow similar tilts. (B) Grid: despite those rotations, node centers form two intended rows and three columns closely, with center-line deviations generally under ~5% of node size. (C) Connectors: all five connectors run horizontally or vertically with no meaningful diagonal segments. (D) Endpoints: Start\u2192Validate touches both shapes; Validate\u2192Process appears to touch both; Process\u2192Review touches both; Review\u2192Generate touches both; Generate\u2192End touches both. Endpoint treatment is consistent.",
+        "reasoning": "Grid placement, orthogonal connectors, and endpoint treatment are strong, but multiple shapes and labels are tilted roughly 4\u20139\u00b0. Under the worst-check rule, the several orientation deviations place alignment in the 40\u201369 band."
+      },
+      "style_uniformity": {
+        "score": 98,
+        "std": 0.5,
+        "runs": [
+          98,
+          99,
+          98
+        ],
+        "observation": "Start/end terminals share the same pill-like shape, size, border treatment, and bold white font. All four process steps share the same rounded-rectangle shape, approximately the same size, border treatment, and bold white font. Connectors consistently use the same solid stroke and triangular arrowhead treatment; the title uses a single bold sans-serif treatment. No meaningful within-role styling differences are visible.",
+        "reasoning": "After ignoring rotation, positioning, color, and other masked dimensions, the diagram has a highly consistent role-based visual system. Any size differences among same-role boxes are negligible and compatible with label-length variation."
+      },
+      "resolution": {
+        "score": 98,
+        "std": 0.0,
+        "runs": [
+          98,
+          98,
+          98
+        ],
+        "observation": "Edges, arrowheads, curves, and letter strokes render cleanly with smooth anti-aliasing. No visible blur, blocky pixels, stair-stepping, ringing, or compression artifacts are apparent at the displayed size.",
+        "reasoning": "The diagram is crisp throughout, including the rotated text and shape boundaries. Rendering quality falls solidly in the 90\u2013100 band."
+      }
+    },
+    "degraded_alignment_arrows": {
+      "canvas_fill": {
+        "score": 100,
+        "std": 0.0,
+        "runs": [
+          100
+        ],
+        "observation": "Diagram elements occupy 10.5% of the canvas (thin arrows and text strokes excluded).",
+        "reasoning": "At or above the 8% footprint where the canvas reads as used.",
+        "footprint_pct": 10.52
+      },
+      "centering": {
+        "score": 99,
+        "std": 0.0,
+        "runs": [
+          99,
+          99,
+          99
+        ],
+        "observation": "A: Foreground content spans roughly x=195\u20131006 and y=170\u2013580, giving left/right margins about 195/194 and top/bottom about 170/170; margin ratios are ~1.01 on both axes. B: All node labels appear centered horizontally and vertically, with largest offset under ~2%. C: Consecutive horizontal node gaps are about 149\u2013150 px in both rows (ratio ~1.01); corresponding vertical gaps are effectively equal within columns.",
+        "reasoning": "The complete diagram is essentially perfectly centered on the canvas, labels are centered within their shapes, and neighboring-node spacing is highly even. All three checks fall comfortably in the 90\u2013100 band."
+      },
+      "space_use": {
+        "score": 96,
+        "std": 0.5,
+        "runs": [
+          96,
+          97,
+          96
+        ],
+        "observation": "The layout has three nodes across its main horizontal direction, spanning roughly 68% of the canvas width after re-centering; the two rows span about 43% of the height. Typical horizontal gaps are about 85-90% of a node width, and the vertical row gap is well over a node height, so the nodes do not feel condensed despite surrounding whitespace.",
+        "reasoning": "The main-direction span comfortably exceeds 55%, and typical neighboring gaps are far above the 40% comfort threshold. Packing is spacious rather than too tight."
+      },
+      "color_consistency": {
+        "score": 100,
+        "std": 0.0,
+        "runs": [
+          100,
+          100,
+          100
+        ],
+        "observation": "2 chromatic hue families: green is used consistently for the Start/End terminal role, and blue is used consistently for all process-step boxes. Arrows are neutral gray and do not count as a theme color. Elements with the same role share one hue family.",
+        "reasoning": "The diagram uses a coherent two-hue theme with stable color-to-role mapping throughout; no extra chromatic hues or role inconsistencies are present."
+      },
+      "contrast": {
+        "score": 96,
+        "std": 0.0,
+        "runs": [
+          96,
+          96,
+          96
+        ],
+        "observation": "In grayscale, all filled boxes separate strongly from the white background, and the dark connectors/arrows are immediately visible against it. No boxes touch or overlap; the weakest pair is the dark connector versus the white background, which is still highly visible.",
+        "reasoning": "Both node fills and connectors have strong lightness separation from their surroundings. There are no faint or near-blending elements."
+      },
+      "alignment": {
+        "score": 48,
+        "std": 12.6,
+        "runs": [
+          55,
+          30,
+          58
+        ],
+        "observation": "(A) All shapes are upright and all labels are horizontal; no visible tilt. (B) The intended 2-row \u00d7 3-column grid is well aligned: row-center and column-center deviations appear under ~5% of node size. (C) All five connectors are diagonal/slanted rather than orthogonal: Start\u2192Validate Input, Validate Input\u2192Process Data, Process Data\u2192Review Results, Review Results\u2192Generate Report, and Generate Report\u2192End; this includes same-row and same-column pairs that could be joined straight horizontally/vertically. (D) For all five connectors, both ends appear to meet/touch the corresponding shape boundaries (arrowheads at destinations and line starts at sources), with no meaningful endpoint-gap inconsistency.",
+        "reasoning": "Orientation and grid alignment are strong, and endpoint treatment is consistent. However, the pervasive diagonal connector routing is a several-deviations alignment defect, putting the result in the 40\u201369 band."
+      },
+      "style_uniformity": {
+        "score": 100,
+        "std": 0.0,
+        "runs": [
+          100,
+          100,
+          100
+        ],
+        "observation": "Start/end terminals share the same pill shape, size, border treatment, and bold sans-serif label styling. All four process steps share the same rounded-rectangle shape, size, border treatment, and bold sans-serif label styling. Connectors consistently use the same solid stroke width and triangular arrowhead treatment; the title has a single bold sans-serif treatment. No within-role differences are visible.",
+        "reasoning": "Each visual role uses one consistent treatment throughout. Differences between terminal and process-node shapes are role-appropriate and therefore do not reduce style uniformity."
+      },
+      "resolution": {
+        "score": 98,
+        "std": 0.0,
+        "runs": [
+          98,
+          98,
+          98
+        ],
+        "observation": "Text, box boundaries, rounded corners, connector lines, and arrowheads render cleanly with smooth anti-aliasing. No visible blur, blocky pixels, ringing, smearing, or compression artifacts are apparent.",
+        "reasoning": "Rendering is consistently crisp at the displayed size, including letter strokes and diagonal arrow edges. Any tiny edge anti-aliasing is normal and does not indicate meaningful resolution degradation."
+      }
+    },
+    "degraded_alignment_endpoints": {
+      "canvas_fill": {
+        "score": 100,
+        "std": 0.0,
+        "runs": [
+          100
+        ],
+        "observation": "Diagram elements occupy 10.5% of the canvas (thin arrows and text strokes excluded).",
+        "reasoning": "At or above the 8% footprint where the canvas reads as used.",
+        "footprint_pct": 10.51
+      },
+      "centering": {
+        "score": 99,
+        "std": 0.5,
+        "runs": [
+          98,
+          99,
+          99
+        ],
+        "observation": "A: Foreground content including the title is centered overall; left/right margins are about 1.0:1 and top/bottom margins roughly 1.1-1.2:1. B: All five node labels appear centered horizontally and vertically, with offsets under about 5%. C: The two horizontal rows have essentially equal consecutive node gaps, about 1.0:1 within each row; the relevant vertical neighbor spacing is also consistent.",
+        "reasoning": "All three centering checks fall comfortably in the 90-100 band. Any residual margin or label differences are negligible."
+      },
+      "space_use": {
+        "score": 98,
+        "std": 0.5,
+        "runs": [
+          98,
+          98,
+          97
+        ],
+        "observation": "The layout\u2019s main direction is horizontal, with three nodes per row. After re-centering, the node group spans roughly 68% of the canvas width and about 43% of its height; typical horizontal gaps are about 85\u201390% of a node\u2019s width, and the vertical gap is well over a node height.",
+        "reasoning": "The nodes are comfortably spread along the main axis with generous spacing and do not feel condensed together. There is no too-tight overall packing despite the surrounding canvas space."
+      },
+      "color_consistency": {
+        "score": 100,
+        "std": 0.0,
+        "runs": [
+          100,
+          100,
+          100
+        ],
+        "observation": "2 chromatic hue families: green is used consistently for the Start/End terminal role, and blue is used consistently for all process-step nodes. Arrows are neutral gray and do not count as a theme color. Elements with the same role share one hue family.",
+        "reasoning": "The diagram uses a coherent two-family palette with stable color-to-role mapping throughout."
+      },
+      "contrast": {
+        "score": 96,
+        "std": 0.5,
+        "runs": [
+          96,
+          97,
+          96
+        ],
+        "observation": "In grayscale, all box fills are substantially darker than the white background, and the dark connectors also separate strongly from it. No boxes touch or overlap. The weakest pair is the connectors versus the white background, but they remain immediately visible.",
+        "reasoning": "Every box and connector has strong lightness separation from what it sits against. The connectors are somewhat lighter than the darkest fills but are still clearly high-contrast."
+      },
+      "alignment": {
+        "score": 74,
+        "std": 17.4,
+        "runs": [
+          99,
+          62,
+          62
+        ],
+        "observation": "(A) All six shapes are upright and all labels are horizontal; no visible tilt. (B) Intended structure is two rows of three nodes and three columns; node centers share their row/column center lines to within roughly 0\u20132% of node size. (C) All five connectors are orthogonal: four are straight horizontal and one is straight vertical, with no diagonal/slanted segments. (D) Connector 1 Start\u2192Validate Input: both ends leave small gaps; connector 2 Validate Input\u2192Process Data: both ends leave small gaps; connector 3 Process Data\u2192Review Results: both ends leave small gaps; connector 4 Review Results\u2192Generate Report: both ends leave small gaps; connector 5 Generate Report\u2192End: both ends leave small gaps. The detached-end treatment is consistent throughout, with gaps of approximately similar width.",
+        "reasoning": "The diagram has a consistent orthogonal grid, upright elements, and straight horizontal/vertical connectors. Every connector uses the same small-gap endpoint treatment, with only negligible visual alignment variation."
+      },
+      "style_uniformity": {
+        "score": 100,
+        "std": 0.0,
+        "runs": [
+          100,
+          100,
+          100
+        ],
+        "observation": "Start/end terminals share the same pill shape, dimensions, border treatment, and bold white font. All four process steps share the same rounded-rectangle shape, dimensions, border treatment, and font styling. Connectors consistently use the same solid stroke width and triangular arrowhead treatment. The title has one distinct, internally consistent heading style. No within-role differences are visible.",
+        "reasoning": "Each visual role uses a single consistent treatment throughout. Role-to-role differences are appropriate and do not constitute style inconsistency."
+      },
+      "resolution": {
+        "score": 98,
+        "std": 0.5,
+        "runs": [
+          99,
+          98,
+          98
+        ],
+        "observation": "Edges, arrowheads, curves, and letter strokes render cleanly with smooth anti-aliasing. No visible blur, blockiness, stair-stepping, ringing, or compression artifacts are apparent at the displayed size.",
+        "reasoning": "The diagram is crisp throughout, including small text and curved node boundaries. Rendering quality shows essentially no visible degradation."
+      }
+    },
+    "degraded_style_uniformity": {
+      "canvas_fill": {
+        "score": 100,
+        "std": 0.0,
+        "runs": [
+          100
+        ],
+        "observation": "Diagram elements occupy 10.8% of the canvas (thin arrows and text strokes excluded).",
+        "reasoning": "At or above the 8% footprint where the canvas reads as used.",
+        "footprint_pct": 10.83
+      },
+      "centering": {
+        "score": 97,
+        "std": 0.8,
+        "runs": [
+          98,
+          96,
+          97
+        ],
+        "observation": "(A) Foreground bounding box is approximately x=195\u20131023, y=169\u2013592, giving margins L\u2248195/R\u2248177 (ratio \u22481.10) and T\u2248169/B\u2248158 (ratio \u22481.07). (B) All node labels appear centered horizontally and vertically, with largest offset under ~5%. (C) Top-row consecutive gaps are \u2248160 and \u2248141 (ratio \u22481.13); bottom-row gaps are \u2248137 and \u2248130 (ratio \u22481.05); the right-column vertical pair has only one gap.",
+        "reasoning": "The entire content group is very well centered on both canvas axes, labels are centered within their shapes, and neighboring-node gaps are highly even. All three checks fall comfortably in the 90\u2013100 band."
+      },
+      "space_use": {
+        "score": 96,
+        "std": 0.5,
+        "runs": [
+          96,
+          97,
+          96
+        ],
+        "observation": "The layout\u2019s main direction is horizontal, with the node group spanning roughly 69% of the canvas width and about 46% of its height. Typical horizontal gaps are around 65\u2013100% of node width, and the vertical gap is also comfortable; the nodes do not feel condensed together.",
+        "reasoning": "The main-direction span is well above 55%, and neighboring nodes have generous separation relative to their sizes. There is no evidence of overly tight packing despite the surrounding canvas space."
+      },
+      "color_consistency": {
+        "score": 98,
+        "std": 0.0,
+        "runs": [
+          98,
+          98,
+          98
+        ],
+        "observation": "2 chromatic hue families: green is used for the Start and End terminal roles; blue is used for all intermediate process-step nodes. Arrows and text/borders use neutrals. Elements with the same role share one hue family.",
+        "reasoning": "The diagram uses a coherent two-family green-and-blue theme with a stable role-to-color mapping throughout."
+      },
+      "contrast": {
+        "score": 96,
+        "std": 0.5,
+        "runs": [
+          96,
+          95,
+          96
+        ],
+        "observation": "In grayscale, all boxes have medium-to-dark fills that separate strongly from the white background, and the connectors/arrows are also dark and plainly visible. The weakest pair is the relatively thin connector from Start to Validate Input against the white background, but it remains clearly visible.",
+        "reasoning": "Every box and connector stands out immediately from its background. No box fill or arrow is faint or close to blending into the white canvas."
+      },
+      "alignment": {
+        "score": 100,
+        "std": 0.5,
+        "runs": [
+          100,
+          100,
+          99
+        ],
+        "observation": "A) All shapes are upright and all labels are horizontal; no visible tilts. B) Two intended rows are clear: Start/Validate Input/Process Data centers share the upper centerline within about 1% of node height, and End/Generate Report/Review Results share the lower centerline within about 1%; the left, middle, and right node pairs also align vertically within about 1% of node width. C) All five connectors are orthogonal: Start\u2192Validate Input and Validate Input\u2192Process Data are horizontal, Process Data\u2192Review Results is vertical, and Review Results\u2192Generate Report and Generate Report\u2192End are horizontal. D) Endpoint check: Start\u2192Validate touches both shapes; Validate\u2192Process touches both; Process\u2192Review touches both; Review\u2192Report touches both; Report\u2192End touches both. Endpoint treatment is consistent throughout.",
+        "reasoning": "The diagram has a fully consistent orthogonal alignment structure: nodes share intended row/column axes, connectors are horizontal or vertical, and all connector endpoints use the same touching treatment."
+      },
+      "style_uniformity": {
+        "score": 35,
+        "std": 5.7,
+        "runs": [
+          43,
+          32,
+          30
+        ],
+        "observation": "Role treatments are highly inconsistent. The two terminals differ in shape (pill vs square-corner rectangle), size, and font treatment (bold sans-serif vs italic serif). Process steps also vary markedly: plain rectangle/serif text, ellipse/typewriter-like bold text, rounded rectangle/handwritten-style text with a dark border, and a heavily bordered rectangle with condensed bold text. Connectors appear comparatively consistent as solid strokes with triangular arrowheads, though stroke/arrowhead size shows some variation. The title has its own consistent singular treatment.",
+        "reasoning": "Several elements that function as the same role use substantially different shapes, borders, sizes, and fonts, especially the process steps and terminals. There is still a recognizable connector treatment and some repeated visual conventions, so this is not a complete absence of a styling system."
+      },
+      "resolution": {
+        "score": 98,
+        "std": 0.0,
+        "runs": [
+          98,
+          98,
+          98
+        ],
+        "observation": "Edges, arrowheads, curves, and lettering render cleanly with smooth anti-aliasing and no visible blur, blockiness, ringing, or compression artifacts.",
+        "reasoning": "The diagram is crisp at the displayed size, including fine connector strokes and varied text. Curved boundaries show only normal anti-aliasing rather than noticeable stair-stepping."
+      }
+    },
+    "degraded_canvas_fill": {
+      "canvas_fill": {
+        "score": 35,
+        "std": 0.0,
+        "runs": [
+          35
+        ],
+        "observation": "Diagram elements occupy 4.1% of the canvas (thin arrows and text strokes excluded).",
+        "reasoning": "Between 2% and 8%: much of the canvas is empty relative to the size of the elements.",
+        "footprint_pct": 4.08
+      },
+      "centering": {
+        "score": 99,
+        "std": 0.0,
+        "runs": [
+          99,
+          99,
+          99
+        ],
+        "observation": "A: Foreground bounding box is essentially centered: left/right margins are about 60/60 px (ratio ~1.0) and top/bottom about 128/127 px (ratio ~1.0). B: All node labels appear centered horizontally and vertically, with offsets well under 5%. C: Horizontal neighbor gaps are essentially equal in both rows (roughly 360 px each, ratio ~1.0); the right column has a single vertical neighbor gap, so there is no within-column spacing inconsistency.",
+        "reasoning": "All three centering checks fall comfortably in the 90\u2013100 band. The overall content is nearly perfectly centered, labels are centered within nodes, and repeated neighbor gaps are highly even."
+      },
+      "space_use": {
+        "score": 100,
+        "std": 0.0,
+        "runs": [
+          100,
+          100,
+          100
+        ],
+        "observation": "The layout's main direction is horizontal, with the node group spanning roughly 90% of the canvas width and about 58% of its height after re-centering. Typical horizontal gaps are several times the node width, and the vertical gap is also very large relative to node height; the nodes do not feel condensed together.",
+        "reasoning": "The main-axis span is far above 55%, and typical neighboring gaps are comfortably above 40% of node size. There is no too-tight overall packing despite the open canvas areas."
+      },
+      "color_consistency": {
+        "score": 100,
+        "std": 0.0,
+        "runs": [
+          100,
+          100,
+          100
+        ],
+        "observation": "2 chromatic hue families: green is used consistently for the start/end terminals, and blue is used consistently for all process steps. Arrows are neutral gray and do not count as a theme color. Elements with the same role share one hue family.",
+        "reasoning": "The diagram uses a coherent two-family palette with stable role-to-color mapping throughout."
+      },
+      "contrast": {
+        "score": 95,
+        "std": 0.9,
+        "runs": [
+          94,
+          94,
+          96
+        ],
+        "observation": "In grayscale, all box fills separate clearly from the white background, and the dark connectors/arrows are immediately visible against it. No boxes touch or overlap; the weakest pair is the lighter blue box fills versus the white background, but they remain clearly distinct.",
+        "reasoning": "Neither boxes nor connectors are faint. All diagram elements maintain strong lightness separation from what they sit against."
+      },
+      "alignment": {
+        "score": 100,
+        "std": 0.5,
+        "runs": [
+          99,
+          100,
+          100
+        ],
+        "observation": "A: All six shapes are upright with level edges, and all labels are horizontal; no visible tilt. B: The intended top row (Start, Validate Input, Process Data) and bottom row (End, Generate Report, Review Results) have centers on shared horizontal lines with offsets under ~5% of node height; the right column (Process Data, Review Results) is vertically aligned with negligible offset. C: All five connectors are orthogonal: Start\u2192Validate Input horizontal, Validate Input\u2192Process Data horizontal, Process Data\u2192Review Results vertical, Review Results\u2192Generate Report horizontal, and Generate Report\u2192End horizontal; no diagonal/slanted segments. D: Connector endpoints are consistent: each tail begins at/touches its source-facing edge, while each arrow tip reaches or stops only a tiny ~0\u20133 px from its destination-facing edge; no clearly inconsistent endpoint gap is visible.",
+        "reasoning": "The diagram has a clean orthogonal grid with upright nodes and labels, straight horizontal/vertical connectors, and effectively consistent endpoint treatment. Any apparent endpoint spacing is only a few pixels and visually uniform."
+      },
+      "style_uniformity": {
+        "score": 100,
+        "std": 0.0,
+        "runs": [
+          100,
+          100,
+          100
+        ],
+        "observation": "Start/end terminals share the same pill shape, size, border treatment, and bold white font. All four process steps share the same rounded-rectangle shape, essentially identical size, border treatment, and font styling. Connectors consistently use a solid stroke of the same weight with matching triangular arrowheads; the title uses one consistent bold sans-serif treatment. No within-role differences are apparent.",
+        "reasoning": "Each visual role has a single consistent treatment. The differing terminal and process shapes are appropriate role distinctions, not style inconsistencies."
+      },
+      "resolution": {
+        "score": 98,
+        "std": 0.0,
+        "runs": [
+          98,
+          98,
+          98
+        ],
+        "observation": "Edges, arrowheads, curves, and lettering render cleanly with smooth anti-aliasing. No visible blur, blocky pixels, ringing, color smearing, or compression artifacts are apparent at the displayed size.",
+        "reasoning": "The diagram is crisp throughout, including small labels and thin connector lines. Minor anti-aliasing is natural and does not indicate resolution degradation."
+      }
+    },
+    "degraded_resolution_blur": {
+      "canvas_fill": {
+        "score": 100,
+        "std": 0.0,
+        "runs": [
+          100
+        ],
+        "observation": "Diagram elements occupy 11.8% of the canvas (thin arrows and text strokes excluded).",
+        "reasoning": "At or above the 8% footprint where the canvas reads as used.",
+        "footprint_pct": 11.8
+      },
+      "centering": {
+        "score": 98,
+        "std": 1.2,
+        "runs": [
+          96,
+          99,
+          98
+        ],
+        "observation": "A: The foreground group including the title is nearly centered horizontally, with left/right margins roughly 1.0\u20131.1\u00d7, but vertically it sits somewhat low: the top margin is about 165 px and the bottom about 165 px when considering the node/connector content, while inclusion of the title keeps the overall bounding box broadly symmetric. B: All six node labels appear centered horizontally and vertically, with offsets under ~5%. C: Horizontal neighbor gaps in both rows are very similar (roughly 145\u2013150 px, ratio ~1.05); the single vertical neighbor gap on the right has no within-column variation to compare.",
+        "reasoning": "The diagram group is well centered, labels are centered within their shapes, and repeated horizontal gaps are highly even. Any centering deviations are minor and remain within the top score band."
+      },
+      "space_use": {
+        "score": 97,
+        "std": 0.5,
+        "runs": [
+          97,
+          97,
+          98
+        ],
+        "observation": "The layout's main direction is horizontal, with three nodes per row. After re-centering, the node group spans roughly 68% of the canvas width and about 43% of its height; typical horizontal gaps are about 85-90% of a node's width, and the vertical gap is well over one node height.",
+        "reasoning": "The nodes are comfortably spread along the main axis with generous gaps, so the layout does not feel condensed or tightly packed despite the surrounding canvas space."
+      },
+      "color_consistency": {
+        "score": 99,
+        "std": 0.9,
+        "runs": [
+          100,
+          100,
+          98
+        ],
+        "observation": "2 chromatic hue families: green is used consistently for the start/end terminal role, and blue is used consistently for all process-step roles. Arrows and text use neutral colors. Elements with the same role share one hue family.",
+        "reasoning": "The diagram uses a coherent two-family theme with a stable color-to-role mapping: green for terminals and blue for process steps, with no role-level color inconsistency."
+      },
+      "contrast": {
+        "score": 94,
+        "std": 0.5,
+        "runs": [
+          94,
+          95,
+          94
+        ],
+        "observation": "In grayscale, all boxes are substantially darker than the white background, and the connectors/arrows are also dark and immediately distinguishable. No boxes touch or overlap. The weakest pair is the connectors versus the white background, but they remain clearly visible.",
+        "reasoning": "Every box and connector has strong lightness separation from what it sits against. The connectors are slightly softer than the filled boxes but still high-contrast."
+      },
+      "alignment": {
+        "score": 99,
+        "std": 0.0,
+        "runs": [
+          99,
+          99,
+          99
+        ],
+        "observation": "(A) All five node shapes are upright and all labels are horizontal; no visible tilt. (B) The intended top row (Start, Validate Input, Process Data) and bottom row (End, Generate Report, Review Results) have centers on shared horizontal lines with offsets under ~5% of node height; the three columns are likewise vertically aligned within ~5% of node width. (C) All five connectors are orthogonal: four are straight horizontal and one is straight vertical, with no diagonal/slanted segments. (D) Start\u2192Validate Input: both ends touch; Validate Input\u2192Process Data: both ends touch; Process Data\u2192Review Results: both ends touch; Review Results\u2192Generate Report: both ends touch; Generate Report\u2192End: both ends touch. Endpoint treatment is consistent throughout.",
+        "reasoning": "The diagram exhibits a consistently axis-aligned grid with upright nodes and labels, orthogonal connectors, and uniform endpoint attachment. Any apparent displacement is negligible and below the ~5% threshold."
+      },
+      "style_uniformity": {
+        "score": 99,
+        "std": 0.0,
+        "runs": [
+          99,
+          99,
+          99
+        ],
+        "observation": "Start/end terminals share the same pill shape, size, border treatment, and bold sans-serif label styling. All four process steps share the same rounded-rectangle shape, size, border treatment, and font treatment. Connectors consistently use solid strokes of the same apparent width with matching arrowhead shapes/sizes. The title uses one consistent bold sans-serif treatment; no within-role differences are apparent.",
+        "reasoning": "Each role has a clearly consistent visual treatment, with role-specific differences appropriately confined to different roles. No meaningful within-role variation is visible."
+      },
+      "resolution": {
+        "score": 52,
+        "std": 0.8,
+        "runs": [
+          51,
+          53,
+          52
+        ],
+        "observation": "The entire diagram is visibly soft and blurred: letters have fuzzy strokes, and box edges, curves, connector lines, and arrowheads have multi-pixel softness. No strong block pixelation is apparent, but the rendering is clearly degraded by blur.",
+        "reasoning": "Text remains readable, but both text and graphical edges lack crisp one-pixel transitions throughout the image. This fits the clearly blurry 40\u201369 band."
+      }
+    },
+    "degraded_resolution_pixel": {
+      "canvas_fill": {
+        "score": 100,
+        "std": 0.0,
+        "runs": [
+          100
+        ],
+        "observation": "Diagram elements occupy 10.5% of the canvas (thin arrows and text strokes excluded).",
+        "reasoning": "At or above the 8% footprint where the canvas reads as used.",
+        "footprint_pct": 10.47
+      },
+      "centering": {
+        "score": 98,
+        "std": 1.2,
+        "runs": [
+          98,
+          96,
+          99
+        ],
+        "observation": "A: Foreground content spans roughly x=195\u20131008 and y=170\u2013582; left/right margins are about 195/192 (ratio ~1.02) and top/bottom margins about 170/168 (ratio ~1.01). B: All node labels appear centered horizontally and vertically, with largest offset under ~5%. C: Horizontal neighbor gaps are approximately 148\u2013149 px in both rows (ratio ~1.01); the right-column vertical gap is about 139 px, with no unequal same-column series to compare.",
+        "reasoning": "The complete diagram is almost perfectly centered on the canvas, labels are centered within their nodes, and comparable neighboring gaps are essentially equal. All three centering checks fall within the 90\u2013100 band."
+      },
+      "space_use": {
+        "score": 97,
+        "std": 0.8,
+        "runs": [
+          97,
+          96,
+          98
+        ],
+        "observation": "The layout's main direction is horizontal: three nodes span roughly 68% of the canvas width after re-centering, with typical horizontal gaps around 85-90% of a node's width; the two rows are also comfortably separated. The nodes do not feel condensed together.",
+        "reasoning": "The main-direction span is well above 55%, and neighboring nodes have gaps substantially above 40% of node size. There is no too-tight overall packing despite the surrounding canvas space."
+      },
+      "color_consistency": {
+        "score": 99,
+        "std": 0.9,
+        "runs": [
+          100,
+          100,
+          98
+        ],
+        "observation": "2 chromatic hue families: green is used consistently for the Start/End terminals, and blue is used consistently for all process steps. Arrows are neutral gray and do not count as a theme color. Elements with the same role share one hue family.",
+        "reasoning": "The diagram uses a coherent two-hue theme with stable color-to-role mapping: green for terminals and blue for process steps, with no role-level color inconsistencies."
+      },
+      "contrast": {
+        "score": 96,
+        "std": 0.0,
+        "runs": [
+          96,
+          96,
+          96
+        ],
+        "observation": "In grayscale, all box fills are substantially darker than the white background, and the connectors are also dark and immediately visible. No boxes touch or overlap; the weakest pair is the dark-gray connectors versus the white background, which still separates very clearly.",
+        "reasoning": "Every relevant element has strong lightness separation from what it sits against. The connectors are slightly softer than the box fills but remain unmistakably visible."
+      },
+      "alignment": {
+        "score": 87,
+        "std": 15.6,
+        "runs": [
+          65,
+          98,
+          98
+        ],
+        "observation": "(A) All six shapes are upright and all labels are horizontal; no visible tilt. (B) The intended top row (Start, Validate Input, Process Data) and bottom row (End, Generate Report, Review Results) have centers essentially on shared horizontal lines (<5% of node height), while the three columns also align closely by center (<5% of node width). (C) All five connectors are orthogonal: four are straight horizontal and one is straight vertical, with no diagonal/slanted segments. (D) Connector endpoints: Start\u2192Validate touches Start but leaves a small ~3\u20135 px gap before Validate; Validate\u2192Process touches Validate but leaves ~3\u20135 px before Process; Process\u2192Review touches Process but leaves ~2\u20134 px before Review; Review\u2192Generate touches Review but leaves ~2\u20134 px before Generate; Generate\u2192End touches Generate but leaves ~2\u20134 px before End. Thus tails touch while arrowhead ends are consistently slightly detached, creating a repeated mix of touching versus gapped endpoints.",
+        "reasoning": "Orientation, grid alignment, and connector routing are highly consistent. The limiting issue is endpoint treatment: multiple connector ends touch while multiple others leave small gaps, which the rubric classifies as several attachment inconsistencies."
+      },
+      "style_uniformity": {
+        "score": 99,
+        "std": 0.8,
+        "runs": [
+          99,
+          100,
+          98
+        ],
+        "observation": "Start/end terminals share the same pill shape, size, border treatment, and label font. All four process steps share the same rounded-rectangle shape, size, border treatment, and font styling. There are no decision nodes. Connectors consistently use the same solid stroke width and matching arrowhead shape/size; the title uses one consistent font treatment. No meaningful within-role differences are visible.",
+        "reasoning": "Each role follows a clearly consistent visual treatment, with no substantive same-role variation in shape, sizing, borders, typography, or connector styling."
+      },
+      "resolution": {
+        "score": 59,
+        "std": 2.5,
+        "runs": [
+          56,
+          62,
+          58
+        ],
+        "observation": "Edges, arrowheads, curves, and especially letter strokes show clear pixelation and stair-stepping; text is readable but visibly blocky. There is no strong blur or obvious compression ringing.",
+        "reasoning": "The rendering is clearly aliased/blocky rather than smoothly anti-aliased, including on the title and node labels. Readability remains good, placing it in the visibly degraded but readable band."
+      }
+    }
+  },
+  "metrics": {
+    "degraded_centering": {
+      "target_dimension": "centering",
+      "sensitivity": 73,
+      "worst_leak_dimension": "space_use",
+      "worst_leak": 2,
+      "leaks": {
+        "space_use": 2,
+        "color_consistency": 0,
+        "contrast": 0,
+        "alignment": -19,
+        "style_uniformity": 0,
+        "resolution": 0,
+        "canvas_fill": 0
+      },
+      "specificity": 97.3,
+      "isolation_score": 97.3
+    },
+    "degraded_centering_labels": {
+      "target_dimension": "centering",
+      "sensitivity": 57,
+      "worst_leak_dimension": "resolution",
+      "worst_leak": 1,
+      "leaks": {
+        "space_use": 0,
+        "color_consistency": 0,
+        "contrast": 0,
+        "alignment": -8,
+        "style_uniformity": 0,
+        "resolution": 1,
+        "canvas_fill": 0
+      },
+      "specificity": 98.3,
+      "isolation_score": 98.3
+    },
+    "degraded_centering_spacing": {
+      "target_dimension": "centering",
+      "sensitivity": 47,
+      "worst_leak_dimension": "space_use",
+      "worst_leak": 2,
+      "leaks": {
+        "space_use": 2,
+        "color_consistency": 0,
+        "contrast": 0,
+        "alignment": -4,
+        "style_uniformity": 0,
+        "resolution": 0,
+        "canvas_fill": 0
+      },
+      "specificity": 95.9,
+      "isolation_score": 95.9
+    },
+    "degraded_space_use": {
+      "target_dimension": "space_use",
+      "sensitivity": 40,
+      "worst_leak_dimension": "resolution",
+      "worst_leak": 1,
+      "leaks": {
+        "centering": 0,
+        "color_consistency": 0,
+        "contrast": 0,
+        "alignment": -32,
+        "style_uniformity": 0,
+        "resolution": 1,
+        "canvas_fill": 0
+      },
+      "specificity": 97.6,
+      "isolation_score": 97.6
+    },
+    "degraded_color_consistency": {
+      "target_dimension": "color_consistency",
+      "sensitivity": 70,
+      "worst_leak_dimension": "alignment",
+      "worst_leak": 5,
+      "leaks": {
+        "centering": 0,
+        "space_use": 1,
+        "contrast": 0,
+        "alignment": 5,
+        "style_uniformity": 0,
+        "resolution": 0,
+        "canvas_fill": 0
+      },
+      "specificity": 92.1,
+      "isolation_score": 92.1
+    },
+    "degraded_contrast": {
+      "target_dimension": "contrast",
+      "sensitivity": 61,
+      "worst_leak_dimension": "space_use",
+      "worst_leak": 1,
+      "leaks": {
+        "centering": 0,
+        "space_use": 1,
+        "color_consistency": 1,
+        "alignment": -32,
+        "style_uniformity": 0,
+        "resolution": 0,
+        "canvas_fill": 0
+      },
+      "specificity": 96.8,
+      "isolation_score": 96.8
+    },
+    "degraded_alignment": {
+      "target_dimension": "alignment",
+      "sensitivity": 11,
+      "worst_leak_dimension": "space_use",
+      "worst_leak": 2,
+      "leaks": {
+        "centering": 0,
+        "space_use": 2,
+        "color_consistency": 0,
+        "contrast": 0,
+        "style_uniformity": 0,
+        "resolution": 1,
+        "canvas_fill": 0
+      },
+      "specificity": 78.6,
+      "isolation_score": 57.6
+    },
+    "degraded_alignment_tilt": {
+      "target_dimension": "alignment",
+      "sensitivity": 11,
+      "worst_leak_dimension": "style_uniformity",
+      "worst_leak": 2,
+      "leaks": {
+        "centering": 1,
+        "space_use": 1,
+        "color_consistency": 0,
+        "contrast": -1,
+        "style_uniformity": 2,
+        "resolution": 1,
+        "canvas_fill": 0
+      },
+      "specificity": 68.8,
+      "isolation_score": 50.4
+    },
+    "degraded_alignment_arrows": {
+      "target_dimension": "alignment",
+      "sensitivity": 20,
+      "worst_leak_dimension": "space_use",
+      "worst_leak": 2,
+      "leaks": {
+        "centering": 0,
+        "space_use": 2,
+        "color_consistency": 0,
+        "contrast": 0,
+        "style_uniformity": 0,
+        "resolution": 1,
+        "canvas_fill": 0
+      },
+      "specificity": 87.0,
+      "isolation_score": 87.0
+    },
+    "degraded_alignment_endpoints": {
+      "target_dimension": "alignment",
+      "sensitivity": -6,
+      "worst_leak_dimension": "resolution",
+      "worst_leak": 1,
+      "leaks": {
+        "centering": 0,
+        "space_use": 0,
+        "color_consistency": 0,
+        "contrast": 0,
+        "style_uniformity": 0,
+        "resolution": 1,
+        "canvas_fill": 0
+      },
+      "specificity": 0.0,
+      "isolation_score": 0.0
+    },
+    "degraded_style_uniformity": {
+      "target_dimension": "style_uniformity",
+      "sensitivity": 65,
+      "worst_leak_dimension": "centering",
+      "worst_leak": 2,
+      "leaks": {
+        "centering": 2,
+        "space_use": 2,
+        "color_consistency": 2,
+        "contrast": 0,
+        "alignment": -32,
+        "resolution": 1,
+        "canvas_fill": 0
+      },
+      "specificity": 90.3,
+      "isolation_score": 90.3
+    },
+    "degraded_canvas_fill": {
+      "target_dimension": "canvas_fill",
+      "sensitivity": 65,
+      "worst_leak_dimension": "contrast",
+      "worst_leak": 1,
+      "leaks": {
+        "centering": 0,
+        "space_use": -2,
+        "color_consistency": 0,
+        "contrast": 1,
+        "alignment": -32,
+        "style_uniformity": 0,
+        "resolution": 1
+      },
+      "specificity": 97.0,
+      "isolation_score": 97.0
+    },
+    "degraded_resolution_blur": {
+      "target_dimension": "resolution",
+      "sensitivity": 47,
+      "worst_leak_dimension": "contrast",
+      "worst_leak": 2,
+      "leaks": {
+        "centering": 1,
+        "space_use": 1,
+        "color_consistency": 1,
+        "contrast": 2,
+        "alignment": -31,
+        "style_uniformity": 1,
+        "canvas_fill": 0
+      },
+      "specificity": 88.7,
+      "isolation_score": 88.7
+    },
+    "degraded_resolution_pixel": {
+      "target_dimension": "resolution",
+      "sensitivity": 40,
+      "worst_leak_dimension": "centering",
+      "worst_leak": 1,
+      "leaks": {
+        "centering": 1,
+        "space_use": 1,
+        "color_consistency": 1,
+        "contrast": 0,
+        "alignment": -19,
+        "style_uniformity": 1,
+        "canvas_fill": 0
+      },
+      "specificity": 90.9,
+      "isolation_score": 90.9
+    }
+  },
+  "overall_isolation": 81.4,
+  "off_target_mean_abs": 2.62,
+  "warnings": [
+    "[WEAK] degraded_alignment: alignment dropped only 11 points (minimum 15)",
+    "[WEAK] degraded_alignment_tilt: alignment dropped only 11 points (minimum 15)",
+    "[WEAK] degraded_alignment_endpoints: alignment dropped only -6 points (minimum 15)"
+  ]
+}
