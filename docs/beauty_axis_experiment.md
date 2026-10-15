@@ -115,6 +115,53 @@ and uses neutral full-canvas bands to increase only ink coverage. That corrected
 fixture was not rerun because of the source environment's hourly quota, so this
 repository does not claim a corrected score.
 
+## V4: four-dimension set
+
+A revised Beauty set replaces the five v3 judges with four dimensions. Content and
+structure remain under correctness; these are purely visual.
+
+| Dimension | Measures only | Intervention that should fail only it |
+|---|---|---|
+| Centering | Opposing margins and visual-centroid position of the whole diagram | Translate the unchanged diagram toward a corner |
+| Space Use | Nodes feeling condensed while usable canvas space is left empty | Pull nodes tightly together, still centered |
+| Color Consistency | One coherent theme; each role keeps one hue family | Give every box an unrelated hue at the baseline luminance |
+| Contrast | Boxes vs background/touching boxes, arrows vs background | Same hue families as very pale tints with pale gray arrows |
+
+Prompts live in `src/diagram_correctness/beauty_v4.py`. The runner renders the
+fixtures with Pillow (no Cairo dependency) and records deterministic measurements
+(margin ratio, group span, gap-to-node ratio, hue families, WCAG contrast) that the
+tests use to confirm each fixture changes only its intended variable.
+
+```bash
+PYTHONPATH=src python3 scripts/run_beauty_v4_ablation.py          # fixtures only
+PYTHONPATH=src python3 scripts/run_beauty_v4_ablation.py --live   # 5 images x 4 dimensions x 3 repeats
+```
+
+Live runs read `OPENAI_API_KEY` from the environment or the ignored project `.env`
+and write to `examples/beauty_ablation/v4/live/`.
+
+### Measured v4 iterations
+
+Both runs used an internal vision judge with three repeats per image and dimension.
+
+| Iteration | Overall isolation | Main finding |
+|---|---:|---|
+| [1](../examples/beauty_ablation/v4/iteration1/index.html) | 96.6 | Space Use baseline only 71 (rubric demanded 55%+ span on both axes); Contrast dropped only 20 because pastel-on-white read as "soft". |
+| [2](../examples/beauty_ablation/v4/iteration2/index.html) | **97.5** | Space Use bands follow the layout's main direction; Contrast calibrated so pastel/near-white fills and pale arrows count as faint. |
+
+Iteration 2 scores (mean of three runs):
+
+| Variant | Centering | Space Use | Color Consistency | Contrast |
+|---|---:|---:|---:|---:|
+| Baseline | 100 | 96 | 100 | 96 |
+| Degraded: Centering | **27** | 96 | 100 | 96 |
+| Degraded: Space Use | 99 | **58** | 99 | 96 |
+| Degraded: Color Consistency | 100 | 96 | **28** | 95 |
+| Degraded: Contrast | 99 | 96 | 99 | **45** |
+
+The worst off-target drop is 1 point. The noisiest cell is the shifted
+Centering fixture (runs 12, 18, 50).
+
 ## Limitations and next steps
 
 - One synthetic diagram and one intervention per dimension are not a calibrated

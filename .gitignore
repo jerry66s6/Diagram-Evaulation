@@ -13,6 +13,8 @@ correctness-report.json
 # Local reruns and an incomplete network attempt. Keep the versioned examples.
 /examples/beauty_ablation/live/
 /examples/beauty_ablation/reproduced/
+/examples/beauty_ablation/v4/fixtures/
+/examples/beauty_ablation/v4/live/
 /examples/transformer/ablation-live/
 /examples/transformer/ablation-v2-network-attempt/
 
@@ -29,3 +31,6 @@ correctness-report.json
 /user-study/public/diagrams/
 # The study catalog names which diagrams are negatives; keep it out of the public repository.
 /user-study/config/study.json
+
+# Internal-only judge backends (auth, endpoints, routing headers) stay local.
+/local/

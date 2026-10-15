@@ -192,13 +192,15 @@ def judge_beauty_dimension(
     backend: VLMBackend,
     image: str | Path,
     dimension: str,
+    prompts: dict[str, str] | None = None,
 ) -> BeautyScore:
-    if dimension not in BEAUTY_PROMPTS:
+    prompts = BEAUTY_PROMPTS if prompts is None else prompts
+    if dimension not in prompts:
         raise ValueError(
-            f"Unknown beauty dimension {dimension!r}; expected one of {BEAUTY_DIMENSIONS}"
+            f"Unknown beauty dimension {dimension!r}; expected one of {tuple(prompts)}"
         )
     prompt = (
-        BEAUTY_PROMPTS[dimension]
+        prompts[dimension]
         + "\nReturn the requested observation first, then a score from 0 to 100, then a concise "
         "one- or two-sentence justification."
     )
