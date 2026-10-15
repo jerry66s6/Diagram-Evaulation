@@ -115,52 +115,73 @@ and uses neutral full-canvas bands to increase only ink coverage. That corrected
 fixture was not rerun because of the source environment's hourly quota, so this
 repository does not claim a corrected score.
 
-## V4: four-dimension set
+## V4-V6: current Beauty set
 
-A revised Beauty set replaces the five v3 judges with four dimensions. Content and
-structure remain under correctness; these are purely visual.
+Content and structure are judged by correctness; these dimensions are purely visual.
+Each version was tested two ways: an **isolation** run (one baseline plus single-variable
+fixtures; each fixture should lower only its own dimension) and a **breaking** round
+(objectively bad flowcharts that try to score high on every dimension).
 
-| Dimension | Measures only | Intervention that should fail only it |
-|---|---|---|
-| Centering | Opposing margins and visual-centroid position of the whole diagram | Translate the unchanged diagram toward a corner |
-| Space Use | Nodes feeling condensed while usable canvas space is left empty | Pull nodes tightly together, still centered |
-| Color Consistency | One coherent theme; each role keeps one hue family | Give every box an unrelated hue at the baseline luminance |
-| Contrast | Boxes vs background/touching boxes, arrows vs background | Same hue families as very pale tints with pale gray arrows |
+### Dimensions (v6, final)
 
-Prompts live in `src/diagram_correctness/beauty_v4.py`. The runner renders the
-fixtures with Pillow (no Cairo dependency) and records deterministic measurements
-(margin ratio, group span, gap-to-node ratio, hue families, WCAG contrast) that the
-tests use to confirm each fixture changes only its intended variable.
+| Dimension | Judge | Measures | Added |
+|---|---|---|---|
+| Centering | Model | Whole diagram centered; labels centered in their shapes; even gaps between neighbors | v4, expanded v6 |
+| Space Use | Model | Nodes not condensed while canvas space is empty | v4 |
+| Color Consistency | Model | One coherent theme; each role keeps one hue | v4 |
+| Contrast | Model | Boxes and arrows stand out from the background | v4 |
+| Alignment | Model | Upright shapes and labels; nodes on shared lines; horizontal/vertical arrows; consistent arrow endpoints | v5, expanded v6 |
+| Style Uniformity | Model | Same-role elements share shape, size, border, font, arrow style | v5 |
+| Resolution | Model | No blur, pixelation, or compression artifacts | v6 |
+| Canvas Fill | Python | Elements not so small that most of the canvas is empty (footprint score: 0 at 2%, 100 at 8%+) | v5 |
+
+Prompts: `src/diagram_correctness/beauty_v6.py`; Canvas Fill: `canvas_fill.py`.
+
+### Results by version
+
+| Version | Dimensions | Isolation | Mean off-target change | Bad diagrams passing every dimension |
+|---|---:|---:|---:|---|
+| [v4](../examples/beauty_ablation/v4/iteration2/index.html) | 4 | 97.5 | - | 5 of 7 |
+| [v5](../examples/beauty_ablation/v5/iteration1/index.html) | 7 | 96.9 | 0.48 pts | 7 of 8 new |
+| [v6](../examples/beauty_ablation/v6/iteration3/index.html) | 8 | 92.9 | 0.50 pts | 4 of 9 new |
+
+v4 breaks that were judged subjective (dominant title, decoration, oversized, neon colors)
+are excluded from later rounds.
+
+### v6 isolation
+
+Every fixture drops only its own dimension; the largest off-target change is 2 points.
+
+| Fixture | Target: baseline -> fixture |
+|---|---|
+| Diagram off-center / labels in corners / uneven gaps | Centering 99 -> 26 / 42 / 52 |
+| Nodes packed tightly | Space Use 98 -> 58 |
+| Random box colors | Color Consistency 100 -> 30 |
+| Pale boxes and arrows | Contrast 96 -> 35 |
+| Nodes off-grid / tilted / diagonal arrows / mixed detached arrows | Alignment 100 -> 53 / 55 / 42 / **86** |
+| Mixed shapes, fonts, borders | Style Uniformity 100 -> 35 |
+| Tiny elements | Canvas Fill 100 -> 35 |
+| Blur / pixelation | Resolution 99 -> 52 / 59 |
+
+### v6 breaking round
+
+| Group | Result |
+|---|---|
+| Confirmed defects from earlier rounds | 10 of 11 caught by their assigned dimension; missed: arrows detached inconsistently by 18px (caught at 45px) |
+| Design-choice control (all arrows equally detached) | Correctly not penalized |
+| New candidates caught | JPEG artifacts, noisy background (Resolution); rotated diagram (Alignment); hairline arrows (Contrast); mixed dashed/solid arrows (Style Uniformity) |
+| New candidates passing every dimension | Ghosting, labels touching box edges, arrowheads buried in boxes, stray marks (correctness does flag stray marks) |
+
+### Known gaps
+
+- Inconsistently detached arrows are only noticed when gaps are large; accepted for now.
+- One synthetic flowchart and a single model family; scores are not calibrated against
+  human ratings.
 
 ```bash
-PYTHONPATH=src python3 scripts/run_beauty_v4_ablation.py          # fixtures only
-PYTHONPATH=src python3 scripts/run_beauty_v4_ablation.py --live   # 5 images x 4 dimensions x 3 repeats
+PYTHONPATH=src python3 scripts/run_beauty_v6_ablation.py          # fixtures + Canvas Fill only
+PYTHONPATH=src python3 scripts/run_beauty_v6_ablation.py --live   # 15 images x 7 model dimensions x 3 repeats
 ```
-
-Live runs read `OPENAI_API_KEY` from the environment or the ignored project `.env`
-and write to `examples/beauty_ablation/v4/live/`.
-
-### Measured v4 iterations
-
-Both runs used an internal vision judge with three repeats per image and dimension.
-
-| Iteration | Overall isolation | Main finding |
-|---|---:|---|
-| [1](../examples/beauty_ablation/v4/iteration1/index.html) | 96.6 | Space Use baseline only 71 (rubric demanded 55%+ span on both axes); Contrast dropped only 20 because pastel-on-white read as "soft". |
-| [2](../examples/beauty_ablation/v4/iteration2/index.html) | **97.5** | Space Use bands follow the layout's main direction; Contrast calibrated so pastel/near-white fills and pale arrows count as faint. |
-
-Iteration 2 scores (mean of three runs):
-
-| Variant | Centering | Space Use | Color Consistency | Contrast |
-|---|---:|---:|---:|---:|
-| Baseline | 100 | 96 | 100 | 96 |
-| Degraded: Centering | **27** | 96 | 100 | 96 |
-| Degraded: Space Use | 99 | **58** | 99 | 96 |
-| Degraded: Color Consistency | 100 | 96 | **28** | 95 |
-| Degraded: Contrast | 99 | 96 | 99 | **45** |
-
-The worst off-target drop is 1 point. The noisiest cell is the shifted
-Centering fixture (runs 12, 18, 50).
 
 ## Limitations and next steps
 
