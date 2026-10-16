@@ -1,0 +1,127 @@
+{
+  "purpose": "Candidate negative examples for human review; not model-scored or human-validated.",
+  "difficulty_note": "Provisional structural complexity: easy 6-7 nodes; medium 7-9; hard 10-12. Not balanced for direct study import.",
+  "boundary": "No active study catalog modified. Captions describe workflow content without revealing injected style defects.",
+  "items": [
+    {
+      "id": "MIXEDGE01",
+      "file": "MIXEDGE01.png",
+      "difficulty": "easy",
+      "source": "Original synthetic flowchart; mixed-edge human-review batch",
+      "caption": "Order fulfillment. Workflow connections: Order received -> Validate order; Validate order -> Stock available?; Stock available? -> Pack order (Yes); Stock available? -> Notify backorder (No); Pack order -> Dispatch parcel; Notify backorder -> Await restock.",
+      "label": "negative",
+      "defects": "Inconsistent box-border patterns/colors and connector patterns/colors",
+      "orientation": "horizontal",
+      "nodes": 7,
+      "connections": 6
+    },
+    {
+      "id": "MIXEDGE02",
+      "file": "MIXEDGE02.png",
+      "difficulty": "medium",
+      "source": "Original synthetic flowchart; mixed-edge human-review batch",
+      "caption": "Expense reimbursement. Workflow connections: Submit claim -> Check receipts; Check receipts -> Complete?; Complete? -> Request correction (No); Complete? -> Manager review (Yes); Manager review -> Approved?; Approved? -> Reject claim (No); Approved? -> Schedule payment (Yes); Schedule payment -> Reimbursed.",
+      "label": "negative",
+      "defects": "Inconsistent box-border patterns/colors and connector patterns/colors",
+      "orientation": "vertical",
+      "nodes": 9,
+      "connections": 8
+    },
+    {
+      "id": "MIXEDGE03",
+      "file": "MIXEDGE03.png",
+      "difficulty": "hard",
+      "source": "Original synthetic flowchart; mixed-edge human-review batch",
+      "caption": "Production incident response. Workflow connections: Alert fired -> Triage impact; Triage impact -> Customer impact?; Customer impact? -> Monitor trend (No); Customer impact? -> Declare incident (Yes); Declare incident -> Assign commander; Assign commander -> Apply mitigation; Apply mitigation -> Service healthy?; Service healthy? -> Escalate response (No); Service healthy? -> Resolve incident (Yes); Resolve incident -> Write postmortem.",
+      "label": "negative",
+      "defects": "Inconsistent box-border patterns/colors and connector patterns/colors",
+      "orientation": "horizontal",
+      "nodes": 11,
+      "connections": 10
+    },
+    {
+      "id": "MIXEDGE04",
+      "file": "MIXEDGE04.png",
+      "difficulty": "easy",
+      "source": "Original synthetic flowchart; mixed-edge human-review batch",
+      "caption": "Clinic appointment intake. Workflow connections: Booking request -> Collect symptoms; Collect symptoms -> Urgent symptoms?; Urgent symptoms? -> Direct to urgent care (Yes); Urgent symptoms? -> Offer appointment (No); Offer appointment -> Confirm booking.",
+      "label": "negative",
+      "defects": "Inconsistent box-border patterns/colors and connector patterns/colors",
+      "orientation": "vertical",
+      "nodes": 6,
+      "connections": 5
+    },
+    {
+      "id": "MIXEDGE05",
+      "file": "MIXEDGE05.png",
+      "difficulty": "hard",
+      "source": "Original synthetic flowchart; mixed-edge human-review batch",
+      "caption": "Software release approval. Workflow connections: Release candidate -> Run test suite; Run test suite -> Tests pass?; Tests pass? -> Return to developer (No); Tests pass? -> Security review (Yes); Security review -> Approved?; Approved? -> Remediate findings (No); Approved? -> Deploy canary (Yes); Deploy canary -> Metrics healthy?; Metrics healthy? -> Roll back (No); Metrics healthy? -> Expand rollout (Yes); Expand rollout -> Release complete.",
+      "label": "negative",
+      "defects": "Inconsistent box-border patterns/colors and connector patterns/colors",
+      "orientation": "horizontal",
+      "nodes": 12,
+      "connections": 11
+    },
+    {
+      "id": "MIXEDGE06",
+      "file": "MIXEDGE06.png",
+      "difficulty": "medium",
+      "source": "Original synthetic flowchart; mixed-edge human-review batch",
+      "caption": "Supplier invoice processing. Workflow connections: Invoice received -> Match purchase order; Match purchase order -> Amounts match?; Amounts match? -> Resolve discrepancy (No); Amounts match? -> Verify bank details (Yes); Verify bank details -> Details verified?; Details verified? -> Hold payment (No); Details verified? -> Authorize transfer (Yes); Authorize transfer -> Archive invoice.",
+      "label": "negative",
+      "defects": "Inconsistent box-border patterns/colors and connector patterns/colors",
+      "orientation": "vertical",
+      "nodes": 9,
+      "connections": 8
+    },
+    {
+      "id": "MIXEDGE07",
+      "file": "MIXEDGE07.png",
+      "difficulty": "medium",
+      "source": "Original synthetic flowchart; mixed-edge human-review batch",
+      "caption": "Data ingestion quality gate. Workflow connections: File uploaded -> Validate schema; Validate schema -> Schema valid?; Schema valid? -> Quarantine file (No); Schema valid? -> Check data quality (Yes); Check data quality -> Quality accepted?; Quality accepted? -> Send to review (No); Quality accepted? -> Load warehouse (Yes); Load warehouse -> Publish dataset.",
+      "label": "negative",
+      "defects": "Inconsistent box-border patterns/colors and connector patterns/colors",
+      "orientation": "horizontal",
+      "nodes": 9,
+      "connections": 8
+    },
+    {
+      "id": "MIXEDGE08",
+      "file": "MIXEDGE08.png",
+      "difficulty": "hard",
+      "source": "Original synthetic flowchart; mixed-edge human-review batch",
+      "caption": "Employee access request. Workflow connections: Access requested -> Verify employment; Verify employment -> Active employee?; Active employee? -> Deny request (No); Active employee? -> Manager approval (Yes); Manager approval -> Approved?; Approved? -> Close request (No); Approved? -> Check least privilege (Yes); Check least privilege -> Provision access; Provision access -> Record audit entry.",
+      "label": "negative",
+      "defects": "Inconsistent box-border patterns/colors and connector patterns/colors",
+      "orientation": "vertical",
+      "nodes": 10,
+      "connections": 9
+    },
+    {
+      "id": "MIXEDGE09",
+      "file": "MIXEDGE09.png",
+      "difficulty": "easy",
+      "source": "Original synthetic flowchart; mixed-edge human-review batch",
+      "caption": "Library book reservation. Workflow connections: Reserve title -> Check availability; Check availability -> Copy available?; Copy available? -> Add to waitlist (No); Copy available? -> Hold copy (Yes); Hold copy -> Notify reader.",
+      "label": "negative",
+      "defects": "Inconsistent box-border patterns/colors and connector patterns/colors",
+      "orientation": "horizontal",
+      "nodes": 6,
+      "connections": 5
+    },
+    {
+      "id": "MIXEDGE10",
+      "file": "MIXEDGE10.png",
+      "difficulty": "medium",
+      "source": "Original synthetic flowchart; mixed-edge human-review batch",
+      "caption": "Product return inspection. Workflow connections: Return received -> Inspect item; Inspect item -> Resalable?; Resalable? -> Restock item (Yes); Resalable? -> Recycle item (No); Restock item -> Issue refund; Recycle item -> Issue refund; Issue refund -> Notify customer.",
+      "label": "negative",
+      "defects": "Inconsistent box-border patterns/colors and connector patterns/colors",
+      "orientation": "vertical",
+      "nodes": 7,
+      "connections": 7
+    }
+  ]
+}
