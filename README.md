@@ -133,6 +133,24 @@ python3 -m unittest discover -s tests -p 'test_dimension_ablation.py'
 
 ## Beauty-axis isolation experiment
 
+The **current v6 Beauty evaluator has eight dimensions**: Centering, Space Use,
+Color Consistency, Contrast, Alignment, Style Uniformity, Resolution, and Canvas
+Fill. [`judge_beauty_v6`](src/diagram_correctness/beauty_v6.py) makes seven
+independent model judgments and computes Canvas Fill deterministically from the
+rendered image using [`canvas_fill.py`](src/diagram_correctness/canvas_fill.py).
+The human-study UI remains on its existing five-dimension Beauty rubric.
+
+Generate v6 fixtures and compute Canvas Fill without model calls:
+
+```bash
+PYTHONPATH=src python3 scripts/run_beauty_v6_ablation.py
+```
+
+Add `--live` for repeated model scoring through the public OpenAI backend.
+See [the v6 results and known gaps](docs/beauty_axis_experiment.md#v4-v6-current-beauty-set).
+
+### Historical five-dimension experiments
+
 The [historical Beauty-axis dashboard](examples/beauty_ablation/index.html),
 [three v3 iteration dashboards](examples/beauty_ablation/ceres/), and
 [design notes](docs/beauty_axis_experiment.md) cover five visual-quality dimensions:

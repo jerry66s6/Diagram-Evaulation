@@ -59,12 +59,22 @@ To begin with, we care about two top-level axes:
    - Presence - Whether all diagram elements the LLM expects to see and extract are present
    - Details - Whether labels and content are meaningful rather than missing or placeholder text
    - Legibility - Whether text is readable, without tiny fonts or text overflowing its box
-2. Beauty - Beauty combines one subjective aesthetic assessment with four objective pixel-based guardrails.
-   - Aesthetics - Whether the diagram has polished, professional, coherent, and visually sophisticated styling.
-   - Palette - Whether the diagram uses a purposeful, coordinated middle range of perceptually distinct colors.
-   - Ink balance - Whether the canvas contains a healthy amount of visual content without appearing empty or overloaded.
-   - Density - Whether diagram elements are evenly and comfortably spaced rather than cramped or clustered.
-   - Balance - Whether the overall composition and whitespace are centered rather than visually biased toward one side or corner.
+2. Beauty - The current v6 evaluator has eight visual dimensions: seven independent
+   model judges and one deterministic Canvas Fill measurement.
+   - Centering - Whole-diagram centering, labels centered inside shapes, and even neighboring gaps.
+   - Space Use - Nodes are not packed tightly while usable canvas space remains empty.
+   - Color Consistency - A coherent theme with stable color-to-role mapping.
+   - Contrast - Boxes and arrows visibly stand out from their background.
+   - Alignment - Deliberate geometry, clean layout-appropriate routing, and consistent endpoints.
+   - Style Uniformity - Same-role elements share shape, size, border, font, and arrow treatment.
+   - Resolution - Crisp rendering without blur, pixelation, or compression artifacts.
+   - Canvas Fill - Element footprint relative to canvas area, scored by Python: 0 at
+     3% or below and 100 at 6% or above, linearly interpolated between.
+
+The current Beauty entry point is `judge_beauty_v6` in
+[`beauty_v6.py`](src/diagram_correctness/beauty_v6.py). The five-dimension
+`beauty.py` and its historical experiments remain available for reproducibility.
+See [the experiment results and known gaps](docs/beauty_axis_experiment.md).
 
 The evaluator may use a judge LLM, deterministic checks, static analysis, computer
 vision metrics, or an ensemble of these methods. Each candidate should receive
