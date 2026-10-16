@@ -138,7 +138,7 @@ Color Consistency, Contrast, Alignment, Style Uniformity, Resolution, and Canvas
 Fill. [`judge_beauty_v6`](src/diagram_correctness/beauty_v6.py) makes seven
 independent model judgments and computes Canvas Fill deterministically from the
 rendered image using [`canvas_fill.py`](src/diagram_correctness/canvas_fill.py).
-The human-study UI remains on its existing five-dimension Beauty rubric.
+The human-study UI asks participants about the same eight Beauty dimensions.
 
 Generate v6 fixtures and compute Canvas Fill without model calls:
 

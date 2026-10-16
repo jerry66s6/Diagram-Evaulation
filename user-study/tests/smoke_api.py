@@ -8,7 +8,7 @@ catalog=json.loads((root/'config'/'study.json').read_text())
 fixed=catalog.get('order')=='fixed'
 sets=catalog.get('sets',0) if catalog.get('order')=='sets' else 0
 size=len(catalog['diagrams']) if fixed else catalog['sampleSize']
-keys=['layout','connectivity','presence','details','legibility','aesthetics','palette','ink_balance','density','balance']
+keys=['layout','connectivity','presence','details','legibility','centering','space_use','color_consistency','contrast','alignment','style_uniformity','resolution','canvas_fill']
 new_client=lambda:urllib.request.build_opener(urllib.request.HTTPCookieProcessor(http.cookiejar.CookieJar()))
 clients=[new_client() for _ in range(2)]
 def call(path,method='GET',body=None,admin=False,client=0,extra=None):

@@ -101,7 +101,8 @@ Choose **Completed sessions** or **All sessions, including partial**, then **Exp
 study_version, mode, participant_code, session_status,
 diagram_id, diagram_source, image_sha256, difficulty, presentation_order,
 layout, connectivity, presence, details, legibility,
-aesthetics, palette, ink_balance, density, balance,
+centering, space_use, color_consistency, contrast, alignment,
+style_uniformity, resolution, canvas_fill,
 rating_complete, comment, active_duration_ms,
 session_started_at, rating_updated_at, session_submitted_at
 ```

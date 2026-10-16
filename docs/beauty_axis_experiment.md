@@ -4,7 +4,7 @@
 
 The current evaluator is **v6: eight Beauty dimensions**, implemented by
 `judge_beauty_v6` in [`beauty_v6.py`](../src/diagram_correctness/beauty_v6.py).
-The human-study UI remains on its existing five-dimension Beauty rubric. The older
+The human-study UI asks participants about the same eight dimensions. The older
 five-dimension `beauty.py` implementation and its saved runs remain available for
 historical experiments, not aliases for v6.
 

@@ -99,9 +99,9 @@ Then, we can modify the prompt to improve that RMSE using a validation set.
 We can keep doing prompt iterations till we stop seeing meaningful improvement.
 
 **UI.** To collect human data, we built a rating UI in `user-study/`. Each participant
-rates 20-30 diagrams (24 by default), balanced across easy, medium and hard and shown
-in random order. Each diagram is shown with its caption, and the participant scores it
-from 1 to 10 on every correctness and beauty dimension. Researchers can export all
+rates a fixed set of 30 diagrams (10 per difficulty, half of them with deliberate errors),
+shown in random order. Each diagram is shown with its caption, and the participant scores it
+from 1 to 10 on the five correctness and eight beauty dimensions. Researchers can export all
 ratings as a CSV with one row per participant and diagram.
 
 **Metrics.** Humans rate on a 1-10 scale and the judge on 0-100, so both are first put

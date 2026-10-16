@@ -1,4 +1,4 @@
-export const SCORE_KEYS = ['layout','connectivity','presence','details','legibility','aesthetics','palette','ink_balance','density','balance'];
+export const SCORE_KEYS = ['layout','connectivity','presence','details','legibility','centering','space_use','color_consistency','contrast','alignment','style_uniformity','resolution','canvas_fill'];
 export function shuffle(values, random = Math.random) {
   const result = [...values];
   for (let i=result.length-1;i>0;i--) {const j=Math.floor(random()*(i+1));[result[i],result[j]]=[result[j],result[i]];}
@@ -16,7 +16,7 @@ export function balancedAssignment(diagrams, count, random = Math.random) {
 }
 export function validateRating(value) {
   if(!value || typeof value!=='object'||Array.isArray(value)||!value.scores||typeof value.scores!=='object'||Array.isArray(value.scores))throw new Error('A rating object is required.');
-  for(const [key,score] of Object.entries(value.scores))if(!SCORE_KEYS.includes(key)||!Number.isInteger(score)||score<1||score>10)throw new Error('Scores must be integers from 1 to 10 for the ten study dimensions.');
+  for(const [key,score] of Object.entries(value.scores))if(!SCORE_KEYS.includes(key)||!Number.isInteger(score)||score<1||score>10)throw new Error('Scores must be integers from 1 to 10 for the thirteen study dimensions.');
   if(typeof value.comment!=='string'||value.comment.length>2000)throw new Error('Comments must be at most 2,000 characters.');
   if(!Number.isInteger(value.durationMs)||value.durationMs<0||value.durationMs>86400000)throw new Error('Invalid active duration.');
   return {scores:value.scores,comment:value.comment,durationMs:value.durationMs};
