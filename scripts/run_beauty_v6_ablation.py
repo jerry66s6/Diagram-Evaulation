@@ -64,21 +64,33 @@ VARIANTS = {  # variant -> (target dimension, sub-check, description)
     "degraded_canvas_fill": ("canvas_fill", None, "Tiny boxes spread to the canvas edges."),
     "degraded_resolution_blur": ("resolution", "blur", "Whole image Gaussian-blurred (radius 2.2px)."),
     "degraded_resolution_pixel": ("resolution", "pixelation", "Rendered at 40% without anti-aliasing, then upscaled."),
+    "control_cycle_straight": (None, "control", "Valid design: five steps in a cycle joined by straight diagonal arrows."),
+    "control_cycle_curved": (None, "control", "Valid design: five steps in a cycle joined by curved arrows."),
+    "control_loopback": (None, "control", "Valid design: straight left-to-right flow with one curved loop-back arrow."),
+    "control_tree": (None, "control", "Valid design: a tree whose branches run diagonally from parent to child."),
+    "control_hub": (None, "control", "Valid design: a hub with straight spokes out to six services."),
 }
+CONTROLS = {variant for variant, (_, sub, _) in VARIANTS.items() if sub == "control"}
 VARIANT_TARGET = {variant: spec[0] for variant, spec in VARIANTS.items()}
 DIMENSION_LABELS = v5.DIMENSION_LABELS | {"resolution": "Resolution"}
 LABELS = {"baseline": "Baseline"} | {
     variant: f"Degraded: {DIMENSION_LABELS[target]}" + (f" ({sub})" if sub else "")
     for variant, (target, sub, _) in VARIANTS.items()
     if target
+} | {
+    "control_cycle_straight": "Control: cycle, straight arrows",
+    "control_cycle_curved": "Control: cycle, curved arrows",
+    "control_loopback": "Control: loop-back arrow",
+    "control_tree": "Control: tree, angled branches",
+    "control_hub": "Control: hub and spokes",
 }
 DIMENSION_DEFINITIONS = {
     "centering": "Everything centered: whole diagram on the canvas, each label in its shape, even gaps between neighbors.",
     "space_use": "Nodes must not feel condensed together while usable canvas space is left empty.",
     "color_consistency": "One coherent color theme with no random colors; each role keeps one color.",
     "contrast": "Boxes stand out from the background and touching boxes; arrows stand out from the background.",
-    "alignment": "Everything axis-aligned: upright shapes and labels, nodes on shared lines, horizontal/vertical "
-    "connectors with consistent endpoints.",
+    "alignment": "Deliberate geometry: nothing almost-aligned or slightly tilted; connectors take the cleanest path "
+    "in one consistent routing style; consistent endpoints. Any layout type is valid.",
     "style_uniformity": "Same-role elements share one shape, size, border, font, and arrow stroke/arrowhead.",
     "resolution": "Crisp rendering: no blur, pixelation, jagged stair-steps, or compression artifacts.",
     "canvas_fill": "Script-measured: elements must not be so small that most of the canvas is empty.",
@@ -111,8 +123,8 @@ SHARED_WITH_V5 = {
 
 
 def build_scene(variant: str) -> Scene:
-    if variant not in VARIANTS:
-        raise ValueError(f"Unknown variant {variant!r}")
+    if variant not in VARIANTS or variant in CONTROLS:
+        raise ValueError(f"Unknown grid variant {variant!r}")
     scene = from_v5(v5.build_scene(variant if variant in SHARED_WITH_V5 else "baseline"))
     if variant == "degraded_centering_labels":
         return replace(scene, label_anchor="corner")
@@ -230,6 +242,175 @@ def render(scene: Scene, path: Path) -> Path:
         image = image.filter(ImageFilter.GaussianBlur(scene.blur))
     path.parent.mkdir(parents=True, exist_ok=True)
     image.save(path)
+    return path
+
+
+CYCLE_LABELS = ("Plan", "Build", "Test", "Release", "Review")
+CYCLE_TITLE = "Release Cycle"
+CYCLE_BOX = (150, 70)
+CYCLE_RADIUS = 230
+
+
+def render_cycle(variant: str, path: Path) -> Path:
+    """Valid non-grid layout: five steps evenly spaced on a circle, joined by straight or curved arrows."""
+    s = v5.SUPERSAMPLE
+    box_w, box_h = CYCLE_BOX
+    title_font = v5._font("arialbd.ttf", v4.TITLE_SIZE * s)
+    _, top_px, _, bottom_px = title_font.getbbox(CYCLE_TITLE)
+    title_h, title_gap = (bottom_px - top_px) / s, 60
+    angles = [-90 + 72 * index for index in range(len(CYCLE_LABELS))]
+    reach_up = CYCLE_RADIUS + box_h / 2
+    reach_down = max(CYCLE_RADIUS * math.sin(math.radians(a)) for a in angles) + box_h / 2
+    title_top = (H - (title_h + title_gap + reach_up + reach_down)) / 2
+    center = (W / 2, title_top + title_h + title_gap + reach_up)
+    points = [
+        (center[0] + CYCLE_RADIUS * math.cos(math.radians(a)), center[1] + CYCLE_RADIUS * math.sin(math.radians(a)))
+        for a in angles
+    ]
+    image = Image.new("RGB", (W * s, H * s), v4.BACKGROUND)
+    draw = ImageDraw.Draw(image)
+    draw.text((W / 2 * s, title_top * s), CYCLE_TITLE, fill=v4.INK, font=title_font, anchor="mt")
+    color = v5.ARROW_COLOR
+
+    def head(tip, direction):
+        length = math.hypot(*direction)
+        ux, uy = direction[0] / length, direction[1] / length
+        base = (tip[0] - ux * 12, tip[1] - uy * 12)
+        px, py = -uy * 6.6, ux * 6.6
+        draw.polygon(
+            [(tip[0] * s, tip[1] * s), ((base[0] + px) * s, (base[1] + py) * s), ((base[0] - px) * s, (base[1] - py) * s)],
+            fill=color,
+        )
+        return base
+
+    def clip(point, direction):
+        dx, dy = direction
+        t = min((box_w / 2) / abs(dx) if dx else math.inf, (box_h / 2) / abs(dy) if dy else math.inf)
+        return point[0] + dx * t, point[1] + dy * t
+
+    for index, start_angle in enumerate(angles):
+        a, b = points[index], points[(index + 1) % len(points)]
+        if variant == "control_cycle_curved":
+            pad = 21
+            arc = [
+                (center[0] + CYCLE_RADIUS * math.cos(math.radians(t)), center[1] + CYCLE_RADIUS * math.sin(math.radians(t)))
+                for t in (start_angle + pad + (72 - 2 * pad) * k / 40 for k in range(41))
+            ]
+            base = head(arc[-1], (arc[-1][0] - arc[-3][0], arc[-1][1] - arc[-3][1]))
+            draw.line([(x * s, y * s) for x, y in arc[:-3]] + [(base[0] * s, base[1] * s)], fill=color, width=4 * s, joint="curve")
+        else:
+            direction = (b[0] - a[0], b[1] - a[1])
+            start, end = clip(a, direction), clip(b, (-direction[0], -direction[1]))
+            length = math.dist(start, end)
+            tip = (end[0] - (end[0] - start[0]) / length * 2, end[1] - (end[1] - start[1]) / length * 2)
+            base = head(tip, direction)
+            draw.line([(start[0] * s, start[1] * s), (base[0] * s, base[1] * s)], fill=color, width=4 * s)
+    fill = v4._role_fills(v4.TARGET_LUMINANCE)[1]
+    label_font = v5._font("arialbd.ttf", v4.LABEL_SIZE * s)
+    for point, label in zip(points, CYCLE_LABELS):
+        box = (point[0] - box_w / 2, point[1] - box_h / 2, point[0] + box_w / 2, point[1] + box_h / 2)
+        draw.rounded_rectangle([c * s for c in box], radius=12 * s, fill=fill)
+        draw.text((point[0] * s, point[1] * s), label, fill="#ffffff", font=label_font, anchor="mm")
+    path.parent.mkdir(parents=True, exist_ok=True)
+    image.resize((W, H), Image.LANCZOS).save(path)
+    return path
+
+
+def _draw_head(draw, tip, direction, color, s):
+    length = math.hypot(*direction)
+    ux, uy = direction[0] / length, direction[1] / length
+    base = (tip[0] - ux * 12, tip[1] - uy * 12)
+    px, py = -uy * 6.6, ux * 6.6
+    draw.polygon(
+        [(tip[0] * s, tip[1] * s), ((base[0] + px) * s, (base[1] + py) * s), ((base[0] - px) * s, (base[1] - py) * s)],
+        fill=color,
+    )
+    return base
+
+
+def _clip_box(center, direction, half_w, half_h):
+    dx, dy = direction
+    t = min(half_w / abs(dx) if dx else math.inf, half_h / abs(dy) if dy else math.inf)
+    return center[0] + dx * t, center[1] + dy * t
+
+
+def _layout(name: str):
+    """Valid non-grid layouts: (title, nodes [(label, x, y, w, h, role)], edges [(src, dst, kind)])."""
+    if name == "control_loopback":
+        labels = ("Start", "Draft", "Review", "Approve", "Publish")
+        nodes = [(label, i * 230, 0, 160, 80, "terminal" if i in (0, 4) else "process") for i, label in enumerate(labels)]
+        edges = [(i, i + 1, "straight") for i in range(4)] + [(2, 1, "loop")]
+        return "Publishing Flow", nodes, edges
+    if name == "control_tree":
+        labels = ("Request", "Approve", "Reject", "Fulfil", "Bill", "Notify", "Archive")
+        xs = (0, -220, 220, -330, -110, 110, 330)
+        ys = (0, 150, 150, 300, 300, 300, 300)
+        nodes = [(label, x, y, 150, 64, "terminal" if i == 0 else "process") for i, (label, x, y) in enumerate(zip(labels, xs, ys))]
+        edges = [(0, 1, "straight"), (0, 2, "straight"), (1, 3, "straight"), (1, 4, "straight"), (2, 5, "straight"), (2, 6, "straight")]
+        return "Request Handling", nodes, edges
+    if name == "control_hub":
+        labels = ("Auth", "Billing", "Search", "Email", "Storage", "Logs")
+        nodes = [("Core Service", 0, 0, 190, 80, "terminal")]
+        for i, label in enumerate(labels):
+            angle = math.radians(60 * i)
+            nodes.append((label, 360 * math.cos(angle), 210 * math.sin(angle), 150, 64, "process"))
+        edges = [(0, i, "straight") for i in range(1, 7)]
+        return "Service Map", nodes, edges
+    raise ValueError(f"Unknown control {name!r}")
+
+
+def render_control(variant: str, path: Path) -> Path:
+    if variant.startswith("control_cycle"):
+        return render_cycle(variant, path)
+    title, nodes, edges = _layout(variant)
+    s = v5.SUPERSAMPLE
+    title_font = v5._font("arialbd.ttf", v4.TITLE_SIZE * s)
+    _, top_px, _, bottom_px = title_font.getbbox(title)
+    title_h, title_gap = (bottom_px - top_px) / s, 60
+    loop_rise = 70 if any(kind == "loop" for _, _, kind in edges) else 0
+    left = min(x - w / 2 for _, x, _, w, _, _ in nodes)
+    right = max(x + w / 2 for _, x, _, w, _, _ in nodes)
+    top = min(y - h / 2 for _, _, y, _, h, _ in nodes) - loop_rise
+    bottom = max(y + h / 2 for _, _, y, _, h, _ in nodes)
+    title_top = (H - (title_h + title_gap + bottom - top)) / 2
+    dx, dy = W / 2 - (left + right) / 2, title_top + title_h + title_gap - top
+    nodes = [(label, x + dx, y + dy, w, h, role) for label, x, y, w, h, role in nodes]
+    image = Image.new("RGB", (W * s, H * s), v4.BACKGROUND)
+    draw = ImageDraw.Draw(image)
+    draw.text((W / 2 * s, title_top * s), title, fill=v4.INK, font=title_font, anchor="mt")
+    color = v5.ARROW_COLOR
+    for src, dst, kind in edges:
+        _, ax, ay, aw, ah, _ = nodes[src]
+        _, bx, by, bw, bh, _ = nodes[dst]
+        if kind == "loop":
+            start, end = (ax, ay - ah / 2), (bx, by - bh / 2)
+            control = ((ax + bx) / 2, min(ay, by) - ah / 2 - 2 * loop_rise)
+            curve = [
+                ((1 - t) ** 2 * start[0] + 2 * (1 - t) * t * control[0] + t ** 2 * end[0],
+                 (1 - t) ** 2 * start[1] + 2 * (1 - t) * t * control[1] + t ** 2 * end[1])
+                for t in (k / 60 for k in range(61))
+            ]
+            tip = curve[-2]
+            base = _draw_head(draw, tip, (tip[0] - curve[-6][0], tip[1] - curve[-6][1]), color, s)
+            draw.line([(x * s, y * s) for x, y in curve[:-6]] + [(base[0] * s, base[1] * s)], fill=color, width=4 * s, joint="curve")
+            continue
+        direction = (bx - ax, by - ay)
+        start = _clip_box((ax, ay), direction, aw / 2, ah / 2)
+        end = _clip_box((bx, by), (-direction[0], -direction[1]), bw / 2, bh / 2)
+        length = math.dist(start, end)
+        tip = (end[0] - (end[0] - start[0]) / length * 2, end[1] - (end[1] - start[1]) / length * 2)
+        base = _draw_head(draw, tip, direction, color, s)
+        draw.line([(start[0] * s, start[1] * s), (base[0] * s, base[1] * s)], fill=color, width=4 * s)
+    fills = v4._role_fills(v4.TARGET_LUMINANCE)
+    role_fill = {"terminal": fills[0], "process": fills[1]}
+    label_font = v5._font("arialbd.ttf", v4.LABEL_SIZE * s)
+    for label, x, y, w, h, role in nodes:
+        box = (x - w / 2, y - h / 2, x + w / 2, y + h / 2)
+        radius = h / 2 if role == "terminal" else 12
+        draw.rounded_rectangle([c * s for c in box], radius=radius * s, fill=role_fill[role])
+        draw.text((x * s, y * s), label, fill="#ffffff", font=label_font, anchor="mm")
+    path.parent.mkdir(parents=True, exist_ok=True)
+    image.resize((W, H), Image.LANCZOS).save(path)
     return path
 
 
@@ -390,8 +571,9 @@ def run(
 ) -> dict[str, Any]:
     if repeats < 1:
         raise ValueError("repeats must be at least 1")
-    scenes = {variant: build_scene(variant) for variant in VARIANTS}
+    scenes = {variant: build_scene(variant) for variant in VARIANTS if variant not in CONTROLS}
     paths = {variant: render(scene, output / "diagrams" / f"{variant}.png") for variant, scene in scenes.items()}
+    paths |= {variant: render_control(variant, output / "diagrams" / f"{variant}.png") for variant in CONTROLS}
     mode = "Fixtures only; Canvas Fill measured, no judge calls"
     if live and backend is None:
         if not v4.load_local_key():
@@ -410,7 +592,8 @@ def run(
         "repeats": repeats if full else None,
         "dimensions": list(BEAUTY_V6_DIMENSIONS),
         "variants": {v: {"target": t, "sub_check": s, "description": d} for v, (t, s, d) in VARIANTS.items()},
-        "measurements": {variant: measure(scene, paths[variant]) for variant, scene in scenes.items()},
+        "measurements": {variant: measure(scene, paths[variant]) for variant, scene in scenes.items()}
+        | {variant: {"canvas_footprint_pct": judge_canvas_fill(paths[variant]).footprint_pct} for variant in CONTROLS},
         "results": results if full else {v: {"canvas_fill": r["canvas_fill"]} for v, r in results.items()},
         "metrics": metrics,
         "overall_isolation": (
@@ -418,6 +601,9 @@ def run(
         ),
         "off_target_mean_abs": off_target_mean_abs(results) if full else None,
         "warnings": v4.isolation_warnings(metrics),
+        "controls": (
+            {v: min(results[v][d]["score"] for d in BEAUTY_V6_DIMENSIONS) >= 85 for v in CONTROLS} if full else {}
+        ),
     }
     output.mkdir(parents=True, exist_ok=True)
     (output / "summary.json").write_text(json.dumps(summary, indent=2) + "\n", encoding="utf-8")

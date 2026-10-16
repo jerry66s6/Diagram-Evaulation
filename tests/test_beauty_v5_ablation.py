@@ -47,10 +47,16 @@ class CanvasFillTests(unittest.TestCase):
         return image
 
     def test_outline_boxes_count_by_area_and_thin_lines_are_ignored(self):
-        filled = footprint_percent(self._image([(100, 100, 400, 400)]))
-        outlined = footprint_percent(self._image([(100, 100, 400, 400)], outline_only=True))
-        self.assertAlmostEqual(filled, 100 * 300 * 300 / (1200 * 750), delta=0.5)
+        filled = footprint_percent(self._image([(100, 100, 380, 260)]))
+        outlined = footprint_percent(self._image([(100, 100, 380, 260)], outline_only=True))
+        self.assertAlmostEqual(filled, 100 * 280 * 160 / (1200 * 750), delta=0.5)
         self.assertAlmostEqual(outlined, filled, delta=0.5)
+
+    def test_large_enclosed_regions_are_not_counted(self):
+        # A ring of thin lines enclosing ~25% of the canvas (like a cycle of arrows) is not an element.
+        image = Image.new("RGB", (1200, 750), "white")
+        ImageDraw.Draw(image).rectangle((300, 150, 900, 600), outline="black", width=4)
+        self.assertLess(footprint_percent(image), 1.0)
 
     def test_dark_background_is_detected(self):
         image = Image.new("RGB", (1200, 750), "black")
@@ -59,7 +65,7 @@ class CanvasFillTests(unittest.TestCase):
 
     def test_score_is_one_sided(self):
         self.assertEqual(score_footprint(1.0), 0)
-        self.assertEqual(score_footprint(5.0), 50)
+        self.assertEqual(score_footprint(4.5), 50)
         self.assertEqual(score_footprint(10.0), 100)
         self.assertEqual(score_footprint(60.0), 100)
 

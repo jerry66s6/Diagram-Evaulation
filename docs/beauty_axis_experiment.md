@@ -130,10 +130,10 @@ fixtures; each fixture should lower only its own dimension) and a **breaking** r
 | Space Use | Model | Nodes not condensed while canvas space is empty | v4 |
 | Color Consistency | Model | One coherent theme; each role keeps one hue | v4 |
 | Contrast | Model | Boxes and arrows stand out from the background | v4 |
-| Alignment | Model | Upright shapes and labels; nodes on shared lines; horizontal/vertical arrows; consistent arrow endpoints | v5, expanded v6 |
+| Alignment | Model | Deliberate geometry: no near-misses (almost aligned, almost level); arrows take the cleanest path for the layout (grid by default; rings, hubs, trees, loop-backs may use diagonal or curved arrows); consistent endpoints | v5, expanded v6 |
 | Style Uniformity | Model | Same-role elements share shape, size, border, font, arrow style | v5 |
 | Resolution | Model | No blur, pixelation, or compression artifacts | v6 |
-| Canvas Fill | Python | Elements not so small that most of the canvas is empty (footprint score: 0 at 2%, 100 at 8%+) | v5 |
+| Canvas Fill | Python | Elements not so small that most of the canvas is empty (footprint score: 0 at 3%, 100 at 6%+; large enclosed regions such as the inside of an arrow ring are not counted) | v5 |
 
 Prompts: `src/diagram_correctness/beauty_v6.py`; Canvas Fill: `canvas_fill.py`.
 
@@ -143,14 +143,17 @@ Prompts: `src/diagram_correctness/beauty_v6.py`; Canvas Fill: `canvas_fill.py`.
 |---|---:|---:|---:|---|
 | [v4](../examples/beauty_ablation/v4/iteration2/index.html) | 4 | 97.5 | - | 5 of 7 |
 | [v5](../examples/beauty_ablation/v5/iteration1/index.html) | 7 | 96.9 | 0.48 pts | 7 of 8 new |
-| [v6](../examples/beauty_ablation/v6/iteration3/index.html) | 8 | 92.9 | 0.50 pts | 4 of 9 new |
+| [v6](../examples/beauty_ablation/v6/iteration6/index.html) | 8 | 87.8 | 0.48 pts | 4 of 9 new |
 
 v4 breaks that were judged subjective (dominant title, decoration, oversized, neon colors)
 are excluded from later rounds.
 
 ### v6 isolation
 
-Every fixture drops only its own dimension; the largest off-target change is 2 points.
+Every fixture drops only its own dimension (largest off-target change: 2 points), except the
+mixed-detached-arrows fixture, which Alignment does not reliably catch (see Known gaps).
+Five valid non-grid designs (two cycles, a loop-back arrow, a tree, a hub) score 85+ on every
+dimension.
 
 | Fixture | Target: baseline -> fixture |
 |---|---|
@@ -158,7 +161,7 @@ Every fixture drops only its own dimension; the largest off-target change is 2 p
 | Nodes packed tightly | Space Use 98 -> 58 |
 | Random box colors | Color Consistency 100 -> 30 |
 | Pale boxes and arrows | Contrast 96 -> 35 |
-| Nodes off-grid / tilted / diagonal arrows / mixed detached arrows | Alignment 100 -> 53 / 55 / 42 / **86** |
+| Nodes off-grid / tilted / diagonal arrows / mixed detached arrows | Alignment 99 -> 54 / 55 / 56 / **98** |
 | Mixed shapes, fonts, borders | Style Uniformity 100 -> 35 |
 | Tiny elements | Canvas Fill 100 -> 35 |
 | Blur / pixelation | Resolution 99 -> 52 / 59 |
@@ -167,14 +170,21 @@ Every fixture drops only its own dimension; the largest off-target change is 2 p
 
 | Group | Result |
 |---|---|
-| Confirmed defects from earlier rounds | 10 of 11 caught by their assigned dimension; missed: arrows detached inconsistently by 18px (caught at 45px) |
+| Confirmed defects from earlier rounds | 11 of 11 caught by their assigned dimension |
 | Design-choice control (all arrows equally detached) | Correctly not penalized |
 | New candidates caught | JPEG artifacts, noisy background (Resolution); rotated diagram (Alignment); hairline arrows (Contrast); mixed dashed/solid arrows (Style Uniformity) |
 | New candidates passing every dimension | Ghosting, labels touching box edges, arrowheads buried in boxes, stray marks (correctness does flag stray marks) |
 
 ### Known gaps
 
-- Inconsistently detached arrows are only noticed when gaps are large; accepted for now.
+- **Alignment endpoint consistency is unreliable.** Arrows that are detached inconsistently
+  (some touch their boxes, some stop short) are caught in the breaking round (18px: 61;
+  45px: 75, runs 60/67/98) but missed by the equivalent isolation fixture (98). Across
+  Alignment wordings the result flips between runs. Treat this sub-check as best-effort; a
+  deterministic gap measurement would be needed for a reliable signal.
+- Alignment's valid-layout handling was tested on five designs. A purely general wording
+  ("no near-misses", no default layout) let the judge rationalize defects, so the final
+  wording keeps a grid default with named exceptions; unusual layouts may still be misjudged.
 - One synthetic flowchart and a single model family; scores are not calibrated against
   human ratings.
 
