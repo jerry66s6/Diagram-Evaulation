@@ -1,0 +1,129 @@
+{
+ "diagrams": 15,
+ "variants": 31,
+ "overall_isolation": 26.9,
+ "off_target_mean_abs": 3.2,
+ "missed_by_every_dimension": 18,
+ "invalid_fixtures": {},
+ "controls_mean_drop": {
+  "control_margin": {
+   "layout": null,
+   "connectivity": null,
+   "presence": null,
+   "details": null,
+   "legibility": null
+  },
+  "control_gray": {
+   "layout": null,
+   "connectivity": null,
+   "presence": null,
+   "details": null,
+   "legibility": null
+  }
+ },
+ "baseline_noise_sd": {
+  "layout": 4.3,
+  "connectivity": 3.4,
+  "presence": 0.8,
+  "details": 3.5,
+  "legibility": 0.0
+ },
+ "by_dimension": {
+  "layout": {
+   "n": 0,
+   "isolation": null,
+   "mean_drop": {
+    "layout": null,
+    "connectivity": null,
+    "presence": null,
+    "details": null,
+    "legibility": null
+   }
+  },
+  "connectivity": {
+   "n": 31,
+   "isolation": 26.9,
+   "mean_drop": {
+    "layout": 2.2,
+    "connectivity": 9.1,
+    "presence": -0.0,
+    "details": 3.6,
+    "legibility": 0.0
+   }
+  },
+  "presence": {
+   "n": 0,
+   "isolation": null,
+   "mean_drop": {
+    "layout": null,
+    "connectivity": null,
+    "presence": null,
+    "details": null,
+    "legibility": null
+   }
+  },
+  "details": {
+   "n": 0,
+   "isolation": null,
+   "mean_drop": {
+    "layout": null,
+    "connectivity": null,
+    "presence": null,
+    "details": null,
+    "legibility": null
+   }
+  },
+  "legibility": {
+   "n": 0,
+   "isolation": null,
+   "mean_drop": {
+    "layout": null,
+    "connectivity": null,
+    "presence": null,
+    "details": null,
+    "legibility": null
+   }
+  }
+ },
+ "by_kind": {
+  "erase_arrow": {
+   "criterion": "connectivity.connections",
+   "n": 15,
+   "mean_drop": {
+    "layout": 0.8,
+    "connectivity": 10.7,
+    "presence": 0.6,
+    "details": 4.0,
+    "legibility": 0.0
+   },
+   "caught_pct": 33,
+   "isolation": 30.2
+  },
+  "detach_arrow": {
+   "criterion": "connectivity.endpoints",
+   "n": 8,
+   "mean_drop": {
+    "layout": -2.9,
+    "connectivity": -3.5,
+    "presence": 1.0,
+    "details": -1.0,
+    "legibility": 0.0
+   },
+   "caught_pct": 0,
+   "isolation": 0.0
+  },
+  "reverse_arrow": {
+   "criterion": "connectivity.endpoints",
+   "n": 8,
+   "mean_drop": {
+    "layout": 9.7,
+    "connectivity": 18.6,
+    "presence": -2.1,
+    "details": 7.5,
+    "legibility": 0.0
+   },
+   "caught_pct": 75,
+   "isolation": 47.8
+  }
+ }
+}

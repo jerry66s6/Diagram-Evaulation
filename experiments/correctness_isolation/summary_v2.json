@@ -1,0 +1,142 @@
+{
+ "diagrams": 12,
+ "variants": 48,
+ "overall_isolation": 37.4,
+ "off_target_mean_abs": 9.6,
+ "missed_by_every_dimension": 13,
+ "invalid_fixtures": {},
+ "controls_mean_drop": {
+  "control_margin": {
+   "layout": -7.1,
+   "connectivity": -1.2,
+   "presence": -5.7,
+   "details": -4.9,
+   "legibility": -3.6
+  },
+  "control_gray": {
+   "layout": -2.2,
+   "connectivity": 0.7,
+   "presence": 0.0,
+   "details": -1.2,
+   "legibility": 0.0
+  }
+ },
+ "baseline_noise_sd": {
+  "layout": 2.1,
+  "connectivity": 1.9,
+  "presence": 0.0,
+  "details": 3.7,
+  "legibility": 0.0
+ },
+ "by_dimension": {
+  "layout": {
+   "n": 24,
+   "isolation": 40.6,
+   "mean_drop": {
+    "layout": 33.0,
+    "connectivity": 4.4,
+    "presence": 12.8,
+    "details": 4.8,
+    "legibility": 16.6
+   }
+  },
+  "connectivity": {
+   "n": 0,
+   "isolation": null,
+   "mean_drop": {
+    "layout": null,
+    "connectivity": null,
+    "presence": null,
+    "details": null,
+    "legibility": null
+   }
+  },
+  "presence": {
+   "n": 0,
+   "isolation": null,
+   "mean_drop": {
+    "layout": null,
+    "connectivity": null,
+    "presence": null,
+    "details": null,
+    "legibility": null
+   }
+  },
+  "details": {
+   "n": 0,
+   "isolation": null,
+   "mean_drop": {
+    "layout": null,
+    "connectivity": null,
+    "presence": null,
+    "details": null,
+    "legibility": null
+   }
+  },
+  "legibility": {
+   "n": 24,
+   "isolation": 34.2,
+   "mean_drop": {
+    "layout": 16.7,
+    "connectivity": -1.3,
+    "presence": 0.0,
+    "details": -3.2,
+    "legibility": 21.6
+   }
+  }
+ },
+ "by_kind": {
+  "crop_edge": {
+   "criterion": "layout.canvas",
+   "n": 12,
+   "mean_drop": {
+    "layout": 39.4,
+    "connectivity": 0.5,
+    "presence": 25.5,
+    "details": 4.4,
+    "legibility": 19.2
+   },
+   "caught_pct": 75,
+   "isolation": 43.8
+  },
+  "overlap_box": {
+   "criterion": "layout.overlap",
+   "n": 12,
+   "mean_drop": {
+    "layout": 26.6,
+    "connectivity": 8.3,
+    "presence": 0.0,
+    "details": 5.2,
+    "legibility": 14.1
+   },
+   "caught_pct": 58,
+   "isolation": 37.3
+  },
+  "enlarge_label": {
+   "criterion": "legibility.overflow",
+   "n": 12,
+   "mean_drop": {
+    "layout": 14.7,
+    "connectivity": -1.8,
+    "presence": 0.0,
+    "details": -1.2,
+    "legibility": 24.6
+   },
+   "caught_pct": 75,
+   "isolation": 54.5
+  },
+  "low_resolution": {
+   "criterion": "legibility.minimum_font",
+   "n": 12,
+   "mean_drop": {
+    "layout": 18.7,
+    "connectivity": -0.9,
+    "presence": 0.0,
+    "details": -5.3,
+    "legibility": 18.5
+   },
+   "caught_pct": 25,
+   "isolation": 14.0
+  }
+ }
+}
