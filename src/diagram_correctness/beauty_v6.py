@@ -3,9 +3,9 @@
 Changes from v5:
 - Centering covers three levels: the whole diagram on the canvas, each label inside its
   shape, and even gaps between neighboring nodes.
-- Alignment covers everything being axis-aligned: upright shapes and labels, nodes on
-  shared row/column lines, and connectors that run horizontally/vertically and attach
-  consistently.
+- Alignment is about deliberate geometry: no near-misses (almost aligned, almost level,
+  almost straight), connectors taking the cleanest path in one consistent routing style,
+  and consistent endpoints. No layout type (grid, ring, hub, tree) is preferred.
 - Resolution is new: crisp rendering with no blur, pixelation, or compression damage.
 """
 from __future__ import annotations
@@ -34,8 +34,8 @@ _DIMENSION_OWNERS = """\
   SPACE USE         - whether nodes are packed too tightly overall while usable canvas space is left empty.
   COLOR CONSISTENCY - whether colors form one coherent theme with stable color-to-role mapping.
   CONTRAST          - whether boxes and arrows visibly separate from the background and from touching boxes.
-  ALIGNMENT         - everything is axis-aligned: shapes and labels upright, nodes on shared row/column
-                      lines, connectors running horizontally/vertically and attaching consistently.
+  ALIGNMENT         - geometry is deliberate: nothing almost-aligned or slightly tilted; connectors take
+                      the cleanest path in one consistent routing style and attach consistently.
   STYLE UNIFORMITY  - whether elements of the same role share one shape, size, border, font, and arrow
                       stroke/arrowhead treatment.
   RESOLUTION        - whether the image renders crisply: no blur, pixelation, jagged stair-steps, or
@@ -50,8 +50,8 @@ _SIBLINGS = {
     "space_use": "whether nodes are packed too tightly overall while canvas space is empty (Space Use)",
     "color_consistency": "which hues are used or whether they form a coherent theme (Color Consistency)",
     "contrast": "how light, pale, or hard to see boxes and arrows are against the background (Contrast)",
-    "alignment": "whether shapes, labels, or connectors are tilted or diagonal, nodes sit off their rows/columns, "
-    "or connectors attach inconsistently (Alignment)",
+    "alignment": "whether nodes, shapes, labels, or connectors are almost-but-not-quite aligned or upright, "
+    "connectors take unclean paths, or routing and endpoint styles are inconsistent (Alignment)",
     "style_uniformity": "whether same-role elements differ in shape, size, border, font, or arrow stroke/arrowhead "
     "(Style Uniformity)",
     "resolution": "blur, pixelation, jagged edges, or compression artifacts (Resolution)",
@@ -184,18 +184,34 @@ BEAUTY_V6_PROMPTS = {
         "MENTAL MASK: recolor everything in crisp uniform gray and give every shape the same size. Ignore "
         "fonts, borders, colors, how large the gaps are or whether they are equal, where each label sits "
         "inside its shape, and where the diagram sits on the canvas.\n\n"
+        "PRINCIPLE: the geometry must be DELIBERATE. Whatever structure the diagram uses, everything that is "
+        "meant to line up, stand upright, or follow that structure does so exactly, and connectors take the "
+        "cleanest path for that structure in one consistent style. Near-misses (almost aligned, almost "
+        "level, almost straight) are defects. Grids, rings, hubs, and trees are all valid.\n\n"
         "OBSERVATION TO MAKE (four checks):\n"
         "(A) ORIENTATION: is every shape upright and every label horizontal? Upright means: rectangles, "
         "rounded rectangles, and pills have level top/bottom edges; ellipses have horizontal/vertical "
         "axes; polygons rest on a horizontal edge or have a vertical axis of symmetry; a diamond (decision) "
         "has vertical and horizontal diagonals. Circles are exempt. A tilted whole diagram counts. Name "
         "each tilted shape or label and its approximate angle.\n"
-        "(B) GRID: identify intended rows and columns. For each, estimate how far node centers stray from "
-        "one shared center line, as a fraction of node height (rows) or width (columns).\n"
-        "(C) CONNECTORS: where two connected nodes share a row or column, the connector should run "
-        "straight horizontally or vertically between facing edges; connectors between nodes in different "
-        "rows and columns should use horizontal/vertical (elbow) segments. Note diagonal or slanted "
-        "segments.\n"
+        "(B) STRUCTURE: name the layout's structure. The DEFAULT is a GRID (nodes in rows and columns). "
+        "Other valid structures are a RING (nodes evenly around a circle), a HUB (a central node with "
+        "spokes), a TREE (parents above children in level rows), or an EVEN STAIRCASE (identical steps). "
+        "Choose a non-grid structure only when the nodes clearly and regularly form it. Nodes that sit "
+        "within about one node height of a shared row (or one node width of a shared column) by uneven "
+        "amounts are a MISALIGNED GRID, not a free-form design; when unsure, treat the layout as a grid. "
+        "Then measure: for a grid, how far node centers in each row/column stray from one shared line, as "
+        "a fraction of node size; for a ring, hub, or tree, whether nodes sit evenly on the circle, around "
+        "the hub, or level within each tree row.\n"
+        "(C) CONNECTORS: judge routing against the structure. GRID: connectors between nodes that share a "
+        "row or column run straight and exactly horizontal/vertical between facing edges; connectors "
+        "between nodes in different rows and columns use horizontal/vertical (elbow) segments. RING, HUB, "
+        "TREE, or STAIRCASE: straight lines toward node centers, or smooth arcs that follow a ring, are "
+        "correct; do not require horizontal/vertical routing. In ANY structure, deduct for: a diagonal "
+        "connector between two nodes that share (or nearly share) a row or column; a connector aimed at a "
+        "shape's corner instead of its center or an edge midpoint; and routing styles mixed without reason. "
+        "A curved loop-back or feedback arrow returning to an earlier step is a valid reason and is not a "
+        "defect.\n"
         "(D) ENDPOINTS: compare the connectors WITH EACH OTHER. For each connector, say whether there is "
         "clearly visible white space (roughly 8px or more) between its line and the shape it leaves, and "
         "between its arrowhead and the shape it enters. A gap of only a few pixels counts as touching. "
@@ -204,19 +220,23 @@ BEAUTY_V6_PROMPTS = {
         "connectors clearly float with visible white space at their ends while others run right up to "
         "their shapes.\n\n"
         "SCORE BANDS (score = the WORST of A, B, C, D):\n"
-        "- 90-100: every shape and label upright; centers share their lines (offsets < ~5% of node size); "
-        "every connector horizontal/vertical; all connectors treat their ends the same way.\n"
+        "- 90-100: every shape and label upright; nodes exactly on their structure (offsets < ~5% of node "
+        "size); every connector routed as its structure requires; all connectors treat their ends the "
+        "same way.\n"
         "- 70-89: one minor deviation: one element tilted ~1-3 degrees, one node ~5-15% off its line, one "
-        "connector slightly slanted, or one connector visibly detached while the rest touch (or vice versa).\n"
-        "- 40-69: several deviations: multiple shapes or labels tilted ~3-10 degrees, several nodes "
-        "~15-40% off their lines, several diagonal connectors between nodes that could be joined "
-        "straight, or several connectors visibly detached while others touch.\n"
-        "- 0-39: no consistent orthogonal structure: most shapes tilted, nodes at arbitrary offsets, or "
-        "most connectors diagonal or haphazard.\n\n"
-        "CRITICAL: connectors that ALL stop the same small distance short of their shapes are a valid "
-        "style, not a defect. Different shapes and sizes are aligned when their centers line up. Do not "
-        "deduct for unequal or tight gaps, label position inside a shape, canvas position, styling, "
-        "colors, faintness, or blur."
+        "connector slightly slanted or misdirected, or one connector visibly detached while the rest "
+        "touch (or vice versa).\n"
+        "- 40-69: several deviations: multiple shapes or labels tilted ~3-15 degrees, several nodes "
+        "~15-100% of a node size off their lines in uneven amounts, several connectors routed against the "
+        "structure (diagonal between nodes that share a row, or corner-to-corner), or several connectors "
+        "visibly detached while others touch.\n"
+        "- 0-39: no deliberate structure: most shapes tilted, nodes at arbitrary offsets, or most "
+        "connectors haphazard.\n\n"
+        "CRITICAL: never penalize a ring, hub, tree, or loop-back for not being a grid; their diagonal or "
+        "curved connectors are correct. A near-grid with unevenly offset nodes is a misaligned grid. "
+        "Connectors that ALL stop the same small distance short of their shapes are a valid style. "
+        "Different shapes and sizes are aligned when their centers line up. Do not deduct for unequal or "
+        "tight gaps, label position inside a shape, canvas position, styling, colors, faintness, or blur."
     ),
     "style_uniformity": _preamble("style_uniformity", "STYLE UNIFORMITY")
     + (

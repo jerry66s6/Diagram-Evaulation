@@ -60,9 +60,10 @@ class BeautyV6FixtureTests(unittest.TestCase):
     def setUpClass(cls):
         cls.temp = tempfile.TemporaryDirectory()
         output = Path(cls.temp.name)
-        cls.scenes = {v: v6.build_scene(v) for v in v6.VARIANTS}
+        cls.scenes = {v: v6.build_scene(v) for v in v6.VARIANTS if v not in v6.CONTROLS}
         cls.paths = {v: v6.render(scene, output / f"{v}.png") for v, scene in cls.scenes.items()}
-        cls.measurements = {v: v6.measure(cls.scenes[v], cls.paths[v]) for v in v6.VARIANTS}
+        cls.measurements = {v: v6.measure(cls.scenes[v], cls.paths[v]) for v in cls.scenes}
+        cls.controls = {v: v6.render_control(v, output / f"{v}.png") for v in v6.CONTROLS}
 
     @classmethod
     def tearDownClass(cls):
@@ -112,6 +113,18 @@ class BeautyV6FixtureTests(unittest.TestCase):
                 else:
                     self.assertEqual(score, 100)
 
+    def test_cycle_controls_fill_the_canvas_without_counting_the_loop_interior(self):
+        straight = judge_canvas_fill(self.controls["control_cycle_straight"])
+        curved = judge_canvas_fill(self.controls["control_cycle_curved"])
+        self.assertEqual(straight.score, 100)
+        self.assertEqual(curved.score, 100)
+        # A closed ring of straight arrows must not count its empty interior as filled.
+        self.assertAlmostEqual(straight.footprint_pct, curved.footprint_pct, delta=1.0)
+        self.assertLess(straight.footprint_pct, 10)
+        for variant in ("control_loopback", "control_tree", "control_hub"):
+            with self.subTest(variant=variant):
+                self.assertEqual(judge_canvas_fill(self.controls[variant]).score, 100)
+
 
 class BeautyV6PromptTests(unittest.TestCase):
     def test_prompts_name_every_sibling_as_not_owned(self):
@@ -137,6 +150,7 @@ class BeautyV6PromptTests(unittest.TestCase):
         self.assertEqual(summary["warnings"], [])
         self.assertEqual(summary["off_target_mean_abs"], 0)
         self.assertEqual(summary["overall_isolation"], 100.0)
+        self.assertEqual(summary["controls"], {v: True for v in v6.CONTROLS})
 
 
 if __name__ == "__main__":

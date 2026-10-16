@@ -3,7 +3,8 @@
 The check works on a rendered image (PNG/JPEG), so it applies to any diagram source.
 1. Estimate the background as the most common border color.
 2. Mark every pixel that differs from it as ink.
-3. Fill enclosed holes, so outline-only boxes count by their full area.
+3. Fill enclosed holes up to box size, so outline-only boxes count by their full area.
+   Larger enclosed regions (for example the inside of a cycle of arrows) stay empty.
 4. Remove thin structures (arrows, text strokes, hairlines, small dots) with a
    morphological opening sized to the canvas.
 5. Footprint = remaining area / canvas area. Only a too-SMALL footprint is penalized;
@@ -18,10 +19,12 @@ from pathlib import Path
 from PIL import Image, ImageChops, ImageDraw, ImageFilter
 
 INK_THRESHOLD = 16
-FULL_SCORE_AT = 8.0
-ZERO_SCORE_AT = 2.0
+FULL_SCORE_AT = 6.0
+ZERO_SCORE_AT = 3.0
+MAX_HOLE_PCT = 6.0
 WORKING_SIZE = 480
 _BACKGROUND = 128
+_PROBE = 200
 
 
 @dataclass(frozen=True)
@@ -69,10 +72,25 @@ def footprint_mask(image: Image.Image) -> Image.Image:
     for point in border:
         if pixels[point] == 0:
             ImageDraw.floodfill(flooded, point, _BACKGROUND)
+    flooded = _reopen_large_holes(flooded, MAX_HOLE_PCT / 100 * width * height)
     filled = flooded.point(lambda value: 0 if value == _BACKGROUND else 255)
 
     kernel = max(3, round(min(width, height) / 80) | 1)
     return filled.filter(ImageFilter.MinFilter(kernel)).filter(ImageFilter.MaxFilter(kernel))
+
+
+def _reopen_large_holes(flooded: Image.Image, max_area: float) -> Image.Image:
+    """Mark enclosed holes larger than max_area as background; smaller holes stay filled."""
+    while True:
+        bbox = flooded.point(lambda value: 255 if value == 0 else 0).getbbox()
+        if bbox is None:
+            return flooded
+        pixels = flooded.load()
+        x0, y0, x1, _ = bbox
+        seed = next((x, y0) for x in range(x0, x1) if pixels[x, y0] == 0)
+        ImageDraw.floodfill(flooded, seed, _PROBE)
+        replacement = _BACKGROUND if flooded.histogram()[_PROBE] > max_area else 255
+        flooded = flooded.point(lambda value: replacement if value == _PROBE else value)
 
 
 def footprint_percent(image: Image.Image) -> float:
