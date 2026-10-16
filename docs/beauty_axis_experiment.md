@@ -2,7 +2,15 @@
 
 ## Purpose
 
-This experiment tests whether independent vision-model prompts can measure five
+The current evaluator is **v6: eight Beauty dimensions**, implemented by
+`judge_beauty_v6` in [`beauty_v6.py`](../src/diagram_correctness/beauty_v6.py).
+The human-study UI remains on its existing five-dimension Beauty rubric. The older
+five-dimension `beauty.py` implementation and its saved runs remain available for
+historical experiments, not aliases for v6.
+
+### Historical v3 experiment
+
+The original experiment tests whether independent vision-model prompts can measure five
 visual-quality dimensions without allowing a defect in one dimension to dominate
 the others:
 

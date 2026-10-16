@@ -1,3 +1,4 @@
+"""Historical five-dimension Beauty judge; use beauty_v6 for the current eight."""
 from __future__ import annotations
 
 from dataclasses import dataclass
