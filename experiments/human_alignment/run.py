@@ -188,7 +188,9 @@ def compare() -> None:
         r["judge"]["correctness_overall"] = r["judge_correctness"]
         r["human"]["beauty_overall"] = mean([r["human"][k] for k in BEAUTY])
         r["judge"]["beauty_overall"] = mean([r["judge"][k] for k in BEAUTY])
-    overall = ["correctness_overall", "beauty_overall"]
+        for who in ("human", "judge"):  # overall: the two axes count the same
+            r[who]["overall"] = mean([r[who]["correctness_overall"], r[who]["beauty_overall"]])
+    overall = ["correctness_overall", "beauty_overall", "overall"]
 
     summary = {
         "n": len(rows),
