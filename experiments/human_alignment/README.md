@@ -182,14 +182,14 @@ HS001-HS200:
 
 | d17, HS001-HS200 | Spearman | Kendall | MAE | RMSE |
 |---|---:|---:|---:|---:|
-| Layout | 0.79 | 0.69 | 1.00 | 1.47 |
-| Connectivity | 0.78 | 0.67 | 0.87 | 1.39 |
-| Presence | 0.72 | 0.67 | 0.52 | 1.04 |
-| Details | 0.71 | 0.62 | 0.89 | 1.42 |
+| Layout | 0.80 | 0.70 | 0.98 | 1.44 |
+| Connectivity | 0.80 | 0.69 | 0.84 | 1.32 |
+| Presence | 0.72 | 0.67 | 0.51 | 1.01 |
+| Details | 0.73 | 0.64 | 0.86 | 1.35 |
 | Legibility | 0.78 | 0.65 | 1.17 | 1.56 |
-| Overall correctness | 0.87 | 0.72 | 0.55 | 0.79 |
+| Overall correctness | 0.88 | 0.73 | 0.54 | 0.76 |
 
-d17 stays the best version (overall Spearman d12 0.85, d17 0.87, d18 0.85). HS201-HS300 keep the study scores.
+d17 stays the best version (overall Spearman d12 0.86, d17 0.88, d18 0.86).
 
 ## d17 on HS201-HS300 (held out)
 
@@ -214,6 +214,17 @@ scores before the update (overall Spearman 0.79, MAE 0.71; per dimension 0.57-0.
 Connectivity and Legibility the same, Presence and Details higher, Layout lower (0.67 -> 0.61), overall higher.
 The judge is somewhat lenient (bias +0.34 overall, +0.67 on Legibility) and caught only 2 of 6 erased arrows
 (humans 5).
+
+The human scores for HS201-HS300 in `human_ratings.json` were then updated as well. With the updated scores:
+
+| d17, HS201-HS300 | Spearman | Kendall | Pearson | MAE | RMSE | Bias |
+|---|---:|---:|---:|---:|---:|---:|
+| Layout | 0.67 | 0.56 | 0.74 | 1.35 | 1.86 | +0.29 |
+| Connectivity | 0.72 | 0.62 | 0.74 | 1.19 | 1.72 | -0.03 |
+| Presence | 0.72 | 0.66 | 0.82 | 0.66 | 1.25 | +0.12 |
+| Details | 0.73 | 0.65 | 0.80 | 0.89 | 1.40 | +0.21 |
+| Legibility | 0.80 | 0.68 | 0.82 | 1.32 | 1.69 | +0.64 |
+| Overall correctness | 0.90 | 0.74 | 0.89 | 0.62 | 0.85 | +0.25 |
 
 Caveats: the prompts were tuned on HS001-HS200 (HS101-HS200 were first checked once with d12); HS201-HS300 are untouched. Each
 diagram has one rater; humans often lowered every dimension of a diagram with any error, which the judge, scoring
