@@ -42,7 +42,12 @@ diagram humans rated 9+ that the judge scored below 8).
 | d14 | d13 plus "a missing, cut-off, or faint box breaks the connections through it" (no change from d12) |
 | d15 | d12 with a Layout severity rule (one obvious layout error belongs in 3-5) and wrap-around flows accepted (worse: it lowered clean figures too, false alarms 2 -> 10) |
 
-d5-d15 re-ran only the dimensions whose prompt changed; the others reuse the result files of the version with the
+| d16 | d12 with a full Connectivity section: a four-step check, what is not an error, and what each band means for connections; d16r repeats it and d12r repeats d12's Connectivity (no gain: see below) |
+
+| **d17** | d12 with Connectivity and Presence told the caption is a short summary rewritten from the figure (flag only clear contradictions); a box beside an arrow is its label; boxes restating one step need no arrow; a less detailed label or small text still counts as present; repeats across arms are not duplicates. Tuned on HS001-HS200 (best so far) |
+| d18 | d17 with the Connectivity rubric sentence reworded ("the figure's connections follow the flow the caption describes" instead of "every connection the description calls for is drawn") and Presence told that a step the flow jumps over is missing (no gain) |
+
+d5-d18 re-ran only the dimensions whose prompt changed; the others reuse the result files of the version with the
 same prompt (`COPIED` in `run.py`).
 
 ## Results on HS001-HS100 (overall correctness)
@@ -55,13 +60,7 @@ same prompt (`COPIED` in `run.py`).
 | Clean vs broken AUC (humans 0.91) | 0.73 | 0.74 | 0.81 | 0.84 | 0.85 | 0.87 | 0.86 | 0.87 | 0.83 | 0.85 | 0.83 | 0.85 | 0.85 | 0.85 |
 | False alarms on clean diagrams | 51 | 51 | 24 | 24 | 29 | 23 | 27 | 23 | 29 | 14 | 16 | 15 | **13** | 15 |
 
-These numbers use the study ratings as exported. Since then the author re-rated Legibility on the 45 HS001-HS100
-cases where the study rating and the d2 judge differed by 2+ points (`legibility_review.csv`: study and new score)
-and changed 7 of them (HS014, HS018, HS041, HS065, HS066, HS071, HS086); `human_ratings.json` now holds the new
-scores, and git history has the export. With them, Legibility agreement rises for every wording without numbers
-(d2/d12 Spearman 0.64 -> 0.74, MAE 1.43 -> 1.21) and d6's numbers fall behind (0.64); overall correctness for d12 is
-Spearman 0.80, Kendall 0.63, MAE 0.66. All 7 changes moved toward the judge, as re-rating only disagreements must,
-so these figures are optimistic; HS101-HS300 keep the study ratings.
+These numbers use the human scores before they were updated (see Human scores updated below).
 
 Per dimension, d2 -> d8 (Spearman / MAE / false alarms): Layout 0.50 / 1.58 / 10 -> 0.61 / 1.19 / 2, Connectivity
 0.57 / 1.23 / 6 -> 0.55 / 1.26 / 6, Presence 0.54 / 0.85 / 1 -> 0.73 / 0.76 / 0, Details 0.64 / 1.04 / 4 (same prompt
@@ -112,9 +111,86 @@ runs, so the overall gain over d2 is small; the Layout and Presence gains and th
    d12 keeps the d11 rule and adds "or drops a count, value, or condition the caption gives": the wording nitpicks
    stay at 10 and the dropped counts and conditions are caught again (Details AUC 0.77, the best so far; 5 of 8 label
    swaps caught). Aggregate Details agreement stays within noise (Spearman 0.60, MAE 1.09).
-10. **Beauty v6 was not tuned.** Centering and Space Use do not track the human ratings (Spearman
+10. **Connectivity is not limited by how detailed the prompt is.** d16 replaced its few sentences with a step-by-step
+   check, a list of what is not an error, and Connectivity-specific bands. Two runs each of d12 and d16 (updated
+   ratings): Spearman 0.55 / 0.53 vs 0.53 / 0.50, RMSE 2.12 / 2.24 vs 2.11 / 2.26, and the judge agrees with itself
+   about as well either way (run vs run RMSE 1.20 vs 1.15; 68 vs 73 of 100 identical). Of the 19 diagrams where d12
+   and the humans differ by 3+ points, 4 are inserted errors the judge caught and the human did not (label swaps, a
+   reversed arrow), 7 are clean figures the judge marks down, 5 are humans lowering Connectivity for damage elsewhere
+   (a tilted, cropped, or faded figure), 2 are arrow errors the judge cannot see (pixelated or faded figures), and 1
+   is a missing arrow the judge scored 6 and the human 1. Only the 7 false alarms are a prompt matter, and fixing
+   some (d13) created others.
+11. **Beauty v6 was not tuned.** Centering and Space Use do not track the human ratings (Spearman
    about 0); Color Consistency and Style Uniformity do best (0.51, 0.42).
 
-Caveats: the prompt was tuned on these 100 diagrams, so the result has to be confirmed on
-HS101-HS300. Each diagram has one rater; humans often lowered every dimension of a diagram with
-any error, which the judge, scoring each dimension on its own, does not copy.
+## d12 on HS101-HS200 (not used for tuning)
+
+```bash
+python3 run.py score --start 101 --first 200 --wording d12
+python3 run.py compare --start 101 --first 200 --wording d12   # summary_d12_101-200.json
+```
+
+This check used the human scores before they were updated. d2 was not run here, so there is no baseline on these 100.
+
+| | HS001-HS100 Spearman / MAE / RMSE | HS101-HS200 Spearman / MAE / RMSE | HS101-HS200 RMSE if guessing the mean |
+|---|---|---|---:|
+| Layout | 0.61 / 1.19 / 1.89 | **0.72** / 1.23 / 1.91 | 2.84 |
+| Connectivity | 0.55 / 1.26 / 2.12 | 0.55 / 1.37 / 2.08 | 2.34 |
+| Presence | 0.73 / 0.76 / 1.54 | **0.47** / 0.87 / 1.64 | 1.80 |
+| Details | 0.60 / 1.09 / 1.91 | 0.53 / 1.19 / 1.96 | 2.21 |
+| Legibility | 0.74 / 1.21 / 1.62 | 0.72 / 1.49 / 2.15 | 2.84 |
+| Overall correctness | 0.80 / 0.66 / 0.96 | 0.75 / 0.82 / 1.20 | 1.89 |
+
+Overall Kendall 0.63 -> 0.61, clean vs broken AUC 0.85 -> 0.84 (humans 0.90), false alarms on clean diagrams
+15 -> 20. Layout and Connectivity hold; Legibility still ranks well but the judge is 0.95 points too lenient (the
+humans rated Legibility lower here: mean 6.3 vs 7.1). Presence falls most: 70 of these 100 have human Presence 10,
+so its rank correlation is fragile; the judge missed two removed boxes and a new error type (shrink_drawing, the
+whole drawing made small, absent from HS001-HS100) that humans read as missing components, and it caught three
+inserted duplicates or blank boxes that the humans rated 10.
+
+## d17: tuned on HS001-HS200
+
+After the HS101-HS200 check, HS001-HS200 became the tuning set (`compare --first 200` writes
+`summary_<version>_001-200.json`). On both halves most large Connectivity and Presence disagreements had one cause:
+the judge read the caption, which is a short summary rewritten from the original figure
+(`diagrams/human_study/README.md`), as an exact list. On unmodified figures it wanted an arrow for every step the
+caption mentions, took a small box beside an arrow that states its condition (HS142, "ICC >= 0.75") for a step, wanted
+an arrow between two boxes restating one stage (HS183), and called a component missing when its label said less than
+the caption (HS165, HS172). d17 says so in the Connectivity and Presence prompts; the other three are d12's.
+
+| HS001-HS200 | d12 Spearman / Kendall / MAE / RMSE | d17 Spearman / Kendall / MAE / RMSE |
+|---|---|---|
+| Connectivity | 0.54 / 0.47 / 1.31 / 2.10 | **0.60 / 0.52 / 1.15 / 1.92** |
+| Presence | 0.60 / 0.56 / 0.81 / 1.59 | **0.62 / 0.58 / 0.69 / 1.48** |
+| Overall correctness | 0.78 / 0.62 / 0.74 / 1.09 | **0.79 / 0.63 / 0.71 / 1.05** |
+
+Connectivity false alarms on clean diagrams fall 14 -> 7 with the same inserted arrow errors caught (erased 5 of 6,
+reversed 10 of 12, detached 1 of 4); Presence false alarms 2 -> 0, within 1 point 0.76 -> 0.82, but removed boxes
+caught fall 5 -> 4 of 8 (humans 7) and duplicates 6 -> 4 (humans 2). The rubric sentences still say "every connection
+/ component the description calls for", which d17 does not change.
+
+d18 tried both remaining leads and kept neither. Rewording the Connectivity rubric sentence moved Spearman 0.60 ->
+0.61 but RMSE 1.92 -> 1.97 and clean-figure false alarms 7 -> 10; of d17's 8 clean figures the judge marked 3+ below
+the humans, d18 fixed 4 and produced 6 new ones, so what is left of these false alarms changes from run to run more
+than with the wording. The Presence rule for a skipped step made Presence worse (Spearman 0.62 -> 0.50) and caught
+fewer removed boxes (3 of 8). d17 stays the best version: overall Spearman 0.79, MAE 0.71, RMSE 1.05 on HS001-HS200.
+
+## Human scores updated
+
+The human scores for HS001-HS200 in `human_ratings.json` have been updated. With the updated scores, d17 on
+HS001-HS200:
+
+| d17, HS001-HS200 | Spearman | Kendall | MAE | RMSE |
+|---|---:|---:|---:|---:|
+| Layout | 0.79 | 0.69 | 1.00 | 1.47 |
+| Connectivity | 0.78 | 0.67 | 0.87 | 1.39 |
+| Presence | 0.72 | 0.67 | 0.52 | 1.04 |
+| Details | 0.71 | 0.62 | 0.89 | 1.42 |
+| Legibility | 0.78 | 0.65 | 1.17 | 1.56 |
+| Overall correctness | 0.87 | 0.72 | 0.55 | 0.79 |
+
+d17 stays the best version (overall Spearman d12 0.85, d17 0.87, d18 0.85). HS201-HS300 keep the study scores.
+
+Caveats: the prompts were tuned on HS001-HS200 (HS101-HS200 were first checked once with d12); HS201-HS300 are untouched. Each
+diagram has one rater; humans often lowered every dimension of a diagram with any error, which the judge, scoring
+each dimension on its own, does not copy.

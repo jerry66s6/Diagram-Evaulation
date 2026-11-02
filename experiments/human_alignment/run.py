@@ -321,6 +321,84 @@ DIRECT["d15"] = {"scoring": DIRECT["d2"]["scoring"], "base": {
               "overlapping or knocked out of line, an arrow running through a box, steps out of order) makes the "
               "figure look broken: one such error already belongs in 3-5, and several in 1-3.",
 }}
+# d16 = d12 with a full Connectivity section instead of a few sentences: how to check the connections step by step,
+# what is not an error, and what each score band means for connections. Connectivity was the dimension where the
+# judge disagreed most with itself (d1 vs d1r RMSE 1.51); the idea is that a vaguer task gives noisier scores.
+# d16r repeats d16 and d12r repeats d12's Connectivity, to compare run-to-run noise.
+DIRECT["d16"] = {"scoring": DIRECT["d2"]["scoring"], "base": {
+    **DIRECT["d12"]["base"],
+    "connectivity": (
+        "\n\nHow to check, in order:\n"
+        "1. From the caption, work out the flow: which step leads to which, including branches (yes/no, study arms, "
+        "exclusions) and any loops back.\n"
+        "2. In the figure, follow each of those connections from one component to the next. A connection may run "
+        "through a shared trunk line, a bracket, a line ending at a row of boxes, an arrow to the border of a group or "
+        "panel, or a large background arrow; all of these connect. A plain line without an arrowhead connects two "
+        "components when the direction is clear from the layout.\n"
+        "3. Check the direction of every arrowhead, including in faint or blurry parts of the figure: it points from "
+        "the earlier step to the later one, or back to an earlier step only where the caption describes a loop.\n"
+        "4. Check for arrows that should not be there: one that joins components the caption does not connect, or one "
+        "that ends in empty space.\n\n"
+        "Not an error: the same flow organized differently from what you would draw (branches in another order, an "
+        "exclusion box in the main chain meaning the next step is what remains, sources stacked above the total they "
+        "add up to); a connector that stops just short of a box when it is clear which box it reaches; extra "
+        "connections that fit the caption. Judge against what the caption states, not your own idea of the process.\n\n"
+        "What the bands mean for CONNECTIVITY:\n"
+        "- 9-10: every connection the caption calls for can be followed, in the right direction, and no arrow is "
+        "wrong.\n"
+        "- 7-8: a connection is drawn loosely or ambiguously (an arrowhead hard to make out, a line that could be read "
+        "two ways), but a reader can still work out the flow.\n"
+        "- 4-6: one connection the caption calls for is missing, reversed, or goes to the wrong component, while the "
+        "rest of the flow is right.\n"
+        "- 1-3: several such errors, or one that breaks the main path so a reader cannot get from the start to the "
+        "end."),
+}}
+DIRECT["d16r"] = DIRECT["d16"]
+# d17 = d12 with Connectivity and Presence rewritten, now tuned on HS001-HS200. Most big disagreements in both were
+# the judge reading the caption, a short summary rewritten from the figure, as an exact list: on unmodified figures it
+# wanted an arrow for every step the caption mentions, treated a small box beside an arrow stating its condition
+# ("ICC >= 0.75") as a step, wanted an arrow between two boxes that restate one stage, and called a component missing
+# when its label said less than the caption. It also read tiny text as a blank box and called a stage shown in each
+# study arm a duplicate.
+DIRECT["d17"] = {"scoring": DIRECT["d2"]["scoring"], "base": {
+    **DIRECT["d12"]["base"],
+    "connectivity": (
+        "The caption is a short summary rewritten from the figure: it may merge, split, or reorder steps, and it does "
+        "not describe every line. Use it to understand the flow, and count a connection as wrong only when the "
+        "figure clearly contradicts that flow: two steps that must follow each other have nothing joining them, an "
+        "arrow points the wrong way, or an arrow leads to the wrong component. One line or arrow can serve several "
+        "components (a branching trunk line, a line ending at a row of boxes, a large background arrow with the "
+        "steps placed along it, an arrow ending at the border of a group or panel) and connects each of them. A small "
+        "box beside an arrow that states its condition or a note (a threshold, a criterion, a count) labels that "
+        "arrow and needs no connection of its own. Two boxes that restate the same step need no arrow between them. "
+        "Excluded or removed items are often a side branch that leaves the main flow and ends there, but a figure may "
+        "also put the exclusion box in the main chain, meaning the next step is what remains; both are correct. Judge "
+        "the arrows against what the caption states, not against your own idea of how the process should work."),
+    "presence": (
+        "The caption is a short summary rewritten from the figure and may give more detail than the figure's labels "
+        "(where the data come from, what each arm receives). Go through the components the caption names and find "
+        "each in the figure: a component is present when the figure shows that step or group, even if its label says "
+        "less than the caption (that is a DETAILS matter). Count a component as present only when a reader can see "
+        "what it is: a box with no text, cut off, or hidden under another does not show its component; a box whose "
+        "text is merely small or faint is present (that is a LEGIBILITY matter). Boxes that repeat a name in "
+        "different arms or branches, or restate a stage with added detail, are not duplicates."),
+}}
+DIRECT["d12r"] = DIRECT["d12"]
+# d18 = d17 with two more changes. Connectivity: d17's remaining false alarms on clean figures (8 of 18 cases the judge
+# scored 3+ below the humans) still asked for an arrow at every step the caption mentions, and the rubric sentence
+# still says "every connection the description calls for is drawn"; d18 rewords it to the flow the caption describes
+# (config/rubric.json is unchanged). Presence: its caption false alarms are gone (0 on clean figures), and it is now
+# too lenient: it missed removed boxes (4 of 8, humans 7); d18 adds that a step the flow jumps over is missing.
+DIRECT["d18"] = {"scoring": DIRECT["d2"]["scoring"], "base": {
+    **DIRECT["d17"]["base"],
+    "presence": DIRECT["d17"]["base"]["presence"] + " Check that the flow passes through every step the caption names "
+                "in order: when the caption names a step between two others and the figure goes straight from one to "
+                "the other with no box for it anywhere, that step is missing.",
+}, "rubric": {
+    "connectivity.connections": "The figure's connections follow the flow the caption describes, directly or "
+                                "through intermediate drawn steps, in the right direction. A connection to a component "
+                                "that is not drawn is judged under Presence, not here.",
+}}
 COPIED = {"d5": {"layout": "d4", "presence": "d4", "details": "d2"},  # same prompt, so the same result file
           "d6": {"layout": "d4", "presence": "d4", "details": "d2", "connectivity": "d5"},
           "d7": {"details": "d2"},
@@ -331,7 +409,12 @@ COPIED = {"d5": {"layout": "d4", "presence": "d4", "details": "d2"},  # same pro
           "d12": {"layout": "d8", "connectivity": "d5", "presence": "d7", "legibility": "d2"},
           "d13": {"layout": "d8", "presence": "d7", "details": "d12", "legibility": "d2"},
           "d14": {"layout": "d8", "presence": "d7", "details": "d12", "legibility": "d2"},
-          "d15": {"connectivity": "d5", "presence": "d7", "details": "d12", "legibility": "d2"}}
+          "d15": {"connectivity": "d5", "presence": "d7", "details": "d12", "legibility": "d2"},
+          "d16": {"layout": "d8", "presence": "d7", "details": "d12", "legibility": "d2"},
+          "d16r": {"layout": "d8", "presence": "d7", "details": "d12", "legibility": "d2"},
+          "d12r": {"layout": "d8", "presence": "d7", "details": "d12", "legibility": "d2"},
+          "d17": {"layout": "d12", "details": "d12", "legibility": "d12"},
+          "d18": {"layout": "d12", "details": "d12", "legibility": "d12"}}
 PANEL = (660, 360)  # the study's diagram panel on a 1440-pixel-wide screen (user-study/app/globals.css)
 
 
@@ -371,8 +454,8 @@ def _direct_prompt(dimension, caption, wording="d1", inventory=None, image=None)
     change = DIRECT[wording]
     lines = _sketch_lines(inventory, dimension) if inventory else []
     checklist = SKETCH_NOTE + "\n".join(lines) + "\n\n" if lines else ""
-    criteria = [c["description"] for c in json.load(open(ROOT / "config" / "rubric.json"))["criteria"]
-                if c["dimension"] == dimension]
+    criteria = [change.get("rubric", {}).get(c["id"], c["description"])  # a version may reword a rubric criterion
+                for c in json.load(open(ROOT / "config" / "rubric.json"))["criteria"] if c["dimension"] == dimension]
     conventions = change.get("base", DIRECT_CONVENTIONS)[dimension]
     if "{display}" in conventions:
         conventions = conventions.format(display=_display(image))
@@ -663,7 +746,7 @@ def compare(first: int | None = None, wording: str = "v1", start: int = 1) -> No
         "false_alarms": {k: sum(r["label"] == "positive" and r["human"][k] >= 9 and r["judge"][k] is not None
                                 and r["judge"][k] < CAUGHT for r in rows) for k in CORRECTNESS},
     }
-    suffix = ("" if wording == "v1" else f"_{wording}") + (f"_{start:03d}-{first:03d}" if start > 1 else "")
+    suffix = ("" if wording == "v1" else f"_{wording}") + (f"_{start:03d}-{first:03d}" if (start, first) != (1, 100) and first else "")
     (HERE / f"summary{suffix}.json").write_text(json.dumps(summary, indent=1))
     (HERE / f"judge_scores{suffix}.json").write_text(json.dumps(
         {"model": "gpt-6-luna", "scale": "0-10", "diagrams": {r["id"]: {"correctness": r["judge_correctness"], "scores": {
@@ -770,6 +853,13 @@ VERSIONS = [  # (wording, method, what it is)
     ("d14", "Direct", "d13 plus: a missing, cut-off, or faint box breaks the connections through it."),
     ("d15", "Direct", "d12 with a Layout severity rule (one obvious layout error belongs in 3-5) and wrap-around flows "
                       "accepted."),
+    ("d16", "Direct", "d12 with a full Connectivity section: a four-step check, what is not an error, and what each band "
+                      "means for connections."),
+    ("d17", "Direct", "d12 with Connectivity and Presence told the caption is a short summary rewritten from the figure: "
+                      "flag only clear contradictions; a box beside an arrow is its label; a less detailed label still "
+                      "counts as present. Tuned on HS001-HS200."),
+    ("d18", "Direct", "d17 with the Connectivity rubric sentence reworded to the flow the caption describes, and Presence "
+                      "told that a step the flow jumps over is missing."),
 ]
 CHOSEN = "d2"
 
