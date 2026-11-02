@@ -2,7 +2,7 @@
 (correctness pipeline + Beauty v6, gpt-6-luna) and compare with the human ratings.
 
     python3 run.py score      # resumable; raw outputs in results/<id>/
-    python3 run.py compare    # judge_scores.json, summary.json, tables printed as markdown
+    python3 run.py compare --first 100   # HS001-HS100 (prompt-tuning set); summary.json, judge_scores.json
 
 Nothing outside this folder is changed. Images come from diagrams/human_study/images (git-ignored).
 """
@@ -164,8 +164,8 @@ def _auc(scores, labels):
     return wins / (len(pos) * len(neg)) if pos and neg else None
 
 
-def compare() -> None:
-    humans = _humans()
+def compare(first: int | None = None) -> None:
+    humans = [d for d in _humans() if first is None or int(d["id"][2:]) <= first]
     rows = []
     for d in humans:
         judge = _judge(d["id"])
@@ -230,9 +230,10 @@ if __name__ == "__main__":
     s = sub.add_parser("score")
     s.add_argument("--workers", type=int, default=12)
     s.add_argument("--only", help="comma-separated diagram ids (for a quick trial)")
-    sub.add_parser("compare")
+    c = sub.add_parser("compare")
+    c.add_argument("--first", type=int, help="only HS001..HSnnn")
     args = parser.parse_args()
     if args.cmd == "score":
         score(args.workers, set(args.only.split(",")) if args.only else None)
     else:
-        compare()
+        compare(args.first)
