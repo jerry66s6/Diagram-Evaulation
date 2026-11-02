@@ -751,7 +751,7 @@
     "resolution": 6,
     "canvas_fill": 7
    },
-   "comment": "AI-assisted evaluation: The database-search node (n=1894) is missing, leaving a dangling arrow. The arrow between records screened and records after duplicates removed points upward. Labels and outlines are somewhat blurred, with excess space at the top.",
+   "comment": "",
    "seconds": 205.9
   },
   {
@@ -5147,7 +5147,7 @@
     "resolution": 6,
     "canvas_fill": 7
    },
-   "comment": "AI-assisted evaluation: The 503-record final box overlaps and obscures the 642-record screening box. It appears before the missing-data exclusion, while the main arrow continues downward into an empty final area. Counts are present, but placement and connections make the sequence misleading.",
+   "comment": "",
    "seconds": 69.0
   },
   {
@@ -7306,7 +7306,7 @@
     "resolution": 4,
     "canvas_fill": 9
    },
-   "comment": "AI-assisted evaluation: The database-identification and duplicate-removal nodes are swapped, so the flow starts with duplicates and points sideways to identified studies. The top box has incomplete borders. Exclusion text is extremely faint, and the entire image is noticeably pixelated.",
+   "comment": "",
    "seconds": 19.0
   },
   {

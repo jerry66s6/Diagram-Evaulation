@@ -132,20 +132,16 @@ def _judge(diagram_id):
     folder = RESULTS / diagram_id
     if not (folder / "correctness.json").exists():
         return None
-    c = json.load(open(folder / "correctness.json"))  # correctness is 0-1; beauty is already 0-100
-    scores = {k: None if c["dimensions"].get(k) is None else 100 * c["dimensions"][k] for k in CORRECTNESS}
+    c = json.load(open(folder / "correctness.json"))  # everything on 0-10: correctness is 0-1, beauty 0-100
+    scores = {k: None if c["dimensions"].get(k) is None else 10 * c["dimensions"][k] for k in CORRECTNESS}
     for dim in BEAUTY:
         path = folder / f"beauty_{dim}.json"
-        scores[dim] = json.load(open(path))["score"] if path.exists() else None
-    return {"correctness": 100 * c["correctness"], "scores": scores}
-
-
-def _human100(score):
-    return (score - 1) / 9 * 100  # 1-10 -> 0-100, the judge's scale
+        scores[dim] = json.load(open(path))["score"] / 10 if path.exists() else None
+    return {"correctness": 10 * c["correctness"], "scores": scores}
 
 
 def _stats(pairs):
-    """pairs of (human 0-100, judge 0-100)."""
+    """pairs of (human 1-10, judge 0-10)."""
     pairs = [(h, j) for h, j in pairs if h is not None and j is not None]
     if len(pairs) < 3:
         return {"n": len(pairs)}
@@ -175,7 +171,7 @@ def compare() -> None:
         judge = _judge(d["id"])
         if judge is None:
             continue
-        human = {k: _human100(v) for k, v in d["scores"].items()}
+        human = dict(d["scores"])  # as rated, 1-10
         rows.append({"id": d["id"], "difficulty": d["difficulty"], "label": d["label"], "rater": d["rater"],
                      "human": human, "judge": judge["scores"], "judge_correctness": judge["correctness"]})
     print(f"{len(rows)} of {len(humans)} diagrams scored by the judge\n")
@@ -205,10 +201,10 @@ def compare() -> None:
     }
     (HERE / "summary.json").write_text(json.dumps(summary, indent=1))
     (HERE / "judge_scores.json").write_text(json.dumps(
-        {"model": "gpt-6-luna", "scale": "0-100", "diagrams": {r["id"]: {"correctness": r["judge_correctness"], "scores": {
+        {"model": "gpt-6-luna", "scale": "0-10", "diagrams": {r["id"]: {"correctness": r["judge_correctness"], "scores": {
             k: r["judge"][k] for k in CORRECTNESS + BEAUTY}} for r in rows}}, indent=1))
 
-    fmt = lambda v: "-" if v is None else f"{v:.2f}" if abs(v) <= 1 else f"{v:.1f}"
+    fmt = lambda v: "-" if v is None else f"{v:.2f}"
     print("| Dimension | n | Human mean | Judge mean | MAE | RMSE | Spearman | Pearson | AUC human | AUC judge |")
     print("|---|---:|---:|---:|---:|---:|---:|---:|---:|---:|")
     auc = summary["positive_vs_negative_auc"]
