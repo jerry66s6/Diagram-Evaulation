@@ -155,18 +155,7 @@ class CorrectnessPipeline:
             return path
         if not supplied_svg:
             raise ValueError("A candidate SVG or rendered candidate image is required")
-        svg_path = Path(supplied_svg)
-        _require_file(svg_path)
-        if sys.platform == "darwin" and Path("/opt/homebrew/lib/libcairo.2.dylib").is_file():
-            fallback = os.environ.get("DYLD_FALLBACK_LIBRARY_PATH", "")
-            if "/opt/homebrew/lib" not in fallback.split(":"):
-                os.environ["DYLD_FALLBACK_LIBRARY_PATH"] = ":".join(
-                    part for part in ("/opt/homebrew/lib", fallback) if part
-                )
-        from cairosvg import svg2png
-
-        svg2png(url=str(svg_path), write_to=str(output))
-        return output
+        return render_svg(supplied_svg, output)
 
     def _resolve_svg(self, supplied_svg: str | Path | None) -> Path | None:
         if not supplied_svg:
@@ -174,6 +163,22 @@ class CorrectnessPipeline:
         path = Path(supplied_svg)
         _require_file(path)
         return path
+
+
+def render_svg(svg: str | Path, output: Path) -> Path:
+    """Render an SVG to PNG with cairosvg."""
+    svg_path = Path(svg)
+    _require_file(svg_path)
+    if sys.platform == "darwin" and Path("/opt/homebrew/lib/libcairo.2.dylib").is_file():
+        fallback = os.environ.get("DYLD_FALLBACK_LIBRARY_PATH", "")
+        if "/opt/homebrew/lib" not in fallback.split(":"):
+            os.environ["DYLD_FALLBACK_LIBRARY_PATH"] = ":".join(
+                part for part in ("/opt/homebrew/lib", fallback) if part
+            )
+    from cairosvg import svg2png
+
+    svg2png(url=str(svg_path), write_to=str(output))
+    return output
 
 
 def _require_file(path: Path) -> None:

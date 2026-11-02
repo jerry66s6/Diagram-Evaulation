@@ -7,8 +7,9 @@ import sys
 from pathlib import Path
 
 from .deterministic import DeterministicJudge, GeometryConfig
+from .direct import judge_correctness, overall
 from .models import PresencePolicy
-from .pipeline import CorrectnessPipeline, PipelineConfig
+from .pipeline import CorrectnessPipeline, PipelineConfig, render_svg
 from .rubric import load_config, load_rubric
 from .vlm import ExpectationExtractor, OpenAIBackend, VLMJudge
 
@@ -19,11 +20,17 @@ def build_parser() -> argparse.ArgumentParser:
     candidate = parser.add_mutually_exclusive_group(required=True)
     candidate.add_argument(
         "--candidate-svg",
-        help="Generated candidate SVG (rendered internally for GPT and parsed for geometry)",
+        help="Generated candidate SVG (rendered internally; parsed for geometry by the formula method)",
     )
     candidate.add_argument(
         "--candidate",
-        help="Rendered candidate image (PNG or JPEG); scored by the GPT judge only, because the deterministic judge reads SVG",
+        help="Rendered candidate image (PNG or JPEG)",
+    )
+    parser.add_argument(
+        "--method",
+        choices=["direct", "formula"],
+        default="direct",
+        help="direct (default): one 1-10 model score per dimension; formula: the earlier sketch-and-formula pipeline",
     )
     parser.add_argument("--rubric", default="config/rubric.json")
     parser.add_argument("--config", default="config/evaluator.json")
@@ -45,6 +52,19 @@ def main(argv: list[str] | None = None) -> int:
         # OPENAI_MODEL (for example from .env) overrides both models in the config.
         if os.environ.get("OPENAI_MODEL"):
             models["judge"] = models["expectation"] = os.environ["OPENAI_MODEL"]
+        description = Path(args.description).read_text(encoding="utf-8")
+        output = Path(args.output)
+        if args.method == "direct":
+            image = args.candidate or render_svg(args.candidate_svg, output.with_suffix(".png"))
+            scores = judge_correctness(OpenAIBackend(models["judge"]), image, description, criteria)
+            result = {"method": "direct", "model": models["judge"], "scale": "1-10",
+                      "correctness": overall(scores), "dimensions": {k: v.to_dict() for k, v in scores.items()}}
+            output.write_text(json.dumps(result, indent=2), encoding="utf-8")
+            print(f"Correctness: {result['correctness']:.2f} / 10")
+            for dimension, score in scores.items():
+                print(f"  {dimension}: {score.score}")
+            print(f"Report: {output.resolve()}")
+            return 0
         policy = PresencePolicy.from_dict(settings.get("presence_policy"))
         judges = [VLMJudge(OpenAIBackend(models["judge"]), policy, samples=int(settings.get("judge_samples", 1)))]
         geometry = settings.get("geometry", {})
@@ -76,14 +96,12 @@ def main(argv: list[str] | None = None) -> int:
                 error_factor=settings.get("error_factor"),
             )
         )
-        description = Path(args.description).read_text(encoding="utf-8")
         report = pipeline.run(
             description=description,
             candidate_image=args.candidate,
             candidate_svg=candidate_svg,
             run_deterministic=use_deterministic and bool(candidate_svg),
         )
-        output = Path(args.output)
         output.write_text(json.dumps(report.to_dict(), indent=2), encoding="utf-8")
         print(f"Correctness: {report.correctness:.4f}")
         for dimension, result in report.dimensions.items():

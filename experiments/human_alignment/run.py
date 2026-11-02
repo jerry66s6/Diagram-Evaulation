@@ -6,6 +6,7 @@
     python3 run.py score --first 100 --wording v2     # correctness only, with the v2 prompt wording
     python3 run.py compare --first 100 --wording v2   # summary_v2.json
     python3 run.py tune --wordings v1,v1r,v2          # side by side, from the summaries
+    python3 run.py report                             # report.html: every version on HS001-HS100
 
 Nothing outside this folder is changed. Images come from diagrams/human_study/images (git-ignored).
 """
@@ -130,10 +131,37 @@ DIRECT = {
         },
     },
 }
+# d3 = d2 + the checklist (steps 1 and 2 of the original method): the caption sketch, made with the v3 side-branch
+# sentence, is shown to each dimension, and the model goes through it item by item before scoring. No formula.
+DIRECT["d3"] = {**DIRECT["d2"], "sketch": True}
+SKETCH_NOTE = (
+    "Checklist: before seeing the figure, another model read only the caption and listed what this diagram should "
+    "contain; the items for this dimension are below. Go through the required items one by one and decide whether "
+    "the figure shows each, matching by meaning, then look at the rest of the figure. Typical items are only "
+    "guesses and never lower the score. The checklist is a sketch: a figure organized or worded differently that "
+    "still shows what the caption describes is fine.\n"
+)
 
 
-def _direct_prompt(dimension, caption, wording="d1"):
+def _sketch_lines(inventory, dimension):
+    """The checklist items one dimension needs, as plain lines (Legibility needs none)."""
+    names = {c["id"]: c["label"] for c in inventory.get("components", [])}
+    arrow = lambda e: f"{names.get(e['source'], e['source'])} -> {names.get(e['target'], e['target'])}" + (
+        f" (labeled '{e['label']}')" if e.get("label") else "")
+    if dimension == "presence":
+        return [f"- [{c['tier']}] {c['label']}" for c in inventory.get("components", [])]
+    if dimension == "details":
+        return [f"- [{c['tier']}] {c['label']}" for c in inventory.get("components", [])] + [
+            f"- [{e['tier']}] arrow {arrow(e)}" for e in inventory.get("connections", []) if e.get("label")]
+    if dimension in ("connectivity", "layout"):
+        return [f"- [{e['tier']}] {arrow(e)}" for e in inventory.get("connections", [])]
+    return []
+
+
+def _direct_prompt(dimension, caption, wording="d1", inventory=None):
     change = DIRECT[wording]
+    lines = _sketch_lines(inventory, dimension) if inventory else []
+    checklist = SKETCH_NOTE + "\n".join(lines) + "\n\n" if lines else ""
     criteria = [c["description"] for c in json.load(open(ROOT / "config" / "rubric.json"))["criteria"]
                 if c["dimension"] == dimension]
     name = dimension.upper()
@@ -143,8 +171,8 @@ def _direct_prompt(dimension, caption, wording="d1"):
         + " ".join(criteria) + (" " + DIRECT_CONVENTIONS[dimension] if DIRECT_CONVENTIONS[dimension] else "")
         + change.get("conventions", {}).get(dimension, "")
         + f"\n\nEach aspect has its own rater:\n{DIRECT_OWNERS}\nJudge only {name}.\n\n"
-        + DIRECT_SCORING + change.get("scoring", "") + "\n\n"
-        "First list the problems you see on this dimension, each with where it is (an empty list if there are "
+        + DIRECT_SCORING + change.get("scoring", "") + "\n\n" + checklist
+        + "First list the problems you see on this dimension, each with where it is (an empty list if there are "
         "none), then give the score and a one- or two-sentence reason.\n\nCaption:\n" + caption
     )
 
@@ -256,8 +284,27 @@ def score(workers: int, only: set[str] | None = None, first: int | None = None, 
             result = judge_beauty_dimension(beauty_backend, ROOT / d["image"], dimension, BEAUTY_V6_PROMPTS)
         return {"score": result.score, "observation": result.observation, "reasoning": result.reasoning}
 
+    sketches = {}
+    if DIRECT.get(wording, {}).get("sketch"):  # step 1 once per diagram, with the v3 side-branch sentence
+        sketch_pipeline, sketch_backends = _pipeline(model, "v3")
+        backends += sketch_backends
+
+        def sketch(d):
+            path = RESULTS / d["id"] / _inventory_file("v3")
+            if not path.exists():
+                path.parent.mkdir(parents=True, exist_ok=True)
+                inv = sketch_pipeline.config.expectation_extractor.extract(d["caption"], sketch_pipeline.config.criteria)
+                path.write_text(json.dumps(inv, indent=1))
+            return d["id"], json.loads(path.read_text())
+
+        todo = [d for d in _humans() if (not only or d["id"] in only) and (not first or int(d["id"][2:]) <= first)]
+        with ThreadPoolExecutor(workers) as pool:
+            sketches = dict(pool.map(sketch, todo))
+        print(f"{len(sketches)} sketches ready", flush=True)
+
     def direct(d, dimension):
-        payload = beauty_backend.structured(_direct_prompt(dimension, d["caption"], wording), [ROOT / d["image"]],
+        prompt = _direct_prompt(dimension, d["caption"], wording, sketches.get(d["id"]))
+        payload = beauty_backend.structured(prompt, [ROOT / d["image"]],
                                             DIRECT_SCHEMA, f"diagram_correctness_{dimension}")
         if not isinstance(payload.get("score"), int) or not 1 <= payload["score"] <= 10:
             raise RuntimeError(f"invalid score for {dimension}: {payload.get('score')!r}")
@@ -456,6 +503,181 @@ def tune(wordings: list[str]) -> None:
         print(f"  {k}: human {v['human']}/{v['n']}, judge " + ", ".join(f"{w} {caught[w].get(k, '-')}" for w in wordings))
 
 
+# ---------- report ----------
+
+VERSIONS = [  # (wording, method, what it is)
+    ("v1", "Sketch + formula", "The evaluator as it was in git: a sketch from the caption, an item-by-item check "
+                               "(3 samples, majority vote), and code computing the score."),
+    ("v1r", "Sketch + formula", "v1 run again unchanged, to measure run-to-run noise."),
+    ("v2", "Sketch + formula", "v1 plus four general sentences (shared connectors, judge text at display size, cut-off "
+                               "labels are wrong, steps in the described order), from the v1 mistakes."),
+    ("d1", "Direct", "No sketch, no formula: each dimension asked once with the image and caption; the model gives "
+                     "1-10, with the scoring idea (what costs how much) in the prompt."),
+    ("d1r", "Direct", "d1 run again unchanged, to measure run-to-run noise."),
+    ("d2", "Direct", "d1 plus four general sentences, from the d1 mistakes: a problem that makes the diagram harder "
+                     "to read, follow, or trust is a clear error; boxes touching the image edge are not cut off; judge "
+                     "arrows against the caption, not your own idea of the process; do not recompute numbers."),
+    ("d3", "Direct + sketch", "d2 plus the sketch: each dimension also gets the caption checklist and goes through it "
+                              "before scoring."),
+]
+CHOSEN = "d2"
+
+
+def report() -> None:
+    """report.html: the HS001-HS100 results of every version (recomputes the summaries first)."""
+    import contextlib
+    import html
+    import io
+    names = [w for w, _, _ in VERSIONS]
+    for w in names:
+        with contextlib.redirect_stdout(io.StringIO()):
+            compare(100, w)
+    sums = {w: json.load(open(HERE / f"summary{'' if w == 'v1' else '_' + w}.json")) for w in names}
+    humans = [d for d in _humans() if int(d["id"][2:]) <= 100]
+    count = lambda key: {v: sum(d[key] == v for d in humans) for v in sorted({d[key] for d in humans})}
+    f2 = lambda v: "-" if v is None else f"{v:.2f}"
+
+    # run-to-run noise: d1 vs its repeat d1r
+    noise = {}
+    for k in CORRECTNESS:
+        a = [json.load(open(RESULTS / d["id"] / f"direct_d1_{k}.json"))["score"] for d in humans]
+        b = [json.load(open(RESULTS / d["id"] / f"direct_d1r_{k}.json"))["score"] for d in humans]
+        noise[k] = (sum(x == y for x, y in zip(a, b)), sum(abs(x - y) <= 1 for x, y in zip(a, b)))
+
+    def best_row(values, higher=True):
+        real = [v for v in values if v is not None]
+        target = (max if higher else min)(real) if real else None
+        return [f'<td class="num{" best" if v is not None and v == target else ""}">{f2(v)}</td>' for v in values]
+
+    rows_overall = ""
+    for label, key, higher in [("MAE (points)", "mae", False), ("Within 1 point", "within_1", True),
+                               ("Spearman", "spearman", True), ("Kendall", "kendall", True), ("Pearson", "pearson", True)]:
+        rows_overall += f"<tr><th>{label}</th>" + "".join(best_row([sums[w]["all"]["correctness_overall"][key] for w in names], higher)) + "</tr>"
+    rows_overall += "<tr><th>Clean vs broken (AUC)</th>" + "".join(
+        best_row([sums[w]["positive_vs_negative_auc"]["judge"]["correctness_overall"] for w in names])) + "</tr>"
+    rows_overall += "<tr><th>False alarms on clean diagrams</th>" + "".join(
+        best_row([sum(sums[w]["false_alarms"].values()) for w in names], False)).replace(".00<", "<") + "</tr>"
+
+    rows_spearman = "".join(f"<tr><th>{k.capitalize()}</th>" + "".join(best_row([sums[w]["all"][k]["spearman"] for w in names])) + "</tr>"
+                            for k in CORRECTNESS)
+    rows_kendall = "".join(f"<tr><th>{k.capitalize()}</th>" + "".join(best_row([sums[w]["all"][k]["kendall"] for w in names])) + "</tr>"
+                           for k in CORRECTNESS)
+    rows_mae = "".join(f"<tr><th>{k.capitalize()}</th>" + "".join(best_row([sums[w]["all"][k]["mae"] for w in names], False)) + "</tr>"
+                       for k in CORRECTNESS)
+    rows_auc = "".join(f"<tr><th>{k.capitalize()}</th><td class='num human'>{f2(sums['v1']['positive_vs_negative_auc']['human'][k])}</td>"
+                       + "".join(best_row([sums[w]["positive_vs_negative_auc"]["judge"][k] for w in names])) + "</tr>" for k in CORRECTNESS)
+    rows_alarm = "".join(f"<tr><th>{k.capitalize()}</th>" + "".join(best_row([sums[w]["false_alarms"][k] for w in names], False)).replace(".00<", "<") + "</tr>"
+                         for k in CORRECTNESS)
+    rows_caught = ""
+    for key, c in sums["v1"]["caught"].items():
+        defect, dim = key.split(" (")
+        rows_caught += (f"<tr><th>{defect.replace('_', ' ')}</th><td>{dim.rstrip(')')}</td><td class='num'>{c['n']}</td>"
+                        f"<td class='num human'>{c['human']}</td>" + "".join(f"<td class='num'>{sums[w]['caught'][key]['judge']}</td>" for w in names) + "</tr>")
+    rows_noise = "".join(f"<tr><th>{k.capitalize()}</th><td class='num'>{noise[k][0]}</td><td class='num'>{noise[k][1]}</td></tr>" for k in CORRECTNESS)
+    rows_beauty = "".join(
+        f"<tr><th>{k.replace('_', ' ').capitalize()}</th><td class='num'>{f2(s['human_mean'])}</td><td class='num'>{f2(s['judge_mean'])}</td>"
+        f"<td class='num'>{f2(s['mae'])}</td><td class='num'>{f2(s['spearman'])}</td><td class='num'>{f2(s['kendall'])}</td>"
+        f"<td class='num human'>{f2(sums['v1']['positive_vs_negative_auc']['human'][k])}</td><td class='num'>{f2(sums['v1']['positive_vs_negative_auc']['judge'][k])}</td></tr>"
+        for k in BEAUTY + ["beauty_overall"] for s in [sums["v1"]["all"][k]])
+    rows_versions = "".join(f"<tr><th>{w}{' ★' if w == CHOSEN else ''}</th><td>{m}</td><td>{html.escape(t)}</td></tr>" for w, m, t in VERSIONS)
+    head = "".join(f"<th class='num{' chosen' if w == CHOSEN else ''}'>{w}</th>" for w in names)
+
+    v1, ch = sums["v1"]["all"]["correctness_overall"], sums[CHOSEN]["all"]["correctness_overall"]
+    auc = lambda w: sums[w]["positive_vs_negative_auc"]["judge"]["correctness_overall"]
+    tiles = [("Spearman with humans", f2(v1["spearman"]), f2(ch["spearman"]), "overall correctness, higher is better"),
+             ("Mean absolute error", f2(v1["mae"]), f2(ch["mae"]), "points on 0-10, lower is better"),
+             ("Clean vs broken (AUC)", f2(auc("v1")), f2(auc(CHOSEN)),
+              f"humans {f2(sums['v1']['positive_vs_negative_auc']['human']['correctness_overall'])}"),
+             ("False alarms on clean diagrams", str(sum(sums["v1"]["false_alarms"].values())), str(sum(sums[CHOSEN]["false_alarms"].values())),
+              "humans 9+, judge below 8, summed over 5 dimensions")]
+    tiles_html = "".join(f"<div class='tile'><div class='tl'>{t}</div><div class='tv'><span class='old'>{a}</span> → <b>{b}</b></div>"
+                         f"<div class='tn'>{n}</div></div>" for t, a, b, n in tiles)
+    diff, lab, rater = count("difficulty"), count("label"), count("rater")
+
+    page = f"""<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Human Alignment Results</title>
+<style>
+:root{{--bg:#fbfbfa;--fg:#1d1d1b;--muted:#6b6a66;--line:#e4e2dc;--card:#ffffff;--accent:#2f6f5e;--accent-bg:#e3f0eb;--human:#8a5a12;--human-bg:#f6ecdc}}
+@media (prefers-color-scheme: dark){{:root:not([data-theme="light"]){{--bg:#161615;--fg:#ecebe7;--muted:#a19f99;--line:#33322f;--card:#1f1f1d;--accent:#7cc4ad;--accent-bg:#1f3a32;--human:#e0b46e;--human-bg:#3a2e1b}}}}
+:root[data-theme="dark"]{{--bg:#161615;--fg:#ecebe7;--muted:#a19f99;--line:#33322f;--card:#1f1f1d;--accent:#7cc4ad;--accent-bg:#1f3a32;--human:#e0b46e;--human-bg:#3a2e1b}}
+*{{box-sizing:border-box}}body{{margin:0;background:var(--bg);color:var(--fg);font:15px/1.55 -apple-system,BlinkMacSystemFont,"Segoe UI",Helvetica,Arial,sans-serif}}
+main{{max-width:1040px;margin:0 auto;padding:32px 16px 64px}}h1{{font-size:26px;margin:0 0 4px}}h2{{font-size:18px;margin:36px 0 8px}}
+.sub{{color:var(--muted);margin:0 0 20px}}p,li{{max-width:780px}}.note{{color:var(--muted);font-size:13px}}
+.tiles{{display:grid;grid-template-columns:repeat(auto-fit,minmax(210px,1fr));gap:12px;margin:20px 0}}
+.tile{{background:var(--card);border:1px solid var(--line);border-radius:10px;padding:14px 16px}}.tl{{color:var(--muted);font-size:13px}}
+.tv{{font-size:24px;margin:4px 0}}.tv .old{{color:var(--muted)}}.tv b{{color:var(--accent)}}.tn{{color:var(--muted);font-size:12px}}
+.wrap{{overflow-x:auto;background:var(--card);border:1px solid var(--line);border-radius:10px}}
+table{{border-collapse:collapse;width:100%;font-size:14px}}th,td{{padding:7px 10px;border-bottom:1px solid var(--line);text-align:left;vertical-align:top}}
+thead th{{color:var(--muted);font-weight:600;font-size:12px;white-space:nowrap}}tbody tr:last-child th,tbody tr:last-child td{{border-bottom:0}}
+tbody th{{font-weight:600;white-space:nowrap}}.num{{text-align:right;font-variant-numeric:tabular-nums}}
+td.best{{color:var(--accent);font-weight:700;background:var(--accent-bg)}}th.chosen{{color:var(--accent)}}td.human{{color:var(--human);background:var(--human-bg)}}
+</style></head><body><main>
+<h1>Human alignment: correctness on HS001–HS100</h1>
+<p class="sub">The prompt-tuning set of the human study · judge gpt-6-luna · every score on 0–10 · HS101–HS300 are held out and not used here</p>
+<div class="tiles">{tiles_html}</div>
+<p>The chosen version, <b>{CHOSEN}</b>, scores each correctness dimension directly: the model sees the image and caption and gives
+1–10, with the scoring idea written into the prompt. It replaced the sketch-and-formula method (v1). Highlighted cells are the best
+value in each row; brown cells are the human reference.</p>
+
+<h2>Setup</h2>
+<ul>
+<li>100 diagrams, HS001–HS100: {diff.get('easy', 0)} easy, {diff.get('medium', 0)} medium, {diff.get('hard', 0)} hard; {lab.get('positive', 0)} clean and {lab.get('negative', 0)} with inserted errors.</li>
+<li>One human rating per diagram on 1–10 ({', '.join(f'{k}: {v}' for k, v in rater.items())}). Judge scores on the formula's 0–1 scale are multiplied by 10.</li>
+<li>Overall correctness: humans and the direct versions use the mean of the five dimensions; the sketch + formula versions use the pipeline's own overall score.</li>
+<li>An error counts as caught when its dimension falls below 8 (with the formula, one detected error gives 7.5). A false alarm is a clean diagram that humans rated 9 or 10 but the judge scored below 8.</li>
+</ul>
+
+<h2>Versions tried</h2>
+<div class="wrap"><table><thead><tr><th>Version</th><th>Method</th><th>What it is</th></tr></thead><tbody>{rows_versions}</tbody></table></div>
+
+<h2>Overall correctness</h2>
+<div class="wrap"><table><thead><tr><th></th>{head}</tr></thead><tbody>{rows_overall}</tbody></table></div>
+
+<h2>Per dimension: Spearman with humans</h2>
+<div class="wrap"><table><thead><tr><th></th>{head}</tr></thead><tbody>{rows_spearman}</tbody></table></div>
+<h2>Per dimension: Kendall with humans</h2>
+<div class="wrap"><table><thead><tr><th></th>{head}</tr></thead><tbody>{rows_kendall}</tbody></table></div>
+<h2>Per dimension: mean absolute error (points)</h2>
+<div class="wrap"><table><thead><tr><th></th>{head}</tr></thead><tbody>{rows_mae}</tbody></table></div>
+<h2>Per dimension: clean vs broken (AUC)</h2>
+<p class="note">How often a clean diagram scores above one with inserted errors (0.5 = no separation, 1 = perfect).</p>
+<div class="wrap"><table><thead><tr><th></th><th class="num">humans</th>{head}</tr></thead><tbody>{rows_auc}</tbody></table></div>
+
+<h2>False alarms on clean diagrams</h2>
+<div class="wrap"><table><thead><tr><th></th>{head}</tr></thead><tbody>{rows_alarm}</tbody></table></div>
+
+<h2>Inserted errors caught</h2>
+<p class="note">Counts of diagrams whose target dimension fell below 8. Few diagrams per error type, so single counts move with noise.</p>
+<div class="wrap"><table><thead><tr><th>Error</th><th>Dimension</th><th class="num">n</th><th class="num">humans</th>{head}</tr></thead><tbody>{rows_caught}</tbody></table></div>
+
+<h2>Run-to-run noise (d1 vs its repeat d1r)</h2>
+<p class="note">Of 100 diagrams, how many got the same score, and a score within 1 point, in two identical runs. Overall agreement with
+humans did not change between the runs (Spearman {f2(sums['d1']['all']['correctness_overall']['spearman'])} and {f2(sums['d1r']['all']['correctness_overall']['spearman'])}),
+and averaging the two runs gave only 0.75, so one call per dimension is enough.</p>
+<div class="wrap"><table><thead><tr><th></th><th class="num">same score</th><th class="num">within 1</th></tr></thead><tbody>{rows_noise}</tbody></table></div>
+
+<h2>Beauty v6 on the same 100 (not tuned)</h2>
+<div class="wrap"><table><thead><tr><th></th><th class="num">human mean</th><th class="num">judge mean</th><th class="num">MAE</th><th class="num">Spearman</th><th class="num">Kendall</th><th class="num">AUC humans</th><th class="num">AUC judge</th></tr></thead><tbody>{rows_beauty}</tbody></table></div>
+
+<h2>Conclusions</h2>
+<ul>
+<li><b>Direct scoring beats sketch + formula on every dimension.</b> Overall Spearman {f2(v1['spearman'])} → {f2(ch['spearman'])}, MAE {f2(v1['mae'])} → {f2(ch['mae'])}, with less than half the input tokens and a fifth of the output tokens.</li>
+<li><b>The formula, not the model, was the main problem.</b> v1 detected most inserted errors, but one detected error usually cost 2.5 points (score 7.5), while humans often drop a dimension to 4–6 for a clear error; and clean real figures lost points because the caption sketch did not match how they were drawn (exclusion boxes chained into the main flow, one arrow serving several boxes).</li>
+<li><b>d2's sentences helped beyond noise</b> on Details and Connectivity, the two dimensions they targeted.</li>
+<li><b>Adding the sketch back (d3) did not help:</b> overall the same as d2, Connectivity worse (more false alarms), at about 1.6 times the cost.</li>
+</ul>
+<h2>Caveats</h2>
+<ul>
+<li>The prompt was tuned on these 100 diagrams; the claim has to be confirmed once on HS101–HS300.</li>
+<li>Each diagram has one human rater, so agreement between humans cannot be measured. Humans often lowered every dimension of a diagram that had any error, even dimensions with no inserted error; the judge is meant to score each dimension on its own, which caps the agreement it can reach.</li>
+</ul>
+</main></body></html>
+"""
+    (HERE / "report.html").write_text(page)
+    print(f"wrote {HERE / 'report.html'}")
+
+
 if __name__ == "__main__":
     parser = argparse.ArgumentParser()
     sub = parser.add_subparsers(dest="cmd", required=True)
@@ -467,10 +689,13 @@ if __name__ == "__main__":
         p.add_argument("--wording", default="v1", choices=list(WORDINGS) + list(DIRECT))
     t = sub.add_parser("tune")
     t.add_argument("--wordings", default="v1,v1r,v2")
+    sub.add_parser("report")
     args = parser.parse_args()
     if args.cmd == "score":
         score(args.workers, set(args.only.split(",")) if args.only else None, args.first, args.wording)
     elif args.cmd == "compare":
         compare(args.first, args.wording)
-    else:
+    elif args.cmd == "tune":
         tune(args.wordings.split(","))
+    else:
+        report()
