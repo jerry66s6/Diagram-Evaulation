@@ -13,55 +13,39 @@ This package evaluates how well a rendered diagram aligns with a written descrip
 | **Details** | Component labels and connection labels (such as YES/NO branches) are meaningful and agree with the description rather than missing, generic, or placeholder text |
 | **Legibility** | Text fits its box, does not collide with other text, is readable at the size the diagram is displayed, and stands out from its background |
 
-The final formula is:
+## How correctness is scored
 
-```text
-Correctness =
-    w_presence     * Presence
-  + w_layout       * Layout
-  + w_connectivity * Connectivity
-  + w_details      * Details
-  + w_legibility   * Legibility
-```
+Each dimension is scored on its own by gpt-6-luna: the model gets the image and the
+caption, lists the problems it sees on that dimension, and gives an integer score from 1 to
+10, the scale the human raters used. Overall correctness is the mean of the five scores. There
+is no expectation sketch and no scoring formula; the prompt carries the scoring idea in words
+([`direct.py`](src/diagram_correctness/direct.py)):
 
-Every criterion uses:
+- the human-study question for the dimension and its criteria from [`config/rubric.json`](config/rubric.json);
+- how real figures draw things (one line can serve several boxes, exclusion boxes are side
+  branches, a figure cropped close to its content is not cut off, text is judged at the size shown);
+- what each of the other four dimensions covers, so a problem lowers only its own dimension;
+- the scoring guide: 9-10 no real problem, 7-8 small problems that do not change the meaning,
+  4-6 at least one clear error, 1-3 several errors or a misleading diagram. A single clear error
+  leaves the top band, and errors that change the meaning cost more than cosmetic ones.
 
-```text
-(expected opportunities - detected issues) / expected opportunities
-```
+This replaced the sketch-and-formula method after the human alignment study
+([`experiments/human_alignment`](experiments/human_alignment)). On the 100 diagrams it was tuned
+on (HS001-HS100), agreement with the human ratings of overall correctness rose from Spearman
+0.51 to 0.76 and the mean absolute error fell from 1.19 to 0.73 points (0-10); the score
+separates clean from broken diagrams with AUC 0.84 (humans 0.91, previous method 0.73), at
+about a third of the API cost. HS101-HS300 are held out for testing.
 
-A criterion with zero opportunities is `N/A` and is excluded rather than treated as perfect. The opportunities always come from the frozen inventory and the item lists the judge returns (every drawn component and arrow it lists), never from a bare number the model picks.
+## Previous method: sketch and formula
 
-Each failure is counted in one dimension only:
-
-- a missing component costs Presence; its connections are not counted again under Connectivity, and its label is not counted again under Details;
-- a label that is drawn but too small to read costs Legibility, not Details, and a component too blurry to make out at all costs Legibility, not Presence;
-- a reversed arrow costs Connectivity precision (`connectivity.endpoints`), not recall (`connectivity.connections`).
-
-## Description-first GPT design
-
-The default configuration uses **only gpt-6-luna** as the VLM source.
-
-1. **Expectation stage:** The model receives only the written description—no reference or candidate image. The description may be a detailed specification or a short figure caption, so the model imagines drawing the diagram and writes a sketch of what it should contain: the components by role (the exact name only where the description gives one) and the directed connections of the intended flow, with any label the description gives an arrow (for example a YES/NO branch). Each item has a tier: `required` when the description states it or it follows directly, `typical` when such a diagram usually shows it but the description does not call for it. Only required items are scored for Presence and Connectivity recall; typical ones are noted in the report. The stage also lists placeholder strings to reject.
-2. **Scoring stage:** the same model receives one candidate image, the description, and the frozen inventory. It cannot redefine what should exist while scoring. It matches by meaning, not exact wording: one drawn box may cover several sketch items and several boxes may cover one (only repeated components with the same label need separate boxes), and a connection counts as drawn when arrows lead from one component to the other through intermediate drawn steps. It answers item by item:
-   - **Components:** `present`, `mislabeled`, `absent`, or `uncertain` for every inventory component, with the quoted visible text, a bounding box, and whether the text is legible. `uncertain` means the image is too small or blurry to tell; it is not counted under Presence and instead counts as unreadable under Legibility.
-   - **Connections:** `present`, `reversed`, `absent`, or `uncertain` for every inventory connection, with the text written on the arrow.
-   - **Extras:** drawn components that do not belong (unrelated, duplicated by mistake, or contradicting the description) and arrows that are wrong (contradicting the flow, dangling, or duplicate). Additional detail that fits the diagram is not extra.
-   - **Everything else drawn:** the other boxes and arrows that fit the diagram. They are never penalized; they make every denominator count all drawn elements, so a real figure with more detail than the sketch is not scored against too few elements.
-   - **Counted criteria** (order, canvas, overlap, arrow routing, text overflow, text contrast): the number of failures only. The evaluator supplies the number of opportunities from the item answers and caps the failures at that number.
-
-   The evaluator, not the model, computes every score from these answers, and compares connection labels in code. The prompt tells the model to judge each part on its own, so a crossing arrow is not a missing connection and tiny text is not a wrong label. With `judge_samples` above 1, the same question is asked several times; the evaluator keeps the majority verdict per item and the median failure count per criterion, and records each sample's score in the metric notes.
-3. **Geometry stage:** the deterministic judge inspects only the candidate SVG and checks it against the same inventory. It is not another language model. It returns the same per-component and per-connection verdicts, and the report metadata (`component_verdicts`, `component_disagreements`) lists where the two judges disagree on components. Its checks:
-   - arrow direction comes from the arrowhead (`marker-start` or `marker-end`), and plain lines that touch no component, or start and end on the same component, are treated as decoration;
-   - connection labels are the free text nearest each arrow;
-   - unexpected components are labeled boxes that match no inventory component and do not enclose one;
-   - the reading direction is inferred from the drawing, and connections that loop back to an earlier step are skipped;
-   - each component counts once for canvas and overlap checks, and unlabeled polygons (arrowheads) are not overlap candidates;
-   - font sizes are inherited from parent groups, resolved from `px`, `pt`, `em`, and `%`, and compared at the rendered size from the root `width`/`height` versus the `viewBox`;
-   - text outside boxes must not collide with other text. Text widths are a conservative estimate because SVGs do not contain browser `getBBox()` results.
-4. **Aggregation:** judges are combined per criterion with the median; `criterion_disagreements` in the report metadata lists criteria where judges differ by 0.25 or more, which a median of two would hide. Criteria are combined per dimension with `dimension_reducer` (`mean` or `minimum`). Dimension weights follow `weighting`; the default is `equal` (each dimension counts the same) until weights can be calibrated against the human study. `severity` gives each dimension the multiplier of its most severe rubric criterion, normalized.
-
-The deterministic judge needs an SVG. Raster candidates, such as figures extracted from papers, are scored by the GPT judge only.
+Before, the model first read only the description and wrote a sketch of the components and
+connections the diagram should have; it then checked the image against that sketch item by
+item (three times, majority vote), and code computed each criterion as the share of items that
+passed, with each error also multiplying the score by `error_factor`. The code is still here
+(`CorrectnessPipeline`, `--method formula`) because the Transformer, degradation, and
+correctness isolation experiments below use it and Beauty shares its model backend. Branch
+`correctness-v-formula` has the repository as it was before the switch, including the full
+description of that method.
 
 ## Transformer experiment
 
@@ -248,31 +232,22 @@ brew install cairo
 
 ## Evaluate another diagram
 
-With an existing generated SVG:
-
 ```bash
 diagram-correctness \
   --description intended-diagram.md \
-  --candidate-svg candidate.svg \
+  --candidate candidate.png \
   --output correctness-report.json
 ```
 
-Those are the only two semantic inputs. The SVG is rendered internally to a temporary PNG solely because the GPT vision endpoint consumes an image; the evaluator does not generate or use a target/reference diagram.
-
-With a raster image, such as a figure extracted from a paper, only the GPT judge runs, because the deterministic judge reads SVG geometry:
-
-```bash
-diagram-correctness \
-  --description intended-diagram.md \
-  --candidate candidate.png
-```
-
-Add `--skip-deterministic` to score an SVG with the GPT judge only.
+`--candidate-svg candidate.svg` works too; the SVG is rendered to a PNG next to the report. The
+report has the five 1-10 scores, the problems the model listed, and the overall mean. Add
+`--method formula` to run the previous sketch-and-formula pipeline (with an SVG it can also run
+the deterministic geometry judge; `--skip-deterministic` turns that off).
 
 ## Configuration
 
 - `config/rubric.json`: shared criteria used by GPT and the deterministic judge.
-- `config/evaluator.json`: the single model ID (`OPENAI_MODEL` in the environment or `.env`, if set, overrides it), geometry tolerances, and severity multipliers. `presence_policy` sets two shared scoring rules: whether an abbreviation such as "FFN" counts as a correct label (`accept_abbreviations`), and whether a box in the right position with a placeholder or missing label counts as drawn but mislabeled (`placeholder_counts_as_present`).
+- `config/evaluator.json`: the single model ID (`OPENAI_MODEL` in the environment or `.env`, if set, overrides it). Direct scoring uses only the model; the other settings below are for `--method formula`: geometry tolerances, severity multipliers, and the following. `presence_policy` sets two shared scoring rules: whether an abbreviation such as "FFN" counts as a correct label (`accept_abbreviations`), and whether a box in the right position with a placeholder or missing label counts as drawn but mislabeled (`placeholder_counts_as_present`).
   - `judge_samples`: how many times the GPT judge answers each image (default 3).
   - `deterministic_judge`: `false` by default, so only the GPT judge scores. Set it to `true` to also run the deterministic SVG judge when `--candidate-svg` is given; the code is kept for that.
   - `weighting`: `equal` (the default for now: every dimension counts the same), `severity` (rubric severities), `history` (issue frequency times severity from `weight_history`), or `auto` (history when one is configured, otherwise severity).
