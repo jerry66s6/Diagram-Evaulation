@@ -1,0 +1,1806 @@
+{
+ "model": "gpt-6-luna",
+ "scale": "0-10",
+ "diagrams": {
+  "HS101": {
+   "correctness": 8.6,
+   "scores": {
+    "layout": 10,
+    "connectivity": 5,
+    "presence": 10,
+    "details": 10,
+    "legibility": 8,
+    "centering": 2.5,
+    "space_use": 8.8,
+    "color_consistency": 8.4,
+    "contrast": 6.2,
+    "alignment": 5.8,
+    "style_uniformity": 8.6,
+    "resolution": 9.4,
+    "canvas_fill": 10.0
+   }
+  },
+  "HS102": {
+   "correctness": 5.4,
+   "scores": {
+    "layout": 4,
+    "connectivity": 10,
+    "presence": 5,
+    "details": 5,
+    "legibility": 3,
+    "centering": 3.5,
+    "space_use": 9.0,
+    "color_consistency": 9.5,
+    "contrast": 9.2,
+    "alignment": 8.2,
+    "style_uniformity": 6.8,
+    "resolution": 9.4,
+    "canvas_fill": 10.0
+   }
+  },
+  "HS103": {
+   "correctness": 9.8,
+   "scores": {
+    "layout": 10,
+    "connectivity": 10,
+    "presence": 10,
+    "details": 10,
+    "legibility": 9,
+    "centering": 9.5,
+    "space_use": 9.4,
+    "color_consistency": 10.0,
+    "contrast": 9.3,
+    "alignment": 9.6,
+    "style_uniformity": 9.6,
+    "resolution": 9.6,
+    "canvas_fill": 10.0
+   }
+  },
+  "HS104": {
+   "correctness": 7.8,
+   "scores": {
+    "layout": 9,
+    "connectivity": 5,
+    "presence": 10,
+    "details": 10,
+    "legibility": 5,
+    "centering": 6.0,
+    "space_use": 7.8,
+    "color_consistency": 9.4,
+    "contrast": 6.0,
+    "alignment": 9.5,
+    "style_uniformity": 9.2,
+    "resolution": 9.4,
+    "canvas_fill": 10.0
+   }
+  },
+  "HS105": {
+   "correctness": 8.4,
+   "scores": {
+    "layout": 6,
+    "connectivity": 10,
+    "presence": 10,
+    "details": 10,
+    "legibility": 6,
+    "centering": 9.5,
+    "space_use": 9.6,
+    "color_consistency": 9.6,
+    "contrast": 9.4,
+    "alignment": 8.2,
+    "style_uniformity": 8.2,
+    "resolution": 9.1,
+    "canvas_fill": 10.0
+   }
+  },
+  "HS106": {
+   "correctness": 9.4,
+   "scores": {
+    "layout": 10,
+    "connectivity": 10,
+    "presence": 10,
+    "details": 10,
+    "legibility": 7,
+    "centering": 9.7,
+    "space_use": 9.6,
+    "color_consistency": 9.6,
+    "contrast": 9.5,
+    "alignment": 9.6,
+    "style_uniformity": 9.4,
+    "resolution": 9.5,
+    "canvas_fill": 10.0
+   }
+  },
+  "HS107": {
+   "correctness": 8.6,
+   "scores": {
+    "layout": 8,
+    "connectivity": 10,
+    "presence": 10,
+    "details": 10,
+    "legibility": 5,
+    "centering": 8.8,
+    "space_use": 9.2,
+    "color_consistency": 9.7,
+    "contrast": 5.5,
+    "alignment": 9.5,
+    "style_uniformity": 9.4,
+    "resolution": 9.4,
+    "canvas_fill": 10.0
+   }
+  },
+  "HS108": {
+   "correctness": 8,
+   "scores": {
+    "layout": 10,
+    "connectivity": 10,
+    "presence": 5,
+    "details": 5,
+    "legibility": 10,
+    "centering": 8.5,
+    "space_use": 8.2,
+    "color_consistency": 9.6,
+    "contrast": 3.0,
+    "alignment": 9.4,
+    "style_uniformity": 6.4,
+    "resolution": 9.5,
+    "canvas_fill": 10.0
+   }
+  },
+  "HS109": {
+   "correctness": 8.2,
+   "scores": {
+    "layout": 6,
+    "connectivity": 7,
+    "presence": 10,
+    "details": 10,
+    "legibility": 8,
+    "centering": 6.0,
+    "space_use": 8.8,
+    "color_consistency": 7.6,
+    "contrast": 8.2,
+    "alignment": 9.4,
+    "style_uniformity": 8.8,
+    "resolution": 9.4,
+    "canvas_fill": 10.0
+   }
+  },
+  "HS110": {
+   "correctness": 9.8,
+   "scores": {
+    "layout": 10,
+    "connectivity": 10,
+    "presence": 10,
+    "details": 10,
+    "legibility": 9,
+    "centering": 6.0,
+    "space_use": 9.6,
+    "color_consistency": 9.4,
+    "contrast": 6.4,
+    "alignment": 6.0,
+    "style_uniformity": 8.2,
+    "resolution": 9.5,
+    "canvas_fill": 10.0
+   }
+  },
+  "HS111": {
+   "correctness": 8.2,
+   "scores": {
+    "layout": 10,
+    "connectivity": 10,
+    "presence": 10,
+    "details": 9,
+    "legibility": 2,
+    "centering": 8.5,
+    "space_use": 5.5,
+    "color_consistency": 9.5,
+    "contrast": 5.6,
+    "alignment": 9.4,
+    "style_uniformity": 8.7,
+    "resolution": 7.8,
+    "canvas_fill": 10.0
+   }
+  },
+  "HS112": {
+   "correctness": 9.8,
+   "scores": {
+    "layout": 10,
+    "connectivity": 10,
+    "presence": 10,
+    "details": 10,
+    "legibility": 9,
+    "centering": 9.7,
+    "space_use": 8.5,
+    "color_consistency": 10.0,
+    "contrast": 9.3,
+    "alignment": 5.5,
+    "style_uniformity": 6.5,
+    "resolution": 9.6,
+    "canvas_fill": 10.0
+   }
+  },
+  "HS113": {
+   "correctness": 9.8,
+   "scores": {
+    "layout": 10,
+    "connectivity": 10,
+    "presence": 10,
+    "details": 10,
+    "legibility": 9,
+    "centering": 3.0,
+    "space_use": 9.6,
+    "color_consistency": 9.8,
+    "contrast": 6.0,
+    "alignment": 9.5,
+    "style_uniformity": 9.6,
+    "resolution": 9.6,
+    "canvas_fill": 10.0
+   }
+  },
+  "HS114": {
+   "correctness": 8.8,
+   "scores": {
+    "layout": 10,
+    "connectivity": 10,
+    "presence": 10,
+    "details": 7,
+    "legibility": 7,
+    "centering": 2.5,
+    "space_use": 8.2,
+    "color_consistency": 9.5,
+    "contrast": 9.3,
+    "alignment": 8.2,
+    "style_uniformity": 6.2,
+    "resolution": 9.5,
+    "canvas_fill": 10.0
+   }
+  },
+  "HS115": {
+   "correctness": 9.6,
+   "scores": {
+    "layout": 10,
+    "connectivity": 10,
+    "presence": 10,
+    "details": 10,
+    "legibility": 8,
+    "centering": 9.7,
+    "space_use": 9.6,
+    "color_consistency": 9.6,
+    "contrast": 5.8,
+    "alignment": 9.4,
+    "style_uniformity": 8.6,
+    "resolution": 8.2,
+    "canvas_fill": 10.0
+   }
+  },
+  "HS116": {
+   "correctness": 6.2,
+   "scores": {
+    "layout": 4,
+    "connectivity": 5,
+    "presence": 10,
+    "details": 6,
+    "legibility": 6,
+    "centering": 3.0,
+    "space_use": 8.6,
+    "color_consistency": 9.5,
+    "contrast": 5.8,
+    "alignment": 8.0,
+    "style_uniformity": 8.2,
+    "resolution": 8.8,
+    "canvas_fill": 10.0
+   }
+  },
+  "HS117": {
+   "correctness": 8.4,
+   "scores": {
+    "layout": 10,
+    "connectivity": 10,
+    "presence": 10,
+    "details": 10,
+    "legibility": 2,
+    "centering": 5.5,
+    "space_use": 5.5,
+    "color_consistency": 7.8,
+    "contrast": 6.0,
+    "alignment": 5.0,
+    "style_uniformity": 6.6,
+    "resolution": 6.6,
+    "canvas_fill": 10.0
+   }
+  },
+  "HS118": {
+   "correctness": 9.8,
+   "scores": {
+    "layout": 10,
+    "connectivity": 10,
+    "presence": 10,
+    "details": 10,
+    "legibility": 9,
+    "centering": 3.5,
+    "space_use": 9.5,
+    "color_consistency": 10.0,
+    "contrast": 5.8,
+    "alignment": 9.6,
+    "style_uniformity": 9.5,
+    "resolution": 9.5,
+    "canvas_fill": 10.0
+   }
+  },
+  "HS119": {
+   "correctness": 8.6,
+   "scores": {
+    "layout": 7,
+    "connectivity": 10,
+    "presence": 10,
+    "details": 10,
+    "legibility": 6,
+    "centering": 6.0,
+    "space_use": 9.2,
+    "color_consistency": 10.0,
+    "contrast": 9.4,
+    "alignment": 5.5,
+    "style_uniformity": 6.2,
+    "resolution": 9.4,
+    "canvas_fill": 10.0
+   }
+  },
+  "HS120": {
+   "correctness": 7.8,
+   "scores": {
+    "layout": 6,
+    "connectivity": 10,
+    "presence": 10,
+    "details": 8,
+    "legibility": 5,
+    "centering": 6.0,
+    "space_use": 9.4,
+    "color_consistency": 5.5,
+    "contrast": 9.2,
+    "alignment": 8.6,
+    "style_uniformity": 8.6,
+    "resolution": 9.4,
+    "canvas_fill": 10.0
+   }
+  },
+  "HS121": {
+   "correctness": 9,
+   "scores": {
+    "layout": 10,
+    "connectivity": 8,
+    "presence": 10,
+    "details": 10,
+    "legibility": 7,
+    "centering": 5.5,
+    "space_use": 9.0,
+    "color_consistency": 9.6,
+    "contrast": 9.2,
+    "alignment": 6.8,
+    "style_uniformity": 9.5,
+    "resolution": 9.4,
+    "canvas_fill": 10.0
+   }
+  },
+  "HS122": {
+   "correctness": 9.2,
+   "scores": {
+    "layout": 10,
+    "connectivity": 6,
+    "presence": 10,
+    "details": 10,
+    "legibility": 10,
+    "centering": 5.5,
+    "space_use": 9.6,
+    "color_consistency": 4.8,
+    "contrast": 6.2,
+    "alignment": 8.2,
+    "style_uniformity": 5.0,
+    "resolution": 9.6,
+    "canvas_fill": 10.0
+   }
+  },
+  "HS123": {
+   "correctness": 6,
+   "scores": {
+    "layout": 6,
+    "connectivity": 5,
+    "presence": 6,
+    "details": 5,
+    "legibility": 8,
+    "centering": 3.0,
+    "space_use": 9.2,
+    "color_consistency": 5.2,
+    "contrast": 9.2,
+    "alignment": 8.2,
+    "style_uniformity": 4.8,
+    "resolution": 9.5,
+    "canvas_fill": 10.0
+   }
+  },
+  "HS124": {
+   "correctness": 6.6,
+   "scores": {
+    "layout": 6,
+    "connectivity": 5,
+    "presence": 10,
+    "details": 6,
+    "legibility": 6,
+    "centering": 3.0,
+    "space_use": 9.2,
+    "color_consistency": 9.6,
+    "contrast": 9.1,
+    "alignment": 6.5,
+    "style_uniformity": 6.5,
+    "resolution": 9.6,
+    "canvas_fill": 10.0
+   }
+  },
+  "HS125": {
+   "correctness": 10,
+   "scores": {
+    "layout": 10,
+    "connectivity": 10,
+    "presence": 10,
+    "details": 10,
+    "legibility": 10,
+    "centering": 8.0,
+    "space_use": 9.8,
+    "color_consistency": 5.5,
+    "contrast": 5.8,
+    "alignment": 9.5,
+    "style_uniformity": 5.2,
+    "resolution": 9.4,
+    "canvas_fill": 10.0
+   }
+  },
+  "HS126": {
+   "correctness": 6.2,
+   "scores": {
+    "layout": 5,
+    "connectivity": 7,
+    "presence": 6,
+    "details": 6,
+    "legibility": 7,
+    "centering": 2.5,
+    "space_use": 9.6,
+    "color_consistency": 9.5,
+    "contrast": 5.8,
+    "alignment": 9.6,
+    "style_uniformity": 5.6,
+    "resolution": 9.6,
+    "canvas_fill": 0.0
+   }
+  },
+  "HS127": {
+   "correctness": 8.2,
+   "scores": {
+    "layout": 8,
+    "connectivity": 6,
+    "presence": 10,
+    "details": 10,
+    "legibility": 7,
+    "centering": 6.0,
+    "space_use": 9.5,
+    "color_consistency": 9.6,
+    "contrast": 9.2,
+    "alignment": 7.8,
+    "style_uniformity": 6.2,
+    "resolution": 9.2,
+    "canvas_fill": 10.0
+   }
+  },
+  "HS128": {
+   "correctness": 5.4,
+   "scores": {
+    "layout": 3,
+    "connectivity": 3,
+    "presence": 10,
+    "details": 7,
+    "legibility": 4,
+    "centering": 9.5,
+    "space_use": 7.5,
+    "color_consistency": 9.5,
+    "contrast": 6.0,
+    "alignment": 5.5,
+    "style_uniformity": 5.8,
+    "resolution": 8.0,
+    "canvas_fill": 10.0
+   }
+  },
+  "HS129": {
+   "correctness": 6.2,
+   "scores": {
+    "layout": 6,
+    "connectivity": 6,
+    "presence": 10,
+    "details": 6,
+    "legibility": 3,
+    "centering": 2.0,
+    "space_use": 9.5,
+    "color_consistency": 10.0,
+    "contrast": 8.4,
+    "alignment": 6.0,
+    "style_uniformity": 9.2,
+    "resolution": 5.8,
+    "canvas_fill": 10.0
+   }
+  },
+  "HS130": {
+   "correctness": 7.8,
+   "scores": {
+    "layout": 8,
+    "connectivity": 6,
+    "presence": 10,
+    "details": 9,
+    "legibility": 6,
+    "centering": 3.0,
+    "space_use": 7.8,
+    "color_consistency": 9.6,
+    "contrast": 5.8,
+    "alignment": 9.3,
+    "style_uniformity": 5.8,
+    "resolution": 9.5,
+    "canvas_fill": 10.0
+   }
+  },
+  "HS131": {
+   "correctness": 6.4,
+   "scores": {
+    "layout": 6,
+    "connectivity": 8,
+    "presence": 6,
+    "details": 6,
+    "legibility": 6,
+    "centering": 1.5,
+    "space_use": 8.2,
+    "color_consistency": 9.5,
+    "contrast": 5.6,
+    "alignment": 7.8,
+    "style_uniformity": 5.8,
+    "resolution": 9.4,
+    "canvas_fill": 10.0
+   }
+  },
+  "HS132": {
+   "correctness": 8.8,
+   "scores": {
+    "layout": 10,
+    "connectivity": 10,
+    "presence": 10,
+    "details": 10,
+    "legibility": 4,
+    "centering": 6.5,
+    "space_use": 9.2,
+    "color_consistency": 9.5,
+    "contrast": 7.4,
+    "alignment": 9.5,
+    "style_uniformity": 6.4,
+    "resolution": 8.4,
+    "canvas_fill": 10.0
+   }
+  },
+  "HS133": {
+   "correctness": 7,
+   "scores": {
+    "layout": 7,
+    "connectivity": 5,
+    "presence": 10,
+    "details": 6,
+    "legibility": 7,
+    "centering": 5.5,
+    "space_use": 9.4,
+    "color_consistency": 9.6,
+    "contrast": 6.2,
+    "alignment": 8.6,
+    "style_uniformity": 8.4,
+    "resolution": 9.4,
+    "canvas_fill": 10.0
+   }
+  },
+  "HS134": {
+   "correctness": 9.8,
+   "scores": {
+    "layout": 10,
+    "connectivity": 10,
+    "presence": 10,
+    "details": 10,
+    "legibility": 9,
+    "centering": 5.5,
+    "space_use": 9.8,
+    "color_consistency": 9.5,
+    "contrast": 5.5,
+    "alignment": 9.8,
+    "style_uniformity": 9.6,
+    "resolution": 8.8,
+    "canvas_fill": 10.0
+   }
+  },
+  "HS135": {
+   "correctness": 8.8,
+   "scores": {
+    "layout": 10,
+    "connectivity": 7,
+    "presence": 10,
+    "details": 10,
+    "legibility": 7,
+    "centering": 8.0,
+    "space_use": 9.4,
+    "color_consistency": 5.2,
+    "contrast": 8.6,
+    "alignment": 7.8,
+    "style_uniformity": 5.8,
+    "resolution": 9.5,
+    "canvas_fill": 10.0
+   }
+  },
+  "HS136": {
+   "correctness": 9.6,
+   "scores": {
+    "layout": 10,
+    "connectivity": 10,
+    "presence": 10,
+    "details": 10,
+    "legibility": 8,
+    "centering": 3.5,
+    "space_use": 9.5,
+    "color_consistency": 9.6,
+    "contrast": 5.8,
+    "alignment": 8.2,
+    "style_uniformity": 6.2,
+    "resolution": 9.2,
+    "canvas_fill": 10.0
+   }
+  },
+  "HS137": {
+   "correctness": 9.8,
+   "scores": {
+    "layout": 9,
+    "connectivity": 10,
+    "presence": 10,
+    "details": 10,
+    "legibility": 10,
+    "centering": 5.5,
+    "space_use": 9.5,
+    "color_consistency": 5.5,
+    "contrast": 5.8,
+    "alignment": 9.6,
+    "style_uniformity": 3.4,
+    "resolution": 9.7,
+    "canvas_fill": 10.0
+   }
+  },
+  "HS138": {
+   "correctness": 10,
+   "scores": {
+    "layout": 10,
+    "connectivity": 10,
+    "presence": 10,
+    "details": 10,
+    "legibility": 10,
+    "centering": 8.0,
+    "space_use": 9.6,
+    "color_consistency": 9.6,
+    "contrast": 6.0,
+    "alignment": 9.6,
+    "style_uniformity": 9.4,
+    "resolution": 9.4,
+    "canvas_fill": 10.0
+   }
+  },
+  "HS139": {
+   "correctness": 7,
+   "scores": {
+    "layout": 6,
+    "connectivity": 7,
+    "presence": 10,
+    "details": 7,
+    "legibility": 5,
+    "centering": 2.5,
+    "space_use": 9.2,
+    "color_consistency": 9.6,
+    "contrast": 7.8,
+    "alignment": 5.8,
+    "style_uniformity": 8.4,
+    "resolution": 9.4,
+    "canvas_fill": 10.0
+   }
+  },
+  "HS140": {
+   "correctness": 9,
+   "scores": {
+    "layout": 8,
+    "connectivity": 10,
+    "presence": 10,
+    "details": 10,
+    "legibility": 7,
+    "centering": 3.0,
+    "space_use": 7.8,
+    "color_consistency": 9.5,
+    "contrast": 9.1,
+    "alignment": 6.8,
+    "style_uniformity": 6.6,
+    "resolution": 8.8,
+    "canvas_fill": 10.0
+   }
+  },
+  "HS141": {
+   "correctness": 9.8,
+   "scores": {
+    "layout": 10,
+    "connectivity": 10,
+    "presence": 10,
+    "details": 10,
+    "legibility": 9,
+    "centering": 2.5,
+    "space_use": 9.8,
+    "color_consistency": 9.6,
+    "contrast": 5.8,
+    "alignment": 9.6,
+    "style_uniformity": 7.8,
+    "resolution": 9.6,
+    "canvas_fill": 10.0
+   }
+  },
+  "HS142": {
+   "correctness": 9.2,
+   "scores": {
+    "layout": 10,
+    "connectivity": 6,
+    "presence": 10,
+    "details": 10,
+    "legibility": 10,
+    "centering": 3.0,
+    "space_use": 8.5,
+    "color_consistency": 9.4,
+    "contrast": 5.4,
+    "alignment": 7.8,
+    "style_uniformity": 5.6,
+    "resolution": 9.6,
+    "canvas_fill": 10.0
+   }
+  },
+  "HS143": {
+   "correctness": 9.2,
+   "scores": {
+    "layout": 10,
+    "connectivity": 7,
+    "presence": 10,
+    "details": 10,
+    "legibility": 9,
+    "centering": 8.5,
+    "space_use": 9.4,
+    "color_consistency": 9.6,
+    "contrast": 6.2,
+    "alignment": 9.5,
+    "style_uniformity": 6.6,
+    "resolution": 9.5,
+    "canvas_fill": 10.0
+   }
+  },
+  "HS144": {
+   "correctness": 9.6,
+   "scores": {
+    "layout": 10,
+    "connectivity": 10,
+    "presence": 10,
+    "details": 10,
+    "legibility": 8,
+    "centering": 6.0,
+    "space_use": 9.5,
+    "color_consistency": 9.8,
+    "contrast": 9.3,
+    "alignment": 5.5,
+    "style_uniformity": 6.5,
+    "resolution": 9.5,
+    "canvas_fill": 10.0
+   }
+  },
+  "HS145": {
+   "correctness": 6.6,
+   "scores": {
+    "layout": 6,
+    "connectivity": 6,
+    "presence": 10,
+    "details": 6,
+    "legibility": 5,
+    "centering": 8.0,
+    "space_use": 9.6,
+    "color_consistency": 9.6,
+    "contrast": 5.8,
+    "alignment": 9.5,
+    "style_uniformity": 8.4,
+    "resolution": 5.5,
+    "canvas_fill": 10.0
+   }
+  },
+  "HS146": {
+   "correctness": 7.8,
+   "scores": {
+    "layout": 8,
+    "connectivity": 6,
+    "presence": 10,
+    "details": 6,
+    "legibility": 9,
+    "centering": 3.5,
+    "space_use": 9.6,
+    "color_consistency": 6.5,
+    "contrast": 9.2,
+    "alignment": null,
+    "style_uniformity": null,
+    "resolution": 9.4,
+    "canvas_fill": 10.0
+   }
+  },
+  "HS147": {
+   "correctness": 8.8,
+   "scores": {
+    "layout": 10,
+    "connectivity": 6,
+    "presence": 10,
+    "details": 10,
+    "legibility": 8,
+    "centering": null,
+    "space_use": 9.0,
+    "color_consistency": 9.4,
+    "contrast": null,
+    "alignment": null,
+    "style_uniformity": null,
+    "resolution": null,
+    "canvas_fill": null
+   }
+  },
+  "HS148": {
+   "correctness": 7.2,
+   "scores": {
+    "layout": 5,
+    "connectivity": 8,
+    "presence": 10,
+    "details": 8,
+    "legibility": 5,
+    "centering": null,
+    "space_use": null,
+    "color_consistency": null,
+    "contrast": null,
+    "alignment": null,
+    "style_uniformity": null,
+    "resolution": null,
+    "canvas_fill": null
+   }
+  },
+  "HS149": {
+   "correctness": 7.2,
+   "scores": {
+    "layout": 8,
+    "connectivity": 5,
+    "presence": 10,
+    "details": 10,
+    "legibility": 3,
+    "centering": null,
+    "space_use": null,
+    "color_consistency": null,
+    "contrast": null,
+    "alignment": null,
+    "style_uniformity": null,
+    "resolution": null,
+    "canvas_fill": null
+   }
+  },
+  "HS150": {
+   "correctness": 9.6,
+   "scores": {
+    "layout": 10,
+    "connectivity": 10,
+    "presence": 10,
+    "details": 10,
+    "legibility": 8,
+    "centering": null,
+    "space_use": null,
+    "color_consistency": null,
+    "contrast": null,
+    "alignment": null,
+    "style_uniformity": null,
+    "resolution": null,
+    "canvas_fill": null
+   }
+  },
+  "HS151": {
+   "correctness": 10,
+   "scores": {
+    "layout": 10,
+    "connectivity": 10,
+    "presence": 10,
+    "details": 10,
+    "legibility": 10,
+    "centering": null,
+    "space_use": null,
+    "color_consistency": null,
+    "contrast": null,
+    "alignment": null,
+    "style_uniformity": null,
+    "resolution": null,
+    "canvas_fill": null
+   }
+  },
+  "HS152": {
+   "correctness": 8,
+   "scores": {
+    "layout": 6,
+    "connectivity": 6,
+    "presence": 10,
+    "details": 10,
+    "legibility": 8,
+    "centering": null,
+    "space_use": null,
+    "color_consistency": null,
+    "contrast": null,
+    "alignment": null,
+    "style_uniformity": null,
+    "resolution": null,
+    "canvas_fill": null
+   }
+  },
+  "HS153": {
+   "correctness": 10,
+   "scores": {
+    "layout": 10,
+    "connectivity": 10,
+    "presence": 10,
+    "details": 10,
+    "legibility": 10,
+    "centering": null,
+    "space_use": null,
+    "color_consistency": null,
+    "contrast": null,
+    "alignment": null,
+    "style_uniformity": null,
+    "resolution": null,
+    "canvas_fill": null
+   }
+  },
+  "HS154": {
+   "correctness": 7,
+   "scores": {
+    "layout": 6,
+    "connectivity": 5,
+    "presence": 10,
+    "details": 10,
+    "legibility": 4,
+    "centering": null,
+    "space_use": null,
+    "color_consistency": null,
+    "contrast": null,
+    "alignment": null,
+    "style_uniformity": null,
+    "resolution": null,
+    "canvas_fill": null
+   }
+  },
+  "HS155": {
+   "correctness": 7.6,
+   "scores": {
+    "layout": 10,
+    "connectivity": 10,
+    "presence": 6,
+    "details": 6,
+    "legibility": 6,
+    "centering": null,
+    "space_use": null,
+    "color_consistency": null,
+    "contrast": null,
+    "alignment": null,
+    "style_uniformity": null,
+    "resolution": null,
+    "canvas_fill": null
+   }
+  },
+  "HS156": {
+   "correctness": 7.2,
+   "scores": {
+    "layout": 8,
+    "connectivity": 10,
+    "presence": 5,
+    "details": 6,
+    "legibility": 7,
+    "centering": null,
+    "space_use": null,
+    "color_consistency": null,
+    "contrast": null,
+    "alignment": null,
+    "style_uniformity": null,
+    "resolution": null,
+    "canvas_fill": null
+   }
+  },
+  "HS157": {
+   "correctness": 10,
+   "scores": {
+    "layout": 10,
+    "connectivity": 10,
+    "presence": 10,
+    "details": 10,
+    "legibility": 10,
+    "centering": null,
+    "space_use": null,
+    "color_consistency": null,
+    "contrast": null,
+    "alignment": null,
+    "style_uniformity": null,
+    "resolution": null,
+    "canvas_fill": null
+   }
+  },
+  "HS158": {
+   "correctness": 7,
+   "scores": {
+    "layout": 6,
+    "connectivity": 4,
+    "presence": 7,
+    "details": 8,
+    "legibility": 10,
+    "centering": null,
+    "space_use": null,
+    "color_consistency": null,
+    "contrast": null,
+    "alignment": null,
+    "style_uniformity": null,
+    "resolution": null,
+    "canvas_fill": null
+   }
+  },
+  "HS159": {
+   "correctness": 7.8,
+   "scores": {
+    "layout": 6,
+    "connectivity": 7,
+    "presence": 10,
+    "details": 10,
+    "legibility": 6,
+    "centering": null,
+    "space_use": null,
+    "color_consistency": null,
+    "contrast": null,
+    "alignment": null,
+    "style_uniformity": null,
+    "resolution": null,
+    "canvas_fill": null
+   }
+  },
+  "HS160": {
+   "correctness": 9.2,
+   "scores": {
+    "layout": 10,
+    "connectivity": 8,
+    "presence": 10,
+    "details": 10,
+    "legibility": 8,
+    "centering": null,
+    "space_use": null,
+    "color_consistency": null,
+    "contrast": null,
+    "alignment": null,
+    "style_uniformity": null,
+    "resolution": null,
+    "canvas_fill": null
+   }
+  },
+  "HS161": {
+   "correctness": 8.4,
+   "scores": {
+    "layout": 6,
+    "connectivity": 10,
+    "presence": 10,
+    "details": 10,
+    "legibility": 6,
+    "centering": null,
+    "space_use": null,
+    "color_consistency": null,
+    "contrast": null,
+    "alignment": null,
+    "style_uniformity": null,
+    "resolution": null,
+    "canvas_fill": null
+   }
+  },
+  "HS162": {
+   "correctness": 9,
+   "scores": {
+    "layout": 10,
+    "connectivity": 10,
+    "presence": 10,
+    "details": 5,
+    "legibility": 10,
+    "centering": null,
+    "space_use": null,
+    "color_consistency": null,
+    "contrast": null,
+    "alignment": null,
+    "style_uniformity": null,
+    "resolution": null,
+    "canvas_fill": null
+   }
+  },
+  "HS163": {
+   "correctness": 7.2,
+   "scores": {
+    "layout": 6,
+    "connectivity": 5,
+    "presence": 10,
+    "details": 10,
+    "legibility": 5,
+    "centering": null,
+    "space_use": null,
+    "color_consistency": null,
+    "contrast": null,
+    "alignment": null,
+    "style_uniformity": null,
+    "resolution": null,
+    "canvas_fill": null
+   }
+  },
+  "HS164": {
+   "correctness": 9.2,
+   "scores": {
+    "layout": 10,
+    "connectivity": 6,
+    "presence": 10,
+    "details": 10,
+    "legibility": 10,
+    "centering": null,
+    "space_use": null,
+    "color_consistency": null,
+    "contrast": null,
+    "alignment": null,
+    "style_uniformity": null,
+    "resolution": null,
+    "canvas_fill": null
+   }
+  },
+  "HS165": {
+   "correctness": 7.2,
+   "scores": {
+    "layout": 6,
+    "connectivity": 7,
+    "presence": 7,
+    "details": 10,
+    "legibility": 6,
+    "centering": null,
+    "space_use": null,
+    "color_consistency": null,
+    "contrast": null,
+    "alignment": null,
+    "style_uniformity": null,
+    "resolution": null,
+    "canvas_fill": null
+   }
+  },
+  "HS166": {
+   "correctness": 7.4,
+   "scores": {
+    "layout": 6,
+    "connectivity": 6,
+    "presence": 10,
+    "details": 10,
+    "legibility": 5,
+    "centering": null,
+    "space_use": null,
+    "color_consistency": null,
+    "contrast": null,
+    "alignment": null,
+    "style_uniformity": null,
+    "resolution": null,
+    "canvas_fill": null
+   }
+  },
+  "HS167": {
+   "correctness": 5.4,
+   "scores": {
+    "layout": 5,
+    "connectivity": 5,
+    "presence": 5,
+    "details": 5,
+    "legibility": 7,
+    "centering": null,
+    "space_use": null,
+    "color_consistency": null,
+    "contrast": null,
+    "alignment": null,
+    "style_uniformity": null,
+    "resolution": null,
+    "canvas_fill": null
+   }
+  },
+  "HS168": {
+   "correctness": 7.6,
+   "scores": {
+    "layout": 9,
+    "connectivity": 6,
+    "presence": 10,
+    "details": 6,
+    "legibility": 7,
+    "centering": null,
+    "space_use": null,
+    "color_consistency": null,
+    "contrast": null,
+    "alignment": null,
+    "style_uniformity": null,
+    "resolution": null,
+    "canvas_fill": null
+   }
+  },
+  "HS169": {
+   "correctness": 8.4,
+   "scores": {
+    "layout": 9,
+    "connectivity": 6,
+    "presence": 10,
+    "details": 10,
+    "legibility": 7,
+    "centering": null,
+    "space_use": null,
+    "color_consistency": null,
+    "contrast": null,
+    "alignment": null,
+    "style_uniformity": null,
+    "resolution": null,
+    "canvas_fill": null
+   }
+  },
+  "HS170": {
+   "correctness": 5.6,
+   "scores": {
+    "layout": 5,
+    "connectivity": 3,
+    "presence": 10,
+    "details": 4,
+    "legibility": 6,
+    "centering": null,
+    "space_use": null,
+    "color_consistency": null,
+    "contrast": null,
+    "alignment": null,
+    "style_uniformity": null,
+    "resolution": null,
+    "canvas_fill": null
+   }
+  },
+  "HS171": {
+   "correctness": 5.8,
+   "scores": {
+    "layout": 5,
+    "connectivity": 10,
+    "presence": 5,
+    "details": 5,
+    "legibility": 4,
+    "centering": null,
+    "space_use": null,
+    "color_consistency": null,
+    "contrast": null,
+    "alignment": null,
+    "style_uniformity": null,
+    "resolution": null,
+    "canvas_fill": null
+   }
+  },
+  "HS172": {
+   "correctness": 6,
+   "scores": {
+    "layout": 7,
+    "connectivity": 4,
+    "presence": 6,
+    "details": 5,
+    "legibility": 8,
+    "centering": null,
+    "space_use": null,
+    "color_consistency": null,
+    "contrast": null,
+    "alignment": null,
+    "style_uniformity": null,
+    "resolution": null,
+    "canvas_fill": null
+   }
+  },
+  "HS173": {
+   "correctness": 10,
+   "scores": {
+    "layout": 10,
+    "connectivity": 10,
+    "presence": 10,
+    "details": 10,
+    "legibility": 10,
+    "centering": null,
+    "space_use": null,
+    "color_consistency": null,
+    "contrast": null,
+    "alignment": null,
+    "style_uniformity": null,
+    "resolution": null,
+    "canvas_fill": null
+   }
+  },
+  "HS174": {
+   "correctness": 5.2,
+   "scores": {
+    "layout": 3,
+    "connectivity": 4,
+    "presence": 9,
+    "details": 6,
+    "legibility": 4,
+    "centering": null,
+    "space_use": null,
+    "color_consistency": null,
+    "contrast": null,
+    "alignment": null,
+    "style_uniformity": null,
+    "resolution": null,
+    "canvas_fill": null
+   }
+  },
+  "HS175": {
+   "correctness": 9.4,
+   "scores": {
+    "layout": 10,
+    "connectivity": 10,
+    "presence": 10,
+    "details": 10,
+    "legibility": 7,
+    "centering": null,
+    "space_use": null,
+    "color_consistency": null,
+    "contrast": null,
+    "alignment": null,
+    "style_uniformity": null,
+    "resolution": null,
+    "canvas_fill": null
+   }
+  },
+  "HS176": {
+   "correctness": 5.2,
+   "scores": {
+    "layout": 3,
+    "connectivity": 10,
+    "presence": 3,
+    "details": 5,
+    "legibility": 5,
+    "centering": null,
+    "space_use": null,
+    "color_consistency": null,
+    "contrast": null,
+    "alignment": null,
+    "style_uniformity": null,
+    "resolution": null,
+    "canvas_fill": null
+   }
+  },
+  "HS177": {
+   "correctness": 9,
+   "scores": {
+    "layout": 7,
+    "connectivity": 10,
+    "presence": 10,
+    "details": 10,
+    "legibility": 8,
+    "centering": null,
+    "space_use": null,
+    "color_consistency": null,
+    "contrast": null,
+    "alignment": null,
+    "style_uniformity": null,
+    "resolution": null,
+    "canvas_fill": null
+   }
+  },
+  "HS178": {
+   "correctness": 8,
+   "scores": {
+    "layout": 6,
+    "connectivity": 6,
+    "presence": 10,
+    "details": 10,
+    "legibility": 8,
+    "centering": null,
+    "space_use": null,
+    "color_consistency": null,
+    "contrast": null,
+    "alignment": null,
+    "style_uniformity": null,
+    "resolution": null,
+    "canvas_fill": null
+   }
+  },
+  "HS179": {
+   "correctness": 8.2,
+   "scores": {
+    "layout": 6,
+    "connectivity": 6,
+    "presence": 10,
+    "details": 10,
+    "legibility": 9,
+    "centering": null,
+    "space_use": null,
+    "color_consistency": null,
+    "contrast": null,
+    "alignment": null,
+    "style_uniformity": null,
+    "resolution": null,
+    "canvas_fill": null
+   }
+  },
+  "HS180": {
+   "correctness": 9.8,
+   "scores": {
+    "layout": 10,
+    "connectivity": 9,
+    "presence": 10,
+    "details": 10,
+    "legibility": 10,
+    "centering": null,
+    "space_use": null,
+    "color_consistency": null,
+    "contrast": null,
+    "alignment": null,
+    "style_uniformity": null,
+    "resolution": null,
+    "canvas_fill": null
+   }
+  },
+  "HS181": {
+   "correctness": 5.6,
+   "scores": {
+    "layout": 6,
+    "connectivity": 5,
+    "presence": 6,
+    "details": 5,
+    "legibility": 6,
+    "centering": null,
+    "space_use": null,
+    "color_consistency": null,
+    "contrast": null,
+    "alignment": null,
+    "style_uniformity": null,
+    "resolution": null,
+    "canvas_fill": null
+   }
+  },
+  "HS182": {
+   "correctness": 6.4,
+   "scores": {
+    "layout": 5,
+    "connectivity": 4,
+    "presence": 10,
+    "details": 6,
+    "legibility": 7,
+    "centering": null,
+    "space_use": null,
+    "color_consistency": null,
+    "contrast": null,
+    "alignment": null,
+    "style_uniformity": null,
+    "resolution": null,
+    "canvas_fill": null
+   }
+  },
+  "HS183": {
+   "correctness": 7.8,
+   "scores": {
+    "layout": 10,
+    "connectivity": 6,
+    "presence": 7,
+    "details": 8,
+    "legibility": 8,
+    "centering": null,
+    "space_use": null,
+    "color_consistency": null,
+    "contrast": null,
+    "alignment": null,
+    "style_uniformity": null,
+    "resolution": null,
+    "canvas_fill": null
+   }
+  },
+  "HS184": {
+   "correctness": 5.4,
+   "scores": {
+    "layout": 7,
+    "connectivity": 4,
+    "presence": 3,
+    "details": 8,
+    "legibility": 5,
+    "centering": null,
+    "space_use": null,
+    "color_consistency": null,
+    "contrast": null,
+    "alignment": null,
+    "style_uniformity": null,
+    "resolution": null,
+    "canvas_fill": null
+   }
+  },
+  "HS185": {
+   "correctness": 9,
+   "scores": {
+    "layout": 10,
+    "connectivity": 10,
+    "presence": 10,
+    "details": 10,
+    "legibility": 5,
+    "centering": null,
+    "space_use": null,
+    "color_consistency": null,
+    "contrast": null,
+    "alignment": null,
+    "style_uniformity": null,
+    "resolution": null,
+    "canvas_fill": null
+   }
+  },
+  "HS186": {
+   "correctness": 9,
+   "scores": {
+    "layout": 10,
+    "connectivity": 5,
+    "presence": 10,
+    "details": 10,
+    "legibility": 10,
+    "centering": null,
+    "space_use": null,
+    "color_consistency": null,
+    "contrast": null,
+    "alignment": null,
+    "style_uniformity": null,
+    "resolution": null,
+    "canvas_fill": null
+   }
+  },
+  "HS187": {
+   "correctness": 7.8,
+   "scores": {
+    "layout": 7,
+    "connectivity": 8,
+    "presence": 6,
+    "details": 10,
+    "legibility": 8,
+    "centering": null,
+    "space_use": null,
+    "color_consistency": null,
+    "contrast": null,
+    "alignment": null,
+    "style_uniformity": null,
+    "resolution": null,
+    "canvas_fill": null
+   }
+  },
+  "HS188": {
+   "correctness": 10,
+   "scores": {
+    "layout": 10,
+    "connectivity": 10,
+    "presence": 10,
+    "details": 10,
+    "legibility": 10,
+    "centering": null,
+    "space_use": null,
+    "color_consistency": null,
+    "contrast": null,
+    "alignment": null,
+    "style_uniformity": null,
+    "resolution": null,
+    "canvas_fill": null
+   }
+  },
+  "HS189": {
+   "correctness": 9.8,
+   "scores": {
+    "layout": 10,
+    "connectivity": 10,
+    "presence": 10,
+    "details": 10,
+    "legibility": 9,
+    "centering": null,
+    "space_use": null,
+    "color_consistency": null,
+    "contrast": null,
+    "alignment": null,
+    "style_uniformity": null,
+    "resolution": null,
+    "canvas_fill": null
+   }
+  },
+  "HS190": {
+   "correctness": 8.2,
+   "scores": {
+    "layout": 10,
+    "connectivity": 5,
+    "presence": 10,
+    "details": 8,
+    "legibility": 8,
+    "centering": null,
+    "space_use": null,
+    "color_consistency": null,
+    "contrast": null,
+    "alignment": null,
+    "style_uniformity": null,
+    "resolution": null,
+    "canvas_fill": null
+   }
+  },
+  "HS191": {
+   "correctness": 9.6,
+   "scores": {
+    "layout": 10,
+    "connectivity": 10,
+    "presence": 10,
+    "details": 10,
+    "legibility": 8,
+    "centering": null,
+    "space_use": null,
+    "color_consistency": null,
+    "contrast": null,
+    "alignment": null,
+    "style_uniformity": null,
+    "resolution": null,
+    "canvas_fill": null
+   }
+  },
+  "HS192": {
+   "correctness": 8.2,
+   "scores": {
+    "layout": 10,
+    "connectivity": 9,
+    "presence": 6,
+    "details": 6,
+    "legibility": 10,
+    "centering": null,
+    "space_use": null,
+    "color_consistency": null,
+    "contrast": null,
+    "alignment": null,
+    "style_uniformity": null,
+    "resolution": null,
+    "canvas_fill": null
+   }
+  },
+  "HS193": {
+   "correctness": 9.2,
+   "scores": {
+    "layout": 8,
+    "connectivity": 10,
+    "presence": 10,
+    "details": 10,
+    "legibility": 8,
+    "centering": null,
+    "space_use": null,
+    "color_consistency": null,
+    "contrast": null,
+    "alignment": null,
+    "style_uniformity": null,
+    "resolution": null,
+    "canvas_fill": null
+   }
+  },
+  "HS194": {
+   "correctness": 7.8,
+   "scores": {
+    "layout": 6,
+    "connectivity": 6,
+    "presence": 10,
+    "details": 10,
+    "legibility": 7,
+    "centering": null,
+    "space_use": null,
+    "color_consistency": null,
+    "contrast": null,
+    "alignment": null,
+    "style_uniformity": null,
+    "resolution": null,
+    "canvas_fill": null
+   }
+  },
+  "HS195": {
+   "correctness": 9.8,
+   "scores": {
+    "layout": 10,
+    "connectivity": 10,
+    "presence": 10,
+    "details": 10,
+    "legibility": 9,
+    "centering": null,
+    "space_use": null,
+    "color_consistency": null,
+    "contrast": null,
+    "alignment": null,
+    "style_uniformity": null,
+    "resolution": null,
+    "canvas_fill": null
+   }
+  },
+  "HS196": {
+   "correctness": 10,
+   "scores": {
+    "layout": 10,
+    "connectivity": 10,
+    "presence": 10,
+    "details": 10,
+    "legibility": 10,
+    "centering": null,
+    "space_use": null,
+    "color_consistency": null,
+    "contrast": null,
+    "alignment": null,
+    "style_uniformity": null,
+    "resolution": null,
+    "canvas_fill": null
+   }
+  },
+  "HS197": {
+   "correctness": 9,
+   "scores": {
+    "layout": 10,
+    "connectivity": 10,
+    "presence": 10,
+    "details": 8,
+    "legibility": 7,
+    "centering": null,
+    "space_use": null,
+    "color_consistency": null,
+    "contrast": null,
+    "alignment": null,
+    "style_uniformity": null,
+    "resolution": null,
+    "canvas_fill": null
+   }
+  },
+  "HS198": {
+   "correctness": 10,
+   "scores": {
+    "layout": 10,
+    "connectivity": 10,
+    "presence": 10,
+    "details": 10,
+    "legibility": 10,
+    "centering": null,
+    "space_use": null,
+    "color_consistency": null,
+    "contrast": null,
+    "alignment": null,
+    "style_uniformity": null,
+    "resolution": null,
+    "canvas_fill": null
+   }
+  },
+  "HS199": {
+   "correctness": 7.2,
+   "scores": {
+    "layout": 8,
+    "connectivity": 10,
+    "presence": 6,
+    "details": 10,
+    "legibility": 2,
+    "centering": null,
+    "space_use": null,
+    "color_consistency": null,
+    "contrast": null,
+    "alignment": null,
+    "style_uniformity": null,
+    "resolution": null,
+    "canvas_fill": null
+   }
+  },
+  "HS200": {
+   "correctness": 9,
+   "scores": {
+    "layout": 10,
+    "connectivity": 10,
+    "presence": 10,
+    "details": 10,
+    "legibility": 5,
+    "centering": null,
+    "space_use": null,
+    "color_consistency": null,
+    "contrast": null,
+    "alignment": null,
+    "style_uniformity": null,
+    "resolution": null,
+    "canvas_fill": null
+   }
+  }
+ }
+}

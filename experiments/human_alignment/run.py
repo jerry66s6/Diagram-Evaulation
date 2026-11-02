@@ -7,6 +7,7 @@
     python3 run.py compare --first 100 --wording v2   # summary_v2.json
     python3 run.py tune --wordings v1,v1r,v2          # side by side, from the summaries
     python3 run.py report                             # report.html: every version on HS001-HS100
+    python3 run.py compare --start 101 --first 200 --wording d12   # HS101-HS200; summary_d12_101-200.json
 
 Nothing outside this folder is changed. Images come from diagrams/human_study/images (git-ignored).
 """
@@ -134,6 +135,297 @@ DIRECT = {
 # d3 = d2 + the checklist (steps 1 and 2 of the original method): the caption sketch, made with the v3 side-branch
 # sentence, is shown to each dimension, and the model goes through it item by item before scoring. No formula.
 DIRECT["d3"] = {**DIRECT["d2"], "sketch": True}
+# d4 = d2 with one change per dimension, from the d2 mistakes on HS001-HS100 (Presence is unchanged, as a noise check):
+# Layout still called tightly cropped figures cut off; Connectivity flagged exclusion boxes drawn in the main chain
+# (which d2's side-branch sentence invited) and labels in the wrong boxes; Details took points for typos and
+# abbreviations; Legibility missed that the study showed each figure fitted to a small panel, so tall or large
+# figures looked much smaller to the raters than to the model (judge minus human correlated -0.48 with that scale).
+DIRECT["d4"] = {
+    "scoring": DIRECT["d2"]["scoring"],
+    "base": {
+        "layout": "Steps should appear along the reading direction in the order the caption gives. Many figures are "
+                  "cropped tight, so boxes, labels, or arrows touch the image edge, and a box border lying on the "
+                  "edge can look thin or missing there; that is not cut off. Content is cut off only when something "
+                  "is visibly incomplete: text sliced through, or a box clearly missing part of its contents "
+                  "compared with similar boxes.",
+        "connectivity": "One line or arrow can serve several components (a branching trunk line, a line ending at a "
+                        "row of boxes, a large background arrow with the steps placed along it) and connects each of "
+                        "them. Excluded or removed items are often a side branch that leaves the main flow and ends "
+                        "there, but a figure may also put the exclusion box in the main chain, meaning the next step "
+                        "is what remains; both are correct. Judge the arrows against what the caption states, not "
+                        "against your own idea of how the process should work. If the arrows would be right with the "
+                        "labels in their proper boxes, a label in the wrong box is a DETAILS problem, not a "
+                        "connectivity one.",
+        "presence": "",
+        "details": DIRECT_CONVENTIONS["details"] + DIRECT["d2"]["conventions"]["details"] + " Spelling slips, "
+                   "abbreviations, and short paraphrases that still name the right thing do not lower the score.",
+        "legibility": "{display} Judge the text at that size, without zooming in: text you would need to zoom in on "
+                      "or guess at is not comfortably readable.",
+    },
+}
+# d5 = d4, keeping what helped beyond noise and undoing what hurt. Layout gained most (Spearman 0.50 -> 0.64) and is
+# kept. The display size ranked Legibility a little better but pushed it 1.2 points below the humans (figures shown
+# under 40% got 3.7, humans 5.7), so d5 keeps the size and softens what it costs. The Details sentence on typos made
+# the judge pass real wrong labels, and the Connectivity sentence on labels in the wrong boxes excused real arrow
+# errors; both are dropped (Details is d2 again). Layout and Presence have the d4 prompt and Details the d2 prompt,
+# so their result files are copied, not re-run.
+DIRECT["d5"] = {
+    "scoring": DIRECT["d2"]["scoring"],
+    "base": {
+        **DIRECT["d4"]["base"],
+        "connectivity": DIRECT["d4"]["base"]["connectivity"].split(" If the arrows would be right")[0],
+        "details": DIRECT_CONVENTIONS["details"] + DIRECT["d2"]["conventions"]["details"],
+        "legibility": "{display} Judge the text at that size, as a reader looking at the whole figure would: text "
+                      "that is still easy to read is fine; text small or dense enough that the reader must look "
+                      "closely is a small problem; text the reader would need to zoom in on or guess at is a clear "
+                      "error.",
+    },
+}
+# d6 = d5 with another Legibility wording. d5's softer cost hardly moved the level (still 1.1 points below the humans,
+# and 10 clean figures under 8): told the figure is shown smaller, the judge marked down any small text, even at 60%
+# where d2 matched the humans. d6 says small text that still reads at that size is fine.
+DIRECT["d6"] = {**DIRECT["d5"], "base": {
+    **DIRECT["d5"]["base"],
+    "legibility": "{display} Judge the text at that size, as a reader looking at the whole figure would. Text in "
+                  "figures is often small, and small text that still reads at that size is fine; lower the score "
+                  "only for text the reader would have to strain, zoom in on, or guess at to read.",
+}}
+# d7 = the d6 ideas as short general rules, with no sizes: Layout and Connectivity say the same in fewer words;
+# Legibility asks the model to look at the whole figure as a reader would and judge text small compared with the
+# figure (the study showed figures fitted to a small panel, but the panel size is not a rule for the judge); Presence
+# takes "visibly present" literally, as the humans did (blank, cut-off, or hidden boxes: humans 5-7, judge 6-10).
+# Details stays d2.
+DIRECT["d7"] = {"scoring": DIRECT["d2"]["scoring"], "base": {
+    "layout": "Steps should appear along the reading direction in the order the caption gives. Content touching the "
+              "image edge is not cut off; it is cut off only when part of it is visibly missing, such as text "
+              "sliced through or a box missing part of its contents.",
+    "connectivity": DIRECT_CONVENTIONS["connectivity"].split(" A side branch")[0] + " Excluded items may branch off "
+                    "to the side or sit in the main chain (the next step is what remains); both are correct."
+                    + DIRECT["d2"]["conventions"]["connectivity"],
+    "presence": "Count a component as present only when a reader can see what it is: a box that is blank, cut off, "
+                "or hidden under another does not show its component.",
+    "details": DIRECT_CONVENTIONS["details"] + DIRECT["d2"]["conventions"]["details"],
+    "legibility": "Look at the figure as a reader would, taking in the whole figure at once: text that is small "
+                  "compared with the figure, so that the reader has to look closely to make it out, is not "
+                  "comfortably readable.",
+}}
+# d8 = the best part of each so far. Presence keeps the d7 rule (Spearman 0.59 -> 0.73), Connectivity the d6 wording,
+# Details d2. The short d7 Layout rule lost the d6 gain (false alarms 7 -> 14: the judge still saw a border on the
+# edge as cut off), so d8 names that case in rule form. The d7 Legibility wording changed nothing (same as d2 at every
+# display scale) and the d6 numbers overshot, so d8 states why figures look smaller without giving numbers.
+DIRECT["d8"] = {"scoring": DIRECT["d2"]["scoring"], "base": {
+    **DIRECT["d7"]["base"],
+    "layout": "Steps should appear along the reading direction in the order the caption gives. A box or label that "
+              "touches the image edge is not cut off, even where its border lies on the edge and looks thin or "
+              "missing. Content is cut off only when part of it is visibly missing, such as text sliced through or a "
+              "box missing part of its contents.",
+    "connectivity": DIRECT["d6"]["base"]["connectivity"],
+    "legibility": "Readers see the whole figure fitted to a screen, so a large or tall figure is shown smaller than "
+                  "its file. Judge text at that size, without zooming in: text that is small compared with the whole "
+                  "figure becomes hard to read, and text you would need to zoom in on or guess at is not comfortably "
+                  "readable.",
+}}
+# d9 = d8 with Legibility and Details closer to how the humans rated. Legibility: when the d8 judge found hard text it
+# still reasoned "most text is clear" and gave 6-8 where humans gave 3-5, and it reads fine print a person cannot; d9
+# asks it to judge as a person, by the hardest text, with weak contrast named (no sizes, same image). Details: humans
+# rarely marked down a label in the wrong place (label swaps: humans 7.6, judge 6.9; steps drawn out of order: humans
+# 9.7, judge 7.0); d9 makes the first a small problem and the second Layout's.
+DIRECT["d9"] = {"scoring": DIRECT["d2"]["scoring"], "base": {
+    **DIRECT["d8"]["base"],
+    "details": "A label that is cut off is not accurate. A label that names a real component from the caption but "
+               "sits in the wrong place in the flow is a small problem; steps drawn in the wrong order are a LAYOUT "
+               "problem. Judge the labels themselves: do not recompute numbers across boxes or second-guess wording "
+               "that fits the caption.",
+    "legibility": "Judge as a person looking at the whole figure on a screen would, not as a model that can decode "
+                  "fine print: people cannot make out every small word. Text a person would find hard to read, "
+                  "because it is small, thin, blurry, or pale, or because it contrasts weakly with its fill, is not "
+                  "comfortably readable. A figure is as legible as its hardest text: hard-to-read labels lower the "
+                  "score even when most text is clear.",
+}}
+# d10 = d8 with two changes. Legibility: the only thing that moved the judge so far was being told this figure is
+# shown smaller (d6, with numbers, overshot); the gap is in figures shown much smaller (under 45% of their size in the
+# study's panel: humans 6.1, d8 7.7; elsewhere within 0.4), so those get one size sentence in words, and every other
+# figure keeps the d8 sentence. Details: on clean figures the judge went from 10 straight to 6-8 for wording that
+# still names the same thing (an abbreviation, a dropped word, a typo), where humans gave 10; d10 says such a label is
+# accurate and keeps naming a different thing or contradicting the caption as wrong (d4's broader "typos do not
+# count" passed real wrong labels).
+DIRECT["d10"] = {"scoring": DIRECT["d2"]["scoring"], "base": {
+    **DIRECT["d8"]["base"],
+    "details": DIRECT_CONVENTIONS["details"] + " A label that names the same thing as the caption is accurate even if "
+               "it is worded differently, abbreviated, or slightly misspelled; a label that names a different thing, "
+               "contradicts the caption, or leaves out what the caption asks it to state is wrong."
+               + DIRECT["d2"]["conventions"]["details"],
+    "legibility": "{size}" + DIRECT["d8"]["base"]["legibility"].split("its file.")[1],
+}}
+
+
+def _size(image):
+    """d10: one sentence in words for figures the study showed much smaller than their file; the d8 sentence otherwise."""
+    from PIL import Image
+    w, h = Image.open(image).size
+    if min(PANEL[0] / w, PANEL[1] / h) < 0.45:  # d10 result: no effect (large figures d8 7.7, d10 8.0, humans 6.1)
+        return ("Readers see the whole figure fitted to a screen, and this figure is large or tall, so they see it "
+                "much smaller than its file.")
+    return "Readers see the whole figure fitted to a screen, so a large or tall figure is shown smaller than its file."
+
+
+# d11 = d8 with half of the d10 Details sentence. Its first half did what it should (clean figures with an
+# abbreviation, a dropped word, or a typo went from 7-8 to 10, as the humans rated them); its second half, "leaves out
+# what the caption asks it to state", made the judge flag omissions on clean figures (10 -> 8), so d11 drops it.
+DIRECT["d11"] = {"scoring": DIRECT["d2"]["scoring"], "base": {
+    **DIRECT["d8"]["base"],
+    "details": DIRECT_CONVENTIONS["details"] + " A label that names the same thing as the caption is accurate even if "
+               "it is worded differently, abbreviated, or slightly misspelled; a label that names a different thing or "
+               "contradicts the caption is wrong." + DIRECT["d2"]["conventions"]["details"],
+}}
+# d12 = d11 with Legibility back to the d2 wording (the "fitted to a screen" premise is dropped: readers can open the
+# figure, and no wording without numbers moved the judge anyway) and Details a little stricter. d11 passed labels that
+# drop a count or condition the caption gives (a cohort box without its n, a "Negative" result without its test),
+# where d8 and the humans marked them down; d10's broader "leaves out what the caption asks" also flagged dropped
+# words on clean figures. d12 names counts, values, and conditions only.
+DIRECT["d12"] = {"scoring": DIRECT["d2"]["scoring"], "base": {
+    **DIRECT["d11"]["base"],
+    "details": DIRECT_CONVENTIONS["details"] + " A label that names the same thing as the caption is accurate even if "
+               "it is worded differently, abbreviated, or slightly misspelled; a label that names a different thing, "
+               "contradicts the caption, or drops a count, value, or condition the caption gives for that component "
+               "is wrong." + DIRECT["d2"]["conventions"]["details"],
+    "legibility": DIRECT_CONVENTIONS["legibility"],
+}}
+# d13 and d14 = d12 with Connectivity changed (Connectivity had not moved past d2: Spearman 0.55-0.57). The d12 judge
+# missed inserted arrow errors (an erased and a reversed arrow both scored 10) and flagged how clean figures draw
+# connections (plain lines without arrowheads, arrows ending at a panel border, sources stacked above their total). d13
+# asks it to go through the caption's connections one by one and accepts those drawings. d14 adds what the humans did
+# when a box is removed, cut off, or too faint (removed box: humans 5.0, judge 6.8): the flow through it is broken.
+_CONNECTIVITY_D13 = (
+    "One line or arrow can serve several components (a branching trunk line, a line ending at a row of boxes, a large "
+    "background arrow with the steps placed along it, an arrow ending at the border of a group or panel) and connects "
+    "each of them; a plain line without an arrowhead connects two components when the direction is clear from the "
+    "layout. Excluded or removed items are often a side branch that leaves the main flow and ends there, but a figure "
+    "may also put the exclusion box in the main chain, meaning the next step is what remains; both are correct. Judge "
+    "the arrows against what the caption states, not against your own idea of how the process should work. Go through "
+    "the connections the caption calls for one by one: check that a line joins the two components and that its "
+    "arrowhead, if it has one, points the right way.")
+DIRECT["d13"] = {"scoring": DIRECT["d2"]["scoring"], "base": {**DIRECT["d12"]["base"], "connectivity": _CONNECTIVITY_D13}}
+DIRECT["d14"] = {"scoring": DIRECT["d2"]["scoring"], "base": {
+    **DIRECT["d12"]["base"],
+    "connectivity": _CONNECTIVITY_D13 + " When a component on the flow is missing, cut off, or too faint to see, the "
+                    "reader cannot follow the flow through it, so the connections through it are not shown either.",
+}}
+# d15 = d12 with Layout changed. For a layout error a reader sees at a glance (cut off, overlapping, an arrow through a
+# box, steps out of order) humans gave 2-4 and the d8 judge about 6 (humans 1-3: judge mean 5.4); and the judge
+# marked down flows that wrap into a second row or column, which humans rated 10.
+DIRECT["d15"] = {"scoring": DIRECT["d2"]["scoring"], "base": {
+    **DIRECT["d12"]["base"],
+    "layout": DIRECT["d8"]["base"]["layout"] + " A flow that wraps into a new row or column, or turns back in a U "
+              "shape, still reads in one direction. A layout error a reader sees at a glance (content cut off, boxes "
+              "overlapping or knocked out of line, an arrow running through a box, steps out of order) makes the "
+              "figure look broken: one such error already belongs in 3-5, and several in 1-3.",
+}}
+# d16 = d12 with a full Connectivity section instead of a few sentences: how to check the connections step by step,
+# what is not an error, and what each score band means for connections. Connectivity was the dimension where the
+# judge disagreed most with itself (d1 vs d1r RMSE 1.51); the idea is that a vaguer task gives noisier scores.
+# d16r repeats d16 and d12r repeats d12's Connectivity, to compare run-to-run noise.
+DIRECT["d16"] = {"scoring": DIRECT["d2"]["scoring"], "base": {
+    **DIRECT["d12"]["base"],
+    "connectivity": (
+        "\n\nHow to check, in order:\n"
+        "1. From the caption, work out the flow: which step leads to which, including branches (yes/no, study arms, "
+        "exclusions) and any loops back.\n"
+        "2. In the figure, follow each of those connections from one component to the next. A connection may run "
+        "through a shared trunk line, a bracket, a line ending at a row of boxes, an arrow to the border of a group or "
+        "panel, or a large background arrow; all of these connect. A plain line without an arrowhead connects two "
+        "components when the direction is clear from the layout.\n"
+        "3. Check the direction of every arrowhead, including in faint or blurry parts of the figure: it points from "
+        "the earlier step to the later one, or back to an earlier step only where the caption describes a loop.\n"
+        "4. Check for arrows that should not be there: one that joins components the caption does not connect, or one "
+        "that ends in empty space.\n\n"
+        "Not an error: the same flow organized differently from what you would draw (branches in another order, an "
+        "exclusion box in the main chain meaning the next step is what remains, sources stacked above the total they "
+        "add up to); a connector that stops just short of a box when it is clear which box it reaches; extra "
+        "connections that fit the caption. Judge against what the caption states, not your own idea of the process.\n\n"
+        "What the bands mean for CONNECTIVITY:\n"
+        "- 9-10: every connection the caption calls for can be followed, in the right direction, and no arrow is "
+        "wrong.\n"
+        "- 7-8: a connection is drawn loosely or ambiguously (an arrowhead hard to make out, a line that could be read "
+        "two ways), but a reader can still work out the flow.\n"
+        "- 4-6: one connection the caption calls for is missing, reversed, or goes to the wrong component, while the "
+        "rest of the flow is right.\n"
+        "- 1-3: several such errors, or one that breaks the main path so a reader cannot get from the start to the "
+        "end."),
+}}
+DIRECT["d16r"] = DIRECT["d16"]
+# d17 = d12 with Connectivity and Presence rewritten, now tuned on HS001-HS200. Most big disagreements in both were
+# the judge reading the caption, a short summary rewritten from the figure, as an exact list: on unmodified figures it
+# wanted an arrow for every step the caption mentions, treated a small box beside an arrow stating its condition
+# ("ICC >= 0.75") as a step, wanted an arrow between two boxes that restate one stage, and called a component missing
+# when its label said less than the caption. It also read tiny text as a blank box and called a stage shown in each
+# study arm a duplicate.
+DIRECT["d17"] = {"scoring": DIRECT["d2"]["scoring"], "base": {
+    **DIRECT["d12"]["base"],
+    "connectivity": (
+        "The caption is a short summary rewritten from the figure: it may merge, split, or reorder steps, and it does "
+        "not describe every line. Use it to understand the flow, and count a connection as wrong only when the "
+        "figure clearly contradicts that flow: two steps that must follow each other have nothing joining them, an "
+        "arrow points the wrong way, or an arrow leads to the wrong component. One line or arrow can serve several "
+        "components (a branching trunk line, a line ending at a row of boxes, a large background arrow with the "
+        "steps placed along it, an arrow ending at the border of a group or panel) and connects each of them. A small "
+        "box beside an arrow that states its condition or a note (a threshold, a criterion, a count) labels that "
+        "arrow and needs no connection of its own. Two boxes that restate the same step need no arrow between them. "
+        "Excluded or removed items are often a side branch that leaves the main flow and ends there, but a figure may "
+        "also put the exclusion box in the main chain, meaning the next step is what remains; both are correct. Judge "
+        "the arrows against what the caption states, not against your own idea of how the process should work."),
+    "presence": (
+        "The caption is a short summary rewritten from the figure and may give more detail than the figure's labels "
+        "(where the data come from, what each arm receives). Go through the components the caption names and find "
+        "each in the figure: a component is present when the figure shows that step or group, even if its label says "
+        "less than the caption (that is a DETAILS matter). Count a component as present only when a reader can see "
+        "what it is: a box with no text, cut off, or hidden under another does not show its component; a box whose "
+        "text is merely small or faint is present (that is a LEGIBILITY matter). Boxes that repeat a name in "
+        "different arms or branches, or restate a stage with added detail, are not duplicates."),
+}}
+DIRECT["d12r"] = DIRECT["d12"]
+# d18 = d17 with two more changes. Connectivity: d17's remaining false alarms on clean figures (8 of 18 cases the judge
+# scored 3+ below the humans) still asked for an arrow at every step the caption mentions, and the rubric sentence
+# still says "every connection the description calls for is drawn"; d18 rewords it to the flow the caption describes
+# (config/rubric.json is unchanged). Presence: its caption false alarms are gone (0 on clean figures), and it is now
+# too lenient: it missed removed boxes (4 of 8, humans 7); d18 adds that a step the flow jumps over is missing.
+DIRECT["d18"] = {"scoring": DIRECT["d2"]["scoring"], "base": {
+    **DIRECT["d17"]["base"],
+    "presence": DIRECT["d17"]["base"]["presence"] + " Check that the flow passes through every step the caption names "
+                "in order: when the caption names a step between two others and the figure goes straight from one to "
+                "the other with no box for it anywhere, that step is missing.",
+}, "rubric": {
+    "connectivity.connections": "The figure's connections follow the flow the caption describes, directly or "
+                                "through intermediate drawn steps, in the right direction. A connection to a component "
+                                "that is not drawn is judged under Presence, not here.",
+}}
+COPIED = {"d5": {"layout": "d4", "presence": "d4", "details": "d2"},  # same prompt, so the same result file
+          "d6": {"layout": "d4", "presence": "d4", "details": "d2", "connectivity": "d5"},
+          "d7": {"details": "d2"},
+          "d8": {"connectivity": "d5", "presence": "d7", "details": "d2"},
+          "d9": {"layout": "d8", "connectivity": "d5", "presence": "d7"},
+          "d10": {"layout": "d8", "connectivity": "d5", "presence": "d7", "legibility": "d8"},  # Legibility: figures not shown much smaller
+          "d11": {"layout": "d8", "connectivity": "d5", "presence": "d7", "legibility": "d8"},
+          "d12": {"layout": "d8", "connectivity": "d5", "presence": "d7", "legibility": "d2"},
+          "d13": {"layout": "d8", "presence": "d7", "details": "d12", "legibility": "d2"},
+          "d14": {"layout": "d8", "presence": "d7", "details": "d12", "legibility": "d2"},
+          "d15": {"connectivity": "d5", "presence": "d7", "details": "d12", "legibility": "d2"},
+          "d16": {"layout": "d8", "presence": "d7", "details": "d12", "legibility": "d2"},
+          "d16r": {"layout": "d8", "presence": "d7", "details": "d12", "legibility": "d2"},
+          "d12r": {"layout": "d8", "presence": "d7", "details": "d12", "legibility": "d2"},
+          "d17": {"layout": "d12", "details": "d12", "legibility": "d12"},
+          "d18": {"layout": "d12", "details": "d12", "legibility": "d12"}}
+PANEL = (660, 360)  # the study's diagram panel on a 1440-pixel-wide screen (user-study/app/globals.css)
+
+
+def _display(image):
+    """How the study showed the figure: scaled to fit PANEL (small figures are enlarged, large ones shrunk)."""
+    from PIL import Image
+    w, h = Image.open(image).size
+    scale = min(PANEL[0] / w, PANEL[1] / h)
+    size = "at about its full size" if 0.95 <= scale <= 1.05 else f"at about {round(100 * scale)}% of its size"
+    return (f"Readers see this figure ({w}x{h} pixels) fitted to a panel about {PANEL[0]}x{PANEL[1]} pixels, so it "
+            f"is shown {size}.")
 SKETCH_NOTE = (
     "Checklist: before seeing the figure, another model read only the caption and listed what this diagram should "
     "contain; the items for this dimension are below. Go through the required items one by one and decide whether "
@@ -158,17 +450,22 @@ def _sketch_lines(inventory, dimension):
     return []
 
 
-def _direct_prompt(dimension, caption, wording="d1", inventory=None):
+def _direct_prompt(dimension, caption, wording="d1", inventory=None, image=None):
     change = DIRECT[wording]
     lines = _sketch_lines(inventory, dimension) if inventory else []
     checklist = SKETCH_NOTE + "\n".join(lines) + "\n\n" if lines else ""
-    criteria = [c["description"] for c in json.load(open(ROOT / "config" / "rubric.json"))["criteria"]
-                if c["dimension"] == dimension]
+    criteria = [change.get("rubric", {}).get(c["id"], c["description"])  # a version may reword a rubric criterion
+                for c in json.load(open(ROOT / "config" / "rubric.json"))["criteria"] if c["dimension"] == dimension]
+    conventions = change.get("base", DIRECT_CONVENTIONS)[dimension]
+    if "{display}" in conventions:
+        conventions = conventions.format(display=_display(image))
+    if "{size}" in conventions:
+        conventions = conventions.format(size=_size(image))
     name = dimension.upper()
     return (
         f"You are rating one aspect of a flowchart: {name}. The attached image is the flowchart, and the caption "
         f"below describes what it should show.\n\n{name}: {DIRECT_QUESTION[dimension]}\nIt covers: "
-        + " ".join(criteria) + (" " + DIRECT_CONVENTIONS[dimension] if DIRECT_CONVENTIONS[dimension] else "")
+        + " ".join(criteria) + (" " + conventions if conventions else "")
         + change.get("conventions", {}).get(dimension, "")
         + f"\n\nEach aspect has its own rater:\n{DIRECT_OWNERS}\nJudge only {name}.\n\n"
         + DIRECT_SCORING + change.get("scoring", "") + "\n\n" + checklist
@@ -213,6 +510,10 @@ def _humans():
 
 # ---------- score ----------
 
+def _in_range(d, first, start=1):
+    return start <= int(d["id"][2:]) <= (first or 10 ** 6)
+
+
 def _pipeline(model, wording="v1"):
     from dataclasses import replace
     from diagram_correctness import vlm
@@ -250,7 +551,8 @@ def _pipeline(model, wording="v1"):
     return pipeline, [judge_backend, expectation_backend]
 
 
-def score(workers: int, only: set[str] | None = None, first: int | None = None, wording: str = "v1") -> None:
+def score(workers: int, only: set[str] | None = None, first: int | None = None, wording: str = "v1",
+          start: int = 1) -> None:
     _load_env()
     from diagram_correctness.beauty import judge_beauty_dimension
     from diagram_correctness.beauty_v6 import BEAUTY_V6_MODEL_DIMENSIONS, BEAUTY_V6_PROMPTS
@@ -297,13 +599,13 @@ def score(workers: int, only: set[str] | None = None, first: int | None = None, 
                 path.write_text(json.dumps(inv, indent=1))
             return d["id"], json.loads(path.read_text())
 
-        todo = [d for d in _humans() if (not only or d["id"] in only) and (not first or int(d["id"][2:]) <= first)]
+        todo = [d for d in _humans() if (not only or d["id"] in only) and _in_range(d, first, start)]
         with ThreadPoolExecutor(workers) as pool:
             sketches = dict(pool.map(sketch, todo))
         print(f"{len(sketches)} sketches ready", flush=True)
 
     def direct(d, dimension):
-        prompt = _direct_prompt(dimension, d["caption"], wording, sketches.get(d["id"]))
+        prompt = _direct_prompt(dimension, d["caption"], wording, sketches.get(d["id"]), ROOT / d["image"])
         payload = beauty_backend.structured(prompt, [ROOT / d["image"]],
                                             DIRECT_SCHEMA, f"diagram_correctness_{dimension}")
         if not isinstance(payload.get("score"), int) or not 1 <= payload["score"] <= 10:
@@ -313,11 +615,11 @@ def score(workers: int, only: set[str] | None = None, first: int | None = None, 
     jobs = []
     for d in _humans():
         if wording in DIRECT:
-            if (not only or d["id"] in only) and (not first or int(d["id"][2:]) <= first):
+            if (not only or d["id"] in only) and _in_range(d, first, start):
                 (RESULTS / d["id"]).mkdir(parents=True, exist_ok=True)
                 jobs += [(d, f"direct_{wording}_{k}", lambda d=d, k=k: direct(d, k)) for k in CORRECTNESS]
             continue
-        if (only and d["id"] not in only) or (first and int(d["id"][2:]) > first):
+        if (only and d["id"] not in only) or not _in_range(d, first, start):
             continue
         (RESULTS / d["id"]).mkdir(parents=True, exist_ok=True)
         jobs.append((d, _correctness_file(wording)[:-5], lambda d=d: correctness(d)))
@@ -325,6 +627,13 @@ def score(workers: int, only: set[str] | None = None, first: int | None = None, 
             continue
         for dim in (*BEAUTY_V6_MODEL_DIMENSIONS, "canvas_fill"):
             jobs.append((d, f"beauty_{dim}", lambda d=d, dim=dim: beauty(d, dim)))
+    for d, name, _ in jobs:  # a prompt identical to another version's reuses that version's result
+        dim = name.rsplit("_", 1)[1]
+        source = COPIED.get(wording, {}).get(dim)
+        target, origin = RESULTS / d["id"] / f"{name}.json", RESULTS / d["id"] / f"direct_{source}_{dim}.json"
+        if (source and origin.exists() and not target.exists() and _direct_prompt(dim, d["caption"], wording, None, ROOT / d["image"])
+                == _direct_prompt(dim, d["caption"], source, None, ROOT / d["image"])):
+            target.write_text(origin.read_text())
     jobs = [j for j in jobs if not (RESULTS / j[0]["id"] / f"{j[1]}.json").exists()]
     print(f"{len(jobs)} jobs to run", flush=True)
 
@@ -396,8 +705,8 @@ def _auc(scores, labels):
     return wins / (len(pos) * len(neg)) if pos and neg else None
 
 
-def compare(first: int | None = None, wording: str = "v1") -> None:
-    humans = [d for d in _humans() if first is None or int(d["id"][2:]) <= first]
+def compare(first: int | None = None, wording: str = "v1", start: int = 1) -> None:
+    humans = [d for d in _humans() if _in_range(d, first, start)]
     rows = []
     for d in humans:
         judge = _judge(d["id"], wording)
@@ -437,7 +746,7 @@ def compare(first: int | None = None, wording: str = "v1") -> None:
         "false_alarms": {k: sum(r["label"] == "positive" and r["human"][k] >= 9 and r["judge"][k] is not None
                                 and r["judge"][k] < CAUGHT for r in rows) for k in CORRECTNESS},
     }
-    suffix = "" if wording == "v1" else f"_{wording}"
+    suffix = ("" if wording == "v1" else f"_{wording}") + (f"_{start:03d}-{first:03d}" if (start, first) != (1, 100) and first else "")
     (HERE / f"summary{suffix}.json").write_text(json.dumps(summary, indent=1))
     (HERE / f"judge_scores{suffix}.json").write_text(json.dumps(
         {"model": "gpt-6-luna", "scale": "0-10", "diagrams": {r["id"]: {"correctness": r["judge_correctness"], "scores": {
@@ -519,6 +828,38 @@ VERSIONS = [  # (wording, method, what it is)
                      "arrows against the caption, not your own idea of the process; do not recompute numbers."),
     ("d3", "Direct + sketch", "d2 plus the sketch: each dimension also gets the caption checklist and goes through it "
                               "before scoring."),
+    ("d4", "Direct", "d2 with one change per dimension, from the d2 mistakes: a tight crop is not cut off (only sliced "
+                     "text or an incomplete box is); an exclusion box in the main chain is fine; a label in the wrong "
+                     "box is a Details problem; typos and abbreviations do not count; and the figure's display size "
+                     "in the study (fitted to a ~660x360 panel) for Legibility."),
+    ("d5", "Direct", "d4 keeping the Layout and exclusion-box sentences, dropping the wrong-box and typo sentences "
+                     "(they excused real errors), and making small text at the display size cost less."),
+    ("d6", "Direct", "d5 with a milder Legibility wording: small text that still reads at the display size is fine."),
+    ("d7", "Direct", "The d6 ideas as short general rules with no sizes, plus a Presence rule: a blank, cut-off, or "
+                     "hidden box does not show its component."),
+    ("d8", "Direct", "Best part of each: d7 Presence, d6 Connectivity, d2 Details, a Layout rule naming a border that "
+                     "lies on the edge, and Legibility told that figures are fitted to a screen, without numbers."),
+    ("d9", "Direct", "d8 with Legibility judged as a person would, by the hardest text, naming weak contrast; and "
+                     "Details treating a label in the wrong place as a small problem. Neither helped."),
+    ("d10", "Direct", "d8 with a size sentence in words (no number) for figures shown much smaller, and a Details rule: "
+                      "same thing in other words is accurate; a different thing, a contradiction, or a left-out item "
+                      "is wrong."),
+    ("d11", "Direct", "d8 with the first half of the d10 Details rule only (same thing in other words is accurate; a "
+                      "different thing or a contradiction is wrong)."),
+    ("d12", "Direct", "d11 with Legibility back to the d2 wording and Details also calling a label wrong when it drops a "
+                      "count, value, or condition the caption gives."),
+    ("d13", "Direct", "d12 with Connectivity checked connection by connection, plain lines and arrows to a group or panel "
+                      "accepted."),
+    ("d14", "Direct", "d13 plus: a missing, cut-off, or faint box breaks the connections through it."),
+    ("d15", "Direct", "d12 with a Layout severity rule (one obvious layout error belongs in 3-5) and wrap-around flows "
+                      "accepted."),
+    ("d16", "Direct", "d12 with a full Connectivity section: a four-step check, what is not an error, and what each band "
+                      "means for connections."),
+    ("d17", "Direct", "d12 with Connectivity and Presence told the caption is a short summary rewritten from the figure: "
+                      "flag only clear contradictions; a box beside an arrow is its label; a less detailed label still "
+                      "counts as present. Tuned on HS001-HS200."),
+    ("d18", "Direct", "d17 with the Connectivity rubric sentence reworded to the flow the caption describes, and Presence "
+                      "told that a step the flow jumps over is missing."),
 ]
 CHOSEN = "d2"
 
@@ -666,6 +1007,10 @@ and averaging the two runs gave only 0.75, so one call per dimension is enough.<
 <li><b>The formula, not the model, was the main problem.</b> v1 detected most inserted errors, but one detected error usually cost 2.5 points (score 7.5), while humans often drop a dimension to 4–6 for a clear error; and clean real figures lost points because the caption sketch did not match how they were drawn (exclusion boxes chained into the main flow, one arrow serving several boxes).</li>
 <li><b>d2's sentences helped beyond noise</b> on Details and Connectivity, the two dimensions they targeted.</li>
 <li><b>Adding the sketch back (d3) did not help:</b> overall the same as d2, Connectivity worse (more false alarms), at about 1.6 times the cost.</li>
+<li><b>d4–d6, from the d2 mistakes:</b> best so far is d6 (overall Spearman {f2(sums['d6']['all']['correctness_overall']['spearman'])}, MAE {f2(sums['d6']['all']['correctness_overall']['mae'])}). Layout gained most: d2 still called tightly cropped figures cut off, and saying that only sliced text or an incomplete box is cut off lifted Layout Spearman {f2(sums['d2']['all']['layout']['spearman'])} → {f2(sums['d6']['all']['layout']['spearman'])} while still catching every inserted crop.</li>
+<li><b>The study's display size explains much of the Legibility gap.</b> Figures were shown fitted to a panel about 660×360 pixels, so large figures looked far smaller to raters than to the model. Telling the model the scale ranks Legibility better but overshoots the level (bias {sums['d2']['all']['legibility']['bias']:+.2f} in d2, {sums['d6']['all']['legibility']['bias']:+.2f} in d6).</li>
+<li><b>d7–d8, general rules without sizes:</b> d8 is the best general prompt (overall Spearman {f2(sums['d8']['all']['correctness_overall']['spearman'])}, MAE {f2(sums['d8']['all']['correctness_overall']['mae'])}, false alarms on clean diagrams {sum(sums['d8']['false_alarms'].values())} vs {sum(sums['d2']['false_alarms'].values())} for d2). Presence gained most from taking "visibly present" literally (Spearman {f2(sums['d6']['all']['presence']['spearman'])} → {f2(sums['d8']['all']['presence']['spearman'])}). Legibility wordings without numbers score like d2 at every display size: the judge sees the full-resolution file and a prompt alone does not close that gap.</li>
+<li><b>Sentences that excuse a kind of error backfire:</b> in d4, "typos do not count" made the judge pass real wrong labels and "a label in the wrong box is a Details problem" excused real arrow errors; d5 dropped both.</li>
 </ul>
 <h2>Caveats</h2>
 <ul>
@@ -686,15 +1031,16 @@ if __name__ == "__main__":
     s.add_argument("--only", help="comma-separated diagram ids (for a quick trial)")
     for p in (s, c := sub.add_parser("compare")):
         p.add_argument("--first", type=int, help="only HS001..HSnnn")
+        p.add_argument("--start", type=int, default=1, help="only HSnnn.. (with --first: a range such as 101-200)")
         p.add_argument("--wording", default="v1", choices=list(WORDINGS) + list(DIRECT))
     t = sub.add_parser("tune")
     t.add_argument("--wordings", default="v1,v1r,v2")
     sub.add_parser("report")
     args = parser.parse_args()
     if args.cmd == "score":
-        score(args.workers, set(args.only.split(",")) if args.only else None, args.first, args.wording)
+        score(args.workers, set(args.only.split(",")) if args.only else None, args.first, args.wording, args.start)
     elif args.cmd == "compare":
-        compare(args.first, args.wording)
+        compare(args.first, args.wording, args.start)
     elif args.cmd == "tune":
         tune(args.wordings.split(","))
     else:
