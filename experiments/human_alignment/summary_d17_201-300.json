@@ -1,0 +1,763 @@
+{
+ "n": 100,
+ "all": {
+  "layout": {
+   "n": 100,
+   "human_mean": 7.49,
+   "judge_mean": 7.92,
+   "mae": 1.53,
+   "rmse": 2.247220505424423,
+   "bias": 0.43,
+   "spearman": 0.6091424782548582,
+   "kendall": 0.5084518348191454,
+   "pearson": 0.6626115917347155,
+   "within_1": 0.56
+  },
+  "connectivity": {
+   "n": 100,
+   "human_mean": 7.74,
+   "judge_mean": 7.81,
+   "mae": 1.45,
+   "rmse": 2.2561028345356955,
+   "bias": 0.07,
+   "spearman": 0.6103837627945682,
+   "kendall": 0.5227993884350133,
+   "pearson": 0.5909538005158387,
+   "within_1": 0.64
+  },
+  "presence": {
+   "n": 100,
+   "human_mean": 8.72,
+   "judge_mean": 8.98,
+   "mae": 0.82,
+   "rmse": 1.6733200530681511,
+   "bias": 0.26,
+   "spearman": 0.6853830420966094,
+   "kendall": 0.6268700644277131,
+   "pearson": 0.7458471113969043,
+   "within_1": 0.78
+  },
+  "details": {
+   "n": 100,
+   "human_mean": 8.25,
+   "judge_mean": 8.52,
+   "mae": 1.13,
+   "rmse": 1.8788294228055935,
+   "bias": 0.27,
+   "spearman": 0.621677358320588,
+   "kendall": 0.548560466390127,
+   "pearson": 0.6629287637364754,
+   "within_1": 0.69
+  },
+  "legibility": {
+   "n": 100,
+   "human_mean": 6.39,
+   "judge_mean": 7.06,
+   "mae": 1.45,
+   "rmse": 1.9924858845171276,
+   "bias": 0.67,
+   "spearman": 0.7310884765366199,
+   "kendall": 0.6315338482205072,
+   "pearson": 0.7525155053326451,
+   "within_1": 0.61
+  },
+  "centering": {
+   "n": 0
+  },
+  "space_use": {
+   "n": 0
+  },
+  "color_consistency": {
+   "n": 0
+  },
+  "contrast": {
+   "n": 0
+  },
+  "alignment": {
+   "n": 0
+  },
+  "style_uniformity": {
+   "n": 0
+  },
+  "resolution": {
+   "n": 0
+  },
+  "canvas_fill": {
+   "n": 0
+  },
+  "correctness_overall": {
+   "n": 100,
+   "human_mean": 7.718,
+   "judge_mean": 8.058,
+   "mae": 0.804,
+   "rmse": 1.1178550889985697,
+   "bias": 0.33999999999999997,
+   "spearman": 0.867237936150195,
+   "kendall": 0.6977618693655436,
+   "pearson": 0.8447182842678095,
+   "within_1": 0.75
+  },
+  "beauty_overall": {
+   "n": 0
+  },
+  "overall": {
+   "n": 100,
+   "human_mean": 7.8715,
+   "judge_mean": 8.058,
+   "mae": 0.7547499999999999,
+   "rmse": 0.9592966173191688,
+   "bias": 0.18649999999999997,
+   "spearman": 0.8136833095163355,
+   "kendall": 0.6129595779899397,
+   "pearson": 0.7842956423144257,
+   "within_1": 0.74
+  }
+ },
+ "by_difficulty": {
+  "easy": {
+   "layout": {
+    "n": 23,
+    "human_mean": 7.782608695652174,
+    "judge_mean": 8.26086956521739,
+    "mae": 1,
+    "rmse": 1.7067640370774366,
+    "bias": 0.4782608695652174,
+    "spearman": 0.8323720991493333,
+    "kendall": 0.730942235470108,
+    "pearson": 0.8412014017638443,
+    "within_1": 0.6521739130434783
+   },
+   "connectivity": {
+    "n": 23,
+    "human_mean": 7.391304347826087,
+    "judge_mean": 8.173913043478262,
+    "mae": 1.7391304347826086,
+    "rmse": 2.9488391230979425,
+    "bias": 0.782608695652174,
+    "spearman": 0.4867059108224336,
+    "kendall": 0.4361783721449793,
+    "pearson": 0.5514815608624278,
+    "within_1": 0.6521739130434783
+   },
+   "presence": {
+    "n": 23,
+    "human_mean": 8.347826086956522,
+    "judge_mean": 8.565217391304348,
+    "mae": 0.6521739130434783,
+    "rmse": 1.3021720984236467,
+    "bias": 0.21739130434782608,
+    "spearman": 0.8428044682908258,
+    "kendall": 0.791334266511385,
+    "pearson": 0.9298575549254141,
+    "within_1": 0.782608695652174
+   },
+   "details": {
+    "n": 23,
+    "human_mean": 8.130434782608695,
+    "judge_mean": 8.608695652173912,
+    "mae": 1.3478260869565217,
+    "rmse": 2.0955439264845026,
+    "bias": 0.4782608695652174,
+    "spearman": 0.6017899857686088,
+    "kendall": 0.5379854588777159,
+    "pearson": 0.7127746348532897,
+    "within_1": 0.6086956521739131
+   },
+   "legibility": {
+    "n": 23,
+    "human_mean": 7.3478260869565215,
+    "judge_mean": 8,
+    "mae": 1.3478260869565217,
+    "rmse": 1.9671210479762815,
+    "bias": 0.6521739130434783,
+    "spearman": 0.6630005238878874,
+    "kendall": 0.5912164861288446,
+    "pearson": 0.7765784835087982,
+    "within_1": 0.6956521739130435
+   },
+   "centering": {
+    "n": 0
+   },
+   "space_use": {
+    "n": 0
+   },
+   "color_consistency": {
+    "n": 0
+   },
+   "contrast": {
+    "n": 0
+   },
+   "alignment": {
+    "n": 0
+   },
+   "style_uniformity": {
+    "n": 0
+   },
+   "resolution": {
+    "n": 0
+   },
+   "canvas_fill": {
+    "n": 0
+   }
+  },
+  "medium": {
+   "layout": {
+    "n": 41,
+    "human_mean": 7.146341463414634,
+    "judge_mean": 7.780487804878049,
+    "mae": 1.7073170731707317,
+    "rmse": 2.439512146351217,
+    "bias": 0.6341463414634146,
+    "spearman": 0.5811687854281229,
+    "kendall": 0.4745385680555668,
+    "pearson": 0.634774479189324,
+    "within_1": 0.4878048780487805
+   },
+   "connectivity": {
+    "n": 41,
+    "human_mean": 7.390243902439025,
+    "judge_mean": 7.512195121951219,
+    "mae": 1,
+    "rmse": 1.489802736982971,
+    "bias": 0.12195121951219512,
+    "spearman": 0.8300758735877619,
+    "kendall": 0.7165877081838988,
+    "pearson": 0.8239572140469975,
+    "within_1": 0.7560975609756098
+   },
+   "presence": {
+    "n": 41,
+    "human_mean": 8.609756097560975,
+    "judge_mean": 8.951219512195122,
+    "mae": 0.975609756097561,
+    "rmse": 1.9754591932991792,
+    "bias": 0.34146341463414637,
+    "spearman": 0.7586726100257376,
+    "kendall": 0.6759629495184818,
+    "pearson": 0.6303989054635498,
+    "within_1": 0.7560975609756098
+   },
+   "details": {
+    "n": 41,
+    "human_mean": 8.146341463414634,
+    "judge_mean": 8.21951219512195,
+    "mae": 0.8048780487804879,
+    "rmse": 1.422810684491243,
+    "bias": 0.07317073170731707,
+    "spearman": 0.802945483412371,
+    "kendall": 0.7265392195447241,
+    "pearson": 0.803718209161486,
+    "within_1": 0.8048780487804879
+   },
+   "legibility": {
+    "n": 41,
+    "human_mean": 6.829268292682927,
+    "judge_mean": 7.073170731707317,
+    "mae": 1.2195121951219512,
+    "rmse": 1.7806548535067297,
+    "bias": 0.24390243902439024,
+    "spearman": 0.7845918166020354,
+    "kendall": 0.6800965403384376,
+    "pearson": 0.7927132693353618,
+    "within_1": 0.6829268292682927
+   },
+   "centering": {
+    "n": 0
+   },
+   "space_use": {
+    "n": 0
+   },
+   "color_consistency": {
+    "n": 0
+   },
+   "contrast": {
+    "n": 0
+   },
+   "alignment": {
+    "n": 0
+   },
+   "style_uniformity": {
+    "n": 0
+   },
+   "resolution": {
+    "n": 0
+   },
+   "canvas_fill": {
+    "n": 0
+   }
+  },
+  "hard": {
+   "layout": {
+    "n": 36,
+    "human_mean": 7.694444444444445,
+    "judge_mean": 7.861111111111111,
+    "mae": 1.6666666666666667,
+    "rmse": 2.3213980461973533,
+    "bias": 0.16666666666666666,
+    "spearman": 0.4409658502121179,
+    "kendall": 0.36821774573735705,
+    "pearson": 0.5531214845885815,
+    "within_1": 0.5833333333333334
+   },
+   "connectivity": {
+    "n": 36,
+    "human_mean": 8.36111111111111,
+    "judge_mean": 7.916666666666667,
+    "mae": 1.7777777777777777,
+    "rmse": 2.4608038433722332,
+    "bias": -0.4444444444444444,
+    "spearman": 0.4098044107372438,
+    "kendall": 0.34328648483952806,
+    "pearson": 0.30567096312104347,
+    "within_1": 0.5
+   },
+   "presence": {
+    "n": 36,
+    "human_mean": 9.083333333333334,
+    "judge_mean": 9.277777777777779,
+    "mae": 0.75,
+    "rmse": 1.5,
+    "bias": 0.19444444444444445,
+    "spearman": 0.4189345288558306,
+    "kendall": 0.3890127448317316,
+    "pearson": 0.5697061472693481,
+    "within_1": 0.8055555555555556
+   },
+   "details": {
+    "n": 36,
+    "human_mean": 8.444444444444445,
+    "judge_mean": 8.805555555555555,
+    "mae": 1.3611111111111112,
+    "rmse": 2.1666666666666665,
+    "bias": 0.3611111111111111,
+    "spearman": 0.4088594744224468,
+    "kendall": 0.3621369263932669,
+    "pearson": 0.41356656449439855,
+    "within_1": 0.6111111111111112
+   },
+   "legibility": {
+    "n": 36,
+    "human_mean": 5.277777777777778,
+    "judge_mean": 6.444444444444445,
+    "mae": 1.7777777777777777,
+    "rmse": 2.223610677354389,
+    "bias": 1.1666666666666667,
+    "spearman": 0.6569443793765632,
+    "kendall": 0.5792500648867555,
+    "pearson": 0.6285608737296393,
+    "within_1": 0.4722222222222222
+   },
+   "centering": {
+    "n": 0
+   },
+   "space_use": {
+    "n": 0
+   },
+   "color_consistency": {
+    "n": 0
+   },
+   "contrast": {
+    "n": 0
+   },
+   "alignment": {
+    "n": 0
+   },
+   "style_uniformity": {
+    "n": 0
+   },
+   "resolution": {
+    "n": 0
+   },
+   "canvas_fill": {
+    "n": 0
+   }
+  }
+ },
+ "by_rater": {
+  "rater_1": {
+   "layout": {
+    "n": 64,
+    "human_mean": 7.671875,
+    "judge_mean": 8.078125,
+    "mae": 1.40625,
+    "rmse": 2.1286732957408003,
+    "bias": 0.40625,
+    "spearman": 0.5890050640483686,
+    "kendall": 0.49704752728742596,
+    "pearson": 0.6371763711462652,
+    "within_1": 0.59375
+   },
+   "connectivity": {
+    "n": 64,
+    "human_mean": 7.78125,
+    "judge_mean": 8.015625,
+    "mae": 1.453125,
+    "rmse": 2.38812164681785,
+    "bias": 0.234375,
+    "spearman": 0.5945998409370282,
+    "kendall": 0.5142338638865988,
+    "pearson": 0.5045687466153813,
+    "within_1": 0.65625
+   },
+   "presence": {
+    "n": 64,
+    "human_mean": 9.015625,
+    "judge_mean": 9.171875,
+    "mae": 0.59375,
+    "rmse": 1.3693063937629153,
+    "bias": 0.15625,
+    "spearman": 0.6220205634872755,
+    "kendall": 0.585625799612292,
+    "pearson": 0.7721518058145249,
+    "within_1": 0.84375
+   },
+   "details": {
+    "n": 64,
+    "human_mean": 8.375,
+    "judge_mean": 8.46875,
+    "mae": 1.21875,
+    "rmse": 1.9685019685029528,
+    "bias": 0.09375,
+    "spearman": 0.5537952113742112,
+    "kendall": 0.4877003918486192,
+    "pearson": 0.5615432670289043,
+    "within_1": 0.671875
+   },
+   "legibility": {
+    "n": 64,
+    "human_mean": 6.5,
+    "judge_mean": 7.171875,
+    "mae": 1.359375,
+    "rmse": 1.8498310733685928,
+    "bias": 0.671875,
+    "spearman": 0.7395248618350634,
+    "kendall": 0.6309481228674426,
+    "pearson": 0.7536143780199795,
+    "within_1": 0.59375
+   },
+   "centering": {
+    "n": 0
+   },
+   "space_use": {
+    "n": 0
+   },
+   "color_consistency": {
+    "n": 0
+   },
+   "contrast": {
+    "n": 0
+   },
+   "alignment": {
+    "n": 0
+   },
+   "style_uniformity": {
+    "n": 0
+   },
+   "resolution": {
+    "n": 0
+   },
+   "canvas_fill": {
+    "n": 0
+   }
+  },
+  "rater_2": {
+   "layout": {
+    "n": 23,
+    "human_mean": 7.956521739130435,
+    "judge_mean": 8.130434782608695,
+    "mae": 1.0434782608695652,
+    "rmse": 1.5322617553657476,
+    "bias": 0.17391304347826086,
+    "spearman": 0.7666666483117559,
+    "kendall": 0.6700762772214072,
+    "pearson": 0.7872846933800791,
+    "within_1": 0.6521739130434783
+   },
+   "connectivity": {
+    "n": 23,
+    "human_mean": 7.608695652173913,
+    "judge_mean": 7.608695652173913,
+    "mae": 1.3043478260869565,
+    "rmse": 1.9110661718118183,
+    "bias": 0,
+    "spearman": 0.6848652287054962,
+    "kendall": 0.5884898863364997,
+    "pearson": 0.6873872716998168,
+    "within_1": 0.6956521739130435
+   },
+   "presence": {
+    "n": 23,
+    "human_mean": 9,
+    "judge_mean": 8.73913043478261,
+    "mae": 0.9565217391304348,
+    "rmse": 1.5036188231122245,
+    "bias": -0.2608695652173913,
+    "spearman": 0.651220988382683,
+    "kendall": 0.551403440907433,
+    "pearson": 0.5757777459284792,
+    "within_1": 0.6956521739130435
+   },
+   "details": {
+    "n": 23,
+    "human_mean": 8.043478260869565,
+    "judge_mean": 8.608695652173912,
+    "mae": 0.9130434782608695,
+    "rmse": 1.5463842820677165,
+    "bias": 0.5652173913043478,
+    "spearman": 0.681711061722205,
+    "kendall": 0.5927962437324193,
+    "pearson": 0.765127066186312,
+    "within_1": 0.7391304347826086
+   },
+   "legibility": {
+    "n": 23,
+    "human_mean": 5.695652173913044,
+    "judge_mean": 6.913043478260869,
+    "mae": 1.391304347826087,
+    "rmse": 1.744556751977294,
+    "bias": 1.2173913043478262,
+    "spearman": 0.9138332356360821,
+    "kendall": 0.8072971272887397,
+    "pearson": 0.8986335043617738,
+    "within_1": 0.6086956521739131
+   },
+   "centering": {
+    "n": 0
+   },
+   "space_use": {
+    "n": 0
+   },
+   "color_consistency": {
+    "n": 0
+   },
+   "contrast": {
+    "n": 0
+   },
+   "alignment": {
+    "n": 0
+   },
+   "style_uniformity": {
+    "n": 0
+   },
+   "resolution": {
+    "n": 0
+   },
+   "canvas_fill": {
+    "n": 0
+   }
+  },
+  "rater_3": {
+   "layout": {
+    "n": 13,
+    "human_mean": 5.769230769230769,
+    "judge_mean": 6.769230769230769,
+    "mae": 3,
+    "rmse": 3.5191782257531923,
+    "bias": 1,
+    "spearman": 0.5844220002547803,
+    "kendall": 0.49793173880750746,
+    "pearson": 0.5729544930389154,
+    "within_1": 0.23076923076923078
+   },
+   "connectivity": {
+    "n": 13,
+    "human_mean": 7.769230769230769,
+    "judge_mean": 7.153846153846154,
+    "mae": 1.6923076923076923,
+    "rmse": 2.1483446221182985,
+    "bias": -0.6153846153846154,
+    "spearman": 0.6389881981591006,
+    "kendall": 0.5474768067480904,
+    "pearson": 0.7682248038411462,
+    "within_1": 0.46153846153846156
+   },
+   "presence": {
+    "n": 13,
+    "human_mean": 6.769230769230769,
+    "judge_mean": 8.461538461538462,
+    "mae": 1.6923076923076923,
+    "rmse": 2.8823067684915684,
+    "bias": 1.6923076923076923,
+    "spearman": 0.9135468796041984,
+    "kendall": 0.8475868968264201,
+    "pearson": 0.8766588931913932,
+    "within_1": 0.6153846153846154
+   },
+   "details": {
+    "n": 13,
+    "human_mean": 8,
+    "judge_mean": 8.615384615384615,
+    "mae": 1.0769230769230769,
+    "rmse": 1.9611613513818404,
+    "bias": 0.6153846153846154,
+    "spearman": 0.8154355063002009,
+    "kendall": 0.7,
+    "pearson": 0.9332071292346977,
+    "within_1": 0.6923076923076923
+   },
+   "legibility": {
+    "n": 13,
+    "human_mean": 7.076923076923077,
+    "judge_mean": 6.769230769230769,
+    "mae": 2,
+    "rmse": 2.8823067684915684,
+    "bias": -0.3076923076923077,
+    "spearman": 0.5866722120972432,
+    "kendall": 0.5168016886522765,
+    "pearson": 0.6465788984142876,
+    "within_1": 0.6923076923076923
+   },
+   "centering": {
+    "n": 0
+   },
+   "space_use": {
+    "n": 0
+   },
+   "color_consistency": {
+    "n": 0
+   },
+   "contrast": {
+    "n": 0
+   },
+   "alignment": {
+    "n": 0
+   },
+   "style_uniformity": {
+    "n": 0
+   },
+   "resolution": {
+    "n": 0
+   },
+   "canvas_fill": {
+    "n": 0
+   }
+  }
+ },
+ "positive_vs_negative_auc": {
+  "human": {
+   "layout": 0.8693295865114412,
+   "connectivity": 0.8474508229626656,
+   "presence": 0.7808109193095143,
+   "details": 0.8036932958651144,
+   "legibility": 0.753311922922521,
+   "centering": 0.6973103171417102,
+   "space_use": 0.6971095945403453,
+   "color_consistency": 0.6756322761942994,
+   "contrast": 0.61641910879165,
+   "alignment": 0.7111601766358892,
+   "style_uniformity": 0.80228823765556,
+   "resolution": 0.6670012043356082,
+   "canvas_fill": 0.5495784825371337,
+   "correctness_overall": 0.9494179044560418,
+   "beauty_overall": 0.7996788438378162,
+   "overall": 0.9518265756724207
+  },
+  "judge": {
+   "layout": 0.7912484945804897,
+   "connectivity": 0.6820553994379767,
+   "presence": 0.7109594540345243,
+   "details": 0.7165796868727419,
+   "legibility": 0.8036932958651144,
+   "centering": null,
+   "space_use": null,
+   "color_consistency": null,
+   "contrast": null,
+   "alignment": null,
+   "style_uniformity": null,
+   "resolution": null,
+   "canvas_fill": null,
+   "correctness_overall": 0.89542352468888,
+   "beauty_overall": null,
+   "overall": 0.89542352468888
+  }
+ },
+ "caught": {
+  "detach_arrow (connectivity)": {
+   "n": 1,
+   "human": 1,
+   "judge": 1
+  },
+  "erase_arrow (connectivity)": {
+   "n": 6,
+   "human": 5,
+   "judge": 2
+  },
+  "reverse_arrow (connectivity)": {
+   "n": 6,
+   "human": 4,
+   "judge": 5
+  },
+  "blank_label (details)": {
+   "n": 6,
+   "human": 5,
+   "judge": 4
+  },
+  "swap_labels (details)": {
+   "n": 5,
+   "human": 4,
+   "judge": 3
+  },
+  "truncate_label (details)": {
+   "n": 9,
+   "human": 7,
+   "judge": 7
+  },
+  "arrow_through_box (layout)": {
+   "n": 4,
+   "human": 3,
+   "judge": 3
+  },
+  "crop_edge (layout)": {
+   "n": 3,
+   "human": 3,
+   "judge": 3
+  },
+  "overlap_box (layout)": {
+   "n": 11,
+   "human": 10,
+   "judge": 9
+  },
+  "swap_adjacent_steps (layout)": {
+   "n": 7,
+   "human": 5,
+   "judge": 4
+  },
+  "enlarge_label (legibility)": {
+   "n": 9,
+   "human": 7,
+   "judge": 9
+  },
+  "fade_label (legibility)": {
+   "n": 3,
+   "human": 3,
+   "judge": 3
+  },
+  "low_resolution (legibility)": {
+   "n": 5,
+   "human": 5,
+   "judge": 5
+  },
+  "shrink_label (legibility)": {
+   "n": 3,
+   "human": 3,
+   "judge": 3
+  },
+  "duplicate_box (presence)": {
+   "n": 4,
+   "human": 1,
+   "judge": 3
+  },
+  "remove_box (presence)": {
+   "n": 6,
+   "human": 5,
+   "judge": 5
+  }
+ },
+ "false_alarms": {
+  "layout": 6,
+  "connectivity": 9,
+  "presence": 1,
+  "details": 2,
+  "legibility": 1
+ }
+}

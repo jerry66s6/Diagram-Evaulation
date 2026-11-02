@@ -191,6 +191,30 @@ HS001-HS200:
 
 d17 stays the best version (overall Spearman d12 0.85, d17 0.87, d18 0.85). HS201-HS300 keep the study scores.
 
+## d17 on HS201-HS300 (held out)
+
+```bash
+python3 run.py score --start 201 --first 300 --wording d17
+python3 run.py compare --start 201 --first 300 --wording d17   # summary_d17_201-300.json
+```
+
+Never used for tuning; study scores as exported (47 clean, 53 with inserted errors).
+
+| d17, HS201-HS300 | Spearman | Kendall | Pearson | MAE | RMSE | RMSE if guessing the mean | Bias |
+|---|---:|---:|---:|---:|---:|---:|---:|
+| Layout | 0.61 | 0.51 | 0.66 | 1.53 | 2.25 | 2.93 | +0.43 |
+| Connectivity | 0.61 | 0.52 | 0.59 | 1.45 | 2.26 | 2.61 | +0.07 |
+| Presence | 0.69 | 0.63 | 0.75 | 0.82 | 1.67 | 2.48 | +0.26 |
+| Details | 0.62 | 0.55 | 0.66 | 1.13 | 1.88 | 2.41 | +0.27 |
+| Legibility | 0.73 | 0.63 | 0.75 | 1.45 | 1.99 | 2.85 | +0.67 |
+| Overall correctness | **0.87** | **0.70** | 0.84 | 0.80 | 1.12 | 1.95 | +0.34 |
+
+Clean vs broken AUC 0.90 (humans 0.95); false alarms on clean diagrams 19. Against d17 on HS001-HS200 with the
+scores before the update (overall Spearman 0.79, MAE 0.71; per dimension 0.57-0.73), the held-out results hold:
+Connectivity and Legibility the same, Presence and Details higher, Layout lower (0.67 -> 0.61), overall higher.
+The judge is somewhat lenient (bias +0.34 overall, +0.67 on Legibility) and caught only 2 of 6 erased arrows
+(humans 5).
+
 Caveats: the prompts were tuned on HS001-HS200 (HS101-HS200 were first checked once with d12); HS201-HS300 are untouched. Each
 diagram has one rater; humans often lowered every dimension of a diagram with any error, which the judge, scoring
 each dimension on its own, does not copy.
