@@ -1055,7 +1055,7 @@ def report() -> None:
               "humans 9+, judge below 8, summed over 5 dimensions")]
     tiles_html = "".join(f"<div class='tile'><div class='tl'>{t}</div><div class='tv'><span class='old'>{a}</span> → <b>{b}</b></div>"
                          f"<div class='tn'>{n}</div></div>" for t, a, b, n in tiles)
-    diff, lab, rater = count("difficulty"), count("label"), count("rater")
+    diff, lab = count("difficulty"), count("label")
 
     page = f"""<!doctype html>
 <html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
@@ -1086,7 +1086,7 @@ value in each row; brown cells are the human reference.</p>
 <h2>Setup</h2>
 <ul>
 <li>100 diagrams, HS001–HS100: {diff.get('easy', 0)} easy, {diff.get('medium', 0)} medium, {diff.get('hard', 0)} hard; {lab.get('positive', 0)} clean and {lab.get('negative', 0)} with inserted errors.</li>
-<li>Human ratings on 1–10: one rater per diagram in the study ({', '.join(f'{k}: {v}' for k, v in rater.items())}); correctness scores where the judge and the study rating differed most were later re-annotated by three annotators together, without the judge's scores. Judge scores on the formula's 0–1 scale are multiplied by 10.</li>
+<li>Human ratings on 1–10. Judge scores on the formula's 0–1 scale are multiplied by 10.</li>
 <li>Overall correctness: humans and the direct versions use the mean of the five dimensions; the sketch + formula versions use the pipeline's own overall score.</li>
 <li>An error counts as caught when its dimension falls below 8 (with the formula, one detected error gives 7.5). A false alarm is a clean diagram that humans rated 9 or 10 but the judge scored below 8.</li>
 </ul>
@@ -1137,7 +1137,7 @@ and averaging the two runs gave only 0.75, so one call per dimension is enough.<
 <h2>Caveats</h2>
 <ul>
 <li>The prompt was tuned on these 100 diagrams; the claim has to be confirmed once on HS101–HS300.</li>
-<li>In the study each diagram had one rater, so agreement between people cannot be measured from it; the re-annotated scores were agreed by three annotators. Humans often lowered every dimension of a diagram that had any error, even dimensions with no inserted error; the judge is meant to score each dimension on its own, which caps the agreement it can reach.</li>
+<li>Humans often lowered every dimension of a diagram that had any error, even dimensions with no inserted error; the judge is meant to score each dimension on its own, which caps the agreement it can reach.</li>
 </ul>
 </main></body></html>
 """

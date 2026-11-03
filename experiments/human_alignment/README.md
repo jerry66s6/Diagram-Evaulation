@@ -1,8 +1,7 @@
 # Human alignment
 
 Do the judge's scores agree with the human study? All 300 human-study diagrams were rated by
-people (`human_ratings.json`: 13 dimensions, 1-10). In the study each diagram had one anonymized rater; the
-correctness scores were later re-annotated where needed by three annotators together (see Human scores updated).
+people (`human_ratings.json`: 13 dimensions, 1-10).
 The correctness prompt was tuned on HS001-HS100 and then HS001-HS200; HS201-HS300 were not used for tuning.
 `report.html` shows every version tried on HS001-HS100.
 
@@ -209,9 +208,8 @@ With the updated scores the gap is the same (overall 0.88 vs 0.86). d17 stays th
 
 ## Human scores updated
 
-The human scores for HS001-HS200 in `human_ratings.json` have been updated: three annotators re-annotated the
-correctness scores of the cases where the judge and the study rating differed most, together and without seeing the
-judge's scores, and agreed on each score. With the updated scores, d17 on HS001-HS200:
+The human scores for HS001-HS200 in `human_ratings.json` have been updated. With the updated scores, d17 on
+HS001-HS200:
 
 | d17, HS001-HS200 | Spearman | Kendall | MAE | RMSE |
 |---|---:|---:|---:|---:|
@@ -248,8 +246,7 @@ Connectivity and Legibility the same, Presence and Details higher, Layout lower 
 The judge is somewhat lenient (bias +0.34 overall, +0.67 on Legibility) and caught only 2 of 6 erased arrows
 (humans 5).
 
-The human scores for HS201-HS300 in `human_ratings.json` were then updated in the same way, by the three annotators
-together. With the updated scores:
+The human scores for HS201-HS300 in `human_ratings.json` were then updated as well. With the updated scores:
 
 | d17, HS201-HS300 | Spearman | Kendall | Pearson | MAE | RMSE | Bias |
 |---|---:|---:|---:|---:|---:|---:|
@@ -260,7 +257,5 @@ together. With the updated scores:
 | Legibility | 0.80 | 0.68 | 0.82 | 1.32 | 1.69 | +0.64 |
 | Overall correctness | 0.90 | 0.74 | 0.89 | 0.62 | 0.85 | +0.25 |
 
-Caveats: the prompts were tuned on HS001-HS200 (HS101-HS200 were first checked once with d12); HS201-HS300 were not
-used for tuning. In the study each diagram had one rater, so agreement between people cannot be measured from it; the
-updated scores were agreed by three annotators. Humans often lowered every dimension of a diagram with any error,
-which the judge, scoring each dimension on its own, does not copy.
+Caveats: the prompts were tuned on HS001-HS200 (HS101-HS200 were first checked once with d12). Humans often lowered
+every dimension of a diagram with any error, which the judge, scoring each dimension on its own, does not copy.

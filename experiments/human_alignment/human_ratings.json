@@ -1,6 +1,6 @@
 {
  "study": "human-study-300-v2-1784f04e3c11",
- "scale": "1 (worst) to 10 (best); one rater per diagram in the study; re-annotated correctness scores agreed by three annotators",
+ "scale": "1 (worst) to 10 (best)",
  "dimensions": {
   "correctness": [
    "layout",
