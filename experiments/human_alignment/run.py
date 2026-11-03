@@ -63,6 +63,120 @@ WORDINGS["v3"] = {**WORDINGS["v2"], "expectation": [
 ]}
 
 
+# v4 = a stage-1 sketch written for captions that summarize an existing figure. On the 53 unmodified figures of
+# HS001-HS100 the v1 sketch had a required connection the figure does not draw in 20 (38%), against 5 (9%) for
+# components, and adding the v3 sketch to direct scoring (d3) doubled Connectivity false alarms on them (5 -> 10).
+# It replaces v3's side-branch sentence, which made an exclusion drawn in the main chain a missing connection.
+WORDINGS["v4"] = {**WORDINGS["v2"], "expectation": [
+    ("and the directed connections of the intended flow.",
+     " The description is a short caption rewritten from an existing figure, not a drawing specification: list what "
+     "the caption says, not how you would draw it. Keep one component for each step, group, or outcome the caption "
+     "names, and do not split one step into several (a step that acquires and merges a dataset is one component). "
+     "Excluded or removed items are a component of their own, but the figure may draw them as a side branch or "
+     "inside the main chain, so make connections into or past them typical, not required. Mark a connection "
+     "required only when the caption states that one step leads to another or lists the steps in that order; "
+     "connections you add to complete the picture are typical."),
+]}
+SKETCH_CHECK = (
+    "The attached image is a published flowchart. Below are components and connections that someone expected it to "
+    "contain, written from its caption alone. For each numbered item, say whether the figure shows it. A component "
+    "(C) is shown when some box or node in the figure plays that role; the wording may differ, and one box may cover "
+    "several items. A connection (E) is shown when the figure's arrows or lines lead from the first to the second, "
+    "directly or through other drawn steps. Answer for every item.\n\n"
+)
+SKETCH_CHECK_SCHEMA = {
+    "type": "object",
+    "properties": {"items": {"type": "array", "items": {
+        "type": "object", "properties": {"id": {"type": "string"}, "shown": {"type": "boolean"}},
+        "required": ["id", "shown"], "additionalProperties": False}}},
+    "required": ["items"],
+    "additionalProperties": False,
+}
+
+
+def sketches(wording: str, workers: int, first: int | None = None, start: int = 1) -> None:
+    """Make the stage-1 sketch of a wording for each diagram, then check its required items against each figure. On an
+    unmodified figure (label positive) a required item the figure does not show is a sketch error; on a broken one it
+    may be the inserted error (a removed box, an erased arrow)."""
+    _load_env()
+    from diagram_correctness.vlm import OpenAIBackend
+    model = os.environ.get("OPENAI_MODEL") or "gpt-6-luna"
+    if model != "gpt-6-luna":
+        raise SystemExit(f"model is {model!r}; this experiment runs on gpt-6-luna only")
+    pipeline, backends = _pipeline(model, wording)
+    check_backend = OpenAIBackend(model)
+    backends.append(check_backend)
+    todo = [d for d in _humans() if _in_range(d, first, start)]
+
+    def sketch(d):
+        path = RESULTS / d["id"] / _inventory_file(wording)
+        if not path.exists():
+            path.parent.mkdir(parents=True, exist_ok=True)
+            path.write_text(json.dumps(pipeline.config.expectation_extractor.extract(d["caption"], pipeline.config.criteria), indent=1))
+        return json.loads(path.read_text())
+
+    def check(d):
+        path = RESULTS / d["id"] / f"sketchcheck_{wording}.json"
+        if path.exists():
+            return json.loads(path.read_text())
+        inv = sketch(d)
+        names = {c["id"]: c["label"] for c in inv["components"]}
+        items = {f"C{n}": c["label"] for n, c in enumerate([c for c in inv["components"] if c["tier"] == "required"], 1)}
+        edges = [e for e in inv["connections"] if e["tier"] == "required"]
+        items |= {f"E{n}": f"{names.get(e['source'], e['source'])} -> {names.get(e['target'], e['target'])}"
+                  for n, e in enumerate(edges, 1)}
+        payload = check_backend.structured(SKETCH_CHECK + "\n".join(f"{k}. {v}" for k, v in items.items()),
+                                           [ROOT / d["image"]], SKETCH_CHECK_SCHEMA, "sketch_check")
+        shown = {x["id"]: x["shown"] for x in payload["items"]}
+        result = {"items": {k: {"text": v, "shown": shown.get(k)} for k, v in items.items()}}
+        path.write_text(json.dumps(result, indent=1))
+        return result
+
+    failed = 0
+    with ThreadPoolExecutor(workers) as pool:
+        futures = {pool.submit(sketch, d): d for d in todo}
+        for f in as_completed(futures):
+            try:
+                f.result()
+            except Exception as error:
+                failed += 1
+                print(f"failed sketch {futures[f]['id']}: {error}", flush=True)
+    results = {}
+    with ThreadPoolExecutor(workers) as pool:
+        futures = {pool.submit(check, d): d for d in todo}
+        for f in as_completed(futures):
+            try:
+                results[futures[f]["id"]] = f.result()
+            except Exception as error:
+                failed += 1
+                print(f"failed check {futures[f]['id']}: {error}", flush=True)
+    by_id = {d["id"]: d for d in todo}
+    positives = [i for i in results if by_id[i]["label"] == "positive"]
+    print(f"sketch {wording}: {len(todo)} diagrams, checked on {len(results)} ({len(positives)} unmodified), {failed} failed")
+    for kind, name in (("C", "components"), ("E", "connections")):
+        flags = [[v["shown"] for k, v in results[i]["items"].items() if k[0] == kind] for i in positives]
+        n = sum(len(f) for f in flags)
+        print(f"  required {name}: {n / len(flags):.1f} per sketch, {sum(sum(map(bool, f)) for f in flags) / n:.0%} shown "
+              f"in the unmodified figure; sketches with one or more not shown: {sum(not all(f) for f in flags)} of {len(flags)}")
+    # broken figures: how often the check finds a missing component / connection, by inserted error
+    missing = lambda i, kind: any(not v["shown"] for k, v in results[i]["items"].items() if k[0] == kind)
+    groups = [("unmodified", lambda d: d["label"] == "positive"),
+              ("remove_box", lambda d: any(e["defect"] == "remove_box" for e in d["defects"])),
+              ("blank_label", lambda d: any(e["defect"] == "blank_label" for e in d["defects"])),
+              ("erase/reverse/detach arrow", lambda d: any(e["defect"] in ("erase_arrow", "reverse_arrow", "detach_arrow")
+                                                           for e in d["defects"])),
+              ("other broken", lambda d: d["label"] == "negative" and not any(
+                  e["defect"] in ("remove_box", "blank_label", "erase_arrow", "reverse_arrow", "detach_arrow")
+                  for e in d["defects"]))]
+    for name, test in groups:
+        ids = [i for i in results if test(by_id[i])]
+        if ids:
+            print(f"  {name:28s} n={len(ids):3d}: a component not shown {sum(missing(i, 'C') for i in ids):3d}, "
+                  f"a connection not shown {sum(missing(i, 'E') for i in ids):3d}")
+    usage = {k: sum(b.usage[k] for b in backends) for k in backends[0].usage}
+    print("api usage this run:", usage)
+
+
 # Direct scoring: no formula and no sketch. Each correctness dimension is asked on its own (like Beauty v6),
 # with the image and the caption, and the model gives a 1-10 score as the human raters did. The prompt carries
 # the scoring idea in words: what the dimension covers, what belongs to the others, and how much a problem costs.
@@ -399,6 +513,11 @@ DIRECT["d18"] = {"scoring": DIRECT["d2"]["scoring"], "base": {
                                 "through intermediate drawn steps, in the right direction. A connection to a component "
                                 "that is not drawn is judged under Presence, not here.",
 }}
+# d19 = d17 + the v4 caption sketch as a checklist for Presence, Details, and Connectivity (Layout and Legibility as
+# d17). Checked against the unmodified figures of HS001-HS200, v4 has a required component the figure does not show in
+# 5 of 103 sketches (v1 9, v3 11) and a required connection in 25 (v1 and v3 37); on broken figures its components
+# flag 5 of 8 removed boxes and 7 of 9 blank labels, its connections 8 of 22 arrow errors.
+DIRECT["d19"] = {**DIRECT["d17"], "sketch": "v4", "sketch_dims": ["presence", "details", "connectivity"]}
 COPIED = {"d5": {"layout": "d4", "presence": "d4", "details": "d2"},  # same prompt, so the same result file
           "d6": {"layout": "d4", "presence": "d4", "details": "d2", "connectivity": "d5"},
           "d7": {"details": "d2"},
@@ -414,7 +533,8 @@ COPIED = {"d5": {"layout": "d4", "presence": "d4", "details": "d2"},  # same pro
           "d16r": {"layout": "d8", "presence": "d7", "details": "d12", "legibility": "d2"},
           "d12r": {"layout": "d8", "presence": "d7", "details": "d12", "legibility": "d2"},
           "d17": {"layout": "d12", "details": "d12", "legibility": "d12"},
-          "d18": {"layout": "d12", "details": "d12", "legibility": "d12"}}
+          "d18": {"layout": "d12", "details": "d12", "legibility": "d12"},
+          "d19": {"layout": "d17", "legibility": "d17"}}
 PANEL = (660, 360)  # the study's diagram panel on a 1440-pixel-wide screen (user-study/app/globals.css)
 
 
@@ -452,7 +572,7 @@ def _sketch_lines(inventory, dimension):
 
 def _direct_prompt(dimension, caption, wording="d1", inventory=None, image=None):
     change = DIRECT[wording]
-    lines = _sketch_lines(inventory, dimension) if inventory else []
+    lines = _sketch_lines(inventory, dimension) if inventory and dimension in change.get("sketch_dims", CORRECTNESS) else []
     checklist = SKETCH_NOTE + "\n".join(lines) + "\n\n" if lines else ""
     criteria = [change.get("rubric", {}).get(c["id"], c["description"])  # a version may reword a rubric criterion
                 for c in json.load(open(ROOT / "config" / "rubric.json"))["criteria"] if c["dimension"] == dimension]
@@ -588,11 +708,12 @@ def score(workers: int, only: set[str] | None = None, first: int | None = None, 
 
     sketches = {}
     if DIRECT.get(wording, {}).get("sketch"):  # step 1 once per diagram, with the v3 side-branch sentence
-        sketch_pipeline, sketch_backends = _pipeline(model, "v3")
+        sketch_wording = DIRECT[wording]["sketch"] if isinstance(DIRECT[wording]["sketch"], str) else "v3"
+        sketch_pipeline, sketch_backends = _pipeline(model, sketch_wording)
         backends += sketch_backends
 
         def sketch(d):
-            path = RESULTS / d["id"] / _inventory_file("v3")
+            path = RESULTS / d["id"] / _inventory_file(sketch_wording)
             if not path.exists():
                 path.parent.mkdir(parents=True, exist_ok=True)
                 inv = sketch_pipeline.config.expectation_extractor.extract(d["caption"], sketch_pipeline.config.criteria)
@@ -860,6 +981,7 @@ VERSIONS = [  # (wording, method, what it is)
                       "counts as present. Tuned on HS001-HS200."),
     ("d18", "Direct", "d17 with the Connectivity rubric sentence reworded to the flow the caption describes, and Presence "
                       "told that a step the flow jumps over is missing."),
+    ("d19", "Direct + sketch", "d17 + the v4 caption sketch as a checklist for Presence, Details, and Connectivity."),
 ]
 CHOSEN = "d2"
 
@@ -933,7 +1055,7 @@ def report() -> None:
               "humans 9+, judge below 8, summed over 5 dimensions")]
     tiles_html = "".join(f"<div class='tile'><div class='tl'>{t}</div><div class='tv'><span class='old'>{a}</span> → <b>{b}</b></div>"
                          f"<div class='tn'>{n}</div></div>" for t, a, b, n in tiles)
-    diff, lab, rater = count("difficulty"), count("label"), count("rater")
+    diff, lab = count("difficulty"), count("label")
 
     page = f"""<!doctype html>
 <html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
@@ -964,7 +1086,7 @@ value in each row; brown cells are the human reference.</p>
 <h2>Setup</h2>
 <ul>
 <li>100 diagrams, HS001–HS100: {diff.get('easy', 0)} easy, {diff.get('medium', 0)} medium, {diff.get('hard', 0)} hard; {lab.get('positive', 0)} clean and {lab.get('negative', 0)} with inserted errors.</li>
-<li>One human rating per diagram on 1–10 ({', '.join(f'{k}: {v}' for k, v in rater.items())}). Judge scores on the formula's 0–1 scale are multiplied by 10.</li>
+<li>Human ratings on 1–10. Judge scores on the formula's 0–1 scale are multiplied by 10.</li>
 <li>Overall correctness: humans and the direct versions use the mean of the five dimensions; the sketch + formula versions use the pipeline's own overall score.</li>
 <li>An error counts as caught when its dimension falls below 8 (with the formula, one detected error gives 7.5). A false alarm is a clean diagram that humans rated 9 or 10 but the judge scored below 8.</li>
 </ul>
@@ -1015,7 +1137,7 @@ and averaging the two runs gave only 0.75, so one call per dimension is enough.<
 <h2>Caveats</h2>
 <ul>
 <li>The prompt was tuned on these 100 diagrams; the claim has to be confirmed once on HS101–HS300.</li>
-<li>Each diagram has one human rater, so agreement between humans cannot be measured. Humans often lowered every dimension of a diagram that had any error, even dimensions with no inserted error; the judge is meant to score each dimension on its own, which caps the agreement it can reach.</li>
+<li>Humans often lowered every dimension of a diagram that had any error, even dimensions with no inserted error; the judge is meant to score each dimension on its own, which caps the agreement it can reach.</li>
 </ul>
 </main></body></html>
 """
@@ -1036,8 +1158,15 @@ if __name__ == "__main__":
     t = sub.add_parser("tune")
     t.add_argument("--wordings", default="v1,v1r,v2")
     sub.add_parser("report")
+    k = sub.add_parser("sketches")  # stage-1 sketches of a wording, checked against the unmodified figures
+    k.add_argument("--wording", default="v4", choices=list(WORDINGS))
+    k.add_argument("--workers", type=int, default=12)
+    k.add_argument("--first", type=int)
+    k.add_argument("--start", type=int, default=1)
     args = parser.parse_args()
-    if args.cmd == "score":
+    if args.cmd == "sketches":
+        sketches(args.wording, args.workers, args.first, args.start)
+    elif args.cmd == "score":
         score(args.workers, set(args.only.split(",")) if args.only else None, args.first, args.wording, args.start)
     elif args.cmd == "compare":
         compare(args.first, args.wording, args.start)

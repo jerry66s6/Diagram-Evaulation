@@ -7,8 +7,8 @@ formula: the prompt carries the scoring idea in words (what the dimension covers
 to the other dimensions, and how much a problem costs). Overall correctness is the mean of the
 five scores.
 
-This is version d2 of experiments/human_alignment, tuned on human-study diagrams HS001-HS100.
-The earlier sketch-and-formula method (CorrectnessPipeline) is kept for the experiments that
+This is version d17 of experiments/human_alignment, tuned on human-study diagrams HS001-HS200
+(HS201-HS300 were not used for tuning). The earlier sketch-and-formula method (CorrectnessPipeline) is kept for the experiments that
 compare against it; branch correctness-v-formula has main as it was before this change.
 """
 from __future__ import annotations
@@ -41,20 +41,40 @@ OWNERS = """\
   PRESENCE     - every component the caption calls for is drawn, and nothing out of place is added.
   DETAILS      - the labels on components and arrows are complete, accurate, and meaningful.
   LEGIBILITY   - text is comfortably readable: large and sharp enough, not clipped or overflowing, enough contrast."""
-# How real figures draw things, added after the rubric text of each dimension.
+# How real figures draw things, added after the rubric text of each dimension. The caption is a short summary
+# rewritten from the figure, not a specification, so Connectivity and Presence flag only clear contradictions.
 CONVENTIONS = {
-    "layout": "Steps should appear along the reading direction in the order the caption gives. A figure cropped "
-              "close to its content, with boxes touching the image edge, is not cut off; only content that visibly "
-              "continues past the edge is.",
-    "connectivity": "One line or arrow can serve several components (a branching trunk line, a line ending at a row "
-                    "of boxes, a large background arrow with the steps placed along it) and connects each of them. A "
-                    "side branch, such as excluded or removed items, leaves the main flow and ends there. Judge the "
-                    "arrows against what the caption states, not against your own idea of how the process should "
-                    "work.",
-    "presence": "",
-    "details": "A label that is cut off, or that names the wrong step for its place in the flow, is not accurate. "
-               "Judge the labels themselves: do not recompute numbers across boxes or second-guess wording that "
-               "fits the caption.",
+    "layout": "Steps should appear along the reading direction in the order the caption gives. A box or label that "
+              "touches the image edge is not cut off, even where its border lies on the edge and looks thin or "
+              "missing. Content is cut off only when part of it is visibly missing, such as text sliced through or a "
+              "box missing part of its contents.",
+    "connectivity": "The caption is a short summary rewritten from the figure: it may merge, split, or reorder steps, "
+                    "and it does not describe every line. Use it to understand the flow, and count a connection as "
+                    "wrong only when the figure clearly contradicts that flow: two steps that must follow each other "
+                    "have nothing joining them, an arrow points the wrong way, or an arrow leads to the wrong "
+                    "component. One line or arrow can serve several components (a branching trunk line, a line ending "
+                    "at a row of boxes, a large background arrow with the steps placed along it, an arrow ending at "
+                    "the border of a group or panel) and connects each of them. A small box beside an arrow that "
+                    "states its condition or a note (a threshold, a criterion, a count) labels that arrow and needs no "
+                    "connection of its own. Two boxes that restate the same step need no arrow between them. Excluded "
+                    "or removed items are often a side branch that leaves the main flow and ends there, but a figure "
+                    "may also put the exclusion box in the main chain, meaning the next step is what remains; both "
+                    "are correct. Judge the arrows against what the caption states, not against your own idea of how "
+                    "the process should work.",
+    "presence": "The caption is a short summary rewritten from the figure and may give more detail than the figure's "
+                "labels (where the data come from, what each arm receives). Go through the components the caption "
+                "names and find each in the figure: a component is present when the figure shows that step or group, "
+                "even if its label says less than the caption (that is a DETAILS matter). Count a component as "
+                "present only when a reader can see what it is: a box with no text, cut off, or hidden under another "
+                "does not show its component; a box whose text is merely small or faint is present (that is a "
+                "LEGIBILITY matter). Boxes that repeat a name in different arms or branches, or restate a stage with "
+                "added detail, are not duplicates.",
+    "details": "A label that is cut off, or that names the wrong step for its place in the flow, is not accurate. A "
+               "label that names the same thing as the caption is accurate even if it is worded differently, "
+               "abbreviated, or slightly misspelled; a label that names a different thing, contradicts the caption, "
+               "or drops a count, value, or condition the caption gives for that component is wrong. Judge the "
+               "labels themselves: do not recompute numbers across boxes or second-guess wording that fits the "
+               "caption.",
     "legibility": "Judge text at the size the image is shown, without zooming in: text you would need to zoom in on "
                   "or guess at is not comfortably readable.",
 }

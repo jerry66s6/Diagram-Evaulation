@@ -1,8 +1,8 @@
 # Human alignment
 
 Do the judge's scores agree with the human study? All 300 human-study diagrams were rated by
-people (`human_ratings.json`: 13 dimensions, 1-10, one anonymized rater per diagram). HS001-HS100
-are used to tune the correctness prompt; HS101-HS300 are held out for one final test.
+people (`human_ratings.json`: 13 dimensions, 1-10).
+The correctness prompt was tuned on HS001-HS100 and then HS001-HS200; HS201-HS300 were not used for tuning.
 `report.html` shows every version tried on HS001-HS100.
 
 ```bash
@@ -46,8 +46,9 @@ diagram humans rated 9+ that the judge scored below 8).
 
 | **d17** | d12 with Connectivity and Presence told the caption is a short summary rewritten from the figure (flag only clear contradictions); a box beside an arrow is its label; boxes restating one step need no arrow; a less detailed label or small text still counts as present; repeats across arms are not duplicates. Tuned on HS001-HS200 (best so far) |
 | d18 | d17 with the Connectivity rubric sentence reworded ("the figure's connections follow the flow the caption describes" instead of "every connection the description calls for is drawn") and Presence told that a step the flow jumps over is missing (no gain) |
+| d19 | d17 + the v4 caption sketch as a checklist for Presence, Details, and Connectivity (worse: see Caption sketch below) |
 
-d5-d18 re-ran only the dimensions whose prompt changed; the others reuse the result files of the version with the
+d5-d19 re-ran only the dimensions whose prompt changed; the others reuse the result files of the version with the
 same prompt (`COPIED` in `run.py`).
 
 ## Results on HS001-HS100 (overall correctness)
@@ -175,6 +176,36 @@ the humans, d18 fixed 4 and produced 6 new ones, so what is left of these false 
 than with the wording. The Presence rule for a skipped step made Presence worse (Spearman 0.62 -> 0.50) and caught
 fewer removed boxes (3 of 8). d17 stays the best version: overall Spearman 0.79, MAE 0.71, RMSE 1.05 on HS001-HS200.
 
+## Caption sketch (v1, v3, v4) and d19
+
+The old method's first step, a list of the components and connections the caption calls for, made from the caption
+alone. `python3 run.py sketches --wording v4 --first 200` makes the sketch for each diagram and has the judge check
+every required item against the figure. On an unmodified figure an item it does not show is a sketch error:
+
+| Sketch, 103 unmodified figures of HS001-HS200 | Required components per sketch / sketches with one not in the figure | Required connections per sketch / sketches with one not in the figure |
+|---|---|---|
+| v1 (the old method) | 12.4 / 9 | 12.6 / 37 |
+| v3 (d3: exclusions as side branches) | 12.3 / 11 | 13.0 / 37 |
+| v4 (caption is a summary of an existing figure; no splitting a step; exclusion links typical) | 11.7 / 5 | 10.0 / 25 |
+
+On broken figures the v4 check finds a missing component in 5 of 8 with a removed box and 7 of 9 with a blank label
+(5 of 103 unmodified), but a missing connection in only 8 of 22 with an erased, reversed, or detached arrow (25 of
+103 unmodified). Scoring Presence from the check (missing components mapped to a score fitted on the other half)
+was much worse than d17 (Spearman 0.24 vs 0.62, study scores): 171 of 200 diagrams have nothing missing and get the
+same score.
+
+d19 gives the v4 sketch to d17 as a checklist for Presence, Details, and Connectivity. It catches more removed boxes
+(6 of 8, d17 4) and duplicates, but adds false alarms and agrees less with the humans on all three:
+
+| HS001-HS200, study scores | d17 Spearman / MAE / false alarms | d19 |
+|---|---|---|
+| Connectivity | 0.60 / 1.15 / 7 | 0.54 / 1.32 / 12 |
+| Presence | 0.62 / 0.69 / 0 | 0.53 / 0.82 / 0 |
+| Details | 0.57 / 1.14 / 9 | 0.49 / 1.25 / 13 |
+| Overall correctness | 0.78 / 0.73 | 0.77 / 0.78 |
+
+With the updated scores the gap is the same (overall 0.88 vs 0.86). d17 stays the best version.
+
 ## Human scores updated
 
 The human scores for HS001-HS200 in `human_ratings.json` have been updated. With the updated scores, d17 on
@@ -182,14 +213,14 @@ HS001-HS200:
 
 | d17, HS001-HS200 | Spearman | Kendall | MAE | RMSE |
 |---|---:|---:|---:|---:|
-| Layout | 0.79 | 0.69 | 1.00 | 1.47 |
-| Connectivity | 0.78 | 0.67 | 0.87 | 1.39 |
-| Presence | 0.72 | 0.67 | 0.52 | 1.04 |
-| Details | 0.71 | 0.62 | 0.89 | 1.42 |
+| Layout | 0.80 | 0.70 | 0.98 | 1.44 |
+| Connectivity | 0.80 | 0.69 | 0.84 | 1.32 |
+| Presence | 0.72 | 0.67 | 0.51 | 1.01 |
+| Details | 0.73 | 0.64 | 0.86 | 1.35 |
 | Legibility | 0.78 | 0.65 | 1.17 | 1.56 |
-| Overall correctness | 0.87 | 0.72 | 0.55 | 0.79 |
+| Overall correctness | 0.88 | 0.73 | 0.54 | 0.76 |
 
-d17 stays the best version (overall Spearman d12 0.85, d17 0.87, d18 0.85). HS201-HS300 keep the study scores.
+d17 stays the best version (overall Spearman d12 0.86, d17 0.88, d18 0.86).
 
 ## d17 on HS201-HS300 (held out)
 
@@ -215,6 +246,16 @@ Connectivity and Legibility the same, Presence and Details higher, Layout lower 
 The judge is somewhat lenient (bias +0.34 overall, +0.67 on Legibility) and caught only 2 of 6 erased arrows
 (humans 5).
 
-Caveats: the prompts were tuned on HS001-HS200 (HS101-HS200 were first checked once with d12); HS201-HS300 are untouched. Each
-diagram has one rater; humans often lowered every dimension of a diagram with any error, which the judge, scoring
-each dimension on its own, does not copy.
+The human scores for HS201-HS300 in `human_ratings.json` were then updated as well. With the updated scores:
+
+| d17, HS201-HS300 | Spearman | Kendall | Pearson | MAE | RMSE | Bias |
+|---|---:|---:|---:|---:|---:|---:|
+| Layout | 0.67 | 0.56 | 0.74 | 1.35 | 1.86 | +0.29 |
+| Connectivity | 0.72 | 0.62 | 0.74 | 1.19 | 1.72 | -0.03 |
+| Presence | 0.72 | 0.66 | 0.82 | 0.66 | 1.25 | +0.12 |
+| Details | 0.73 | 0.65 | 0.80 | 0.89 | 1.40 | +0.21 |
+| Legibility | 0.80 | 0.68 | 0.82 | 1.32 | 1.69 | +0.64 |
+| Overall correctness | 0.90 | 0.74 | 0.89 | 0.62 | 0.85 | +0.25 |
+
+Caveats: the prompts were tuned on HS001-HS200 (HS101-HS200 were first checked once with d12). Humans often lowered
+every dimension of a diagram with any error, which the judge, scoring each dimension on its own, does not copy.

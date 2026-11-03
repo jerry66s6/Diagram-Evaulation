@@ -22,19 +22,23 @@ is no expectation sketch and no scoring formula; the prompt carries the scoring 
 ([`direct.py`](src/diagram_correctness/direct.py)):
 
 - the human-study question for the dimension and its criteria from [`config/rubric.json`](config/rubric.json);
-- how real figures draw things (one line can serve several boxes, exclusion boxes are side
-  branches, a figure cropped close to its content is not cut off, text is judged at the size shown);
+- that the caption is a short summary rewritten from the figure, so Connectivity and Presence
+  flag only clear contradictions, and a label worded differently from the caption is still accurate;
+- how real figures draw things (one line can serve several boxes, an exclusion box may be a side
+  branch or sit in the main chain, a box touching the image edge is not cut off unless something
+  is visibly missing, text is judged at the size shown);
 - what each of the other four dimensions covers, so a problem lowers only its own dimension;
 - the scoring guide: 9-10 no real problem, 7-8 small problems that do not change the meaning,
   4-6 at least one clear error, 1-3 several errors or a misleading diagram. A single clear error
   leaves the top band, and errors that change the meaning cost more than cosmetic ones.
 
-This replaced the sketch-and-formula method after the human alignment study
-([`experiments/human_alignment`](experiments/human_alignment)). On the 100 diagrams it was tuned
-on (HS001-HS100), agreement with the human ratings of overall correctness rose from Spearman
-0.51 to 0.76 and the mean absolute error fell from 1.19 to 0.73 points (0-10); the score
-separates clean from broken diagrams with AUC 0.84 (humans 0.91, previous method 0.73), at
-about a third of the API cost. HS101-HS300 are held out for testing.
+This is version d17 of the human alignment study
+([`experiments/human_alignment`](experiments/human_alignment)), tuned on HS001-HS200. On
+HS201-HS300, which were not used for tuning, it agrees with the human ratings of overall
+correctness at Spearman 0.87 (Kendall 0.70, mean absolute error 0.80 points on 0-10), per
+dimension 0.61-0.73, and separates clean from broken diagrams with AUC 0.90 (humans 0.95). The
+first direct version (d2) reached Spearman 0.76 on HS001-HS100, the diagrams it was tuned on, against
+0.51 for the sketch-and-formula method.
 
 ## Previous method: sketch and formula
 
