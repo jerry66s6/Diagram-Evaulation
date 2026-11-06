@@ -4,8 +4,8 @@
 
 Input: the 13 human scores in ../human_alignment/human_ratings.json.
 Label: `label` in the same file. negative = deliberately made bad with inserted errors, positive = good.
-Split: a fixed test set of 60 (10 per label and difficulty), scored once at the end. The other 240 go through 5-fold
-train/val (192/48). Each method's settings and bad/good cut come from val; it is then refit on all 240 and tested.
+Split: HS201-HS300 is the test set, scored once at the end. HS001-HS200 go through 5-fold train/val (160/40), balanced on
+label and difficulty. Each method's settings and bad/good cut come from val; it is then refit on all 200 and tested.
 """
 import csv
 import json
@@ -17,7 +17,7 @@ from sklearn.ensemble import GradientBoostingClassifier, RandomForestClassifier
 from sklearn.inspection import permutation_importance
 from sklearn.linear_model import LogisticRegression
 from sklearn.metrics import f1_score, roc_auc_score
-from sklearn.model_selection import ParameterGrid, StratifiedKFold, train_test_split
+from sklearn.model_selection import ParameterGrid, StratifiedKFold
 from sklearn.pipeline import make_pipeline
 from sklearn.preprocessing import StandardScaler
 from sklearn.svm import SVC
@@ -26,7 +26,7 @@ from sklearn.tree import DecisionTreeClassifier, export_text
 HERE = Path(__file__).resolve().parent
 RATINGS = HERE.parent / "human_alignment" / "human_ratings.json"
 SEED = 0
-TEST_SIZE = 60
+TEST_START = 201  # HS201 onwards is the test set
 N_FOLDS = 5
 N_BOOTSTRAP = 2000
 
@@ -58,10 +58,10 @@ def load():
 
 
 def split(rows):
-    """The fixed test set and the 5 train/val folds of the other 240, balanced on label and difficulty."""
+    """HS201-HS300 as test, and 5 train/val folds of HS001-HS200 balanced on label and difficulty."""
     groups = np.array([f"{r['label']}_{r['difficulty']}" for r in rows])
-    develop, test = train_test_split(np.arange(len(rows)), test_size=TEST_SIZE, stratify=groups, random_state=SEED)
-    develop, test = np.sort(develop), np.sort(test)
+    in_test = np.array([int(r["id"][2:]) >= TEST_START for r in rows])
+    develop, test = np.flatnonzero(~in_test), np.flatnonzero(in_test)
     folds = StratifiedKFold(N_FOLDS, shuffle=True, random_state=SEED).split(develop, groups[develop])
     return develop, test, [(develop[a], develop[b]) for a, b in folds]
 
@@ -80,7 +80,7 @@ def best_cut(score, y):
 
 
 def run_method(name, X, y, develop, test, folds):
-    """Choose settings and cut from val, refit on the 240 unless it is a baseline, then score the test set."""
+    """Choose settings and cut from val, refit on all of train/val unless it is a baseline, then score the test set."""
     if name in BASELINES:
         model, params, val = None, {}, BASELINES[name](X)
         val_auc = float(np.mean([roc_auc_score(y[v], val[v]) for _, v in folds]))
@@ -143,7 +143,7 @@ def main():
         called, t = methods[chosen]["test_called"][at], y[test][at]
         levels[level] = {"bad_caught": int(called[t == 1].sum()), "bad": int((t == 1).sum()), "clean_flagged": int(called[t == 0].sum()), "clean": int((t == 0).sum())}
     print("Test by difficulty: " + json.dumps(levels))
-    caught, total = {}, {}  # out-of-fold val calls on the 240: too few of each error type in the test set
+    caught, total = {}, {}  # out-of-fold val calls on HS001-HS200: too few of each error type in the test set
     for i in develop:
         for defect in {d["defect"] for d in rows[i]["defects"]}:
             total[defect] = total.get(defect, 0) + 1
@@ -163,12 +163,12 @@ def main():
 
     logistic = methods["logistic_regression"]["model"][-1].coef_[0]
     drops = {n: permutation_importance(methods[n]["model"], X[test], y[test], scoring="roc_auc", n_repeats=20, random_state=SEED).importances_mean for n in MODELS}
-    dimensions = {k: {"auc_alone_on_240": float(roc_auc_score(y[develop], -X[develop, i])), "logistic_coefficient": float(logistic[i]),
+    dimensions = {k: {"auc_alone_train_val": float(roc_auc_score(y[develop], -X[develop, i])), "logistic_coefficient": float(logistic[i]),
                       "test_auc_drop": {n: float(drops[n][i]) for n in MODELS}} for i, k in enumerate(dims)}
-    print("\n| Dimension | AUC alone (240) | Logistic coefficient (- = low score means bad) | " + " | ".join(MODELS) + " |\n|---|---:|---:|" + "---:|" * len(MODELS))
-    for k in sorted(dims, key=lambda k: -dimensions[k]["auc_alone_on_240"]):
+    print("\n| Dimension | AUC alone (train/val) | Logistic coefficient (- = low score means bad) | " + " | ".join(MODELS) + " |\n|---|---:|---:|" + "---:|" * len(MODELS))
+    for k in sorted(dims, key=lambda k: -dimensions[k]["auc_alone_train_val"]):
         d = dimensions[k]
-        print(f"| {k} | {d['auc_alone_on_240']:.3f} | {d['logistic_coefficient']:+.2f} | " + " | ".join(f"{d['test_auc_drop'][n]:+.3f}" for n in MODELS) + " |")
+        print(f"| {k} | {d['auc_alone_train_val']:.3f} | {d['logistic_coefficient']:+.2f} | " + " | ".join(f"{d['test_auc_drop'][n]:+.3f}" for n in MODELS) + " |")
 
     # Mean human style_uniformity by what was done to the figure, on all 300.
     style = np.array([r["scores"]["style_uniformity"] for r in rows])
