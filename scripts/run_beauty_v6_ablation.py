@@ -3,7 +3,7 @@
 
 Centering, Alignment, and Resolution each have several single-variable fixtures so every
 sub-check is tested on its own. Default mode renders fixtures and records deterministic
-measurements, including Canvas Fill. Pass --live to score the seven model-judged dimensions
+measurements, including a historical Canvas Fill diagnostic. Pass --live to score all eight dimensions
 with the public OpenAI backend (OPENAI_API_KEY from the environment or project .env).
 """
 from __future__ import annotations
@@ -93,7 +93,7 @@ DIMENSION_DEFINITIONS = {
     "in one consistent routing style; consistent endpoints. Any layout type is valid.",
     "style_uniformity": "Same-role elements share one shape, size, border, font, and arrow stroke/arrowhead.",
     "resolution": "Crisp rendering: no blur, pixelation, jagged stair-steps, or compression artifacts.",
-    "canvas_fill": "Script-measured: elements must not be so small that most of the canvas is empty.",
+    "canvas_fill": "Model-estimated element footprint: score 0 at 3% or below, 100 at 6% or above.",
 }
 ALIGN_JITTER_Y = (0, -30, 24, -20, 32, -26)
 TILTS = (6, -8, 4, -5, 9, -7)
@@ -442,13 +442,13 @@ def measure(scene: Scene, image_path: Path) -> dict[str, Any]:
 
 def score(images: dict[str, Path], backend, repeats: int, workers: int) -> dict[str, dict[str, dict[str, Any]]]:
     results: dict[str, dict[str, dict[str, Any]]] = {variant: {} for variant in images}
-    for variant, path in images.items():
-        fill = judge_canvas_fill(path)
-        results[variant]["canvas_fill"] = {
-            "score": fill.score, "std": 0.0, "runs": [fill.score], "observation": fill.observation,
-            "reasoning": fill.reasoning, "footprint_pct": fill.footprint_pct,
-        }
     if backend is None:
+        for variant, path in images.items():
+            fill = judge_canvas_fill(path)
+            results[variant]["canvas_fill"] = {
+                "score": fill.score, "std": 0.0, "runs": [fill.score], "observation": fill.observation,
+                "reasoning": fill.reasoning, "footprint_pct": fill.footprint_pct,
+            }
         return results
     jobs = [(v, d, r) for v in images for d in BEAUTY_V6_MODEL_DIMENSIONS for r in range(repeats)]
 
@@ -574,7 +574,7 @@ def run(
     scenes = {variant: build_scene(variant) for variant in VARIANTS if variant not in CONTROLS}
     paths = {variant: render(scene, output / "diagrams" / f"{variant}.png") for variant, scene in scenes.items()}
     paths |= {variant: render_control(variant, output / "diagrams" / f"{variant}.png") for variant in CONTROLS}
-    mode = "Fixtures only; Canvas Fill measured, no judge calls"
+    mode = "Fixtures only; historical Canvas Fill diagnostic measured, no judge calls"
     if live and backend is None:
         if not v4.load_local_key():
             raise RuntimeError("OPENAI_API_KEY is required for --live (environment or project .env)")

@@ -1,4 +1,4 @@
-"""Beauty v6: seven model-judged dimensions plus the deterministic Canvas Fill check.
+"""Beauty v6: eight independently model-judged dimensions.
 
 Changes from v5:
 - Centering covers three levels: the whole diagram on the canvas, each label inside its
@@ -13,7 +13,6 @@ from __future__ import annotations
 from pathlib import Path
 
 from .beauty import BeautyScore, judge_beauty_dimension
-from .canvas_fill import judge_canvas_fill
 from .vlm import VLMBackend
 
 
@@ -25,8 +24,9 @@ BEAUTY_V6_MODEL_DIMENSIONS = (
     "alignment",
     "style_uniformity",
     "resolution",
+    "canvas_fill",
 )
-BEAUTY_V6_DIMENSIONS = (*BEAUTY_V6_MODEL_DIMENSIONS, "canvas_fill")
+BEAUTY_V6_DIMENSIONS = BEAUTY_V6_MODEL_DIMENSIONS
 
 _DIMENSION_OWNERS = """\
   CENTERING         - everything is centered: the whole diagram on the canvas, each label inside its
@@ -40,7 +40,7 @@ _DIMENSION_OWNERS = """\
                       stroke/arrowhead treatment.
   RESOLUTION        - whether the image renders crisply: no blur, pixelation, jagged stair-steps, or
                       compression artifacts.
-  CANVAS FILL       - (measured by a script, not a judge) whether elements are too small for the canvas,
+  CANVAS FILL       - whether elements are too small for the canvas,
                       leaving most of it empty.
 """
 
@@ -66,8 +66,8 @@ def _not_yours(dimension: str, extra: str = "") -> str:
 
 def _preamble(dimension: str, label: str, extra: str = "") -> str:
     return (
-        "You are ONE of seven independent judges scoring a flowchart image; an eighth dimension is measured "
-        "by a script. Each judge scores exactly one visual dimension and never sees the other judges' "
+        "You are ONE of eight independent judges scoring a flowchart image. "
+        "Each judge scores exactly one visual dimension and never sees the other judges' "
         "output. Content and structure are judged elsewhere; this is purely visual.\n\n"
         f"The eight dimensions and who owns them:\n{_DIMENSION_OWNERS}\n"
         f"YOU OWN: {label}. You score nothing else.\n\n"
@@ -278,6 +278,28 @@ BEAUTY_V6_PROMPTS = {
         "CRITICAL: small elements or small text that render cleanly are NOT low resolution. Thin lines, "
         "pale colors, tilted or misaligned shapes, and empty canvas are not yours."
     ),
+    "canvas_fill": _preamble("canvas_fill", "CANVAS FILL")
+    + (
+        "MENTAL MASK: treat any uniform background, light OR dark, as empty canvas. Mentally recolor "
+        "each node as a solid neutral silhouette, including the full interior of outline-only shapes. "
+        "Keep the original canvas dimensions and node sizes. Ignore color, contrast, blur, styling, "
+        "placement, alignment, label positioning, and gaps between nodes.\n\n"
+        "OBSERVATION TO MAKE: estimate the combined area occupied by diagram node silhouettes as a "
+        "percentage of the ENTIRE image canvas. Sum the individual shape areas, counting overlapping "
+        "areas only once. Exclude thin connectors, arrows, text strokes, decoration, and background "
+        "texture. Empty space between nodes or enclosed by a loop of arrows does NOT count. Do not "
+        "use the bounding box of the whole diagram: tiny nodes spread to the edges still have a "
+        "small footprint. State your estimated footprint percentage explicitly.\n\n"
+        "SCORING RULE (keep these exact thresholds):\n"
+        "- Footprint at or below 3%: score 0.\n"
+        "- Footprint at or above 6%: score 100.\n"
+        "- Between 3% and 6%: score = round(100 * (footprint_percent - 3) / 3).\n"
+        "- Examples: 3% -> 0; 3.75% -> 25; 4.5% -> 50; 5.25% -> 75; 6% -> 100.\n\n"
+        "CRITICAL: penalize ONLY a too-small element footprint. Dense or oversized diagrams are a "
+        "design choice and still score 100 here if their footprint is at least 6%. A pale or "
+        "outline-only node counts by its full silhouette, not by its visible ink. Do not deduct "
+        "for off-centering, tight gaps, unreadable labels, connector defects, or poor rendering."
+    ),
 }
 
 
@@ -285,10 +307,7 @@ def judge_beauty_v6(
     backend: VLMBackend,
     image: str | Path,
 ) -> dict[str, BeautyScore]:
-    scores = {
+    return {
         dimension: judge_beauty_dimension(backend, image, dimension, BEAUTY_V6_PROMPTS)
         for dimension in BEAUTY_V6_MODEL_DIMENSIONS
     }
-    fill = judge_canvas_fill(image)
-    scores["canvas_fill"] = BeautyScore(fill.observation, fill.score, fill.reasoning)
-    return scores

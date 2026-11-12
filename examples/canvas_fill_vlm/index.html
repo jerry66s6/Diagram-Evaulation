@@ -1,0 +1,156 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Canvas Fill VLM - Change Review</title>
+  <style>
+    :root { color-scheme: light; font-family: system-ui, sans-serif; color: #17233a; background: #f3f6fb; }
+    * { box-sizing: border-box; }
+    body { margin: 0; }
+    main { max-width: 1120px; margin: auto; padding: 32px 20px; }
+    h1 { font-size: clamp(26px, 4vw, 38px); margin: 8px 0; }
+    h2 { font-size: 21px; margin-top: 0; }
+    h3 { font-size: 17px; margin: 0; }
+    p, li { line-height: 1.6; }
+    a { color: #1b55aa; }
+    code { font-size: 13px; overflow-wrap: anywhere; }
+    .eyebrow { color: #52637f; font-size: 12px; font-weight: 700; letter-spacing: 1.5px; text-transform: uppercase; }
+    .muted { color: #52637f; }
+    .panel, .stat, article { background: white; border: 1px solid #dce3ef; border-radius: 12px; }
+    .panel { padding: 22px; margin-top: 20px; }
+    .stats { display: grid; grid-template-columns: repeat(3, 1fr); gap: 14px; margin: 24px 0; }
+    .stat { padding: 18px; }
+    .stat strong { display: block; font-size: 28px; color: #166345; }
+    .stat span { display: block; margin-top: 4px; font-size: 14px; }
+    .badge { display: inline-block; border-radius: 20px; padding: 4px 10px; font-size: 12px; background: #e8f5ee; color: #166345; font-weight: 700; }
+    .change { display: grid; grid-template-columns: 1fr 1fr; gap: 18px; }
+    .change p { margin-bottom: 0; }
+    .rule { background: #eef3fc; padding: 16px; border-radius: 8px; line-height: 1.7; }
+    .scroll { overflow-x: auto; }
+    table { width: 100%; border-collapse: collapse; font-size: 14px; }
+    th, td { text-align: left; padding: 12px 10px; border-bottom: 1px solid #e4e9f1; }
+    th { color: #52637f; }
+    .cards { display: grid; grid-template-columns: 1fr 1fr; gap: 18px; margin-top: 20px; }
+    article { overflow: hidden; }
+    article img { width: 100%; height: auto; display: block; border-bottom: 1px solid #e4e9f1; }
+    .card-body { padding: 18px; }
+    .card-heading { display: flex; justify-content: space-between; gap: 10px; align-items: center; }
+    .card-body p { font-size: 14px; margin-bottom: 0; }
+    .caution { background: #fff8e9; border-color: #ebd49e; }
+    details { margin-top: 14px; }
+    summary { cursor: pointer; color: #1b55aa; }
+    footer { margin: 24px 0 0; color: #52637f; font-size: 13px; }
+    @media (max-width: 700px) {
+      .stats, .change, .cards { grid-template-columns: 1fr; }
+      main { padding: 20px 14px; }
+    }
+  </style>
+</head>
+<body>
+<main>
+  <header>
+    <div class="eyebrow">Research change review / Beauty v6</div>
+    <h1>Canvas Fill is now a VLM judge</h1>
+    <p class="muted">A model estimates node area instead of Python measuring pixels. The restored rule is 3% / 6%.</p>
+    <span class="badge">Live smoke checks passed</span>
+    <p class="muted">Snapshot: November 11, 2026 &middot; Model: <code>dev-gpt-56-ceres</code> &middot; One live call per fixture</p>
+  </header>
+
+  <section class="stats" aria-label="Validation summary">
+    <div class="stat"><strong>4 fixtures</strong><span>Tiny nodes drop; pale nodes stay near baseline</span></div>
+    <div class="stat"><strong>4 / 4</strong><span>Scores match the model's estimated area</span></div>
+    <div class="stat"><strong>21 passed</strong><span>Focused v6 + historical v5 tests</span></div>
+  </section>
+
+  <section class="panel">
+    <h2>What changed?</h2>
+    <div class="change">
+      <div><h3>Before</h3><p>Seven independent VLM calls, then a deterministic Python Canvas Fill measurement.</p></div>
+      <div><h3>Now</h3><p>Eight independent VLM calls. Canvas Fill uses the shared caller and returns <code>observation</code>, <code>score</code>, and <code>reasoning</code>, just like its siblings.</p></div>
+    </div>
+    <p>The prompt counts full node silhouettes, including outline-only shapes. It excludes thin arrows, text, decoration, and empty loop interiors. It does not penalize pale colors, alignment, or tight spacing.</p>
+    <div class="rule">
+      <strong>Current scoring rule:</strong> area &le; 3% &rarr; 0; area &ge; 6% &rarr; 100.<br>
+      Between these thresholds: <code>round(100 &times; (area_percent - 3) / 3)</code>.
+    </div>
+    <p class="muted">Historical v5 scoring and offline footprint diagnostics use the same 3% / 6% rule, but estimate area differently. Human-alignment experiments are outside this change's scope.</p>
+  </section>
+
+  <section class="panel">
+    <h2>Do the live scores follow the rule?</h2>
+    <div class="scroll">
+      <table aria-label="Live scoring formula verification">
+        <thead><tr><th>Fixture</th><th>VLM estimated area</th><th>Score from formula</th><th>VLM score</th><th>Check</th></tr></thead>
+        <tbody>
+          <tr data-fixture="baseline"><td>Baseline</td><td>9.8%</td><td>100</td><td>100</td><td><span class="badge">PASS</span></td></tr>
+          <tr data-fixture="degraded_canvas_fill"><td>Tiny nodes</td><td>3.4%</td><td>13</td><td>13</td><td><span class="badge">PASS</span></td></tr>
+          <tr data-fixture="degraded_contrast"><td>Pale nodes</td><td>9.5%</td><td>100</td><td>100</td><td><span class="badge">PASS</span></td></tr>
+          <tr data-fixture="control_cycle_straight"><td>Arrow cycle</td><td>5.8%</td><td>93</td><td>93</td><td><span class="badge">PASS</span></td></tr>
+        </tbody>
+      </table>
+    </div>
+    <p class="muted">These checks verify the mapping from estimated area to score, not the accuracy of the area estimate itself.</p>
+  </section>
+
+  <section class="cards" aria-label="Fixture images and expected behavior">
+    <article>
+      <a href="diagrams/baseline.png"><img src="diagrams/baseline.png" alt="Baseline flowchart with six comfortably sized nodes"></a>
+      <div class="card-body">
+        <div class="card-heading"><h3>Baseline</h3><span class="badge">100 / 100</span></div>
+        <p><strong>Expected:</strong> full credit for node coverage above 6%. <strong>Observed:</strong> 100.</p>
+        <p><strong>Why it matters:</strong> a healthy diagram still gets full credit.</p>
+        <details><summary>Model reasoning</summary><p>The node footprint is clearly above the 6% threshold. Under the specified scoring rule, any footprint at or above 6% receives 100.</p></details>
+      </div>
+    </article>
+    <article>
+      <a href="diagrams/degraded_canvas_fill.png"><img src="diagrams/degraded_canvas_fill.png" alt="Tiny nodes spread widely across the canvas, connected by long arrows"></a>
+      <div class="card-body">
+        <div class="card-heading"><h3>Tiny nodes</h3><span class="badge">13 / 100</span></div>
+        <p><strong>Expected:</strong> below 50 despite long arrows spanning the canvas. <strong>Observed:</strong> 13.</p>
+        <p><strong>Why it matters:</strong> the model does not mistake the whole diagram's bounding box for node area.</p>
+        <details><summary>Model reasoning</summary><p>The six node shapes occupy only a small fraction of the 1200&times;750 canvas once connectors, text, and background are excluded. A 3.4% footprint falls just above the 3% lower threshold, yielding about 13.</p></details>
+      </div>
+    </article>
+    <article>
+      <a href="diagrams/degraded_contrast.png"><img src="diagrams/degraded_contrast.png" alt="Baseline geometry rendered with pale nodes and pale arrows"></a>
+      <div class="card-body">
+        <div class="card-heading"><h3>Pale nodes</h3><span class="badge">100 / 100</span></div>
+        <p><strong>Expected:</strong> 100, matching baseline; contrast is another judge's responsibility. <strong>Observed:</strong> 100.</p>
+        <p><strong>Why it matters:</strong> this contrast-only defect does not lower Canvas Fill on this fixture.</p>
+        <details><summary>Model reasoning</summary><p>The node footprint is clearly above the 6% threshold. Under the specified scoring rule, any footprint at or above 6% receives 100.</p></details>
+      </div>
+    </article>
+    <article>
+      <a href="diagrams/control_cycle_straight.png"><img src="diagrams/control_cycle_straight.png" alt="Five nodes arranged in a cycle, enclosing a large empty region"></a>
+      <div class="card-body">
+        <div class="card-heading"><h3>Arrow cycle</h3><span class="badge">93 / 100</span></div>
+        <p><strong>Expected:</strong> near 100 (&ge; 90), counting nodes but not the empty loop interior. <strong>Observed:</strong> 93.</p>
+        <p><strong>Why it matters:</strong> the 5.8% estimate is consistent with counting only nodes, rather than the large enclosed region.</p>
+        <details><summary>Model reasoning</summary><p>The five rounded rectangular nodes together occupy just under the 6% threshold. Using the specified linear scoring rule for a roughly 5.8% footprint yields a score in the low 90s.</p></details>
+      </div>
+    </article>
+  </section>
+
+  <section class="panel caution">
+    <h2>Working as expected does not mean pixel-exact</h2>
+    <p>The VLM's area estimates versus the historical image diagnostic are: baseline <strong>9.8% / 10.51%</strong>, tiny nodes <strong>3.4% / 4.08%</strong>, pale nodes <strong>9.5% / 10.14%</strong>, and cycle <strong>5.8% / 6.26%</strong>. The diagnostic is a comparison signal, not pixel-perfect ground truth.</p>
+    <p><strong>Estimation matters:</strong> tiny nodes score 13 from the VLM estimate versus 36 from the historical diagnostic. Both use the same thresholds; the 23-point gap comes from different area estimates.</p>
+    <p><strong>Conclusion:</strong> VLM wiring, output structure, and scoring consistency are verified. The observed fixture behavior is consistent with the restored rule. Precise area estimation, repeatability, and human alignment are not established by this small, single-run check. Blank, outline-only, and exact-boundary fixtures were not live-tested here.</p>
+  </section>
+
+  <section class="panel">
+    <h2>What the code checks cover</h2>
+    <ul>
+      <li>The main v6 evaluator calls the backend once for each of all eight dimensions, including Canvas Fill.</li>
+      <li>Live ablation runs repeat Canvas Fill calls just like the other dimensions; it is not a deterministic fallback.</li>
+      <li>The new prompt names its siblings and uses the restored 3% / 6% thresholds and interpolation.</li>
+      <li>Existing fixture-isolation checks and historical v5 tests still pass.</li>
+    </ul>
+    <p><a href="results.json">Inspect the exact prompt, observations, scores, and reasoning</a> &middot; <a href="../../src/diagram_correctness/beauty_v6.py">Evaluator source</a> &middot; <a href="../../scripts/run_canvas_fill.py">Calling script</a></p>
+    <details><summary>Reproduce the focused code checks</summary><p><code>python -m pytest tests\test_beauty_v6_ablation.py tests\test_beauty_v5_ablation.py -q</code></p></details>
+  </section>
+  <footer>Static snapshot of the saved live responses, not a new model run. No external scripts or network assets are used.</footer>
+</main>
+</body>
+</html>

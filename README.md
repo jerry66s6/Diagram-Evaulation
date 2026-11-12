@@ -123,18 +123,35 @@ python3 -m unittest discover -s tests -p 'test_dimension_ablation.py'
 
 The **current v6 Beauty evaluator has eight dimensions**: Centering, Space Use,
 Color Consistency, Contrast, Alignment, Style Uniformity, Resolution, and Canvas
-Fill. [`judge_beauty_v6`](src/diagram_correctness/beauty_v6.py) makes seven
-independent model judgments and computes Canvas Fill deterministically from the
-rendered image using [`canvas_fill.py`](src/diagram_correctness/canvas_fill.py).
+Fill. [`judge_beauty_v6`](src/diagram_correctness/beauty_v6.py) makes eight
+independent VLM calls with the same observation/score/reasoning response contract.
+Canvas Fill estimates node silhouette area: 0 at 3% or below, 100 at 6% or
+above, and linear interpolation between. Outline-only nodes count by their
+full area; thin connectors, text, and empty loop interiors do not.
 The human-study UI asks participants about the same eight Beauty dimensions.
 
-Generate v6 fixtures and compute Canvas Fill without model calls:
+Generate v6 fixtures and compute the historical footprint diagnostic without model calls:
 
 ```bash
 PYTHONPATH=src python3 scripts/run_beauty_v6_ablation.py
 ```
 
 Add `--live` for repeated model scoring through the public OpenAI backend.
+Offline footprint measurements are diagnostics, not the current v6 VLM scores.
+They use the same 3%/6% scoring rule, but estimate footprint differently.
+Older evaluators and saved results remain unchanged; the human-alignment experiment
+is outside the scope of this change.
+
+Score only Canvas Fill using the same prompt and calling code:
+
+```powershell
+python scripts\run_canvas_fill.py examples\canvas_fill_vlm\diagrams\baseline.png --output examples\canvas_fill_vlm\results.json
+```
+
+This uses the configured OpenAI model and `OPENAI_API_KEY`. To use an existing
+local backend instead, add `--backend local\beauty_alignment_backend.py`.
+The runner saves the prompt and per-image observations, scores, and reasoning.
+Use `--model` to override the model (custom backends must accept `Backend(model=...)`).
 See [the v6 results and known gaps](docs/beauty_axis_experiment.md#v4-v6-current-beauty-set).
 
 ### Historical five-dimension experiments
