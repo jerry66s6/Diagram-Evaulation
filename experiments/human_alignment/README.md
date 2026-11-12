@@ -2,6 +2,10 @@
 
 Do the judge's scores agree with the human study? All 300 human-study diagrams were rated by
 people (`human_ratings.json`: 13 dimensions, 1-10).
+New Beauty scoring uses the canonical `src/diagram_correctness/beauty.py` evaluator:
+all eight dimensions, including Canvas Fill, are independent VLM calls. The old
+deterministic Canvas Fill path has been removed. Existing cached result files and
+the historical comparisons below are not recomputed by this consolidation.
 The correctness prompt was tuned on HS001-HS100 and then HS001-HS200; HS201-HS300 were not used for tuning.
 `report.html` shows every version tried on HS001-HS100.
 

@@ -11,8 +11,7 @@ import sys
 ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT / "src"))
 
-from diagram_correctness.beauty import judge_beauty_dimension
-from diagram_correctness.beauty_v6 import BEAUTY_V6_PROMPTS
+from diagram_correctness.beauty import BEAUTY_PROMPTS, judge_beauty_dimension
 from diagram_correctness.rubric import load_config
 from diagram_correctness.vlm import OpenAIBackend
 
@@ -40,14 +39,14 @@ def main() -> int:
         )
     results = []
     for image in args.images:
-        result = judge_beauty_dimension(backend, image, "canvas_fill", BEAUTY_V6_PROMPTS)
+        result = judge_beauty_dimension(backend, image, "canvas_fill")
         results.append({"image": str(image.resolve()), **result.to_dict()})
         print(f"{image.name}: {result.score}", flush=True)
     args.output.parent.mkdir(parents=True, exist_ok=True)
     args.output.write_text(json.dumps({
         "dimension": "canvas_fill",
         "model": getattr(backend, "model", args.model),
-        "prompt": BEAUTY_V6_PROMPTS["canvas_fill"],
+        "prompt": BEAUTY_PROMPTS["canvas_fill"],
         "response_instruction": (
             "\nReturn the requested observation first, then a score from 0 to 100, then a concise "
             "one- or two-sentence justification."

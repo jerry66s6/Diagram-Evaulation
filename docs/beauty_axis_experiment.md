@@ -3,10 +3,11 @@
 ## Purpose
 
 The current evaluator is **v6: eight Beauty dimensions**, implemented by
-`judge_beauty_v6` in [`beauty_v6.py`](../src/diagram_correctness/beauty_v6.py).
-The human-study UI asks participants about the same eight dimensions. The older
-five-dimension `beauty.py` implementation and its saved runs remain available for
-historical experiments, not aliases for v6.
+`judge_beauty` in the canonical [`beauty.py`](../src/diagram_correctness/beauty.py).
+The human-study UI asks participants about the same eight dimensions. Older
+evaluator modules, runners, and deterministic Canvas Fill have been removed.
+Saved historical reports and frozen alignment snapshots remain available;
+the historical sections below do not describe the current scoring code.
 
 ### Historical v3 experiment
 
@@ -48,18 +49,16 @@ Live runs instead use the repository's existing public OpenAI backend and
 `OPENAI_API_KEY`. Historical provider and deployment metadata are omitted because
 they are not necessary to understand the method or results.
 
-The checked-in prompts and generated SVG fixtures reflect the latest source state.
-The offline replay remains the original imported result set so that this public
-port does not invent scores for a fixture that was not rerun.
-
-Run the checked-in historical results without an API call:
+The single current runner renders eight-dimension fixtures without inventing
+offline judge scores:
 
 ```bash
 PYTHONPATH=src python3 scripts/run_beauty_ablation.py
 ```
 
-This generates equivalent SVG interventions, a CSV, JSON summary, and a portable
-HTML report under `examples/beauty_ablation/reproduced/`.
+This generates PNG fixtures, geometry/color measurements, a JSON summary, and an
+HTML report under `examples/beauty_ablation/v6/fixtures/`. Historical reports
+remain in their original locations; the old five-dimension replay code is removed.
 
 Re-score the generated diagrams with the model in `config/evaluator.json`:
 
@@ -71,7 +70,7 @@ PYTHONPATH=src python3 scripts/run_beauty_ablation.py --live
 Live scoring averages three calls per image and dimension by default so model
 variance is not mistaken for cross-dimension leakage. Use `--repeats N` to change
 that count and `--model MODEL` to override the configured judge model. Live
-outputs go to `examples/beauty_ablation/live/` and are ignored by Git.
+outputs go to `examples/beauty_ablation/v6/live/` and are ignored by Git.
 
 ## Original imported results
 
@@ -143,9 +142,9 @@ fixtures; each fixture should lower only its own dimension) and a **breaking** r
 | Resolution | Model | No blur, pixelation, or compression artifacts | v6 |
 | Canvas Fill | Model | Elements not so small that most of the canvas is empty (estimated footprint score: 0 at 3%, 100 at 6%+; large enclosed regions such as the inside of an arrow ring are not counted) | v5; VLM in current v6 |
 
-All eight prompts and the main caller: `src/diagram_correctness/beauty_v6.py`.
-Canvas Fill-only caller: `scripts/run_canvas_fill.py`. `canvas_fill.py` remains
-available for historical evaluators and offline footprint diagnostics.
+All eight prompts and the main caller: `src/diagram_correctness/beauty.py`.
+Canvas Fill-only caller: `scripts/run_canvas_fill.py`. Canvas Fill is model-judged;
+the old deterministic implementation and its diagnostics have been removed.
 The historical version results below the smoke check predate the Canvas Fill VLM
 change and used deterministic Canvas Fill; they are not evidence of the new
 prompt's performance. Historical diagnostics and the current VLM both use the
@@ -272,8 +271,8 @@ dimension.
   human ratings.
 
 ```bash
-PYTHONPATH=src python3 scripts/run_beauty_v6_ablation.py          # fixtures + historical footprint diagnostic
-PYTHONPATH=src python3 scripts/run_beauty_v6_ablation.py --live   # 20 images x 8 model dimensions x 3 repeats
+PYTHONPATH=src python3 scripts/run_beauty_ablation.py          # fixtures only; no scores
+PYTHONPATH=src python3 scripts/run_beauty_ablation.py --live   # 20 images x 8 model dimensions x 3 repeats
 ```
 
 ## Limitations and next steps

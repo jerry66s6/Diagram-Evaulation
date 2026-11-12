@@ -46,7 +46,7 @@ for judge-human correlation.
 These are exploratory validation results, not held-out test results. Resampling
 keeps all eight dimensions of a diagram together, but does not estimate human-label
 uncertainty or judge rerun variability. The evaluated v2 prompts have now been
-promoted into [`beauty_v6.py`](../../src/diagram_correctness/beauty_v6.py):
+promoted into the canonical [`beauty.py`](../../src/diagram_correctness/beauty.py):
 all eight evaluator prompts match the frozen v2 snapshot. The earlier
 `current_001` prompts remain available as a historical comparison. Promotion
 does not change these exploratory results into held-out test evidence.

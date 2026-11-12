@@ -71,9 +71,11 @@ To begin with, we care about two top-level axes:
    - Canvas Fill - VLM-estimated element footprint relative to canvas area: 0 at
      3% or below and 100 at 6% or above, linearly interpolated between.
 
-The current Beauty entry point is `judge_beauty_v6` in
-[`beauty_v6.py`](src/diagram_correctness/beauty_v6.py). The five-dimension
-`beauty.py` and its historical experiments remain available for reproducibility.
+The only Beauty entry point is `judge_beauty` in
+[`beauty.py`](src/diagram_correctness/beauty.py), containing the current v6/v2
+prompts. All eight dimensions, including Canvas Fill, use independent VLM calls.
+Older evaluator modules and deterministic Canvas Fill have been removed;
+saved historical reports and frozen alignment snapshots remain available.
 See [the experiment results and known gaps](docs/beauty_axis_experiment.md).
 
 The evaluator may use a judge LLM, deterministic checks, static analysis, computer

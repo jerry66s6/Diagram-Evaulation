@@ -3,7 +3,8 @@
 See [the short v2 results summary](RESULTS.md) for the completed comparison.
 
 This experiment does not import historical experiment results or tuned prompts.
-Its baseline snapshots the current `BEAUTY_V6_PROMPTS` from the evaluator and uses
+Its baseline snapshots the current `BEAUTY_PROMPTS` from the canonical
+[`beauty.py`](../../src/diagram_correctness/beauty.py) evaluator and uses
 the existing local LLMAPI transport with `dev-gpt-6-luna`. There are eight
 independent calls per image, so the fresh 200-image baseline requires 1,600 calls.
 Raw scores, observations, rationales, and response/model metadata are saved after
@@ -138,7 +139,7 @@ semantic roles in Style Uniformity, and removes the three-hue ceiling from Color
 Consistency. Alignment, Resolution, Canvas Fill, and the shared preambles remain
 identical to `current_001`. The v2 builder itself does not modify the source
 evaluator. The evaluated v2 prompts have now been promoted into
-[`beauty_v6.py`](../../src/diagram_correctness/beauty_v6.py); all eight prompts
+[`beauty.py`](../../src/diagram_correctness/beauty.py); all eight prompts
 match the frozen v2 snapshot. The earlier `current_001` version remains a
 historical comparison, not the current evaluator.
 

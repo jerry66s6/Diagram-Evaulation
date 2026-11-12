@@ -19,10 +19,9 @@ from urllib.parse import unquote, urlparse
 ROOT = Path(__file__).resolve().parents[2]
 sys.path.insert(0, str(ROOT / "src"))
 
-from diagram_correctness.beauty import judge_beauty_dimension
-from diagram_correctness.beauty_v6 import BEAUTY_V6_DIMENSIONS, BEAUTY_V6_PROMPTS
+from diagram_correctness.beauty import BEAUTY_DIMENSIONS, BEAUTY_PROMPTS, judge_beauty_dimension
 
-DIMENSIONS = tuple(BEAUTY_V6_DIMENSIONS)
+DIMENSIONS = tuple(BEAUTY_DIMENSIONS)
 MODEL = "dev-gpt-6-luna"
 RESPONSE_INSTRUCTION = (
     "\nReturn the requested observation first, then a score from 0 to 100, then a concise "
@@ -87,7 +86,7 @@ def prepare(args):
     write_json(args.run / "human_labels_corrected.json", labels)
     write_json(args.run / "versions" / "baseline.json", {
         "id": "baseline", "description": "Unmodified current beauty v6 prompts; fresh GPT-6 luna scores.",
-        "created_at": now(), "prompts": BEAUTY_V6_PROMPTS,
+        "created_at": now(), "prompts": BEAUTY_PROMPTS,
         "response_instruction": RESPONSE_INSTRUCTION, "edits": [], "training_evidence_ids": [],
     })
     write_json(args.run / "review.json", {"images": {}, "approval": None})
@@ -200,7 +199,7 @@ def snapshot(args):
         raise FileExistsError(path)
     write_json(path, {
         "id": args.version, "description": args.description, "created_at": now(),
-        "prompts": BEAUTY_V6_PROMPTS, "response_instruction": RESPONSE_INSTRUCTION,
+        "prompts": BEAUTY_PROMPTS, "response_instruction": RESPONSE_INSTRUCTION,
         "edits": args.edits, "training_evidence_ids": review["approval"]["training_ids"],
     })
     refresh(args.run)
