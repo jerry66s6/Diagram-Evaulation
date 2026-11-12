@@ -26,9 +26,11 @@ HERE = Path(__file__).resolve().parent
 ROOT = HERE.parents[1]
 sys.path.insert(0, str(ROOT / "src"))
 
+from diagram_correctness.beauty import BEAUTY_DIMENSIONS, judge_beauty_dimension
+
 RESULTS = HERE / "results"
 CORRECTNESS = ["layout", "connectivity", "presence", "details", "legibility"]
-BEAUTY = ["centering", "space_use", "color_consistency", "contrast", "alignment", "style_uniformity", "resolution", "canvas_fill"]
+BEAUTY = list(BEAUTY_DIMENSIONS)
 
 # Correctness prompt wording tried on HS001-HS100. The script adds these sentences to the prompt when it runs, so
 # src/ and config/ stay as they are until a version is chosen. v1 is the prompt in git; v1r repeats it to measure
@@ -674,9 +676,6 @@ def _pipeline(model, wording="v1"):
 def score(workers: int, only: set[str] | None = None, first: int | None = None, wording: str = "v1",
           start: int = 1) -> None:
     _load_env()
-    from diagram_correctness.beauty import judge_beauty_dimension
-    from diagram_correctness.beauty_v6 import BEAUTY_V6_MODEL_DIMENSIONS, BEAUTY_V6_PROMPTS
-    from diagram_correctness.canvas_fill import judge_canvas_fill
     from diagram_correctness.vlm import OpenAIBackend
     model = os.environ.get("OPENAI_MODEL") or "gpt-6-luna"
     if model != "gpt-6-luna":
@@ -700,10 +699,7 @@ def score(workers: int, only: set[str] | None = None, first: int | None = None, 
                 "issues": {m["criterion_id"]: [x["description"] for x in m["issues"]] for m in report["metrics"] if m.get("issues")}}
 
     def beauty(d, dimension):
-        if dimension == "canvas_fill":  # computed in Python, no model call
-            result = judge_canvas_fill(ROOT / d["image"])
-        else:
-            result = judge_beauty_dimension(beauty_backend, ROOT / d["image"], dimension, BEAUTY_V6_PROMPTS)
+        result = judge_beauty_dimension(beauty_backend, ROOT / d["image"], dimension)
         return {"score": result.score, "observation": result.observation, "reasoning": result.reasoning}
 
     sketches = {}
@@ -746,7 +742,7 @@ def score(workers: int, only: set[str] | None = None, first: int | None = None, 
         jobs.append((d, _correctness_file(wording)[:-5], lambda d=d: correctness(d)))
         if wording != "v1":  # Beauty is not part of the correctness prompt; it is scored once
             continue
-        for dim in (*BEAUTY_V6_MODEL_DIMENSIONS, "canvas_fill"):
+        for dim in BEAUTY_DIMENSIONS:
             jobs.append((d, f"beauty_{dim}", lambda d=d, dim=dim: beauty(d, dim)))
     for d, name, _ in jobs:  # a prompt identical to another version's reuses that version's result
         dim = name.rsplit("_", 1)[1]

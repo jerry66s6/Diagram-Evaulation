@@ -61,19 +61,21 @@ To begin with, we care about two top-level axes:
    - Legibility - Whether text is readable, without tiny fonts or text overflowing its box
 2. Beauty - The current v6 evaluator has eight visual dimensions, each scored by an
    independent VLM call.
-   - Centering - Whole-diagram centering, labels centered inside shapes, and even neighboring gaps.
-   - Space Use - Nodes are not packed tightly while usable canvas space remains empty.
-   - Color Consistency - A coherent theme with stable color-to-role mapping.
-   - Contrast - Boxes and arrows visibly stand out from their background.
+   - Centering - Opposite-margin imbalance normalized by canvas width/height around the full diagram.
+   - Space Use - Crowding and peer-node/group clearance relative to size, independent of canvas coverage.
+   - Color Consistency - A coherent theme with stable color-to-role/section mapping, without a hue-count limit.
+   - Contrast - Box boundaries (outline and/or fill) and arrows visibly stand out from their background.
    - Alignment - Deliberate geometry, clean layout-appropriate routing, and consistent endpoints.
-   - Style Uniformity - Same-role elements share shape, size, border, font, and arrow treatment.
+   - Style Uniformity - Semantically equivalent elements and connectors share shape, size, border, font, and arrow treatment.
    - Resolution - Crisp rendering without blur, pixelation, or compression artifacts.
    - Canvas Fill - VLM-estimated element footprint relative to canvas area: 0 at
      3% or below and 100 at 6% or above, linearly interpolated between.
 
-The current Beauty entry point is `judge_beauty_v6` in
-[`beauty_v6.py`](src/diagram_correctness/beauty_v6.py). The five-dimension
-`beauty.py` and its historical experiments remain available for reproducibility.
+The only Beauty entry point is `judge_beauty` in
+[`beauty.py`](src/diagram_correctness/beauty.py), containing the current v6/v2
+prompts. All eight dimensions, including Canvas Fill, use independent VLM calls.
+Older evaluator modules and deterministic Canvas Fill have been removed;
+saved historical reports and frozen alignment snapshots remain available.
 See [the experiment results and known gaps](docs/beauty_axis_experiment.md).
 
 The evaluator may use a judge LLM, deterministic checks, static analysis, computer

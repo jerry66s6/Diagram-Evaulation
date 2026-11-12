@@ -1,4 +1,9 @@
-"""Historical five-dimension Beauty judge; use beauty_v6 for the current eight."""
+"""Beauty: eight independently model-judged dimensions, including Canvas Fill.
+
+The v6 prompts include the five human-alignment v2 edits: canvas-relative
+Centering, grouped-symbol Space Use, outline-or-fill Contrast, semantic-role Style
+Uniformity, and coherent multi-hue Color Consistency.
+"""
 from __future__ import annotations
 
 from dataclasses import dataclass
@@ -9,35 +14,64 @@ from .vlm import VLMBackend
 
 
 BEAUTY_DIMENSIONS = (
-    "aesthetics",
-    "palette",
-    "ink_balance",
-    "density",
-    "balance",
+    "centering",
+    "space_use",
+    "color_consistency",
+    "contrast",
+    "alignment",
+    "style_uniformity",
+    "resolution",
+    "canvas_fill",
 )
 
 _DIMENSION_OWNERS = """\
-  AESTHETICS  - execution craft: shape, stroke, typography, connector, and rendering consistency.
-  PALETTE     - chromatic hue count, coordination, and consistent use of color roles.
-  INK BALANCE - what fraction of the canvas is covered by ink (fills, strokes, texture, text).
-  DENSITY     - local clearance between neighboring, unrelated elements relative to their size.
-  BALANCE     - global placement of foreground diagram content: margins and visual centroid.
+  CENTERING         - whole-diagram placement: equal left/right and top/bottom canvas margins.
+  SPACE USE         - crowding and edge-to-edge clearance between neighboring nodes relative to node size.
+  COLOR CONSISTENCY - whether colors form one coherent theme with stable color-to-role mapping.
+  CONTRAST          - whether boxes and arrows visibly separate from the background and from touching boxes.
+  ALIGNMENT         - geometry is deliberate: nothing almost-aligned or slightly tilted; connectors take
+                      the cleanest path in one consistent routing style and attach consistently.
+  STYLE UNIFORMITY  - whether elements of the same role share one shape, size, border, font, and arrow
+                      stroke/arrowhead treatment.
+  RESOLUTION        - whether the image renders crisply: no blur, pixelation, jagged stair-steps, or
+                      compression artifacts.
+  CANVAS FILL       - combined node silhouette area divided by the entire canvas area,
+                      excluding gaps and thin connectors.
 """
 
+_SIBLINGS = {
+    "centering": "whether opposite canvas margins around the whole diagram are equal (Centering)",
+    "space_use": "crowding and edge-to-edge clearance between neighboring nodes relative to node size (Space Use)",
+    "color_consistency": "which hues are used or whether they form a coherent theme (Color Consistency)",
+    "contrast": "how light, pale, or hard to see boxes and arrows are against the background (Contrast)",
+    "alignment": "whether nodes, shapes, labels, or connectors are almost-but-not-quite aligned or upright, "
+    "connectors take unclean paths, or routing and endpoint styles are inconsistent (Alignment)",
+    "style_uniformity": "whether same-role elements differ in shape, size, border, font, or arrow stroke/arrowhead "
+    "(Style Uniformity)",
+    "resolution": "blur, pixelation, jagged edges, or compression artifacts (Resolution)",
+    "canvas_fill": "combined node silhouette area relative to the entire canvas area (Canvas Fill)",
+}
 
-def _preamble(dimension_label: str, not_yours: str) -> str:
+
+def _not_yours(dimension: str, extra: str = "") -> str:
+    parts = [text for key, text in _SIBLINGS.items() if key != dimension]
+    return "; ".join(parts) + ("; " + extra if extra else "") + "."
+
+
+def _preamble(dimension: str, label: str, extra: str = "") -> str:
     return (
-        "You are ONE of five independent judges scoring a diagram image. Each judge scores exactly "
-        "one visual dimension and never sees the other judges' output.\n\n"
-        f"The five dimensions and who owns them:\n{_DIMENSION_OWNERS}\n"
-        f"YOU OWN: {dimension_label}. You score nothing else.\n\n"
+        "You are ONE of eight independent judges scoring a flowchart image. "
+        "Each judge scores exactly one visual dimension and never sees the other judges' "
+        "output. Content and structure are judged elsewhere; this is purely visual.\n\n"
+        f"The eight dimensions and who owns them:\n{_DIMENSION_OWNERS}\n"
+        f"YOU OWN: {label}. You score nothing else.\n\n"
         "ISOLATION RULES (follow strictly):\n"
-        "- Assume the other four dimensions are already perfect. They are someone else's job.\n"
-        f"- NOT YOURS: {not_yours}\n"
-        "- If the only flaws you can see belong to another judge's dimension, you MUST still score "
-        "HIGH. A defect owned by another dimension is not evidence against yours.\n"
+        "- Assume every other dimension is already perfect. They are someone else's job.\n"
+        f"- NOT YOURS: {_not_yours(dimension, extra)}\n"
+        "- If the only flaws you can see belong to another dimension, you MUST still score HIGH. A defect "
+        "owned by another dimension is not evidence against yours.\n"
         "- Do not form an overall 'this diagram looks bad/good' impression and transfer it to your "
-        "score. Judge the single observable below and nothing else.\n"
+        "score. Judge the observable below and nothing else.\n"
         "- Apply the stated MENTAL MASK before observing. Score the counterfactual image after sibling "
         "signals are hidden, not the unmasked overall impression.\n"
         "- First state the OBSERVATION your dimension asks for, then derive the score strictly from "
@@ -46,122 +80,228 @@ def _preamble(dimension_label: str, not_yours: str) -> str:
 
 
 BEAUTY_PROMPTS = {
-    "aesthetics": _preamble(
-        "AESTHETICS",
-        "hue choice, color harmony, saturation, or color contrast (Palette); how much of the canvas "
-        "is covered in ink, texture, hatching, or decoration (Ink Balance); gaps between elements "
-        "(Density); where the content sits on the canvas (Balance).",
-    )
+    "centering": _preamble("centering", "CENTERING")
     + (
-        "MENTAL MASK: convert every color to the same neutral gray, remove full-canvas texture/"
-        "hatching, and ignore all element positions and gaps. Preserve shapes, strokes, type geometry, "
-        "connectors, and rendering quality.\n\n"
-        "OBSERVATION TO MAKE: in that masked image, describe execution CRAFT only -- shape treatment, "
-        "stroke-weight control, typography sizing/alignment, connector and arrowhead construction, "
-        "edge quality, and consistency of those treatments. Do not discuss color or whitespace.\n\n"
-        "SCORE BANDS:\n"
-        "- 90-100: no visible craft defects; deliberate, refined control of strokes, type, shapes, "
-        "and connectors.\n"
-        "- 70-89: one or two minor craft defects, or clean consistent execution that is mostly default.\n"
-        "- 40-69: repeated craft defects across three or more elements, such as arbitrary stroke or "
-        "font changes, crude shapes, weak alignment, or inconsistent connector treatment.\n"
-        "- 0-39: pervasive inconsistent or broken rendering that looks materially unfinished.\n\n"
-        "HARD CAP: if three or more equivalent nodes/connectors use visibly different stroke, type, "
-        "alignment, or arrow treatments without a semantic reason, the score cannot exceed 59.\n"
-        "Judging a diagram 'plain' is fine and belongs in the 60-89 band. Do NOT drop below 60 just "
-        "because the diagram is simple, sparse, or uses few colors.\n"
-        "CRITICAL: do not mention text-on-fill contrast, clashing colors, visual noise, clutter, "
-        "centering, or spacing in the observation or reasoning. Those are explicitly masked out."
+        "MENTAL MASK: treat any uniform background, light OR dark, as empty canvas and make foreground "
+        "content crisp and equally visible without moving or resizing it. Judge the full diagram as "
+        "one group, not individual labels or nodes within that group.\n\n"
+        "OBSERVATION TO MAKE: identify the actual rectangular canvas, without assuming it is square. "
+        "Draw one bounding box around all diagram content, including nodes, arrows, labels, and title. "
+        "Report canvas width W_canvas, canvas height H_canvas, and empty margins L, R, T, B in the "
+        "same units. Fractions of width/height are acceptable if each axis uses consistent units.\n\n"
+        "SCORING RULE (whole-diagram placement only):\n"
+        "- Horizontal score = 100 * (1 - abs(L - R) / W_canvas).\n"
+        "- Vertical score = 100 * (1 - abs(T - B) / H_canvas).\n"
+        "- Final score = round(min(horizontal score, vertical score)). Report both axis scores.\n"
+        "- Normalize by the ENTIRE canvas dimension, NOT by L+R or T+B. A tiny difference between "
+        "two near-zero margins is not a severe displacement.\n"
+        "- Equal opposite margins score 100 regardless of their size; two zero margins also score 100 "
+        "on that axis. Evaluate the other axis independently.\n"
+        "- Examples: W_canvas=1000, L=0, R=2 gives horizontal score 99.8; "
+        "W_canvas=1000, L=0, R=400 gives horizontal score 60. "
+        "H_canvas=1000, T=60, B=1 gives vertical score 94.1.\n\n"
+        "CRITICAL: do not score label centering inside shapes, equal inter-node gaps, crowding, "
+        "node area, or empty canvas amount. Internal changes that preserve the full diagram's "
+        "bounding box must not change this score. Colors, styling, blur, and internal alignment "
+        "are not yours."
     ),
-    "palette": _preamble(
-        "PALETTE",
-        "shape/stroke/type/connector execution (Aesthetics); how much ink covers the canvas "
-        "(Ink Balance); element spacing (Density); composition placement (Balance).",
-    )
+    "space_use": _preamble("space_use", "SPACE USE")
     + (
-        "MENTAL MASK: keep each element's color but normalize shape geometry, stroke weight, spacing, "
-        "and placement. Ignore text readability; accessibility contrast is not scored here.\n\n"
-        "OBSERVATION TO MAKE: count the perceptually distinct CHROMATIC hue families and identify what "
-        "roles they serve (for example process, decision, connector, emphasis). Then state whether the "
-        "hues coordinate and whether repeated roles use color consistently. Rules for counting:\n"
-        "- Ignore neutrals entirely: white, black, and grays do not count.\n"
-        "- Shades/tints of the SAME hue family count as ONE (navy + light blue = 1).\n"
-        "- State the count, list the hue families, and describe their role mapping.\n\n"
-        "SCORE BANDS:\n"
-        "- 90-100: usually 2-4 coordinated hues with clear, consistent roles and restrained emphasis.\n"
-        "- 70-89: coordinated but limited/monochromatic, or 5 hues with mostly clear roles.\n"
-        "- 40-69: excessive or weakly coordinated hues, or repeated semantic roles colored inconsistently.\n"
-        "- 0-39: arbitrary rainbow-like assignment with no stable role system or evident coordination.\n\n"
-        "The hue count is a guardrail, not the score by itself. A deliberate neutral or monochrome "
-        "diagram can still score 70-89; a two-color clash with arbitrary role assignment cannot score "
-        "high merely because its count is small. Saturation alone is not a defect."
+        "MENTAL MASK: recolor nodes as crisp uniform mid-gray silhouettes. Hide colors, styling, "
+        "connectors, and the canvas boundary. Keep sizes, shapes, positions, and actual clearances.\n\n"
+        "OBSERVATION TO MAKE: first distinguish peer nodes from intentionally grouped symbols. "
+        "Layered sheets, overlapping collection symbols, and containing regions can deliberately "
+        "represent one group; use a legend, labels, or a clear repeated visual convention as evidence. "
+        "Do not call every overlap intentional. Treat such a group as one footprint when comparing "
+        "its clearance with neighboring peer nodes/groups; otherwise compare individual nodes. "
+        "Estimate TYPICAL edge-to-edge gaps relative to the average size of the two neighboring "
+        "nodes/groups in the direction separating them (width for horizontal neighbors, height for "
+        "vertical neighbors). Name recurring narrow gaps, near-touching nodes, or accidental overlaps. "
+        "Report whether any apparent overlap is a deliberate group or an actual crowding defect.\n\n"
+        "SCORE BANDS (based ONLY on inter-node/group clearance):\n"
+        "- 90-100: comfortable typical gaps, about 40%+ of node/group size; nothing feels squeezed.\n"
+        "- 70-89: slightly tight typical gaps, about 25-40% of node/group size.\n"
+        "- 40-69: noticeably crowded, with typical gaps about 10-25% of node/group size.\n"
+        "- 0-39: crammed, with typical gaps below about 10% or repeated accidental touching/overlap.\n\n"
+        "CRITICAL: intentional layering is not itself crowding, but real cramped gaps and accidental "
+        "overlaps remain defects. Do not score canvas coverage, group span, outer margins, absolute "
+        "node size, or gap equality. Generous gaps are not a defect. Padding the canvas or uniformly "
+        "scaling nodes AND gaps must not change this score. Tight gaps remain a defect on a full "
+        "canvas. With fewer than two peer nodes/groups there is no inter-node crowding; score high."
     ),
-    "ink_balance": _preamble(
-        "INK BALANCE",
-        "styling taste (Aesthetics); color count (Palette); the gaps between elements (Density); "
-        "whether the content is centered on the canvas (Balance).",
+    "color_consistency": _preamble(
+        "color_consistency", "COLOR CONSISTENCY", "shape, size, font, or border differences between elements"
     )
     + (
-        "MENTAL MASK: ignore what the marks depict, their colors, their local gaps, and where their "
-        "foreground group is positioned. Treat texture and decoration as ink.\n\n"
-        "OBSERVATION TO MAKE: estimate roughly what PERCENTAGE of the total canvas area is covered by "
-        "non-background ink -- fills, strokes, hatching/texture, and text. State the estimate.\n\n"
+        "MENTAL MASK: re-tint every color to the same medium lightness and saturation, keeping hue "
+        "identity. Ignore positions, gaps, shapes, fonts, orientation, and sharpness.\n\n"
+        "OBSERVATION TO MAKE: list chromatic hue families and map them to semantic roles or sections. "
+        "White, black, and gray are neutrals; shades of one hue are one family. Use labels, function, "
+        "or a legend to establish categories. Check whether equivalent elements share a stable "
+        "color treatment and whether different colors communicate distinct categories coherently.\n\n"
         "SCORE BANDS:\n"
-        "- 90-100: roughly 8-40% coverage -- substantive content that reads clearly at a glance.\n"
-        "- 60-89: roughly 5-8% or 40-55% -- a little thin or a little heavy, still fine.\n"
-        "- 30-59: roughly 2-5% or 55-75% -- noticeably bare, or busy with heavy fills/texture.\n"
-        "- 0-29: under 2% (essentially blank) or over 75% (canvas smothered in ink/texture).\n\n"
-        "CRITICAL: empty whitespace is NOT a defect here as long as coverage is above ~8%. A compact "
-        "diagram surrounded by generous white space is HEALTHY and belongs in the 90-100 band. Do not "
-        "deduct for 'large unused areas', for content sitting in one band of the canvas, or for where "
-        "the content is placed -- that is the Balance judge's job, not yours."
+        "- 90-100: a coherent theme with stable color-to-role/section mapping, including monochrome "
+        "and palettes with more than three hue families.\n"
+        "- 70-89: coherent overall, with one minor unexplained role-color inconsistency.\n"
+        "- 40-69: several unexplained color changes among equivalent elements or competing palettes "
+        "without a coherent role/section mapping.\n"
+        "- 0-39: arbitrary rainbow coloring with no stable mapping or recognizable theme.\n\n"
+        "CRITICAL: hue count alone is not inconsistency. A multi-section scientific illustration "
+        "can coherently use many colors for distinct entities and relationship types. Do not invent "
+        "categories merely to excuse random colors. Pale, washed-out, or hard-to-see colors are "
+        "not inconsistent when their role mapping is stable. Visibility, contrast, centering, "
+        "spacing, alignment, sharpness, and non-color styling are not yours."
     ),
-    "density": _preamble(
-        "DENSITY",
-        "how much of the canvas is used or how much whitespace surrounds the content (Ink Balance); "
-        "where the group sits on the canvas (Balance); color (Palette); styling (Aesthetics).",
-    )
+    "contrast": _preamble("contrast", "CONTRAST", "text legibility inside boxes")
     + (
-        "MENTAL MASK: crop conceptually to the foreground diagram group, recolor it uniformly, and "
-        "ignore styling. Exclude only the exact attachment point where a connector touches its source "
-        "or target; do not exempt the box-to-box gap between connected nodes.\n\n"
-        "OBSERVATION TO MAKE: inspect local clearance between neighboring DISTINCT elements: "
-        "box-to-box, label-to-border, label-to-connector, and connectors that should remain separate. "
-        "Estimate typical and minimum clearances relative to the nearby element size.\n\n"
+        "MENTAL MASK: convert the image to crisp grayscale so only lightness remains. Ignore hue "
+        "identity, placement, orientation, gaps, and styling differences except the visible lightness "
+        "separation needed to distinguish a boundary.\n\n"
+        "OBSERVATION TO MAKE: assess (a) each box's visible boundary against its background, "
+        "(b) boundaries between touching boxes, and (c) connectors against their background. "
+        "A boundary can be made visible by its OUTLINE, its FILL, or both. Name the weakest genuinely "
+        "visible boundary or connector and describe how readily it can be distinguished.\n\n"
+        "SCORE BANDS (driven by the weakest visible boundary/connector):\n"
+        "- 90-100: every box boundary and arrow stands out immediately from what it sits against.\n"
+        "- 70-89: everything is clearly visible, but one class of boundary/connector is somewhat soft.\n"
+        "- 40-69: one class of boundary/connector is faint and takes effort to distinguish.\n"
+        "- 0-39: boxes AND arrows are faint, or an element's boundary nearly disappears.\n\n"
+        "CALIBRATION: a white or pastel box with a clear dark outline can have excellent contrast "
+        "against white. Do not penalize a pale interior when its boundary is already distinct. "
+        "A box with both a near-white fill AND a faint outline is weak contrast. Pale gray arrows "
+        "on white are faint; thin dark arrows can be high contrast. Dark text alone does not rescue "
+        "an otherwise invisible box boundary.\n\n"
+        "A dark background is acceptable when boundaries separate clearly from it. Unrelated hues "
+        "are not a contrast defect if their boundaries remain distinct. Do not score theme coherence, "
+        "centering, spacing, alignment, style uniformity, text legibility, or sharpness."
+    ),
+    "alignment": _preamble("alignment", "ALIGNMENT")
+    + (
+        "MENTAL MASK: recolor everything in crisp uniform gray and give every shape the same size. Ignore "
+        "fonts, borders, colors, how large the gaps are or whether they are equal, where each label sits "
+        "inside its shape, and where the diagram sits on the canvas.\n\n"
+        "PRINCIPLE: the geometry must be DELIBERATE. Whatever structure the diagram uses, everything that is "
+        "meant to line up, stand upright, or follow that structure does so exactly, and connectors take the "
+        "cleanest path for that structure in one consistent style. Near-misses (almost aligned, almost "
+        "level, almost straight) are defects. Grids, rings, hubs, and trees are all valid.\n\n"
+        "OBSERVATION TO MAKE (four checks):\n"
+        "(A) ORIENTATION: is every shape upright and every label horizontal? Upright means: rectangles, "
+        "rounded rectangles, and pills have level top/bottom edges; ellipses have horizontal/vertical "
+        "axes; polygons rest on a horizontal edge or have a vertical axis of symmetry; a diamond (decision) "
+        "has vertical and horizontal diagonals. Circles are exempt. A tilted whole diagram counts. Name "
+        "each tilted shape or label and its approximate angle.\n"
+        "(B) STRUCTURE: name the layout's structure. The DEFAULT is a GRID (nodes in rows and columns). "
+        "Other valid structures are a RING (nodes evenly around a circle), a HUB (a central node with "
+        "spokes), a TREE (parents above children in level rows), or an EVEN STAIRCASE (identical steps). "
+        "Choose a non-grid structure only when the nodes clearly and regularly form it. Nodes that sit "
+        "within about one node height of a shared row (or one node width of a shared column) by uneven "
+        "amounts are a MISALIGNED GRID, not a free-form design; when unsure, treat the layout as a grid. "
+        "Then measure: for a grid, how far node centers in each row/column stray from one shared line, as "
+        "a fraction of node size; for a ring, hub, or tree, whether nodes sit evenly on the circle, around "
+        "the hub, or level within each tree row.\n"
+        "(C) CONNECTORS: judge routing against the structure. GRID: connectors between nodes that share a "
+        "row or column run straight and exactly horizontal/vertical between facing edges; connectors "
+        "between nodes in different rows and columns use horizontal/vertical (elbow) segments. RING, HUB, "
+        "TREE, or STAIRCASE: straight lines toward node centers, or smooth arcs that follow a ring, are "
+        "correct; do not require horizontal/vertical routing. In ANY structure, deduct for: a diagonal "
+        "connector between two nodes that share (or nearly share) a row or column; a connector aimed at a "
+        "shape's corner instead of its center or an edge midpoint; and routing styles mixed without reason. "
+        "A curved loop-back or feedback arrow returning to an earlier step is a valid reason and is not a "
+        "defect.\n"
+        "(D) ENDPOINTS: compare the connectors WITH EACH OTHER. For each connector, say whether there is "
+        "clearly visible white space (roughly 8px or more) between its line and the shape it leaves, and "
+        "between its arrowhead and the shape it enters. A gap of only a few pixels counts as touching. "
+        "Compare like with like (tails with tails, arrowheads with arrowheads): a tail that touches while "
+        "its arrowhead tip stops a few pixels short is normal and consistent. Inconsistency means some "
+        "connectors clearly float with visible white space at their ends while others run right up to "
+        "their shapes.\n\n"
+        "SCORE BANDS (score = the WORST of A, B, C, D):\n"
+        "- 90-100: every shape and label upright; nodes exactly on their structure (offsets < ~5% of node "
+        "size); every connector routed as its structure requires; all connectors treat their ends the "
+        "same way.\n"
+        "- 70-89: one minor deviation: one element tilted ~1-3 degrees, one node ~5-15% off its line, one "
+        "connector slightly slanted or misdirected, or one connector visibly detached while the rest "
+        "touch (or vice versa).\n"
+        "- 40-69: several deviations: multiple shapes or labels tilted ~3-15 degrees, several nodes "
+        "~15-100% of a node size off their lines in uneven amounts, several connectors routed against the "
+        "structure (diagonal between nodes that share a row, or corner-to-corner), or several connectors "
+        "visibly detached while others touch.\n"
+        "- 0-39: no deliberate structure: most shapes tilted, nodes at arbitrary offsets, or most "
+        "connectors haphazard.\n\n"
+        "CRITICAL: never penalize a ring, hub, tree, or loop-back for not being a grid; their diagonal or "
+        "curved connectors are correct. A near-grid with unevenly offset nodes is a misaligned grid. "
+        "Connectors that ALL stop the same small distance short of their shapes are a valid style. "
+        "Different shapes and sizes are aligned when their centers line up. Do not deduct for unequal or "
+        "tight gaps, label position inside a shape, canvas position, styling, colors, faintness, or blur."
+    ),
+    "style_uniformity": _preamble("style_uniformity", "STYLE UNIFORMITY")
+    + (
+        "MENTAL MASK: render everything crisp, upright, and in grayscale. Ignore positions, "
+        "orientation, alignment, spacing, connector direction/attachment, label placement, and canvas use.\n\n"
+        "OBSERVATION TO MAKE: group SEMANTICALLY EQUIVALENT elements by role before comparing style. "
+        "Identify roles from function, labels, or a legend, not merely from differing styles. "
+        "Process boxes, molecular illustrations, containing regions, and section headings are not "
+        "one role. Similarly, ordinary flow arrows, alternative pathways, and cross-layer explanatory "
+        "links can have distinct roles and deliberately use solid, dashed, or dotted lines. "
+        "Do not invent a separate role for every inconsistent element.\n"
+        "Within each comparable role, list shape/corner radius, size, border presence/weight, "
+        "font family/size/weight, and connector stroke/dash/arrowhead treatment. Name unexplained "
+        "within-role differences. Different biological entities can legitimately have different "
+        "illustrative silhouettes; that does not make the process-box style inconsistent.\n\n"
         "SCORE BANDS:\n"
-        "- 90-100: typical gaps are ~30-100% of element size, with comfortable minimum clearances.\n"
-        "- 70-89: typical gaps are ~20-30% or ~100-150%; readable but slightly tight or loose.\n"
-        "- 40-69: typical gaps are ~5-20% or over ~150%; cramped or fragmented.\n"
-        "- 0-39: unrelated elements touch/overlap, or labels/connectors materially collide.\n\n"
-        "HARD CAP: if the visible box-to-box gap is under 5% of box width, the score cannot exceed 39, "
-        "even when those boxes are joined by a connector.\n"
-        "CRITICAL: this dimension is LOCAL only. A small tight cluster of elements sitting inside a "
-        "huge empty canvas should score based ONLY on the gaps inside that cluster. Do NOT deduct "
-        "because the content occupies a single band or row, because there is large unused space above/"
-        "below/around, or because the canvas is 'unevenly used' -- none of that is yours. Generous "
-        "whitespace AROUND the group is irrelevant; only gaps BETWEEN elements matter."
+        "- 90-100: each semantically equivalent role has one consistent visual treatment.\n"
+        "- 70-89: one minor unexplained within-role variation.\n"
+        "- 40-69: several equivalent elements have inconsistent shapes, sizes, borders, fonts, or "
+        "connector treatments.\n"
+        "- 0-39: nearly every equivalent element is styled differently; no recognizable system.\n\n"
+        "CRITICAL: deliberate style differences BETWEEN roles are not defects, but unexplained "
+        "differences WITHIN a role still count. Size differences up to about 15% driven by label "
+        "length are fine. Color, rotation, alignment, spacing, label placement, canvas use, and "
+        "rendering sharpness are not yours."
     ),
-    "balance": _preamble(
-        "BALANCE",
-        "how much ink is on the canvas (Ink Balance); the spacing between elements (Density); color "
-        "(Palette); styling refinement (Aesthetics).",
-    )
+    "resolution": _preamble("resolution", "RESOLUTION")
     + (
-        "MENTAL MASK: remove any uniform/full-canvas background fill, texture, border, or decoration. "
-        "Keep only foreground diagram elements and titles; normalize their colors and styling.\n\n"
-        "OBSERVATION TO MAKE: draw the bounding box around that foreground content and estimate its "
-        "visual centroid. Compare left vs right and top vs bottom margins, and state whether the "
-        "centroid is displaced from canvas center.\n\n"
-        "SCORE BANDS (use the WORST of the two axes):\n"
-        "- 90-100: both margin pairs are near-symmetric (larger margin < ~1.5x the smaller).\n"
-        "- 70-89: mildly off-center on one axis (larger margin ~1.5-2.5x the smaller).\n"
-        "- 40-69: clearly shifted to one side/edge (larger margin ~2.5-5x the smaller).\n"
-        "- 0-39: severely lopsided -- content jammed against one edge or corner (larger margin > ~5x)."
-        "\n\nA title sitting above the diagram is foreground content, but a full-canvas pattern is "
-        "background and must not force a perfect score. Judge only global foreground placement: total "
-        "whitespace, local packing, color, and styling belong to other judges."
+        "MENTAL MASK: ignore what is drawn, where it is, its colors, sizes, orientation, and styling. "
+        "Inspect only rendering quality at the displayed size, as if zooming into box edges, curves, "
+        "arrowheads, and letters.\n\n"
+        "OBSERVATION TO MAKE: describe how edges and text are rendered. Crisp means color transitions "
+        "happen within about one pixel with smooth anti-aliasing, and letters have clean strokes. Note any "
+        "BLUR (soft halos several pixels wide, fuzzy text), PIXELATION or ALIASING (stair-stepped curves "
+        "and diagonals, blocky letters, visible square pixels), or COMPRESSION ARTIFACTS (ringing around "
+        "edges, 8x8 blocks, color smearing).\n\n"
+        "SCORE BANDS:\n"
+        "- 90-100: crisp everywhere; text and edges are clean.\n"
+        "- 70-89: slightly soft, or mild stair-stepping on a few curves, while text stays crisp.\n"
+        "- 40-69: clearly blurry, or clearly pixelated/blocky, or visible compression artifacts; text is "
+        "readable but visibly degraded.\n"
+        "- 0-39: severely degraded; text is hard to read because of blur, blockiness, or artifacts.\n\n"
+        "CRITICAL: small elements or small text that render cleanly are NOT low resolution. Thin lines, "
+        "pale colors, tilted or misaligned shapes, and empty canvas are not yours."
+    ),
+    "canvas_fill": _preamble("canvas_fill", "CANVAS FILL")
+    + (
+        "MENTAL MASK: treat any uniform background, light OR dark, as empty canvas. Mentally recolor "
+        "each node as a solid neutral silhouette, including the full interior of outline-only shapes. "
+        "Keep the original canvas dimensions and node sizes. Ignore color, contrast, blur, styling, "
+        "placement, alignment, label positioning, and gaps between nodes.\n\n"
+        "OBSERVATION TO MAKE: estimate the combined area occupied by diagram node silhouettes as a "
+        "percentage of the ENTIRE image canvas. Sum the individual shape areas, counting overlapping "
+        "areas only once. Exclude thin connectors, arrows, text strokes, decoration, and background "
+        "texture. Empty space between nodes or enclosed by a loop of arrows does NOT count. Do not "
+        "use the bounding box of the whole diagram: tiny nodes spread to the edges still have a "
+        "small footprint. State your estimated footprint percentage explicitly.\n\n"
+        "SCORING RULE (keep these exact thresholds):\n"
+        "- Footprint at or below 3%: score 0.\n"
+        "- Footprint at or above 6%: score 100.\n"
+        "- Between 3% and 6%: score = round(100 * (footprint_percent - 3) / 3).\n"
+        "- Examples: 3% -> 0; 3.75% -> 25; 4.5% -> 50; 5.25% -> 75; 6% -> 100.\n\n"
+        "CRITICAL: penalize ONLY a too-small element footprint. Dense or oversized diagrams are a "
+        "design choice and still score 100 here if their footprint is at least 6%. A pale or "
+        "outline-only node counts by its full silhouette, not by its visible ink. Do not deduct "
+        "for off-centering, tight gaps, unreadable labels, connector defects, or poor rendering."
     ),
 }
+
 
 BEAUTY_SCORE_SCHEMA: dict[str, Any] = {
     "type": "object",

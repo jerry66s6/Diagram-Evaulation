@@ -1,0 +1,421 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Fresh beauty alignment - candidate results</title>
+<style>
+:root{font:15px system-ui,sans-serif;color:#142238;background:#f3f6fb}
+body{margin:0}header{background:#142238;color:white;padding:28px 4vw}main{max-width:1450px;margin:auto;padding:24px}
+h1{margin:0 0 10px;font-size:28px}h2{margin-top:30px}h3{margin:0}p{line-height:1.55}.muted{color:#53647a}
+nav{display:flex;gap:8px;flex-wrap:wrap;margin:20px 0}button,a.button{font:inherit;border:1px solid #becbdd;background:white;border-radius:6px;padding:9px 13px;cursor:pointer;color:#142238;text-decoration:none}
+button.active,button.primary{background:#2457c6;color:white;border-color:#2457c6}button:disabled{opacity:.5;cursor:default}
+.panel,.card{background:white;border:1px solid #d5deeb;border-radius:10px;padding:20px;margin:16px 0}
+.notice{border-left:4px solid #2457c6;padding:12px 16px;background:#eaf1ff}.error{background:#ffebeb;color:#9b1818}
+#status{position:sticky;top:0;z-index:3;box-shadow:0 2px 6px #0001}
+.card-head{display:flex;gap:14px;align-items:center;flex-wrap:wrap;margin-bottom:16px}.badge{background:#edf1f8;padding:5px 9px;border-radius:5px}.verified{background:#dff3e8;color:#175d36}
+.review-layout{display:grid;grid-template-columns:minmax(0,1.1fr) minmax(0,1fr);gap:22px}
+.image-box{background:#e8edf4;display:flex;align-items:center;justify-content:center;min-height:220px;border-radius:6px}
+.image-box img{display:block;max-width:100%;max-height:650px;object-fit:contain}
+table{width:100%;border-collapse:collapse;font-size:14px}th,td{text-align:left;padding:8px 6px;border-bottom:1px solid #e3e9f1}
+th{color:#526179;font-weight:600}input[type=number]{width:65px;padding:6px;border:1px solid #bcc9da;border-radius:4px;font:inherit}
+.delta{color:#a8440c;font-weight:650}.note{width:100%;box-sizing:border-box;padding:8px;margin:12px 0;font:inherit}
+details{margin:10px 0}summary{cursor:pointer}pre{white-space:pre-wrap;overflow-wrap:anywhere;line-height:1.5;font-size:12px;background:#f3f6fb;padding:12px}
+.hidden{display:none!important}.metric-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:16px}.metric{font-size:28px;font-weight:650}
+.charts{display:grid;grid-template-columns:repeat(3,1fr);gap:12px}.chart svg{width:100%;height:auto}.scroll{overflow:auto}
+.actions{display:flex;gap:12px;align-items:center;flex-wrap:wrap}.check{display:block;margin:10px 0}
+.prompt-controls label{display:grid;gap:6px;font-weight:600}.prompt-controls select{font:inherit;padding:9px;min-width:190px;border:1px solid #becbdd;border-radius:6px;background:white}
+.prompt-dimension>summary{font-size:18px;font-weight:650;padding:4px}.diff-count{font-size:13px;font-weight:500;margin-left:12px}
+.diff-pair{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:14px;margin:14px 0}
+.diff-column{min-width:0;border:1px solid #d5deeb;border-radius:6px;overflow:hidden}
+.diff-column h4{margin:0;padding:9px 14px;font-size:13px;border-bottom:1px solid #d5deeb}
+.diff-column pre{font:14px/1.65 system-ui,sans-serif;margin:0;padding:14px;background:transparent;tab-size:2}
+.diff-before{background:#fff5f4}.diff-after{background:#f0faf3}.diff-before h4{color:#9b2424}.diff-after h4{color:#17643b}
+.word-removed{background:#ffd0cb;color:#802020;text-decoration:line-through;text-decoration-thickness:1px}
+.word-added{background:#bceccc;color:#124c2b;font-weight:650}
+.diff-context{font-size:13px;color:#53647a;margin:12px 0}.diff-context pre{color:#53647a}
+.diff-legend{display:flex;gap:20px;flex-wrap:wrap;margin:16px 0}.diff-legend span{padding:4px 8px;border-radius:4px}
+.prompt-edit-list{padding-left:22px;line-height:1.7}
+a{color:#2457c6}@media(max-width:950px){.review-layout,.charts,.diff-pair{grid-template-columns:1fr}.metric-grid{grid-template-columns:1fr}}
+</style>
+</head>
+<body>
+<header>
+<h1>Beauty alignment: fresh experiment</h1>
+<div>GPT-6 luna / LLMAPI &middot; 100 training + 100 validation &middot; test images excluded</div>
+</header>
+<main>
+<div id="status" class="notice" role="status">Loading fresh baseline...</div>
+<nav id="nav">
+<button data-tab="training" class="active">1. Training review</button>
+<button data-tab="validation">2. Mini-validation review</button>
+<button data-tab="metrics">3. Alignment dashboard</button>
+<button data-tab="prompts">4. Prompt changes</button>
+</nav>
+<section id="training">
+<h2>Training: 20 largest image-level discrepancies</h2>
+<p id="training-progress" class="notice"></p>
+<p>Ranked by each image's largest absolute difference across the eight beauty dimensions.
+Judge scores below are on the human 1-10 scale. Inspect the full-size image and correct any human labels,
+then confirm and save each image. These are candidates for prompt insights, not proof that the human or judge is wrong.</p>
+<div class="notice">Saving corrected labels recalculates the ranking; a newly surfaced image may need review.
+No prompt edits will be made until you approve the exact examples and proposed edits in chat.</div>
+<div class="panel actions"><strong id="training-count"></strong><button id="next-training">Go to next unreviewed training image</button></div>
+<div id="training-cards"></div>
+</section>
+<section id="validation" class="hidden">
+<h2>Fixed 20-image mini-validation review</h2>
+<p>This seeded random sample is independent of baseline errors. Review the image and human labels only:
+per-image judge scores, deltas, and rationales are intentionally hidden here. Validation supplies
+aggregate selection metrics, not prompt-edit examples. The 20 image IDs stay fixed after label correction.</p>
+<div class="panel actions"><strong id="validation-count"></strong><button id="next-validation">Go to next unreviewed mini-validation image</button></div>
+<div id="validation-cards"></div>
+</section>
+<section id="metrics" class="hidden">
+<h2>Validation alignment</h2>
+<p>Human scores stay on 1-10. Judge scores use <strong>1 + 9 &times; score / 100</strong>.
+Lower RMSE and MAE are better; higher Pearson is better. Metrics are validation-only.
+Overall metrics pool image/dimension pairs; per-dimension metrics appear below.
+Labels are editable before tuning; all versions are recomputed against the same corrected labels.</p>
+<div id="metric-summary"></div><div id="charts" class="charts"></div>
+<div class="panel scroll"><h3>All attempts</h3><div id="attempts"></div></div>
+<p><a class="button" href="?tab=prompts">Compare exact prompt changes</a></p>
+<div class="panel scroll"><h3>Paired changes against baseline</h3>
+<p>Negative RMSE changes favor the candidate. Bootstrap intervals and permutation p-values
+resample whole diagrams, keeping eight dimensions together. These are exploratory after
+validation-based tuning, not held-out significance claims. Human-label uncertainty and judge
+rerun variability are not included.</p><div id="paired-comparisons"></div></div>
+<div class="panel scroll"><h3>Mini-validation by dimension</h3><div id="mini-dimension-metrics"></div></div>
+<div class="panel scroll"><h3>Full validation by dimension</h3><div id="dimension-metrics"></div></div>
+<div class="panel"><h3>Corrections</h3><div id="corrections"></div></div>
+<div class="panel"><h3>Downloads</h3><div id="downloads" class="actions"></div></div>
+</section>
+<section id="prompts" class="hidden">
+<h2>Prompt changes</h2>
+<p>Compare saved versions by dimension. Changed passages appear side by side, with the exact
+changed words highlighted. Unchanged text is collapsed; complete prompts remain available below each comparison.</p>
+<div class="panel">
+<div class="actions prompt-controls">
+<label for="prompt-before">Before<select id="prompt-before"></select></label>
+<label for="prompt-after">After<select id="prompt-after"></select></label>
+<button id="expand-prompt-diffs">Expand all dimensions</button>
+<button id="collapse-prompt-diffs">Collapse all dimensions</button>
+</div>
+<div class="diff-legend"><span class="word-removed">- Removed from Before</span><span class="word-added">+ Added in After</span></div>
+<p id="prompt-diff-summary" role="status"></p>
+<div id="prompt-version-notes"></div>
+</div>
+<div id="prompt-list"></div>
+</section>
+<div class="panel">
+<h2>Approve this image-review batch</h2>
+<p id="approval-status"></p>
+<button id="approve" class="primary">Approve reviewed labels and image IDs</button>
+<p class="muted">This records your image verification, not approval of any unproposed prompt changes.
+The next step is to agree on five specific edits using approved training evidence only.</p>
+</div>
+</main>
+<script>
+let data;
+const drafts = new Map();
+const dims = ["centering","space_use","color_consistency","contrast","alignment","style_uniformity","resolution","canvas_fill"];
+const title = s => s.replaceAll("_"," ").replace(/\b\w/g,c=>c.toUpperCase());
+const fmt = x => x == null ? "undefined" : x.toFixed(3);
+const fmtP = x => x == null ? "undefined" : x < 0.001 ? x.toExponential(2) : x.toFixed(4);
+const el = (tag, text, cls) => {const e=document.createElement(tag);if(text!=null)e.textContent=text;if(cls)e.className=cls;return e};
+const status = (text,error=false) => {const e=document.querySelector("#status");e.textContent=text;e.className="notice"+(error?" error":"")};
+async function request(path,payload){
+  const response=await fetch(path,payload===undefined?{}:{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify(payload)});
+  const body=await response.json();if(!response.ok)throw Error(body.error||response.statusText);return body;
+}
+function details(label,text){const d=el("details");d.append(el("summary",label),el("pre",text));return d}
+function diffSequence(before,after){
+  const lengths=Array.from({length:before.length+1},()=>new Uint32Array(after.length+1));
+  for(let i=before.length-1;i>=0;i--)for(let j=after.length-1;j>=0;j--){
+    lengths[i][j]=before[i]===after[j]?1+lengths[i+1][j+1]:Math.max(lengths[i+1][j],lengths[i][j+1]);
+  }
+  const changes=[];let i=0,j=0;
+  while(i<before.length||j<after.length){
+    if(i<before.length&&j<after.length&&before[i]===after[j]){
+      changes.push({kind:"equal",text:before[i++]});j++;
+    }else if(j===after.length||(i<before.length&&lengths[i+1][j]>=lengths[i][j+1])){
+      changes.push({kind:"remove",text:before[i++]});
+    }else changes.push({kind:"add",text:after[j++]});
+  }
+  return changes;
+}
+function promptColumns(before,after,beforeId,afterId,highlight=false){
+  const pair=el("div",null,"diff-pair");
+  const tokens=text=>text.match(/\s+|[A-Za-z0-9_]+|[^\sA-Za-z0-9_]/g)||[];
+  const changes=highlight?diffSequence(tokens(before),tokens(after)):null;
+  for(const [side,text,id,excluded,changed]of[
+    ["before",before,beforeId,"add","remove"],["after",after,afterId,"remove","add"]
+  ]){
+    const column=el("div",null,"diff-column diff-"+side),pre=el("pre");
+    column.append(el("h4",(side==="before"?"- Before: ":"+ After: ")+id));
+    if(changes){
+      for(const token of changes)if(token.kind!==excluded){
+        pre.append(token.kind===changed?el("span",token.text,side==="before"?"word-removed":"word-added"):document.createTextNode(token.text));
+      }
+    }else pre.textContent=text;
+    column.append(pre);pair.append(column);
+  }
+  return pair;
+}
+function renderPromptComparison(){
+  const before=data.versions.find(v=>v.id===document.querySelector("#prompt-before").value);
+  const after=data.versions.find(v=>v.id===document.querySelector("#prompt-after").value);
+  const list=document.querySelector("#prompt-list");list.replaceChildren();
+  let changedDimensions=0;
+  for(const dimension of dims){
+    const oldText=before.prompts[dimension]+before.response_instruction;
+    const newText=after.prompts[dimension]+after.response_instruction;
+    const changes=diffSequence(oldText.split("\n"),newText.split("\n"));
+    const removed=changes.filter(c=>c.kind==="remove").length,added=changes.filter(c=>c.kind==="add").length;
+    const card=el("details",null,"panel prompt-dimension"),heading=el("summary",title(dimension));
+    heading.append(el("span",removed||added?`-${removed} / +${added} lines`:"Unchanged","badge diff-count"));
+    card.append(heading);
+    if(removed||added){changedDimensions++;card.open=changedDimensions===1}
+    for(let start=0;start<changes.length;){
+      const unchanged=changes[start].kind==="equal";let end=start+1;
+      while(end<changes.length&&(changes[end].kind==="equal")===unchanged)end++;
+      const block=changes.slice(start,end);
+      if(unchanged){
+        const context=details(`${block.length} unchanged lines`,block.map(c=>c.text).join("\n"));
+        context.className="diff-context";card.append(context);
+      }else{
+        card.append(promptColumns(
+          block.filter(c=>c.kind==="remove").map(c=>c.text).join("\n"),
+          block.filter(c=>c.kind==="add").map(c=>c.text).join("\n"),before.id,after.id,true
+        ));
+      }
+      start=end;
+    }
+    const full=el("details");full.append(el("summary","Complete exact prompts"),promptColumns(oldText,newText,before.id,after.id));
+    card.append(full);list.append(card);
+  }
+  document.querySelector("#prompt-diff-summary").textContent=
+    `${before.id} to ${after.id}: ${changedDimensions} of ${dims.length} dimensions changed. Counts include shared judge instructions and response instructions.`;
+  const notes=document.querySelector("#prompt-version-notes");notes.replaceChildren(el("p",after.description||after.id));
+  if(after.edits.length){
+    notes.append(el("strong","Recorded changes in "+after.id));
+    const edits=el("ul",null,"prompt-edit-list");for(const edit of after.edits)edits.append(el("li",edit));notes.append(edits);
+  }
+  if(after.training_evidence_ids.length)notes.append(details("Training evidence IDs",after.training_evidence_ids.join(", ")));
+}
+function renderPromptVersions(){
+  for(const [id,fallback]of [["prompt-before",data.versions.find(v=>v.id==="baseline")||data.versions[0]],["prompt-after",data.versions.at(-1)]]){
+    const select=document.getElementById(id),requested=new URLSearchParams(location.search).get(id==="prompt-before"?"before":"after");
+    const selected=select.value||(data.versions.some(v=>v.id===requested)?requested:fallback.id);
+    select.replaceChildren(...data.versions.map(v=>{const option=el("option",v.id);option.value=v.id;return option}));
+    select.value=selected;
+  }
+  renderPromptComparison();
+}
+function makeCard(row,training){
+  const draft=drafts.get(row.id);
+  const card=el("article",null,"card");card.id="card-"+row.id;
+  const head=el("div",null,"card-head");head.append(el("h3",row.id));
+  if(training)head.append(el("span","Max delta "+row.largest_delta.toFixed(2)+" - "+title(row.worst_dimension),"badge"));
+  if(row.review)head.append(el("span","Verified","badge verified"));card.append(head);
+  const layout=el("div",null,"review-layout"),box=el("div",null,"image-box"),a=el("a");
+  a.href="/image/"+row.id;a.target="_blank";a.rel="noopener";
+  const img=el("img");img.src=a.href;img.alt=row.id;img.loading="lazy";a.append(img);box.append(a);layout.append(box);
+  const editor=el("div"),table=el("table"),tr=el("tr");
+  for(const name of ["Dimension","Human",...(training?["Judge","J - H"]:[])])tr.append(el("th",name));
+  const thead=el("thead");thead.append(tr);table.append(thead);const tbody=el("tbody");
+  const inputs={};
+  for(const d of dims){
+    const r=el("tr");r.append(el("td",title(d)));
+    const cell=el("td"),input=el("input");input.type="number";input.min="1";input.max="10";input.step="any";input.value=draft?.scores[d]??row.scores[d];
+    input.setAttribute("aria-label",row.id+" human "+title(d));inputs[d]=input;cell.append(input);
+    if(row.original_scores[d]!==row.scores[d])cell.append(el("small"," was "+row.original_scores[d]));
+    r.append(cell);
+    if(training){r.append(el("td",row.judge[d].standardized.toFixed(2)),el("td",(row.deltas[d]>=0?"+":"")+row.deltas[d].toFixed(2),Math.abs(row.deltas[d])>=3?"delta":""))}
+    tbody.append(r);
+  }
+  table.append(tbody);editor.append(table);
+  if(training){
+    const why=el("details");why.append(el("summary","Judge observations and rationales"));
+    for(const d of dims)why.append(el("h4",title(d)),el("p",row.judge[d].observation),el("p",row.judge[d].reasoning,"muted"));
+    editor.append(why);
+  }
+  const note=el("textarea",null,"note");note.placeholder="Optional correction/review note";note.value=draft?.note??row.review?.note??"";editor.append(note);
+  const label=el("label",null,"check"),confirmed=el("input");confirmed.type="checkbox";confirmed.checked=draft?.confirmed??Boolean(row.review);
+  label.append(confirmed,document.createTextNode(" I visually checked this image and these human beauty scores."));editor.append(label);
+  const remember=()=>drafts.set(row.id,{scores:Object.fromEntries(dims.map(d=>[d,inputs[d].value])),note:note.value,confirmed:confirmed.checked});
+  editor.addEventListener("input",remember);
+  editor.addEventListener("change",remember);
+  const save=el("button","Save & next unreviewed","primary"),message=el("span");
+  save.onclick=async()=>{
+    const scores={};
+    for(const d of dims){const input=inputs[d];if(input.value.trim()===""||!input.checkValidity()){input.reportValidity();return}scores[d]=Number(input.value)}
+    if(!confirmed.checked){message.textContent="Confirm visual review first.";return}
+    save.disabled=true;
+    try{
+      data=await request("/api/review",{id:row.id,scores,note:note.value,confirmed:true});
+      drafts.delete(row.id);render();
+      const next=nextUnreviewed(training?"training":"validation");
+      status("Saved and verified "+row.id+". "+(next?"Next image: "+next+".":"All currently available images in this batch are reviewed."));
+    }
+    catch(e){message.textContent=e.message;status(e.message,true)}
+    finally{save.disabled=false}
+  };
+  const actions=el("div",null,"actions");actions.append(save,message);editor.append(actions);layout.append(editor);card.append(layout);return card;
+}
+function metricTable(rows,labels){
+  const table=el("table"),head=el("tr");
+  for(const label of labels)head.append(el("th",label));const thead=el("thead");thead.append(head);table.append(thead);
+  const tbody=el("tbody");
+  for(const row of rows){const tr=el("tr");for(const value of row)tr.append(el("td",String(value)));tbody.append(tr)}table.append(tbody);return table;
+}
+function drawChart(metric){
+  const panel=el("div",null,"panel chart");panel.append(el("h3",title(metric)+(metric==="pearson"?" (higher better)":" (lower better)")));
+  const ns="http://www.w3.org/2000/svg",svg=document.createElementNS(ns,"svg");svg.setAttribute("viewBox","0 0 360 230");
+  const versions=data.versions,n=Math.max(versions.length-1,1);
+  const values=versions.flatMap(v=>[v.validation?.overall[metric],v.mini_validation?.overall[metric]]).filter(v=>v!=null);
+  if(!values.length){panel.append(el("p","Awaiting scores."));return panel}
+  const lo=metric==="pearson"?-1:0,hi=metric==="pearson"?1:Math.max(...values)*1.15||1;
+  const x=i=>48+i*270/n,y=v=>175-(v-lo)/(hi-lo)*140;
+  function node(tag,attrs,text){const e=document.createElementNS(ns,tag);for(const[k,v]of Object.entries(attrs))e.setAttribute(k,v);if(text!=null)e.textContent=text;svg.append(e);return e}
+  node("line",{x1:48,y1:30,x2:48,y2:175,stroke:"#8998aa"});node("line",{x1:48,y1:175,x2:330,y2:175,stroke:"#8998aa"});
+  for(let i=0;i<4;i++){const value=lo+(hi-lo)*i/3;node("text",{x:5,y:y(value)+4,"font-size":11,fill:"#526179"},value.toFixed(2))}
+  for(const[subset,color,label]of[["validation","#2457c6","Full validation"],["mini_validation","#c27b19","Mini-validation"]]){
+    const points=versions.map((v,i)=>({i,value:v[subset]?.overall[metric]})).filter(p=>p.value!=null);
+    node("polyline",{points:points.map(p=>x(p.i)+","+y(p.value)).join(" "),fill:"none",stroke:color,"stroke-width":2});
+    for(const p of points){const c=node("circle",{cx:x(p.i),cy:y(p.value),r:4,fill:color});const t=document.createElementNS(ns,"title");t.textContent=versions[p.i].id+": "+fmt(p.value);c.append(t)}
+    node("text",{x:subset==="validation"?48:190,y:222,fill:color,"font-size":12},label);
+  }
+  versions.forEach((v,i)=>node("text",{x:x(i)-15,y:195,"font-size":11},v.id));panel.append(svg);return panel;
+}
+function progress(){
+  const baseline=data.versions.find(v=>v.id==="baseline"),done=baseline?.completed_calls||0;
+  const candidate=data.versions.filter(v=>v.id!=="baseline").at(-1);
+  if(candidate){
+    const training=candidate.completed_training_calls??"pending";
+    const screen=candidate.validation?"full-validation complete":candidate.mini_validation?
+      (candidate.mini_validation.overall.rmse<baseline.mini_validation.overall.rmse?
+        "mini-validation improves over baseline":"mini-validation worsens versus baseline; full validation not run"):
+      "mini-validation running";
+    status(`${candidate.id}: ${screen}. Training calls: ${training}/800. All attempted versions are retained.`);
+    return;
+  }
+  status(data.baseline_complete?"Fresh baseline complete. Review 20 training + 20 fixed mini-validation images before prompt edits.":`Fresh baseline: ${done}/1600 scores saved. Provisional training images appear as their eight scores finish. Progress refreshes automatically.`);
+}
+function render(){
+  const baseline=data.versions.find(v=>v.id==="baseline");
+  progress();
+  document.querySelector("#training-progress").textContent=data.baseline_complete?
+    "Final baseline ranking across all 100 training images. Corrections can still change this ranking.":
+    `Scoring is still running. Showing ${data.training.length} provisional candidates among fully scored training images; the top 20 may change as more images finish. You can already review the fixed 20 images in the Mini-validation tab.`;
+  document.querySelector("#training-cards").replaceChildren(...data.training.map(r=>makeCard(r,true)));
+  document.querySelector("#validation-cards").replaceChildren(...data.mini_validation.map(r=>makeCard(r,false)));
+  for(const [name,rows]of [["training",data.training],["validation",data.mini_validation]]){
+    const remaining=rows.filter(r=>!r.review).length;
+    document.getElementById(name+"-count").textContent=`${rows.length-remaining}/${rows.length} verified; ${remaining} left.`;
+    document.getElementById("next-"+name).disabled=remaining===0;
+  }
+  const summary=document.querySelector("#metric-summary");summary.replaceChildren();
+  if(baseline?.validation){
+    const grid=el("div",null,"metric-grid");
+    for(const m of ["rmse","mae","pearson"]){const p=el("div",null,"panel");p.append(el("div","Baseline full-validation "+title(m)),el("div",fmt(baseline.validation.overall[m]),"metric"));grid.append(p)}summary.append(grid);
+  }
+  summary.append(el("p",data.versions.length===1?"Baseline only: no prompt edits or improvement claims yet.":"All attempted versions are retained, including regressions.","muted"));
+  const latest=data.versions.filter(v=>v.id!=="baseline").at(-1);
+  const latestSubset=latest?.validation?"validation":"mini_validation";
+  if(latest?.[latestSubset]){
+    const subsetLabel=latestSubset==="validation"?"full-validation":"mini-validation";
+    const grid=el("div",null,"metric-grid");
+    for(const m of ["rmse","mae","pearson"]){
+      const p=el("div",null,"panel"),value=latest[latestSubset].overall[m],original=baseline[latestSubset].overall[m];
+      p.append(el("div",latest.id+" "+subsetLabel+" "+title(m)),el("div",fmt(value),"metric"),
+        el("div","Baseline "+subsetLabel+": "+fmt(original)+"; change: "+fmt(value==null||original==null?null:value-original),"muted"));
+      grid.append(p);
+    }
+    summary.append(grid);
+  }
+  document.querySelector("#charts").replaceChildren(...["rmse","mae","pearson"].map(drawChart));
+  document.querySelector("#attempts").replaceChildren(metricTable(data.versions.map(v=>[
+    v.id,v.completed_calls,
+    ...["rmse","mae","pearson"].map(m=>v.mini_validation?fmt(v.mini_validation.overall[m]):"pending"),
+    ...["rmse","mae","pearson"].map(m=>v.validation?fmt(v.validation.overall[m]):"pending")
+  ]),["Version","Calls","Mini RMSE","Mini MAE","Mini Pearson","Full RMSE","Full MAE","Full Pearson"]));
+  const comparisons=[];
+  for(const [version,subsets]of Object.entries(data.paired_comparisons_against_baseline||{})){
+    for(const [subset,c]of Object.entries(subsets))if(c)comparisons.push([
+      version,title(subset),c.n_diagrams,fmt(c.rmse_change),
+      c.rmse_change_ci95.map(fmt).join(" to "),fmtP(c.paired_permutation_p_two_sided),
+      fmtP(c.p_bonferroni_five_candidates)
+    ]);
+  }
+  document.querySelector("#paired-comparisons").replaceChildren(comparisons.length?
+    metricTable(comparisons,["Version","Subset","Diagrams","RMSE change","95% interval","Paired p","p x 5"]):
+    el("p","Awaiting a completely scored candidate subset."));
+  const miniRows=[];
+  for(const d of dims)for(const v of data.versions)if(v.mini_validation){
+    const m=v.mini_validation.by_dimension[d],original=baseline.mini_validation.by_dimension[d];
+    miniRows.push([title(d),v.id,m.n,fmt(m.rmse),fmt(m.rmse-original.rmse),fmt(m.mae),fmt(m.pearson)]);
+  }
+  document.querySelector("#mini-dimension-metrics").replaceChildren(
+    metricTable(miniRows,["Dimension","Version","Images","RMSE","RMSE change","MAE","Pearson"]));
+  const rows=[];
+  for(const v of data.versions)if(v.validation)for(const d of dims){const m=v.validation.by_dimension[d];rows.push([v.id,title(d),m.n,fmt(m.rmse),fmt(m.mae),fmt(m.pearson)])}
+  document.querySelector("#dimension-metrics").replaceChildren(metricTable(rows,["Version","Dimension","Images","RMSE","MAE","Pearson"]));
+  document.querySelector("#corrections").replaceChildren(data.corrections.length?
+    metricTable(data.corrections.map(c=>[c.id,title(c.dimension),c.original,c.corrected]),["Image","Dimension","Original","Corrected"]):el("p","No human-label corrections saved."));
+  document.querySelector("#downloads").replaceChildren(...["human_labels_corrected.json","review.json","metrics.json","dashboard_data.json","baseline_scores.jsonl","manifest.json"].map(name=>{
+    const a=el("a",name,"button");a.href="/download/"+name;a.download=name;return a;
+  }));
+  renderPromptVersions();
+  const current=[...data.training,...data.mini_validation],count=current.filter(r=>r.review).length;
+  document.querySelector("#approval-status").textContent=data.review.approval?
+    "Image review approved at "+data.review.approval.approved_at+". Return to chat to approve specific prompt edits.":
+    `${count}/40 current images verified. Save each image even if its labels need no changes.`;
+  document.querySelector("#approve").disabled=!data.baseline_complete||count!==40||Boolean(data.review.approval);
+}
+function showTab(tab){
+  for(const button of document.querySelectorAll("#nav button"))button.classList.toggle("active",button.dataset.tab===tab);
+  for(const id of ["training","validation","metrics","prompts"])document.getElementById(id).classList.toggle("hidden",id!==tab);
+}
+function nextUnreviewed(tab){
+  const rows=tab==="training"?data.training:data.mini_validation;
+  const next=rows.find(r=>!r.review);
+  if(!next)return null;
+  showTab(tab);
+  document.getElementById("card-"+next.id).scrollIntoView({block:"start"});
+  return next.id;
+}
+document.querySelector("#nav").onclick=e=>{
+  if(e.target.dataset.tab)showTab(e.target.dataset.tab);
+};
+for(const id of ["prompt-before","prompt-after"])document.getElementById(id).onchange=renderPromptComparison;
+for(const [id,open]of [["expand-prompt-diffs",true],["collapse-prompt-diffs",false]]){
+  document.getElementById(id).onclick=()=>document.querySelectorAll(".prompt-dimension").forEach(card=>{card.open=open});
+}
+document.querySelector("#next-training").onclick=()=>nextUnreviewed("training");
+document.querySelector("#next-validation").onclick=()=>nextUnreviewed("validation");
+document.querySelector("#approve").onclick=async()=>{
+  try{data=await request("/api/approve",{});render();status("Image labels and exact IDs approved. Return to chat for the proposed five prompt edits.")}
+  catch(e){status(e.message,true)}
+};
+const initialTab=new URLSearchParams(location.search).get("tab");
+if(["training","validation","metrics","prompts"].includes(initialTab))showTab(initialTab);
+request("/api/state").then(result=>{data=result;render()}).catch(e=>status(e.message,true));
+setInterval(async()=>{
+  if(!data)return;
+  const candidateRunning=data.versions.some(v=>v.id!=="baseline"&&(
+    v.completed_training_calls<800||!v.mini_validation||
+    (!v.validation&&v.mini_validation.overall.rmse<data.versions.find(b=>b.id==="baseline").mini_validation?.overall.rmse)
+  ));
+  if(data.baseline_complete&&!candidateRunning)return;
+  try{
+    const latest=await request("/api/state");
+    if(drafts.size||document.activeElement?.closest(".card")){
+      const previous=data;data=latest;progress();data=previous;
+    }else{data=latest;render()}
+  }catch(e){status("Progress refresh failed: "+e.message,true)}
+},10000);
+window.addEventListener("beforeunload",event=>{if(drafts.size){event.preventDefault();event.returnValue=""}});
+</script>
+</body>
+</html>

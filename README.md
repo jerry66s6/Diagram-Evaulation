@@ -123,24 +123,42 @@ python3 -m unittest discover -s tests -p 'test_dimension_ablation.py'
 
 The **current v6 Beauty evaluator has eight dimensions**: Centering, Space Use,
 Color Consistency, Contrast, Alignment, Style Uniformity, Resolution, and Canvas
-Fill. [`judge_beauty_v6`](src/diagram_correctness/beauty_v6.py) makes eight
+Fill. [`judge_beauty`](src/diagram_correctness/beauty.py) makes eight
 independent VLM calls with the same observation/score/reasoning response contract.
+Centering compares left/right and top/bottom margins around the full diagram,
+including its title and connectors. Each axis scores
+`100 * (1 - abs(a - b) / canvas_dimension)`;
+the final score is the rounded worse axis. Large equal margins are centered.
+Label centering inside shapes and equal inter-node gaps are not part of this score.
+Space Use judges only crowding and edge-to-edge gaps relative to neighboring
+node/group size, treating intentionally layered symbols as a single footprint.
+It does not score group span, outer margins, or canvas coverage;
+adding padding or scaling nodes and gaps together should not affect it.
 Canvas Fill estimates node silhouette area: 0 at 3% or below, 100 at 6% or
 above, and linear interpolation between. Outline-only nodes count by their
 full area; thin connectors, text, and empty loop interiors do not.
+Spreading the same nodes farther apart can improve Space Use without changing
+Canvas Fill; tiny, well-spaced nodes can score high on Space Use and low on Canvas Fill.
 The human-study UI asks participants about the same eight Beauty dimensions.
 
-Generate v6 fixtures and compute the historical footprint diagnostic without model calls:
+The evaluator now includes the five human-alignment v2 prompt changes, also
+covering outline-or-fill Contrast, semantic-role Style Uniformity, and coherent
+palettes without a three-hue limit. With GPT-6 luna, the evaluated v2 snapshot
+achieved RMSE **1.8605 on 20 mini-validation images** and **2.3160 on all 100
+validation images**; these are not held-out test results. See
+[the experiment results](experiments/beauty_alignment_fresh/RESULTS.md).
+
+Generate current fixtures and geometry/color measurements without model calls:
 
 ```bash
-PYTHONPATH=src python3 scripts/run_beauty_v6_ablation.py
+PYTHONPATH=src python3 scripts/run_beauty_ablation.py
 ```
 
 Add `--live` for repeated model scoring through the public OpenAI backend.
-Offline footprint measurements are diagnostics, not the current v6 VLM scores.
-They use the same 3%/6% scoring rule, but estimate footprint differently.
-Older evaluators and saved results remain unchanged; the human-alignment experiment
-is outside the scope of this change.
+All eight dimensions, including Canvas Fill, are scored by the VLM. Offline
+fixture generation produces no scores. The older evaluator modules and
+deterministic Canvas Fill implementation have been removed; saved reports and
+frozen alignment prompt versions remain available.
 
 Score only Canvas Fill using the same prompt and calling code:
 
@@ -165,16 +183,10 @@ score, and reports sensitivity, specificity, and isolation. The experiment compa
 a synthetic baseline flowchart with one targeted intervention per dimension and
 reports off-diagonal score changes.
 
-The portable runner excludes the prototype's internal API transport and uses this
-repository's public OpenAI backend for optional live rescoring. Reproduce the
-historical report without an API call:
-
-```bash
-PYTHONPATH=src python3 scripts/run_beauty_ablation.py
-```
-
-Or set `OPENAI_API_KEY` and pass `--live` to score the generated diagrams with the
-model configured in `config/evaluator.json`.
+These are saved historical reports, not the current scorer. The older
+five-dimension runner and evaluator have been removed. The single current
+`scripts/run_beauty_ablation.py` runner evaluates the eight dimensions above;
+it does not replay or overwrite the historical five-dimension experiment.
 
 The latest measured v3 iteration reached 89.2/100 overall isolation. Its remaining
 Ink Balance-to-Density leak led to a fixture-only correction that has not yet been

@@ -38,3 +38,6 @@ correctness-report.json
 
 # Internal-only judge backends (auth, endpoints, routing headers) stay local.
 /local/
+
+/experiments/beauty_alignment_fresh/outputs/
+/human_ratings.json

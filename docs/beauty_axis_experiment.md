@@ -3,10 +3,11 @@
 ## Purpose
 
 The current evaluator is **v6: eight Beauty dimensions**, implemented by
-`judge_beauty_v6` in [`beauty_v6.py`](../src/diagram_correctness/beauty_v6.py).
-The human-study UI asks participants about the same eight dimensions. The older
-five-dimension `beauty.py` implementation and its saved runs remain available for
-historical experiments, not aliases for v6.
+`judge_beauty` in the canonical [`beauty.py`](../src/diagram_correctness/beauty.py).
+The human-study UI asks participants about the same eight dimensions. Older
+evaluator modules, runners, and deterministic Canvas Fill have been removed.
+Saved historical reports and frozen alignment snapshots remain available;
+the historical sections below do not describe the current scoring code.
 
 ### Historical v3 experiment
 
@@ -48,18 +49,16 @@ Live runs instead use the repository's existing public OpenAI backend and
 `OPENAI_API_KEY`. Historical provider and deployment metadata are omitted because
 they are not necessary to understand the method or results.
 
-The checked-in prompts and generated SVG fixtures reflect the latest source state.
-The offline replay remains the original imported result set so that this public
-port does not invent scores for a fixture that was not rerun.
-
-Run the checked-in historical results without an API call:
+The single current runner renders eight-dimension fixtures without inventing
+offline judge scores:
 
 ```bash
 PYTHONPATH=src python3 scripts/run_beauty_ablation.py
 ```
 
-This generates equivalent SVG interventions, a CSV, JSON summary, and a portable
-HTML report under `examples/beauty_ablation/reproduced/`.
+This generates PNG fixtures, geometry/color measurements, a JSON summary, and an
+HTML report under `examples/beauty_ablation/v6/fixtures/`. Historical reports
+remain in their original locations; the old five-dimension replay code is removed.
 
 Re-score the generated diagrams with the model in `config/evaluator.json`:
 
@@ -71,7 +70,7 @@ PYTHONPATH=src python3 scripts/run_beauty_ablation.py --live
 Live scoring averages three calls per image and dimension by default so model
 variance is not mistaken for cross-dimension leakage. Use `--repeats N` to change
 that count and `--model MODEL` to override the configured judge model. Live
-outputs go to `examples/beauty_ablation/live/` and are ignored by Git.
+outputs go to `examples/beauty_ablation/v6/live/` and are ignored by Git.
 
 ## Original imported results
 
@@ -134,22 +133,59 @@ fixtures; each fixture should lower only its own dimension) and a **breaking** r
 
 | Dimension | Judge | Measures | Added |
 |---|---|---|---|
-| Centering | Model | Whole diagram centered; labels centered in their shapes; even gaps between neighbors | v4, expanded v6 |
-| Space Use | Model | Nodes not condensed while canvas space is empty | v4 |
-| Color Consistency | Model | One coherent theme; each role keeps one hue | v4 |
-| Contrast | Model | Boxes and arrows stand out from the background | v4 |
+| Centering | Model | Full-diagram opposite-margin imbalance normalized by canvas width/height | v4; canvas-relative in human-alignment v2 |
+| Space Use | Model | Peer-node/group clearance relative to size; intentional layered symbols count as one group | v4; grouped-symbol handling in human-alignment v2 |
+| Color Consistency | Model | Coherent role/section mapping, without a three-hue limit | v4; expanded in human-alignment v2 |
+| Contrast | Model | Box boundaries (outline and/or fill) and arrows stand out from the background | v4; expanded in human-alignment v2 |
 | Alignment | Model | Deliberate geometry: no near-misses (almost aligned, almost level); arrows take the cleanest path for the layout (grid by default; rings, hubs, trees, loop-backs may use diagonal or curved arrows); consistent endpoints | v5, expanded v6 |
-| Style Uniformity | Model | Same-role elements share shape, size, border, font, arrow style | v5 |
+| Style Uniformity | Model | Semantically equivalent elements and connectors share shape, size, border, font, arrow style | v5; semantic roles in human-alignment v2 |
 | Resolution | Model | No blur, pixelation, or compression artifacts | v6 |
 | Canvas Fill | Model | Elements not so small that most of the canvas is empty (estimated footprint score: 0 at 3%, 100 at 6%+; large enclosed regions such as the inside of an arrow ring are not counted) | v5; VLM in current v6 |
 
-All eight prompts and the main caller: `src/diagram_correctness/beauty_v6.py`.
-Canvas Fill-only caller: `scripts/run_canvas_fill.py`. `canvas_fill.py` remains
-available for historical evaluators and offline footprint diagnostics.
+All eight prompts and the main caller: `src/diagram_correctness/beauty.py`.
+Canvas Fill-only caller: `scripts/run_canvas_fill.py`. Canvas Fill is model-judged;
+the old deterministic implementation and its diagnostics have been removed.
 The historical version results below the smoke check predate the Canvas Fill VLM
 change and used deterministic Canvas Fill; they are not evidence of the new
 prompt's performance. Historical diagnostics and the current VLM both use the
 3%/6% rule, but estimate footprint differently.
+Space Use now scores only peer-node/group clearance, treating intentional layered
+symbols as one footprint, not group span or the amount of unused canvas.
+Adding canvas padding or uniformly scaling nodes and gaps together
+should preserve its score. Moving the same nodes farther apart can improve Space
+Use while leaving Canvas Fill unchanged. Historical isolation results below used
+the earlier span-and-gap Space Use prompt and have not been rerun with this change.
+Centering now compares only the full diagram's opposite margins, including title
+and connectors. Each axis scores `100 * (1 - abs(a - b) / canvas_dimension)`;
+the final score is the rounded minimum of the two axes. This avoids large
+penalties for tiny differences between nearly zero margins.
+Internal label centering and gap equality no longer lower Centering. Their old
+v6 fixture IDs are retained as placement controls. Historical Centering results
+below used the old three-part prompt and have not been rerun with this change.
+
+The current evaluator matches the evaluated human-alignment v2 snapshot across
+all eight prompts. Its five changes also cover outline-or-fill Contrast,
+semantic-role Style Uniformity, and coherent multi-hue Color Consistency.
+GPT-6 luna validation RMSE was 1.8605 on the fixed 20-image mini-validation set
+and 2.3160 on the full 100-image validation set, not the held-out test set.
+See [the alignment results](../experiments/beauty_alignment_fresh/RESULTS.md).
+
+### Clearance-only Space Use smoke check
+
+Historical, before the human-alignment v2 edits: one live call per dimension and
+fixture on `dev-gpt-56-ceres`:
+
+| Fixture | Space Use | Canvas Fill |
+|---|---:|---:|
+| Baseline | 99 | 100 |
+| Same nodes crowded together | 61 | 100 |
+| Tiny nodes spread apart | 100 | 13 |
+| Baseline centered on a canvas twice as wide and twice as tall | 98 | 0 |
+
+Crowding lowered Space Use while preserving Canvas Fill. Adding padding left
+Space Use within one point while lowering Canvas Fill, and tiny, well-spaced nodes
+scored high only on Space Use. These are small, single-run separation checks,
+not evidence of perfect isolation or repeatability across arbitrary diagrams.
 
 ### Canvas Fill VLM smoke check
 
@@ -235,8 +271,8 @@ dimension.
   human ratings.
 
 ```bash
-PYTHONPATH=src python3 scripts/run_beauty_v6_ablation.py          # fixtures + historical footprint diagnostic
-PYTHONPATH=src python3 scripts/run_beauty_v6_ablation.py --live   # 20 images x 8 model dimensions x 3 repeats
+PYTHONPATH=src python3 scripts/run_beauty_ablation.py          # fixtures only; no scores
+PYTHONPATH=src python3 scripts/run_beauty_ablation.py --live   # 20 images x 8 model dimensions x 3 repeats
 ```
 
 ## Limitations and next steps
