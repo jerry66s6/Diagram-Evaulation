@@ -1,8 +1,8 @@
 #!/usr/bin/env python3
 """Beauty v6 isolation experiment: eight dimensions with sub-checks.
 
-Centering, Alignment, and Resolution each have several single-variable fixtures so every
-sub-check is tested on its own. Default mode renders fixtures and records deterministic
+Alignment and Resolution have several single-variable fixtures; label and gap changes are
+whole-diagram placement controls. Default mode renders fixtures and records deterministic
 measurements, including a historical Canvas Fill diagnostic. Pass --live to score all eight dimensions
 with the public OpenAI backend (OPENAI_API_KEY from the environment or project .env).
 """
@@ -51,8 +51,8 @@ NODES, EDGES = v5.NODES, v5.EDGES
 VARIANTS = {  # variant -> (target dimension, sub-check, description)
     "baseline": (None, None, "Centered, evenly spaced, axis-aligned six-node flowchart, two-hue theme on white."),
     "degraded_centering": ("centering", "whole diagram", "Identical diagram translated to the top-left corner."),
-    "degraded_centering_labels": ("centering", "labels in shapes", "Every label jammed into its shape's bottom-left corner."),
-    "degraded_centering_spacing": ("centering", "even spacing", "Row gaps alternate 80px / 220px (both comfortable); same total width."),
+    "degraded_centering_labels": (None, "placement control", "Labels shifted inside shapes; whole-diagram margins unchanged."),
+    "degraded_centering_spacing": (None, "placement control", "Unequal but comfortable row gaps; whole-diagram margins unchanged."),
     "degraded_space_use": ("space_use", None, "Same nodes pulled tightly together, still centered."),
     "degraded_color_consistency": ("color_consistency", None, "Every box an unrelated hue at the same luminance."),
     "degraded_contrast": ("contrast", None, "Same hues as very pale tints, pale gray arrows."),
@@ -71,6 +71,8 @@ VARIANTS = {  # variant -> (target dimension, sub-check, description)
     "control_hub": (None, "control", "Valid design: a hub with straight spokes out to six services."),
 }
 CONTROLS = {variant for variant, (_, sub, _) in VARIANTS.items() if sub == "control"}
+# Keep historical fixture IDs, but no longer expect label or gap changes to lower Centering.
+PLACEMENT_CONTROLS = {variant for variant, (_, sub, _) in VARIANTS.items() if sub == "placement control"}
 VARIANT_TARGET = {variant: spec[0] for variant, spec in VARIANTS.items()}
 DIMENSION_LABELS = v5.DIMENSION_LABELS | {"resolution": "Resolution"}
 LABELS = {"baseline": "Baseline"} | {
@@ -83,10 +85,12 @@ LABELS = {"baseline": "Baseline"} | {
     "control_loopback": "Control: loop-back arrow",
     "control_tree": "Control: tree, angled branches",
     "control_hub": "Control: hub and spokes",
+    "degraded_centering_labels": "Control: labels shifted inside shapes",
+    "degraded_centering_spacing": "Control: unequal comfortable gaps",
 }
 DIMENSION_DEFINITIONS = {
-    "centering": "Everything centered: whole diagram on the canvas, each label in its shape, even gaps between neighbors.",
-    "space_use": "Nodes must not feel condensed together while usable canvas space is left empty.",
+    "centering": "Equal opposite margins around the whole diagram; no movement room scores full on that axis.",
+    "space_use": "Crowding and edge-to-edge clearance between neighboring nodes relative to node size; not canvas coverage.",
     "color_consistency": "One coherent color theme with no random colors; each role keeps one color.",
     "contrast": "Boxes stand out from the background and touching boxes; arrows stand out from the background.",
     "alignment": "Deliberate geometry: nothing almost-aligned or slightly tilted; connectors take the cleanest path "
@@ -602,7 +606,10 @@ def run(
         "off_target_mean_abs": off_target_mean_abs(results) if full else None,
         "warnings": v4.isolation_warnings(metrics),
         "controls": (
-            {v: min(results[v][d]["score"] for d in BEAUTY_V6_DIMENSIONS) >= 85 for v in CONTROLS} if full else {}
+            {
+                v: min(results[v][d]["score"] for d in BEAUTY_V6_DIMENSIONS) >= 85
+                for v in CONTROLS | PLACEMENT_CONTROLS
+            } if full else {}
         ),
     }
     output.mkdir(parents=True, exist_ok=True)

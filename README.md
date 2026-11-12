@@ -125,9 +125,19 @@ The **current v6 Beauty evaluator has eight dimensions**: Centering, Space Use,
 Color Consistency, Contrast, Alignment, Style Uniformity, Resolution, and Canvas
 Fill. [`judge_beauty_v6`](src/diagram_correctness/beauty_v6.py) makes eight
 independent VLM calls with the same observation/score/reasoning response contract.
+Centering compares left/right and top/bottom margins around the full diagram,
+including its title and connectors. Each axis scores
+`100 * (1 - abs(a - b) / (a + b))`, or 100 if both margins are zero;
+the final score is the rounded worse axis. Large equal margins are centered.
+Label centering inside shapes and equal inter-node gaps are not part of this score.
+Space Use judges only crowding and edge-to-edge gaps relative to neighboring
+node size. It does not score group span, outer margins, or canvas coverage;
+adding padding or scaling nodes and gaps together should not affect it.
 Canvas Fill estimates node silhouette area: 0 at 3% or below, 100 at 6% or
 above, and linear interpolation between. Outline-only nodes count by their
 full area; thin connectors, text, and empty loop interiors do not.
+Spreading the same nodes farther apart can improve Space Use without changing
+Canvas Fill; tiny, well-spaced nodes can score high on Space Use and low on Canvas Fill.
 The human-study UI asks participants about the same eight Beauty dimensions.
 
 Generate v6 fixtures and compute the historical footprint diagnostic without model calls:

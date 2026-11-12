@@ -136,7 +136,10 @@ The approved v2 changes Centering to canvas-relative margin imbalance, distingui
 intentional groups in Space Use, judges outline-or-fill Contrast, compares
 semantic roles in Style Uniformity, and removes the three-hue ceiling from Color
 Consistency. Alignment, Resolution, Canvas Fill, and the shared preambles remain
-identical to `current_001`. The source evaluator is not modified.
+identical to `current_001`. The v2 builder does not modify the source evaluator.
+This PR also includes the earlier evaluator/ablation updates represented by
+`current_001`: whole-diagram-only Centering with the margin-ratio formula and
+clearance-only Space Use. Those are distinct from the experimental v2 prompts.
 
 ```powershell
 python experiments\beauty_alignment_fresh\make_v2.py `

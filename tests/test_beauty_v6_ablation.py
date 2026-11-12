@@ -22,8 +22,8 @@ spec.loader.exec_module(v6)
 
 # Measurement groups owned by each dimension; every other group must match the baseline.
 GROUPS = {
-    "centering": ("worst_margin_ratio", "label_anchor", "row_gap_ratio"),
-    "space_use": ("span_width_pct", "span_height_pct", "min_gap_to_node_pct"),
+    "centering": ("worst_margin_ratio",),
+    "space_use": ("min_gap_to_node_pct",),
     "color_consistency": ("hue_families", "roles_consistent"),
     "contrast": ("min_box_contrast", "arrow_contrast"),
     "alignment": ("max_row_col_offset_pct", "max_rotation_deg", "diagonal_connectors", "endpoint_treatments"),
@@ -35,13 +35,7 @@ GROUPS = {
 TOLERATED = {
     ("degraded_centering_spacing", "min_gap_to_node_pct"),
     ("degraded_style_uniformity", "min_gap_to_node_pct"),
-    ("degraded_style_uniformity", "span_width_pct"),
-    ("degraded_style_uniformity", "span_height_pct"),
     ("degraded_style_uniformity", "worst_margin_ratio"),
-    ("degraded_style_uniformity", "row_gap_ratio"),
-    ("degraded_alignment", "span_height_pct"),
-    ("degraded_canvas_fill", "span_width_pct"),
-    ("degraded_canvas_fill", "span_height_pct"),
     ("degraded_canvas_fill", "min_gap_to_node_pct"),
 }
 
@@ -157,6 +151,25 @@ class BeautyV6PromptTests(unittest.TestCase):
         self.assertIn("outline-only", prompt)
         self.assertIn("loop of arrows does NOT count", prompt)
 
+    def test_space_use_scores_clearance_not_canvas_coverage(self):
+        prompt = BEAUTY_V6_PROMPTS["space_use"]
+        self.assertIn("based ONLY on inter-node clearance", prompt)
+        self.assertIn("edge-to-edge gap", prompt)
+        self.assertIn("Do not score canvas coverage", prompt)
+        self.assertIn("Tight gaps remain a defect even when the canvas is full", prompt)
+        self.assertNotIn("main-direction span", prompt)
+        self.assertNotIn("WORSE of the span and gap", prompt)
+        self.assertIn("gaps between nodes", BEAUTY_V6_PROMPTS["canvas_fill"])
+
+    def test_centering_scores_whole_diagram_margins_only(self):
+        prompt = BEAUTY_V6_PROMPTS["centering"]
+        self.assertIn("H = 100 if L + R = 0", prompt)
+        self.assertIn("V = 100 if T + B = 0", prompt)
+        self.assertIn("round(min(H, V))", prompt)
+        self.assertIn("do not score label centering inside shapes, equal gaps between nodes", prompt)
+        for variant in v6.PLACEMENT_CONTROLS:
+            self.assertIsNone(v6.VARIANT_TARGET[variant])
+
     def test_scored_run_reports_perfect_isolation_for_ideal_judge(self):
         backend = ScriptedBackend()
         with tempfile.TemporaryDirectory() as temp:
@@ -167,7 +180,7 @@ class BeautyV6PromptTests(unittest.TestCase):
         self.assertEqual(summary["warnings"], [])
         self.assertEqual(summary["off_target_mean_abs"], 0)
         self.assertEqual(summary["overall_isolation"], 100.0)
-        self.assertEqual(summary["controls"], {v: True for v in v6.CONTROLS})
+        self.assertEqual(summary["controls"], {v: True for v in v6.CONTROLS | v6.PLACEMENT_CONTROLS})
 
 
 if __name__ == "__main__":

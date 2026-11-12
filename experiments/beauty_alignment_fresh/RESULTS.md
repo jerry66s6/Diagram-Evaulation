@@ -46,5 +46,7 @@ for judge-human correlation.
 These are exploratory validation results, not held-out test results. Resampling
 keeps all eight dimensions of a diagram together, but does not estimate human-label
 uncertainty or judge rerun variability. V2 remains experimental; the source
-evaluator was not replaced. Private labels, images, backend, and raw run outputs
+evaluator was not replaced by v2. The PR also includes the earlier evaluator
+prompt updates represented by `current_001`, plus matching ablation tests/docs.
+Private labels, images, backend, and raw run outputs
 remain local. See [the workflow README](README.md) for the runner and dashboard.

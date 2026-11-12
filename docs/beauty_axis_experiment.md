@@ -134,8 +134,8 @@ fixtures; each fixture should lower only its own dimension) and a **breaking** r
 
 | Dimension | Judge | Measures | Added |
 |---|---|---|---|
-| Centering | Model | Whole diagram centered; labels centered in their shapes; even gaps between neighbors | v4, expanded v6 |
-| Space Use | Model | Nodes not condensed while canvas space is empty | v4 |
+| Centering | Model | Equal opposite canvas margins around the full diagram; no room to move scores full on that axis | v4; whole-diagram-only in current v6 |
+| Space Use | Model | Crowding and inter-node clearance relative to node size; independent of canvas coverage and group span | v4; clearance-only in current v6 |
 | Color Consistency | Model | One coherent theme; each role keeps one hue | v4 |
 | Contrast | Model | Boxes and arrows stand out from the background | v4 |
 | Alignment | Model | Deliberate geometry: no near-misses (almost aligned, almost level); arrows take the cleanest path for the layout (grid by default; rings, hubs, trees, loop-backs may use diagonal or curved arrows); consistent endpoints | v5, expanded v6 |
@@ -150,6 +150,33 @@ The historical version results below the smoke check predate the Canvas Fill VLM
 change and used deterministic Canvas Fill; they are not evidence of the new
 prompt's performance. Historical diagnostics and the current VLM both use the
 3%/6% rule, but estimate footprint differently.
+Space Use now scores only inter-node clearance, not group span or the amount of
+unused canvas. Adding canvas padding or uniformly scaling nodes and gaps together
+should preserve its score. Moving the same nodes farther apart can improve Space
+Use while leaving Canvas Fill unchanged. Historical isolation results below used
+the earlier span-and-gap Space Use prompt and have not been rerun with this change.
+Centering now compares only the full diagram's opposite margins, including title
+and connectors. Each axis scores `100 * (1 - abs(a - b) / (a + b))`, or 100
+when both margins are zero; the final score is the rounded minimum of the two axes.
+Internal label centering and gap equality no longer lower Centering. Their old
+v6 fixture IDs are retained as placement controls. Historical Centering results
+below used the old three-part prompt and have not been rerun with this change.
+
+### Clearance-only Space Use smoke check
+
+One live call per dimension and fixture on `dev-gpt-56-ceres`:
+
+| Fixture | Space Use | Canvas Fill |
+|---|---:|---:|
+| Baseline | 99 | 100 |
+| Same nodes crowded together | 61 | 100 |
+| Tiny nodes spread apart | 100 | 13 |
+| Baseline centered on a canvas twice as wide and twice as tall | 98 | 0 |
+
+Crowding lowered Space Use while preserving Canvas Fill. Adding padding left
+Space Use within one point while lowering Canvas Fill, and tiny, well-spaced nodes
+scored high only on Space Use. These are small, single-run separation checks,
+not evidence of perfect isolation or repeatability across arbitrary diagrams.
 
 ### Canvas Fill VLM smoke check
 

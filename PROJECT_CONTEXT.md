@@ -61,8 +61,8 @@ To begin with, we care about two top-level axes:
    - Legibility - Whether text is readable, without tiny fonts or text overflowing its box
 2. Beauty - The current v6 evaluator has eight visual dimensions, each scored by an
    independent VLM call.
-   - Centering - Whole-diagram centering, labels centered inside shapes, and even neighboring gaps.
-   - Space Use - Nodes are not packed tightly while usable canvas space remains empty.
+   - Centering - Equal opposite canvas margins around the full diagram; no room to move means full credit on that axis.
+   - Space Use - Crowding and inter-node clearance relative to node size, independent of canvas coverage.
    - Color Consistency - A coherent theme with stable color-to-role mapping.
    - Contrast - Boxes and arrows visibly stand out from their background.
    - Alignment - Deliberate geometry, clean layout-appropriate routing, and consistent endpoints.

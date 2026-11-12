@@ -1,8 +1,7 @@
 """Beauty v6: eight independently model-judged dimensions.
 
 Changes from v5:
-- Centering covers three levels: the whole diagram on the canvas, each label inside its
-  shape, and even gaps between neighboring nodes.
+- Centering compares opposite canvas margins around the whole diagram only.
 - Alignment is about deliberate geometry: no near-misses (almost aligned, almost level,
   almost straight), connectors taking the cleanest path in one consistent routing style,
   and consistent endpoints. No layout type (grid, ring, hub, tree) is preferred.
@@ -29,9 +28,8 @@ BEAUTY_V6_MODEL_DIMENSIONS = (
 BEAUTY_V6_DIMENSIONS = BEAUTY_V6_MODEL_DIMENSIONS
 
 _DIMENSION_OWNERS = """\
-  CENTERING         - everything is centered: the whole diagram on the canvas, each label inside its
-                      shape, and each node evenly spaced between its row/column neighbors (equal gaps).
-  SPACE USE         - whether nodes are packed too tightly overall while usable canvas space is left empty.
+  CENTERING         - whole-diagram placement: equal left/right and top/bottom canvas margins.
+  SPACE USE         - crowding and edge-to-edge clearance between neighboring nodes relative to node size.
   COLOR CONSISTENCY - whether colors form one coherent theme with stable color-to-role mapping.
   CONTRAST          - whether boxes and arrows visibly separate from the background and from touching boxes.
   ALIGNMENT         - geometry is deliberate: nothing almost-aligned or slightly tilted; connectors take
@@ -40,14 +38,13 @@ _DIMENSION_OWNERS = """\
                       stroke/arrowhead treatment.
   RESOLUTION        - whether the image renders crisply: no blur, pixelation, jagged stair-steps, or
                       compression artifacts.
-  CANVAS FILL       - whether elements are too small for the canvas,
-                      leaving most of it empty.
+  CANVAS FILL       - combined node silhouette area divided by the entire canvas area,
+                      excluding gaps and thin connectors.
 """
 
 _SIBLINGS = {
-    "centering": "whether the whole diagram, the labels inside their shapes, or the gaps between neighbors are "
-    "centered and even (Centering)",
-    "space_use": "whether nodes are packed too tightly overall while canvas space is empty (Space Use)",
+    "centering": "whether opposite canvas margins around the whole diagram are equal (Centering)",
+    "space_use": "crowding and edge-to-edge clearance between neighboring nodes relative to node size (Space Use)",
     "color_consistency": "which hues are used or whether they form a coherent theme (Color Consistency)",
     "contrast": "how light, pale, or hard to see boxes and arrows are against the background (Contrast)",
     "alignment": "whether nodes, shapes, labels, or connectors are almost-but-not-quite aligned or upright, "
@@ -55,7 +52,7 @@ _SIBLINGS = {
     "style_uniformity": "whether same-role elements differ in shape, size, border, font, or arrow stroke/arrowhead "
     "(Style Uniformity)",
     "resolution": "blur, pixelation, jagged edges, or compression artifacts (Resolution)",
-    "canvas_fill": "how much of the canvas is empty or how small the elements are relative to it (Canvas Fill)",
+    "canvas_fill": "combined node silhouette area relative to the entire canvas area (Canvas Fill)",
 }
 
 
@@ -88,51 +85,48 @@ def _preamble(dimension: str, label: str, extra: str = "") -> str:
 BEAUTY_V6_PROMPTS = {
     "centering": _preamble("centering", "CENTERING")
     + (
-        "MENTAL MASK: recolor everything in uniform gray, render it crisp, upright, and uniformly styled, "
-        "and treat any uniform background fill, light OR dark, as empty canvas. Keep exactly three things: "
-        "where the whole group sits on the canvas, where each label sits inside its shape, and how large "
-        "each gap between neighboring nodes is.\n\n"
-        "OBSERVATION TO MAKE (three checks):\n"
-        "(A) WHOLE DIAGRAM: draw one bounding box around all foreground content (title included). Estimate "
-        "the left/right and top/bottom margins and the larger-to-smaller ratio on each axis.\n"
-        "(B) LABELS: for each node, is its label centered horizontally and vertically inside its shape? "
-        "Estimate the largest label offset as a fraction of the shape's width/height.\n"
-        "(C) EVEN SPACING: for each row and column of connected neighboring nodes, list the gaps between "
-        "consecutive neighbors and give the largest-to-smallest gap ratio within that row/column.\n\n"
-        "SCORE BANDS (score = the WORST of A, B, C):\n"
-        "- 90-100: A margins near-symmetric (ratio < ~1.5); B every label centered (offset < ~5%); C gaps "
-        "even (ratio < ~1.25).\n"
-        "- 70-89: one mild issue: A ratio ~1.5-2.5, or B one label offset ~5-15%, or C ratio ~1.25-1.6.\n"
-        "- 40-69: A clearly shifted (ratio ~2.5-5), or B labels visibly off-center (~15-35%), or C clearly "
-        "uneven gaps (ratio ~1.6-3).\n"
-        "- 0-39: A pushed into a corner or against an edge (> ~5x), or B labels jammed against a side or "
-        "corner of their shapes, or C wildly uneven gaps (> ~3x).\n\n"
-        "CRITICAL: a compact diagram with large but EQUAL margins is centered. Uniformly tight or uniformly "
-        "loose gaps are EVEN and score high here (tightness is Space Use's). Do not deduct for empty canvas, "
-        "tilted or misaligned nodes, diagonal arrows, styling, colors, faint elements, or blur."
+        "MENTAL MASK: treat any uniform background, light OR dark, as empty canvas and make foreground "
+        "content crisp and equally visible without moving or resizing it. Judge the full diagram as "
+        "one group, not the positions of individual labels or nodes within that group.\n\n"
+        "OBSERVATION TO MAKE: draw one bounding box around the full diagram, including nodes, arrows, "
+        "labels, and title. Estimate the empty margins L (left), R (right), T (top), and B (bottom), "
+        "using the same units for each opposing pair. These are the distances the entire group could "
+        "move in each direction before reaching the canvas edge. Report all four margins.\n\n"
+        "SCORING RULE (whole-diagram placement only):\n"
+        "- Horizontal score H = 100 if L + R = 0; otherwise H = 100 * (1 - abs(L - R) / (L + R)).\n"
+        "- Vertical score V = 100 if T + B = 0; otherwise V = 100 * (1 - abs(T - B) / (T + B)).\n"
+        "- Final score = round(min(H, V)). Report both axis scores before the final score.\n"
+        "- Equal opposite margins score 100 regardless of how large those margins are.\n"
+        "- No room to move horizontally means H = 100; no room to move vertically means V = 100. "
+        "Still evaluate the other axis independently.\n"
+        "- Examples: L=R=200 and T=B=100 -> 100; L=0,R=0,T=50,B=50 -> 100; "
+        "L=20,R=80,T=50,B=50 -> 40; L=0,R=0,T=0,B=100 -> 0.\n\n"
+        "CRITICAL: do not score label centering inside shapes, equal gaps between nodes, crowding, "
+        "node area, or the amount of empty canvas. If internal labels or gaps change without changing "
+        "the full diagram's bounding box, this score must not change. Colors, styling, blur, and "
+        "internal alignment are not yours."
     ),
     "space_use": _preamble("space_use", "SPACE USE")
     + (
-        "MENTAL MASK: mentally slide the whole diagram so it is centered on the canvas, recolor every "
-        "element as a crisp uniform mid-gray outline, and snap every node upright onto clean rows/columns. "
-        "Keep the node sizes and the typical distance between nodes as drawn.\n\n"
-        "OBSERVATION TO MAKE: estimate (a) what fraction of the canvas width and height the node group "
-        "spans after re-centering, (b) the TYPICAL gap between neighboring nodes relative to node size, "
-        "and (c) whether the nodes feel condensed together while usable canvas space remains empty around "
-        "them. Identify the layout's MAIN direction (the axis with more nodes).\n\n"
-        "SCORE BANDS (use the WORSE of the span and gap readings):\n"
-        "- 90-100: nodes spread along the main direction (roughly 55%+ of the canvas on that axis) with "
-        "comfortable typical gaps (about 40%+ of node size); nothing feels squeezed. A layout with only one "
-        "or two rows/columns does NOT need to fill the cross axis.\n"
-        "- 70-89: slightly compact; main-direction span ~45-55%, or typical gaps ~25-40% of node size.\n"
-        "- 40-69: noticeably condensed; main-direction span ~30-45%, or typical gaps ~10-25% of node size, "
-        "while plenty of empty canvas remains.\n"
-        "- 0-39: crammed; main-direction span under ~30% or nodes nearly touching, while most of the "
-        "canvas is empty.\n\n"
-        "CRITICAL: only TOO-TIGHT overall packing is yours. Whether gaps are EQUAL to each other is "
-        "Centering's. Generous or very large gaps, tiny elements, and a mostly empty canvas are NOT Space "
-        "Use defects. An off-center or misaligned diagram is not condensed. If the canvas is genuinely "
-        "full, tight gaps are not a defect."
+        "MENTAL MASK: recolor nodes as crisp uniform mid-gray silhouettes. Hide labels, connectors, "
+        "colors, styling, and the canvas boundary. Keep every node's size, shape, and position unchanged "
+        "so the actual clearances are preserved.\n\n"
+        "OBSERVATION TO MAKE: estimate the TYPICAL edge-to-edge gap between neighboring nodes relative "
+        "to their size. For each neighboring pair, compare the gap with the average size of the two "
+        "nodes measured in the direction separating them (width for horizontal neighbors, height for "
+        "vertical neighbors). Note whether narrow gaps recur or nodes nearly touch. Judge local "
+        "clearance in any layout, not only rows or columns.\n\n"
+        "SCORE BANDS (based ONLY on inter-node clearance):\n"
+        "- 90-100: comfortable typical gaps, about 40%+ of node size; nothing feels squeezed.\n"
+        "- 70-89: slightly tight typical gaps, about 25-40% of node size.\n"
+        "- 40-69: noticeably crowded, with typical gaps about 10-25% of node size.\n"
+        "- 0-39: crammed, with typical gaps below about 10% of node size or repeated nearly touching "
+        "nodes.\n\n"
+        "CRITICAL: only crowding and inter-node clearance are yours. Do not score canvas coverage, "
+        "group span, outer margins, or absolute node size. Generous gaps are not a defect. Unequal "
+        "gaps are not a defect here unless they create crowding. Adding empty padding or uniformly "
+        "scaling the nodes AND their gaps must not change this score. Tight gaps remain a defect even "
+        "when the canvas is full. With fewer than two nodes there is no inter-node crowding; score high."
     ),
     "color_consistency": _preamble(
         "color_consistency", "COLOR CONSISTENCY", "shape, size, font, or border differences between elements"
