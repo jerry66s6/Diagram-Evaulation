@@ -49,8 +49,12 @@ TOLERATED = {
 class ScriptedBackend:
     name = "scripted"
 
+    def __init__(self):
+        self.calls = []
+
     def structured(self, prompt, images, schema, schema_name):
         dimension = schema_name.removeprefix("diagram_beauty_")
+        self.calls.append((dimension, prompt, images, schema))
         target = v6.VARIANT_TARGET.get(Path(images[0]).stem)
         return {"observation": "Scripted.", "score": 40 if target == dimension else 92, "reasoning": "Scripted."}
 
@@ -137,16 +141,29 @@ class BeautyV6PromptTests(unittest.TestCase):
                         self.assertIn(f"({label})", not_yours)
 
     def test_judge_returns_all_eight_dimensions(self):
+        backend = ScriptedBackend()
         with tempfile.TemporaryDirectory() as temp:
             path = v6.render(v6.build_scene("baseline"), Path(temp) / "baseline.png")
-            scores = judge_beauty_v6(ScriptedBackend(), path)
+            scores = judge_beauty_v6(backend, path)
         self.assertEqual(tuple(scores), BEAUTY_V6_DIMENSIONS)
-        self.assertEqual(scores["canvas_fill"].score, 100)
+        self.assertEqual(tuple(call[0] for call in backend.calls), BEAUTY_V6_DIMENSIONS)
         self.assertTrue(all(scores[d].score == 92 for d in BEAUTY_V6_MODEL_DIMENSIONS))
 
+    def test_canvas_fill_prompt_preserves_scoring_thresholds(self):
+        prompt = BEAUTY_V6_PROMPTS["canvas_fill"]
+        self.assertIn("at or below 3%: score 0", prompt)
+        self.assertIn("at or above 6%: score 100", prompt)
+        self.assertIn("round(100 * (footprint_percent - 3) / 3)", prompt)
+        self.assertIn("outline-only", prompt)
+        self.assertIn("loop of arrows does NOT count", prompt)
+
     def test_scored_run_reports_perfect_isolation_for_ideal_judge(self):
+        backend = ScriptedBackend()
         with tempfile.TemporaryDirectory() as temp:
-            summary = v6.run(Path(temp), repeats=1, workers=4, backend=ScriptedBackend())
+            summary = v6.run(Path(temp), repeats=2, workers=4, backend=backend)
+        self.assertEqual(len(backend.calls), len(v6.VARIANTS) * 8 * 2)
+        self.assertEqual(summary["results"]["baseline"]["canvas_fill"]["runs"], [92, 92])
+        self.assertEqual(summary["results"]["degraded_canvas_fill"]["canvas_fill"]["runs"], [40, 40])
         self.assertEqual(summary["warnings"], [])
         self.assertEqual(summary["off_target_mean_abs"], 0)
         self.assertEqual(summary["overall_isolation"], 100.0)

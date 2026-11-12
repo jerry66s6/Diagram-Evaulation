@@ -1,0 +1,32 @@
+{
+  "dimension": "canvas_fill",
+  "model": "dev-gpt-56-ceres",
+  "prompt": "You are ONE of eight independent judges scoring a flowchart image. Each judge scores exactly one visual dimension and never sees the other judges' output. Content and structure are judged elsewhere; this is purely visual.\n\nThe eight dimensions and who owns them:\n  CENTERING         - everything is centered: the whole diagram on the canvas, each label inside its\n                      shape, and each node evenly spaced between its row/column neighbors (equal gaps).\n  SPACE USE         - whether nodes are packed too tightly overall while usable canvas space is left empty.\n  COLOR CONSISTENCY - whether colors form one coherent theme with stable color-to-role mapping.\n  CONTRAST          - whether boxes and arrows visibly separate from the background and from touching boxes.\n  ALIGNMENT         - geometry is deliberate: nothing almost-aligned or slightly tilted; connectors take\n                      the cleanest path in one consistent routing style and attach consistently.\n  STYLE UNIFORMITY  - whether elements of the same role share one shape, size, border, font, and arrow\n                      stroke/arrowhead treatment.\n  RESOLUTION        - whether the image renders crisply: no blur, pixelation, jagged stair-steps, or\n                      compression artifacts.\n  CANVAS FILL       - whether elements are too small for the canvas,\n                      leaving most of it empty.\n\nYOU OWN: CANVAS FILL. You score nothing else.\n\nISOLATION RULES (follow strictly):\n- Assume every other dimension is already perfect. They are someone else's job.\n- NOT YOURS: whether the whole diagram, the labels inside their shapes, or the gaps between neighbors are centered and even (Centering); whether nodes are packed too tightly overall while canvas space is empty (Space Use); which hues are used or whether they form a coherent theme (Color Consistency); how light, pale, or hard to see boxes and arrows are against the background (Contrast); whether nodes, shapes, labels, or connectors are almost-but-not-quite aligned or upright, connectors take unclean paths, or routing and endpoint styles are inconsistent (Alignment); whether same-role elements differ in shape, size, border, font, or arrow stroke/arrowhead (Style Uniformity); blur, pixelation, jagged edges, or compression artifacts (Resolution).\n- If the only flaws you can see belong to another dimension, you MUST still score HIGH. A defect owned by another dimension is not evidence against yours.\n- Do not form an overall 'this diagram looks bad/good' impression and transfer it to your score. Judge the observable below and nothing else.\n- Apply the stated MENTAL MASK before observing. Score the counterfactual image after sibling signals are hidden, not the unmasked overall impression.\n- First state the OBSERVATION your dimension asks for, then derive the score strictly from that observation using the bands given.\n\nMENTAL MASK: treat any uniform background, light OR dark, as empty canvas. Mentally recolor each node as a solid neutral silhouette, including the full interior of outline-only shapes. Keep the original canvas dimensions and node sizes. Ignore color, contrast, blur, styling, placement, alignment, label positioning, and gaps between nodes.\n\nOBSERVATION TO MAKE: estimate the combined area occupied by diagram node silhouettes as a percentage of the ENTIRE image canvas. Sum the individual shape areas, counting overlapping areas only once. Exclude thin connectors, arrows, text strokes, decoration, and background texture. Empty space between nodes or enclosed by a loop of arrows does NOT count. Do not use the bounding box of the whole diagram: tiny nodes spread to the edges still have a small footprint. State your estimated footprint percentage explicitly.\n\nSCORING RULE (keep these exact thresholds):\n- Footprint at or below 3%: score 0.\n- Footprint at or above 6%: score 100.\n- Between 3% and 6%: score = round(100 * (footprint_percent - 3) / 3).\n- Examples: 3% -> 0; 3.75% -> 25; 4.5% -> 50; 5.25% -> 75; 6% -> 100.\n\nCRITICAL: penalize ONLY a too-small element footprint. Dense or oversized diagrams are a design choice and still score 100 here if their footprint is at least 6%. A pale or outline-only node counts by its full silhouette, not by its visible ink. Do not deduct for off-centering, tight gaps, unreadable labels, connector defects, or poor rendering.",
+  "response_instruction": "\nReturn the requested observation first, then a score from 0 to 100, then a concise one- or two-sentence justification.",
+  "results": [
+    {
+      "image": "C:\\Diagram-Evaulation\\examples\\canvas_fill_vlm\\diagrams\\baseline.png",
+      "observation": "Estimated combined node-silhouette footprint: approximately 9.8% of the entire canvas.",
+      "score": 100,
+      "reasoning": "The node footprint is clearly above the 6% threshold. Under the specified scoring rule, any footprint at or above 6% receives 100."
+    },
+    {
+      "image": "C:\\Diagram-Evaulation\\examples\\canvas_fill_vlm\\diagrams\\degraded_canvas_fill.png",
+      "observation": "Estimated combined node-silhouette footprint: approximately 3.4% of the entire canvas.",
+      "score": 13,
+      "reasoning": "The six node shapes occupy only a small fraction of the 1200\u00d7750 canvas once connectors, text, and background are excluded. A 3.4% footprint falls just above the 3% lower threshold, yielding about 13."
+    },
+    {
+      "image": "C:\\Diagram-Evaulation\\examples\\canvas_fill_vlm\\diagrams\\degraded_contrast.png",
+      "observation": "Estimated combined node-silhouette footprint: approximately 9.5% of the entire canvas.",
+      "score": 100,
+      "reasoning": "The node footprint is clearly above the 6% threshold. Under the specified scoring rule, any footprint at or above 6% receives 100."
+    },
+    {
+      "image": "C:\\Diagram-Evaulation\\examples\\canvas_fill_vlm\\diagrams\\control_cycle_straight.png",
+      "observation": "Estimated combined node-silhouette footprint: approximately 5.8% of the entire canvas.",
+      "score": 93,
+      "reasoning": "The five rounded rectangular nodes together occupy just under the 6% threshold. Using the specified linear scoring rule for a roughly 5.8% footprint yields a score in the low 90s."
+    }
+  ]
+}

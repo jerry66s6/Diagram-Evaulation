@@ -59,8 +59,8 @@ To begin with, we care about two top-level axes:
    - Presence - Whether all diagram elements the LLM expects to see and extract are present
    - Details - Whether labels and content are meaningful rather than missing or placeholder text
    - Legibility - Whether text is readable, without tiny fonts or text overflowing its box
-2. Beauty - The current v6 evaluator has eight visual dimensions: seven independent
-   model judges and one deterministic Canvas Fill measurement.
+2. Beauty - The current v6 evaluator has eight visual dimensions, each scored by an
+   independent VLM call.
    - Centering - Whole-diagram centering, labels centered inside shapes, and even neighboring gaps.
    - Space Use - Nodes are not packed tightly while usable canvas space remains empty.
    - Color Consistency - A coherent theme with stable color-to-role mapping.
@@ -68,7 +68,7 @@ To begin with, we care about two top-level axes:
    - Alignment - Deliberate geometry, clean layout-appropriate routing, and consistent endpoints.
    - Style Uniformity - Same-role elements share shape, size, border, font, and arrow treatment.
    - Resolution - Crisp rendering without blur, pixelation, or compression artifacts.
-   - Canvas Fill - Element footprint relative to canvas area, scored by Python: 0 at
+   - Canvas Fill - VLM-estimated element footprint relative to canvas area: 0 at
      3% or below and 100 at 6% or above, linearly interpolated between.
 
 The current Beauty entry point is `judge_beauty_v6` in

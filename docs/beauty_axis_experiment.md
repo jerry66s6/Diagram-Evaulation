@@ -141,9 +141,47 @@ fixtures; each fixture should lower only its own dimension) and a **breaking** r
 | Alignment | Model | Deliberate geometry: no near-misses (almost aligned, almost level); arrows take the cleanest path for the layout (grid by default; rings, hubs, trees, loop-backs may use diagonal or curved arrows); consistent endpoints | v5, expanded v6 |
 | Style Uniformity | Model | Same-role elements share shape, size, border, font, arrow style | v5 |
 | Resolution | Model | No blur, pixelation, or compression artifacts | v6 |
-| Canvas Fill | Python | Elements not so small that most of the canvas is empty (footprint score: 0 at 3%, 100 at 6%+; large enclosed regions such as the inside of an arrow ring are not counted) | v5 |
+| Canvas Fill | Model | Elements not so small that most of the canvas is empty (estimated footprint score: 0 at 3%, 100 at 6%+; large enclosed regions such as the inside of an arrow ring are not counted) | v5; VLM in current v6 |
 
-Prompts: `src/diagram_correctness/beauty_v6.py`; Canvas Fill: `canvas_fill.py`.
+All eight prompts and the main caller: `src/diagram_correctness/beauty_v6.py`.
+Canvas Fill-only caller: `scripts/run_canvas_fill.py`. `canvas_fill.py` remains
+available for historical evaluators and offline footprint diagnostics.
+The historical version results below the smoke check predate the Canvas Fill VLM
+change and used deterministic Canvas Fill; they are not evidence of the new
+prompt's performance. Historical diagnostics and the current VLM both use the
+3%/6% rule, but estimate footprint differently.
+
+### Canvas Fill VLM smoke check
+
+Open the [small review dashboard](../examples/canvas_fill_vlm/index.html) for
+fixture images, expected behaviors, scoring-formula checks, and estimation limits.
+
+The current prompt was exercised through the existing local backend on
+`dev-gpt-56-ceres`, with one call per fixture. Saved
+[responses and prompt](../examples/canvas_fill_vlm/results.json) include the
+observations and reasoning; [input diagrams](../examples/canvas_fill_vlm/diagrams/)
+are retained alongside them.
+
+| Fixture | VLM score (3%/6%) | VLM estimated footprint | Historical footprint |
+|---|---:|---:|---:|
+| Baseline | 100 | 9.8% | 10.51% |
+| Tiny nodes spread across canvas | 13 | 3.4% | 4.08% |
+| Pale nodes (contrast-only defect) | 100 | 9.5% | 10.14% |
+| Straight-arrow cycle | 93 | 5.8% | 6.26% |
+
+All four responses applied the stated scoring formula to their estimated areas.
+The tiny-node fixture scored below 50, pale nodes matched baseline at 100,
+and the cycle stayed near 100 with an estimated footprint consistent with excluding
+its empty interior. VLM area estimates are approximate: tiny nodes scored 13
+versus the historical diagnostic's 36 because their estimated footprints differ.
+Blank, outline-only, and exact-boundary fixtures were not live-tested in this
+four-image run. This is a smoke check, not an accuracy or human-alignment claim.
+
+Reproduce with the existing local backend:
+
+```powershell
+python scripts\run_canvas_fill.py examples\canvas_fill_vlm\diagrams\baseline.png examples\canvas_fill_vlm\diagrams\degraded_canvas_fill.png examples\canvas_fill_vlm\diagrams\degraded_contrast.png examples\canvas_fill_vlm\diagrams\control_cycle_straight.png --backend local\beauty_alignment_backend.py --output examples\canvas_fill_vlm\results.json
+```
 
 ### Results by version
 
@@ -197,8 +235,8 @@ dimension.
   human ratings.
 
 ```bash
-PYTHONPATH=src python3 scripts/run_beauty_v6_ablation.py          # fixtures + Canvas Fill only
-PYTHONPATH=src python3 scripts/run_beauty_v6_ablation.py --live   # 15 images x 7 model dimensions x 3 repeats
+PYTHONPATH=src python3 scripts/run_beauty_v6_ablation.py          # fixtures + historical footprint diagnostic
+PYTHONPATH=src python3 scripts/run_beauty_v6_ablation.py --live   # 20 images x 8 model dimensions x 3 repeats
 ```
 
 ## Limitations and next steps
