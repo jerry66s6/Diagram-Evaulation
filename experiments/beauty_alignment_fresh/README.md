@@ -136,10 +136,11 @@ The approved v2 changes Centering to canvas-relative margin imbalance, distingui
 intentional groups in Space Use, judges outline-or-fill Contrast, compares
 semantic roles in Style Uniformity, and removes the three-hue ceiling from Color
 Consistency. Alignment, Resolution, Canvas Fill, and the shared preambles remain
-identical to `current_001`. The v2 builder does not modify the source evaluator.
-This PR also includes the earlier evaluator/ablation updates represented by
-`current_001`: whole-diagram-only Centering with the margin-ratio formula and
-clearance-only Space Use. Those are distinct from the experimental v2 prompts.
+identical to `current_001`. The v2 builder itself does not modify the source
+evaluator. The evaluated v2 prompts have now been promoted into
+[`beauty_v6.py`](../../src/diagram_correctness/beauty_v6.py); all eight prompts
+match the frozen v2 snapshot. The earlier `current_001` version remains a
+historical comparison, not the current evaluator.
 
 ```powershell
 python experiments\beauty_alignment_fresh\make_v2.py `
@@ -164,7 +165,8 @@ from 0.1921 to 0.3204. The paired RMSE-change 95% interval is
 (five-candidate-adjusted 0.001000), not a correlation-significance p-value.
 Centering and Contrast improved most; Style Uniformity slightly worsened.
 All eight dimensions were re-judged, so even unchanged prompts can produce small
-score changes. The test set remains untouched and v2 remains experimental.
+score changes. The test set remains untouched. Promotion into the evaluator
+does not make these exploratory validation results a held-out test estimate.
 
 ### Uncertainty and significance
 

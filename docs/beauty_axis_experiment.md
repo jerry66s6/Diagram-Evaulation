@@ -134,12 +134,12 @@ fixtures; each fixture should lower only its own dimension) and a **breaking** r
 
 | Dimension | Judge | Measures | Added |
 |---|---|---|---|
-| Centering | Model | Equal opposite canvas margins around the full diagram; no room to move scores full on that axis | v4; whole-diagram-only in current v6 |
-| Space Use | Model | Crowding and inter-node clearance relative to node size; independent of canvas coverage and group span | v4; clearance-only in current v6 |
-| Color Consistency | Model | One coherent theme; each role keeps one hue | v4 |
-| Contrast | Model | Boxes and arrows stand out from the background | v4 |
+| Centering | Model | Full-diagram opposite-margin imbalance normalized by canvas width/height | v4; canvas-relative in human-alignment v2 |
+| Space Use | Model | Peer-node/group clearance relative to size; intentional layered symbols count as one group | v4; grouped-symbol handling in human-alignment v2 |
+| Color Consistency | Model | Coherent role/section mapping, without a three-hue limit | v4; expanded in human-alignment v2 |
+| Contrast | Model | Box boundaries (outline and/or fill) and arrows stand out from the background | v4; expanded in human-alignment v2 |
 | Alignment | Model | Deliberate geometry: no near-misses (almost aligned, almost level); arrows take the cleanest path for the layout (grid by default; rings, hubs, trees, loop-backs may use diagonal or curved arrows); consistent endpoints | v5, expanded v6 |
-| Style Uniformity | Model | Same-role elements share shape, size, border, font, arrow style | v5 |
+| Style Uniformity | Model | Semantically equivalent elements and connectors share shape, size, border, font, arrow style | v5; semantic roles in human-alignment v2 |
 | Resolution | Model | No blur, pixelation, or compression artifacts | v6 |
 | Canvas Fill | Model | Elements not so small that most of the canvas is empty (estimated footprint score: 0 at 3%, 100 at 6%+; large enclosed regions such as the inside of an arrow ring are not counted) | v5; VLM in current v6 |
 
@@ -150,21 +150,31 @@ The historical version results below the smoke check predate the Canvas Fill VLM
 change and used deterministic Canvas Fill; they are not evidence of the new
 prompt's performance. Historical diagnostics and the current VLM both use the
 3%/6% rule, but estimate footprint differently.
-Space Use now scores only inter-node clearance, not group span or the amount of
-unused canvas. Adding canvas padding or uniformly scaling nodes and gaps together
+Space Use now scores only peer-node/group clearance, treating intentional layered
+symbols as one footprint, not group span or the amount of unused canvas.
+Adding canvas padding or uniformly scaling nodes and gaps together
 should preserve its score. Moving the same nodes farther apart can improve Space
 Use while leaving Canvas Fill unchanged. Historical isolation results below used
 the earlier span-and-gap Space Use prompt and have not been rerun with this change.
 Centering now compares only the full diagram's opposite margins, including title
-and connectors. Each axis scores `100 * (1 - abs(a - b) / (a + b))`, or 100
-when both margins are zero; the final score is the rounded minimum of the two axes.
+and connectors. Each axis scores `100 * (1 - abs(a - b) / canvas_dimension)`;
+the final score is the rounded minimum of the two axes. This avoids large
+penalties for tiny differences between nearly zero margins.
 Internal label centering and gap equality no longer lower Centering. Their old
 v6 fixture IDs are retained as placement controls. Historical Centering results
 below used the old three-part prompt and have not been rerun with this change.
 
+The current evaluator matches the evaluated human-alignment v2 snapshot across
+all eight prompts. Its five changes also cover outline-or-fill Contrast,
+semantic-role Style Uniformity, and coherent multi-hue Color Consistency.
+GPT-6 luna validation RMSE was 1.8605 on the fixed 20-image mini-validation set
+and 2.3160 on the full 100-image validation set, not the held-out test set.
+See [the alignment results](../experiments/beauty_alignment_fresh/RESULTS.md).
+
 ### Clearance-only Space Use smoke check
 
-One live call per dimension and fixture on `dev-gpt-56-ceres`:
+Historical, before the human-alignment v2 edits: one live call per dimension and
+fixture on `dev-gpt-56-ceres`:
 
 | Fixture | Space Use | Canvas Fill |
 |---|---:|---:|

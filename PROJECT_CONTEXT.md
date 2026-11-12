@@ -61,12 +61,12 @@ To begin with, we care about two top-level axes:
    - Legibility - Whether text is readable, without tiny fonts or text overflowing its box
 2. Beauty - The current v6 evaluator has eight visual dimensions, each scored by an
    independent VLM call.
-   - Centering - Equal opposite canvas margins around the full diagram; no room to move means full credit on that axis.
-   - Space Use - Crowding and inter-node clearance relative to node size, independent of canvas coverage.
-   - Color Consistency - A coherent theme with stable color-to-role mapping.
-   - Contrast - Boxes and arrows visibly stand out from their background.
+   - Centering - Opposite-margin imbalance normalized by canvas width/height around the full diagram.
+   - Space Use - Crowding and peer-node/group clearance relative to size, independent of canvas coverage.
+   - Color Consistency - A coherent theme with stable color-to-role/section mapping, without a hue-count limit.
+   - Contrast - Box boundaries (outline and/or fill) and arrows visibly stand out from their background.
    - Alignment - Deliberate geometry, clean layout-appropriate routing, and consistent endpoints.
-   - Style Uniformity - Same-role elements share shape, size, border, font, and arrow treatment.
+   - Style Uniformity - Semantically equivalent elements and connectors share shape, size, border, font, and arrow treatment.
    - Resolution - Crisp rendering without blur, pixelation, or compression artifacts.
    - Canvas Fill - VLM-estimated element footprint relative to canvas area: 0 at
      3% or below and 100 at 6% or above, linearly interpolated between.

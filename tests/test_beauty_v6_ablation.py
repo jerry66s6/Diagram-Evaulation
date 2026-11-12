@@ -153,20 +153,24 @@ class BeautyV6PromptTests(unittest.TestCase):
 
     def test_space_use_scores_clearance_not_canvas_coverage(self):
         prompt = BEAUTY_V6_PROMPTS["space_use"]
-        self.assertIn("based ONLY on inter-node clearance", prompt)
+        self.assertIn("based ONLY on inter-node/group clearance", prompt)
         self.assertIn("edge-to-edge gap", prompt)
         self.assertIn("Do not score canvas coverage", prompt)
-        self.assertIn("Tight gaps remain a defect even when the canvas is full", prompt)
+        self.assertIn("Tight gaps remain a defect on a full canvas", prompt)
+        self.assertIn("Do not call every overlap intentional", prompt)
+        self.assertIn("intentional layering is not itself crowding", prompt)
         self.assertNotIn("main-direction span", prompt)
         self.assertNotIn("WORSE of the span and gap", prompt)
         self.assertIn("gaps between nodes", BEAUTY_V6_PROMPTS["canvas_fill"])
 
     def test_centering_scores_whole_diagram_margins_only(self):
         prompt = BEAUTY_V6_PROMPTS["centering"]
-        self.assertIn("H = 100 if L + R = 0", prompt)
-        self.assertIn("V = 100 if T + B = 0", prompt)
-        self.assertIn("round(min(H, V))", prompt)
-        self.assertIn("do not score label centering inside shapes, equal gaps between nodes", prompt)
+        self.assertIn("100 * (1 - abs(L - R) / W_canvas)", prompt)
+        self.assertIn("100 * (1 - abs(T - B) / H_canvas)", prompt)
+        self.assertIn("round(min(horizontal score, vertical score))", prompt)
+        self.assertIn("NOT by L+R or T+B", prompt)
+        self.assertIn("two zero margins also score 100", prompt)
+        self.assertIn("do not score label centering inside shapes, equal inter-node gaps", prompt)
         for variant in v6.PLACEMENT_CONTROLS:
             self.assertIsNone(v6.VARIANT_TARGET[variant])
 
