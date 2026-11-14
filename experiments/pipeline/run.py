@@ -7,6 +7,8 @@ good or bad, and the call is compared with the true label (positive/negative, no
     python3 experiments/pipeline/run.py classify --beauty-tuned    # the same with the four tuned Beauty prompts
     python3 experiments/pipeline/run.py score --start 1 --end 200 --dimensions color_consistency,contrast,style_uniformity,resolution
     python3 experiments/pipeline/run.py train-on-judges [--beauty-tuned]   # gradient boosting trained on judge scores
+    python3 experiments/pipeline/run.py score-dataset [--limit N]   # the pipeline on diagrams/data.csv (outside the human study)
+    python3 experiments/pipeline/run.py classify-dataset            # dataset_results.json, dataset_predictions.csv
 
 Judges: `judge_correctness_dimension` (src/diagram_correctness/direct.py) for the 5 Correctness dimensions and
 `judge_beauty_dimension` (src/diagram_correctness/beauty.py) for the 8 Beauty dimensions, one call per dimension.
@@ -254,6 +256,105 @@ def train_on_judges(tuned=False):
             w.writerow([rows[i]["id"], rows[i]["label"], rows[i]["difficulty"], round(float(gb["test_score"][n]), 4), int(gb["test_called"][n])])
 
 
+# ---------- the full dataset: diagrams/data.csv ----------
+
+DATASET = ROOT / "diagrams" / "data.csv"
+DATASET_RESULTS = HERE / "dataset_results"
+
+
+def dataset_rows():
+    """Diagrams outside the human study, in one fixed random order, so a first batch is a random sample of the rest."""
+    rows = [r for r in csv.DictReader(open(DATASET)) if not r["human_study_id"]]  # the study diagrams built the pipeline
+    order = np.random.default_rng(0).permutation(len(rows))
+    return [rows[i] for i in order]
+
+
+def tuning():
+    spec = importlib.util.spec_from_file_location("beauty_tuning_run", HERE.parent / "beauty_tuning" / "run.py")
+    module = importlib.util.module_from_spec(spec)
+    spec.loader.exec_module(module)
+    return module
+
+
+def score_dataset(workers, limit):
+    """The pipeline's judges on the dataset: Correctness and four Beauty dimensions with the prompts in src, and the
+    four tuned Beauty prompts from ../beauty_tuning."""
+    load_env()
+    from diagram_correctness.rubric import load_rubric
+    from diagram_correctness.vlm import OpenAIBackend
+    if os.environ.get("OPENAI_MODEL", MODEL) != MODEL:
+        raise SystemExit(f"this pipeline runs on {MODEL} only")
+    backend = OpenAIBackend(MODEL)
+    criteria = load_rubric(ROOT / "config" / "rubric.json")
+    t = tuning()
+
+    def judge(r, k):
+        image = ROOT / "diagrams" / r["image"]
+        if k in CORRECTNESS_DIMENSIONS:
+            result = judge_correctness_dimension(backend, image, r["caption"], k, criteria).to_dict()
+        elif k in TUNED:
+            result = backend.structured(t.rater_prompt(k), [image], t.RATER_SCHEMA, f"rater_{k}")
+            if not isinstance(result.get("score"), int) or not 1 <= result["score"] <= 10:
+                raise RuntimeError(f"score out of range: {result.get('score')!r}")
+        else:
+            result = judge_beauty_dimension(backend, image, k).to_dict()
+        out = DATASET_RESULTS / r["id"] / f"{k}.json"
+        out.parent.mkdir(parents=True, exist_ok=True)
+        out.write_text(json.dumps(result, indent=1))
+
+    rows = dataset_rows()[:limit]
+    jobs = [(r, k) for r in rows for k in DIMENSIONS if not (DATASET_RESULTS / r["id"] / f"{k}.json").exists()]
+    print(f"scoring with {MODEL}: {len(jobs)} calls for {len(rows)} diagrams")
+    failed = 0
+    with ThreadPoolExecutor(workers) as pool:
+        futures = {pool.submit(judge, r, k): (r["id"], k) for r, k in jobs}
+        for n, future in enumerate(as_completed(futures), 1):
+            try:
+                future.result()
+            except Exception as error:  # retried on the next run
+                failed += 1
+                print(f"failed {futures[future]}: {error}", flush=True)
+            if n % 500 == 0:
+                print(f"{n}/{len(jobs)} done; usage so far {backend.usage}", flush=True)
+    print(f"{len(jobs) - failed}/{len(jobs)} done, {failed} failed")
+    print(f"api usage this run: {backend.usage}")
+
+
+def classify_dataset():
+    """The pipeline (tuned Beauty prompts, gradient boosting trained on human scores of HS001-HS200) on every dataset
+    diagram scored so far, against its true label."""
+    c = classification()
+    rows, dims, X, y = c.load()
+    develop, test, folds = c.split(rows)
+    gb = c.run_method("gradient_boosting", X, y, develop, test, folds)
+    cut = c.best_cut(gb["val_score"][develop], y[develop])
+    done = [r for r in dataset_rows() if all((DATASET_RESULTS / r["id"] / f"{k}.json").exists() for k in DIMENSIONS)]
+    J = np.array([[json.load(open(DATASET_RESULTS / r["id"] / f"{k}.json"))["score"] / (10 if k in BEAUTY_DIMENSIONS and k not in TUNED else 1)
+                   for k in DIMENSIONS] for r in done], dtype=float)
+    yd = np.array([r["label"] == "negative" for r in done], dtype=int)
+    p = c.bad_score(gb["model"], J)
+    called = p > cut
+    auc, accuracy = c.bootstrap(yd, {"pipeline": {"test_score": p, "test_called": called}})
+    summary = {"diagrams": len(done), "bad": int(yd.sum()), "good": int((1 - yd).sum()), "cut": float(cut),
+               "test_auc": float(roc_auc_score(yd, p)), "test_auc_interval": c.interval(auc["pipeline"]),
+               "accuracy": float((called == yd).mean()), "accuracy_interval": c.interval(accuracy["pipeline"]),
+               "f1": float(f1_score(yd, called)), "bad_caught": int(called[yd == 1].sum()), "good_flagged": int(called[yd == 0].sum())}
+    levels = {}
+    for level in ("easy", "medium", "hard"):
+        at = np.array([r["difficulty"] == level for r in done])
+        levels[level] = {"diagrams": int(at.sum()), "accuracy": float((called[at] == yd[at]).mean()) if at.any() else None,
+                         "bad_caught": int(called[at & (yd == 1)].sum()), "bad": int((at & (yd == 1)).sum()),
+                         "good_flagged": int(called[at & (yd == 0)].sum()), "good": int((at & (yd == 0)).sum())}
+    summary["by_difficulty"] = levels
+    print(json.dumps(summary, indent=1))
+    json.dump(summary, open(HERE / "dataset_results.json", "w"), indent=1)
+    with open(HERE / "dataset_predictions.csv", "w", newline="") as f:
+        w = csv.writer(f)
+        w.writerow(["id", "label", "difficulty", "p_bad", "called_bad", *(f"judge_{k}" for k in DIMENSIONS)])
+        for n, r in enumerate(done):
+            w.writerow([r["id"], r["label"], r["difficulty"], round(float(p[n]), 4), int(called[n]), *(round(float(v), 1) for v in J[n])])
+
+
 if __name__ == "__main__":
     parser = argparse.ArgumentParser()
     sub = parser.add_subparsers(dest="cmd", required=True)
@@ -263,6 +364,10 @@ if __name__ == "__main__":
     s.add_argument("--start", type=int, default=201)
     s.add_argument("--end", type=int, default=300)
     s.add_argument("--dimensions", default=",".join(DIMENSIONS))
+    d = sub.add_parser("score-dataset")
+    d.add_argument("--workers", type=int, default=16)
+    d.add_argument("--limit", type=int, help="only the first N diagrams of the fixed random order")
+    sub.add_parser("classify-dataset")
     j = sub.add_parser("train-on-judges")
     j.add_argument("--beauty-tuned", action="store_true")
     k = sub.add_parser("classify")
@@ -270,6 +375,10 @@ if __name__ == "__main__":
     args = parser.parse_args()
     if args.cmd == "score":
         score(args.workers, set(args.only.split(",")) if args.only else None, args.start, args.end, args.dimensions.split(","))
+    elif args.cmd == "score-dataset":
+        score_dataset(args.workers, args.limit)
+    elif args.cmd == "classify-dataset":
+        classify_dataset()
     elif args.cmd == "train-on-judges":
         train_on_judges(args.beauty_tuned)
     else:
