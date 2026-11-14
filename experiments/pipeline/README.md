@@ -81,6 +81,35 @@ Intervals are in `results_trained_on_judges.json` and `results_trained_on_judges
 
 The val AUC of the two rows trained on human scores is measured on human scores.
 
+## Why the accuracy is lower than with human scores
+
+`python3 experiments/pipeline/debug.py` (saved results only). On the 100 test diagrams:
+
+| Inputs and classifier | Accuracy | Bad caught | Good flagged |
+|---|---:|---:|---:|
+| Human scores, model trained on human scores | 0.90 | 50 of 53 | 7 of 47 |
+| Judge scores, model trained on judge scores | 0.82 | 43 of 53 | 8 of 47 |
+| Judge scores, model trained on human scores (the pipeline) | 0.74 | 40 of 53 | 13 of 47 |
+
+1. **About half the gap is the classifier trained on human scores** (0.74 -> 0.82 when it is trained on judge
+   scores). The judges use the scale differently: on bad diagrams they score Style Uniformity 1.7 points above humans
+   (on good diagrams they match), the model's strongest input, so bad diagrams pass; the tuned Centering, Space Use,
+   and Alignment prompts score good diagrams about 1 point below humans, so good diagrams get flagged.
+2. **The other half is in the scores, not in missed errors.** On all 300 study diagrams the correctness judge catches
+   the error in the dimension it targets (score below 8) about as often as humans: 196 vs 197 of 246 inserted errors.
+   But humans also lower other dimensions when they see an error, while the judge scores each dimension on its own,
+   so the judge's 13 scores carry less evidence per diagram (on bad diagrams the judge is above humans on 10 of 13
+   dimensions).
+3. **The gap is mostly on hard diagrams:** accuracy 0.64 with judge scores vs 0.86 with human scores (easy 0.96 vs
+   1.00, medium 0.90 vs 0.88).
+4. **Judge noise is a smaller factor.** Two runs of the same correctness prompt give identical scores 52-80% of the
+   time; the correctness mean separates good from bad at AUC 0.895 in one run and 0.870 in the other, and averaging
+   the two gives 0.889.
+
+Human scores with their own classifier (0.90) are a realistic ceiling for this test set. The labels come from how the
+diagrams were made, not from human scores, so the classifier could also be trained on judge scores of the labeled
+dataset diagrams (`score-dataset`), with far more examples than HS001-HS200.
+
 ## Limits
 
 - One call per dimension, so run-to-run noise is not measured.
