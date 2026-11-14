@@ -4,6 +4,7 @@ good or bad, and the call is compared with the true label (positive/negative, no
     python3 experiments/pipeline/run.py score                      # gpt-6-luna; resumable; raw outputs in results/<id>/
     python3 experiments/pipeline/run.py score --only HS201,HS202   # a quick trial
     python3 experiments/pipeline/run.py classify                   # results.json, predictions.csv
+    python3 experiments/pipeline/run.py classify --beauty-tuned    # the same with the four tuned Beauty prompts
 
 Judges: `judge_correctness_dimension` (src/diagram_correctness/direct.py) for the 5 Correctness dimensions and
 `judge_beauty_dimension` (src/diagram_correctness/beauty.py) for the 8 Beauty dimensions, one call per dimension.
@@ -97,19 +98,26 @@ def score(workers, only):
     print(f"api usage this run: {backend.usage}")
 
 
-def judge_scores(rows):
-    """The judges' 13 scores per diagram, on 1-10 (Beauty divided by 10)."""
+TUNED = ("centering", "space_use", "alignment", "canvas_fill")  # rater-wording prompts from ../beauty_tuning (1-10)
+
+
+def judge_scores(rows, tuned=False):
+    """The judges' 13 scores per diagram, on 1-10 (Beauty divided by 10). With tuned, the four tuned Beauty dimensions
+    come from ../beauty_tuning instead."""
     out = []
     for d in rows:
         scores = []
         for k in DIMENSIONS:
+            if tuned and k in TUNED:
+                scores.append(json.load(open(ROOT / "experiments" / "beauty_tuning" / "results" / d["id"] / f"rater_{k}.json"))["score"])
+                continue
             s = json.load(open(RESULTS / d["id"] / f"{k}.json"))["score"]
             scores.append(s / 10 if k in BEAUTY_DIMENSIONS else s)
         out.append(scores)
     return np.array(out, dtype=float)
 
 
-def classify():
+def classify(tuned=False):
     c = classification()
     rows, dims, X, y = c.load()
     develop, test, folds = c.split(rows)
@@ -120,7 +128,7 @@ def classify():
 
     gb = c.run_method("gradient_boosting", X, y, develop, test, folds)  # trained on the human scores of HS001-HS200
     cut = c.best_cut(gb["val_score"][develop], y[develop])
-    J = judge_scores([rows[i] for i in test])
+    J = judge_scores([rows[i] for i in test], tuned)
     t = y[test]
     vlm_score = c.bad_score(gb["model"], J)
     methods = {
@@ -163,8 +171,8 @@ def classify():
         print(f"| {k} | {v['human_mean']:.2f} | {v['judge_mean']:.2f} | {v['spearman']:.2f} | {v['auc_human']:.3f} | {v['auc_judge']:.3f} |")
 
     json.dump({"model": MODEL, "test": "HS201-HS300", "cut": float(cut), "methods": summary, "pipeline_minus_human": gap, "pipeline_minus_judge_mean": gap_mean,
-               "per_dimension": per_dimension, "gradient_boosting_settings": gb["settings"]}, open(HERE / "results.json", "w"), indent=1)
-    with open(HERE / "predictions.csv", "w", newline="") as f:
+               "per_dimension": per_dimension, "gradient_boosting_settings": gb["settings"]}, open(HERE / ("results_beauty_tuned.json" if tuned else "results.json"), "w"), indent=1)
+    with open(HERE / ("predictions_beauty_tuned.csv" if tuned else "predictions.csv"), "w", newline="") as f:
         w = csv.writer(f)
         w.writerow(["id", "label", "difficulty", "p_bad_from_judge_scores", "called_bad", "p_bad_from_human_scores", "called_bad_from_human_scores",
                     *(f"judge_{k}" for k in DIMENSIONS)])
@@ -179,9 +187,10 @@ if __name__ == "__main__":
     s = sub.add_parser("score")
     s.add_argument("--workers", type=int, default=12)
     s.add_argument("--only", help="comma-separated diagram ids (for a quick trial)")
-    sub.add_parser("classify")
+    k = sub.add_parser("classify")
+    k.add_argument("--beauty-tuned", action="store_true", help="the four tuned Beauty dimensions from ../beauty_tuning")
     args = parser.parse_args()
     if args.cmd == "score":
         score(args.workers, set(args.only.split(",")) if args.only else None)
     else:
-        classify()
+        classify(args.beauty_tuned)

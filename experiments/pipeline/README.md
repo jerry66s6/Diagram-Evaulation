@@ -8,6 +8,7 @@ with the true label (`positive` / `negative` in `human_ratings.json`, not the hu
 python3 experiments/pipeline/run.py score                      # gpt-6-luna; resumable; raw outputs in results/<id>/ (git-ignored)
 python3 experiments/pipeline/run.py score --only HS201,HS202   # a quick trial
 python3 experiments/pipeline/run.py classify                   # results.json, predictions.csv
+python3 experiments/pipeline/run.py classify --beauty-tuned    # with the four tuned Beauty prompts
 ```
 
 `predictions.csv` keeps each diagram's 13 judge scores, its P(bad), and the call.
@@ -43,9 +44,17 @@ python3 experiments/pipeline/run.py classify                   # results.json, p
    input, separates good from bad less well with judge scores (AUC alone 0.717 vs 0.802 with human scores).
 5. **Mistakes fall most on hard diagrams:** 6 of the 12 missed bad diagrams and 7 of the 13 wrongly flagged good ones.
 
+## With the tuned Beauty prompts
+
+`classify --beauty-tuned` swaps in the four Beauty dimensions tuned in `../beauty_tuning` (Centering, Space Use,
+Alignment, Canvas Fill): AUC 0.849 (0.775-0.916), accuracy 0.74, 40 of 53 bad caught, 13 of 47 good flagged
+(`results_beauty_tuned.json`). The mean of the 13 judge scores rises to AUC 0.925; the classifier trained on human
+scores barely moves.
+
 ## Limits
 
 - One call per dimension, so run-to-run noise is not measured.
 - The classifier never saw judge scores. Training it on judge scores of HS001-HS200 is a separate run: the d17
-  correctness scores for those exist in `../human_alignment/results/`, but Beauty scores with the current prompts do not.
+  correctness scores for those exist in `../human_alignment/results/`; Beauty scores there exist for only the four
+  dimensions in `../beauty_tuning/results/`.
 - The test set has 100 diagrams; one diagram moves accuracy by 1 point.

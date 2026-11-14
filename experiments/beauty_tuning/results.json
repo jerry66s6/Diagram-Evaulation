@@ -1,0 +1,172 @@
+{
+ "choice": {
+  "centering": "rater",
+  "space_use": "rater",
+  "alignment": "rater",
+  "canvas_fill": "rater"
+ },
+ "validation": {
+  "centering": {
+   "current": {
+    "spearman": 0.09098271260048646,
+    "pearson": 0.1993964035151179,
+    "mae": 2.1039999999999996,
+    "bias": 1.946,
+    "spearman_unmodified": 0.14635217500698736,
+    "judge_sd": 0.5983510675180583,
+    "human_sd": 2.1450174824462382
+   },
+   "rater": {
+    "spearman": 0.5426424061694325,
+    "pearson": 0.6316178605659242,
+    "mae": 1.64,
+    "bias": -1.2,
+    "spearman_unmodified": 0.3837967244242695,
+    "judge_sd": 1.540486936004327,
+    "human_sd": 2.1450174824462382
+   }
+  },
+  "space_use": {
+   "current": {
+    "spearman": 0.2681334625014842,
+    "pearson": 0.25658136048349106,
+    "mae": 2.1450000000000005,
+    "bias": -0.02100000000000013,
+    "spearman_unmodified": 0.19883321426115716,
+    "judge_sd": 1.9512506245995156,
+    "human_sd": 2.412861371898518
+   },
+   "rater": {
+    "spearman": 0.5623510425475218,
+    "pearson": 0.6722850615530402,
+    "mae": 1.42,
+    "bias": -0.62,
+    "spearman_unmodified": 0.09733060853235435,
+    "judge_sd": 1.6928969253915018,
+    "human_sd": 2.412861371898518
+   }
+  },
+  "alignment": {
+   "current": {
+    "spearman": 0.40193794994386134,
+    "pearson": 0.4408121872441505,
+    "mae": 1.536,
+    "bias": -0.15600000000000008,
+    "spearman_unmodified": 0.30947916352613186,
+    "judge_sd": 1.5910009428029892,
+    "human_sd": 2.0479013648122804
+   },
+   "rater": {
+    "spearman": 0.5862109411410551,
+    "pearson": 0.6919519093958848,
+    "mae": 1.59,
+    "bias": -1.13,
+    "spearman_unmodified": 0.48631170456385087,
+    "judge_sd": 1.2520383380711628,
+    "human_sd": 2.0479013648122804
+   }
+  },
+  "canvas_fill": {
+   "current": {
+    "spearman": 0.17269544398025732,
+    "pearson": 0.3728238665548672,
+    "mae": 1.06,
+    "bias": 0.96,
+    "spearman_unmodified": 0.1637914297557576,
+    "judge_sd": 1.1079259903080165,
+    "human_sd": 1.8968131167829896
+   },
+   "rater": {
+    "spearman": 0.3030386510585464,
+    "pearson": 0.7263934591250265,
+    "mae": 1.18,
+    "bias": -0.64,
+    "spearman_unmodified": 0.002342535010667433,
+    "judge_sd": 1.1521718621802912,
+    "human_sd": 1.8968131167829896
+   }
+  }
+ },
+ "test": {
+  "centering": {
+   "current": {
+    "spearman": 0.15948684148747075,
+    "pearson": 0.35813548053673694,
+    "mae": 2.188,
+    "bias": 2.018,
+    "spearman_unmodified": 0.1650627014590097,
+    "judge_sd": 1.0281128342745265,
+    "human_sd": 2.1018801107579854
+   },
+   "rater": {
+    "spearman": 0.23782638180008475,
+    "pearson": 0.3135491862681319,
+    "mae": 1.76,
+    "bias": -1.16,
+    "spearman_unmodified": 0.2870242561468533,
+    "judge_sd": 1.7684739183827394,
+    "human_sd": 2.1018801107579854
+   }
+  },
+  "space_use": {
+   "current": {
+    "spearman": 0.13181248968414963,
+    "pearson": 0.17311881329528664,
+    "mae": 2.285,
+    "bias": -0.537,
+    "spearman_unmodified": -0.016749125939616624,
+    "judge_sd": 1.8915419635842077,
+    "human_sd": 2.3637893307145625
+   },
+   "rater": {
+    "spearman": 0.41937040267483083,
+    "pearson": 0.5001548946387766,
+    "mae": 1.68,
+    "bias": -0.94,
+    "spearman_unmodified": 0.4588519360892322,
+    "judge_sd": 1.6142800252744254,
+    "human_sd": 2.3637893307145625
+   }
+  },
+  "alignment": {
+   "current": {
+    "spearman": 0.20969672436056203,
+    "pearson": 0.19664490374292332,
+    "mae": 1.8230000000000002,
+    "bias": -0.38100000000000006,
+    "spearman_unmodified": 0.35114588918662276,
+    "judge_sd": 1.7054791115695318,
+    "human_sd": 1.906410239166796
+   },
+   "rater": {
+    "spearman": 0.4314225733641558,
+    "pearson": 0.48919137247105665,
+    "mae": 1.5,
+    "bias": -1.04,
+    "spearman_unmodified": 0.4648323912473533,
+    "judge_sd": 1.2983065893693984,
+    "human_sd": 1.906410239166796
+   }
+  },
+  "canvas_fill": {
+   "current": {
+    "spearman": 0.18910908689141753,
+    "pearson": 0.3741803979998209,
+    "mae": 1.143,
+    "bias": 1.143,
+    "spearman_unmodified": null,
+    "judge_sd": 0.1691478643081253,
+    "human_sd": 2.105801510114379
+   },
+   "rater": {
+    "spearman": 0.31580492628291174,
+    "pearson": 0.6501246131176472,
+    "mae": 1.41,
+    "bias": -0.81,
+    "spearman_unmodified": 0.2789890738207011,
+    "judge_sd": 1.4863041411501214,
+    "human_sd": 2.105801510114379
+   }
+  }
+ }
+}
