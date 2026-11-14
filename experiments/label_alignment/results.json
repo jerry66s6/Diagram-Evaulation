@@ -1,214 +1,668 @@
 {
- "changed": [
-  {
-   "id": "HS029",
-   "from": "positive",
-   "to": "negative",
-   "reason": "In this 750x500 three-panel image, panel B's branch labels are only a few pixels tall and the terminal 'markov' labels in panels A and B (and the red root label in B) are unreadable blurs even when zoomed at full resolution."
+ "original": {
+  "changed": [],
+  "negative_to_positive": 0,
+  "positive_to_negative": 0,
+  "methods": {
+   "human": {
+    "settings": {
+     "learning_rate": 0.03,
+     "max_depth": 2,
+     "n_estimators": 200
+    },
+    "val_auc": 0.9611835839598996,
+    "test_auc": 0.9751103974307507,
+    "test_auc_interval": [
+     0.9490064231232437,
+     0.9927739863508631
+    ],
+    "accuracy": 0.9,
+    "accuracy_interval": [
+     0.84,
+     0.95
+    ],
+    "bad_caught": 50,
+    "bad": 53,
+    "good_flagged": 7,
+    "good": 47,
+    "accuracy_on_changed_test": null,
+    "accuracy_on_unchanged_test": 0.9
+   },
+   "judge": {
+    "settings": {
+     "learning_rate": 0.03,
+     "max_depth": 3,
+     "n_estimators": 200
+    },
+    "val_auc": 0.9516491228070176,
+    "test_auc": 0.9112806101967083,
+    "test_auc_interval": [
+     0.8534725010036129,
+     0.958249698916098
+    ],
+    "accuracy": 0.82,
+    "accuracy_interval": [
+     0.74,
+     0.89
+    ],
+    "bad_caught": 43,
+    "bad": 53,
+    "good_flagged": 8,
+    "good": 47,
+    "accuracy_on_changed_test": null,
+    "accuracy_on_unchanged_test": 0.82
+   }
   },
-  {
-   "id": "HS095",
-   "from": "positive",
-   "to": "negative",
-   "reason": "In the Jan 2020-Jan 2021 period the arrow runs from the '109 included' box down into the '388 lung resections' box, reversed relative to every other period (resections -> included); also the excluded-list text is only ~4 px tall in this 761x264 image and hard to read at normal size."
-  },
-  {
-   "id": "HS142",
-   "from": "positive",
-   "to": "negative",
-   "reason": "Arrows use three unrelated styles with no meaning: a thin gray line arrow (MRI->images), a thin dark-green line arrow (images->ROI), and light-green block arrows of varying widths for the rest."
-  },
-  {
-   "id": "HS185",
-   "from": "positive",
-   "to": "negative",
-   "reason": "The three-panel figure is packed into a 761x289 image: exclusion lists are about 4 px tall, and the rotated risk-factor labels (Age, INR, Creatinine, ...) cannot be read at normal size without zooming."
-  },
-  {
-   "id": "HS186",
-   "from": "positive",
-   "to": "negative",
-   "reason": "Both exclusion arrows point from the exclusion boxes ('Lack of SUA assessment', 'Exclusion criteria') into the main flow, the reverse of an exclusion and in conflict with the caption, which says these participants are excluded."
-  },
-  {
-   "id": "HS234",
-   "from": "positive",
-   "to": "negative",
-   "reason": "Map#3 emits <Biomedical,1>, but Shuffle sends <Biomedical,{1,2}> to Reducer#1 and the result shows 'Biomedical, 3'. 'Biomedical' appears 4 times in the input chunks, so the count label is wrong. The layout itself is fine; the text is small but readable."
-  },
-  {
-   "id": "HS250",
-   "from": "positive",
-   "to": "negative",
-   "reason": "The Risk Characterization formula reads 'Cancer risk =  \u00d7 total intake' with a missing term before the \u00d7. The double arrow's right end stops visibly short of the Hazard Characterization box, and that box is mostly empty apart from a stray blue mark in its corner."
-  },
-  {
-   "id": "HS252",
-   "from": "positive",
-   "to": "negative",
-   "reason": "The 600x707 image squeezes 27 node tables into the frame. At full resolution the table text is about 4 px high and blurry, so digits are ambiguous (e.g. 80,00 vs 88,88), and some n values touch or clip the box edge."
-  },
-  {
-   "id": "HS261",
-   "from": "positive",
-   "to": "negative",
-   "reason": "A thin yellow connector from 'Complete causality assessment' to the risk-benefit box runs diagonally through the section heading ('about') and through both 'The same batch of vaccines...' branch labels. Otherwise the content matches the caption."
-  },
-  {
-   "id": "HS262",
-   "from": "positive",
-   "to": "negative",
-   "reason": "The horizontal split bar under '173 patients' ends in mid-air, with no connectors down to the '69 Responders' and '104 Non-Responders' boxes. The two exclusion boxes are also not linked to the main flow."
-  },
-  {
-   "id": "HS295",
-   "from": "positive",
-   "to": "negative",
-   "reason": "An arrow runs from the 'Studies excluded (n = 23)' box into 'Studies included initial search', and the initial-search box (n = 12) has no connection to the final 'Studies included in review' box. The three blue PRISMA stage bars on the left are blank, showing only faint dots instead of labels."
+  "human_minus_judge": {
+   "auc": 0.06382978723404242,
+   "auc_interval": [
+    0.016057808109193102,
+    0.11964070654355692
+   ],
+   "accuracy": 0.08000000000000007,
+   "accuracy_interval": [
+    0.0,
+    0.15999999999999992
+   ]
   }
- ],
- "labels": {
-  "original": {
-   "methods": {
-    "trained on human scores, given human scores": {
-     "settings": {
-      "learning_rate": 0.03,
-      "max_depth": 2,
-      "n_estimators": 200
-     },
-     "val_auc": 0.9611835839598996,
-     "test_auc": 0.9751103974307507,
-     "test_auc_interval": [
-      0.9490064231232437,
-      0.9927739863508631
-     ],
-     "accuracy": 0.9,
-     "accuracy_interval": [
-      0.84,
-      0.95
-     ],
-     "bad_caught": 50,
-     "bad": 53,
-     "good_flagged": 7,
-     "good": 47,
-     "changed_test_called_bad": [
-      "HS250",
-      "HS252",
-      "HS261"
-     ],
-     "accuracy_on_unchanged_test": 0.925531914893617
-    },
-    "trained on judge scores, given judge scores": {
-     "settings": {
-      "learning_rate": 0.03,
-      "max_depth": 3,
-      "n_estimators": 200
-     },
-     "val_auc": 0.9516491228070176,
-     "test_auc": 0.9112806101967083,
-     "test_auc_interval": [
-      0.8534725010036129,
-      0.958249698916098
-     ],
-     "accuracy": 0.82,
-     "accuracy_interval": [
-      0.74,
-      0.89
-     ],
-     "bad_caught": 43,
-     "bad": 53,
-     "good_flagged": 8,
-     "good": 47,
-     "changed_test_called_bad": [
-      "HS250",
-      "HS261"
-     ],
-     "accuracy_on_unchanged_test": 0.8297872340425532
-    }
+ },
+ "visual check": {
+  "changed": [
+   {
+    "id": "HS029",
+    "from": "positive",
+    "to": "negative"
    },
-   "human_minus_judge": {
-    "auc": 0.06382978723404242,
-    "auc_interval": [
-     0.016057808109193102,
-     0.11964070654355692
+   {
+    "id": "HS095",
+    "from": "positive",
+    "to": "negative"
+   },
+   {
+    "id": "HS142",
+    "from": "positive",
+    "to": "negative"
+   },
+   {
+    "id": "HS185",
+    "from": "positive",
+    "to": "negative"
+   },
+   {
+    "id": "HS186",
+    "from": "positive",
+    "to": "negative"
+   },
+   {
+    "id": "HS234",
+    "from": "positive",
+    "to": "negative"
+   },
+   {
+    "id": "HS250",
+    "from": "positive",
+    "to": "negative"
+   },
+   {
+    "id": "HS252",
+    "from": "positive",
+    "to": "negative"
+   },
+   {
+    "id": "HS261",
+    "from": "positive",
+    "to": "negative"
+   },
+   {
+    "id": "HS262",
+    "from": "positive",
+    "to": "negative"
+   },
+   {
+    "id": "HS295",
+    "from": "positive",
+    "to": "negative"
+   }
+  ],
+  "negative_to_positive": 0,
+  "positive_to_negative": 11,
+  "methods": {
+   "human": {
+    "settings": {
+     "learning_rate": 0.1,
+     "max_depth": 1,
+     "n_estimators": 100
+    },
+    "val_auc": 0.9553382699172174,
+    "test_auc": 0.9718892104175278,
+    "test_auc_interval": [
+     0.9396341463414635,
+     0.9946258784621744
     ],
-    "accuracy": 0.08000000000000007,
+    "accuracy": 0.93,
     "accuracy_interval": [
-     0.0,
-     0.15999999999999992
-    ]
+     0.88,
+     0.9702499999999986
+    ],
+    "bad_caught": 55,
+    "bad": 59,
+    "good_flagged": 3,
+    "good": 41,
+    "accuracy_on_changed_test": 0.5,
+    "accuracy_on_unchanged_test": 0.9574468085106383
+   },
+   "judge": {
+    "settings": {
+     "learning_rate": 0.03,
+     "max_depth": 3,
+     "n_estimators": 50
+    },
+    "val_auc": 0.9400631123262702,
+    "test_auc": 0.8644067796610169,
+    "test_auc_interval": [
+     0.7800589086399339,
+     0.9334487391484084
+    ],
+    "accuracy": 0.79,
+    "accuracy_interval": [
+     0.71,
+     0.87
+    ],
+    "bad_caught": 48,
+    "bad": 59,
+    "good_flagged": 10,
+    "good": 41,
+    "accuracy_on_changed_test": 0.3333333333333333,
+    "accuracy_on_unchanged_test": 0.8191489361702128
    }
   },
-  "aligned": {
-   "methods": {
-    "trained on human scores, given human scores": {
-     "settings": {
-      "learning_rate": 0.1,
-      "max_depth": 1,
-      "n_estimators": 100
-     },
-     "val_auc": 0.9553382699172174,
-     "test_auc": 0.9718892104175278,
-     "test_auc_interval": [
-      0.9396341463414635,
-      0.9946258784621744
-     ],
-     "accuracy": 0.93,
-     "accuracy_interval": [
-      0.88,
-      0.9702499999999986
-     ],
-     "bad_caught": 55,
-     "bad": 59,
-     "good_flagged": 3,
-     "good": 41,
-     "changed_test_called_bad": [
-      "HS234",
-      "HS250",
-      "HS261"
-     ],
-     "accuracy_on_unchanged_test": 0.9574468085106383
-    },
-    "trained on judge scores, given judge scores": {
-     "settings": {
-      "learning_rate": 0.03,
-      "max_depth": 3,
-      "n_estimators": 50
-     },
-     "val_auc": 0.9400631123262702,
-     "test_auc": 0.8644067796610169,
-     "test_auc_interval": [
-      0.7800589086399339,
-      0.9334487391484084
-     ],
-     "accuracy": 0.79,
-     "accuracy_interval": [
-      0.71,
-      0.87
-     ],
-     "bad_caught": 48,
-     "bad": 59,
-     "good_flagged": 10,
-     "good": 41,
-     "changed_test_called_bad": [
-      "HS250",
-      "HS261"
-     ],
-     "accuracy_on_unchanged_test": 0.8191489361702128
-    }
+  "human_minus_judge": {
+   "auc": 0.10748243075651098,
+   "auc_interval": [
+    0.04051260851591576,
+    0.1874844977263331
+   ],
+   "accuracy": 0.14,
+   "accuracy_interval": [
+    0.06999999999999995,
+    0.21999999999999997
+   ]
+  }
+ },
+ "both classifiers": {
+  "changed": [
+   {
+    "id": "HS029",
+    "from": "positive",
+    "to": "negative"
    },
-   "human_minus_judge": {
-    "auc": 0.10748243075651098,
-    "auc_interval": [
-     0.04051260851591576,
-     0.1874844977263331
-    ],
-    "accuracy": 0.14,
-    "accuracy_interval": [
-     0.06999999999999995,
-     0.21999999999999997
-    ]
+   {
+    "id": "HS035",
+    "from": "negative",
+    "to": "positive"
+   },
+   {
+    "id": "HS047",
+    "from": "negative",
+    "to": "positive"
+   },
+   {
+    "id": "HS054",
+    "from": "negative",
+    "to": "positive"
+   },
+   {
+    "id": "HS061",
+    "from": "negative",
+    "to": "positive"
+   },
+   {
+    "id": "HS094",
+    "from": "negative",
+    "to": "positive"
+   },
+   {
+    "id": "HS101",
+    "from": "negative",
+    "to": "positive"
+   },
+   {
+    "id": "HS135",
+    "from": "negative",
+    "to": "positive"
+   },
+   {
+    "id": "HS187",
+    "from": "negative",
+    "to": "positive"
+   },
+   {
+    "id": "HS241",
+    "from": "positive",
+    "to": "negative"
+   },
+   {
+    "id": "HS256",
+    "from": "negative",
+    "to": "positive"
+   },
+   {
+    "id": "HS293",
+    "from": "negative",
+    "to": "positive"
    }
+  ],
+  "negative_to_positive": 10,
+  "positive_to_negative": 2,
+  "methods": {
+   "human": {
+    "settings": {
+     "learning_rate": 0.1,
+     "max_depth": 1,
+     "n_estimators": 100
+    },
+    "val_auc": 0.9762880424342264,
+    "test_auc": 0.9723557692307692,
+    "test_auc_interval": [
+     0.9431089743589745,
+     0.9919871794871795
+    ],
+    "accuracy": 0.93,
+    "accuracy_interval": [
+     0.88,
+     0.97
+    ],
+    "bad_caught": 49,
+    "bad": 52,
+    "good_flagged": 4,
+    "good": 48,
+    "accuracy_on_changed_test": 1.0,
+    "accuracy_on_unchanged_test": 0.9278350515463918
+   },
+   "judge": {
+    "settings": {
+     "learning_rate": 0.1,
+     "max_depth": 2,
+     "n_estimators": 200
+    },
+    "val_auc": 0.9722385480091766,
+    "test_auc": 0.9391025641025642,
+    "test_auc_interval": [
+     0.8874198717948717,
+     0.9799679487179487
+    ],
+    "accuracy": 0.84,
+    "accuracy_interval": [
+     0.76,
+     0.91
+    ],
+    "bad_caught": 43,
+    "bad": 52,
+    "good_flagged": 7,
+    "good": 48,
+    "accuracy_on_changed_test": 0.6666666666666666,
+    "accuracy_on_unchanged_test": 0.845360824742268
+   }
+  },
+  "human_minus_judge": {
+   "auc": 0.033253205128204955,
+   "auc_interval": [
+    -0.010426682692307654,
+    0.08335336538461542
+   ],
+   "accuracy": 0.09000000000000008,
+   "accuracy_interval": [
+    0.010000000000000009,
+    0.16999999999999993
+   ]
+  }
+ },
+ "human mean < 8": {
+  "changed": [
+   {
+    "id": "HS008",
+    "from": "negative",
+    "to": "positive"
+   },
+   {
+    "id": "HS011",
+    "from": "negative",
+    "to": "positive"
+   },
+   {
+    "id": "HS029",
+    "from": "positive",
+    "to": "negative"
+   },
+   {
+    "id": "HS035",
+    "from": "negative",
+    "to": "positive"
+   },
+   {
+    "id": "HS037",
+    "from": "negative",
+    "to": "positive"
+   },
+   {
+    "id": "HS040",
+    "from": "positive",
+    "to": "negative"
+   },
+   {
+    "id": "HS047",
+    "from": "negative",
+    "to": "positive"
+   },
+   {
+    "id": "HS052",
+    "from": "negative",
+    "to": "positive"
+   },
+   {
+    "id": "HS053",
+    "from": "negative",
+    "to": "positive"
+   },
+   {
+    "id": "HS054",
+    "from": "negative",
+    "to": "positive"
+   },
+   {
+    "id": "HS058",
+    "from": "positive",
+    "to": "negative"
+   },
+   {
+    "id": "HS061",
+    "from": "negative",
+    "to": "positive"
+   },
+   {
+    "id": "HS065",
+    "from": "negative",
+    "to": "positive"
+   },
+   {
+    "id": "HS066",
+    "from": "negative",
+    "to": "positive"
+   },
+   {
+    "id": "HS072",
+    "from": "negative",
+    "to": "positive"
+   },
+   {
+    "id": "HS076",
+    "from": "negative",
+    "to": "positive"
+   },
+   {
+    "id": "HS089",
+    "from": "negative",
+    "to": "positive"
+   },
+   {
+    "id": "HS094",
+    "from": "negative",
+    "to": "positive"
+   },
+   {
+    "id": "HS096",
+    "from": "negative",
+    "to": "positive"
+   },
+   {
+    "id": "HS101",
+    "from": "negative",
+    "to": "positive"
+   },
+   {
+    "id": "HS105",
+    "from": "negative",
+    "to": "positive"
+   },
+   {
+    "id": "HS108",
+    "from": "negative",
+    "to": "positive"
+   },
+   {
+    "id": "HS122",
+    "from": "negative",
+    "to": "positive"
+   },
+   {
+    "id": "HS123",
+    "from": "negative",
+    "to": "positive"
+   },
+   {
+    "id": "HS125",
+    "from": "negative",
+    "to": "positive"
+   },
+   {
+    "id": "HS127",
+    "from": "negative",
+    "to": "positive"
+   },
+   {
+    "id": "HS135",
+    "from": "negative",
+    "to": "positive"
+   },
+   {
+    "id": "HS137",
+    "from": "negative",
+    "to": "positive"
+   },
+   {
+    "id": "HS139",
+    "from": "positive",
+    "to": "negative"
+   },
+   {
+    "id": "HS155",
+    "from": "negative",
+    "to": "positive"
+   },
+   {
+    "id": "HS156",
+    "from": "negative",
+    "to": "positive"
+   },
+   {
+    "id": "HS157",
+    "from": "negative",
+    "to": "positive"
+   },
+   {
+    "id": "HS158",
+    "from": "negative",
+    "to": "positive"
+   },
+   {
+    "id": "HS159",
+    "from": "negative",
+    "to": "positive"
+   },
+   {
+    "id": "HS172",
+    "from": "positive",
+    "to": "negative"
+   },
+   {
+    "id": "HS187",
+    "from": "negative",
+    "to": "positive"
+   },
+   {
+    "id": "HS192",
+    "from": "negative",
+    "to": "positive"
+   },
+   {
+    "id": "HS214",
+    "from": "negative",
+    "to": "positive"
+   },
+   {
+    "id": "HS215",
+    "from": "negative",
+    "to": "positive"
+   },
+   {
+    "id": "HS216",
+    "from": "negative",
+    "to": "positive"
+   },
+   {
+    "id": "HS218",
+    "from": "negative",
+    "to": "positive"
+   },
+   {
+    "id": "HS246",
+    "from": "positive",
+    "to": "negative"
+   },
+   {
+    "id": "HS247",
+    "from": "negative",
+    "to": "positive"
+   },
+   {
+    "id": "HS249",
+    "from": "negative",
+    "to": "positive"
+   },
+   {
+    "id": "HS251",
+    "from": "negative",
+    "to": "positive"
+   },
+   {
+    "id": "HS252",
+    "from": "positive",
+    "to": "negative"
+   },
+   {
+    "id": "HS255",
+    "from": "negative",
+    "to": "positive"
+   },
+   {
+    "id": "HS256",
+    "from": "negative",
+    "to": "positive"
+   },
+   {
+    "id": "HS257",
+    "from": "positive",
+    "to": "negative"
+   },
+   {
+    "id": "HS258",
+    "from": "negative",
+    "to": "positive"
+   },
+   {
+    "id": "HS261",
+    "from": "positive",
+    "to": "negative"
+   },
+   {
+    "id": "HS268",
+    "from": "positive",
+    "to": "negative"
+   },
+   {
+    "id": "HS293",
+    "from": "negative",
+    "to": "positive"
+   },
+   {
+    "id": "HS296",
+    "from": "negative",
+    "to": "positive"
+   },
+   {
+    "id": "HS298",
+    "from": "negative",
+    "to": "positive"
+   },
+   {
+    "id": "HS300",
+    "from": "negative",
+    "to": "positive"
+   }
+  ],
+  "negative_to_positive": 46,
+  "positive_to_negative": 10,
+  "methods": {
+   "human": {
+    "settings": {
+     "learning_rate": 0.1,
+     "max_depth": 2,
+     "n_estimators": 200
+    },
+    "val_auc": 0.9830076431869536,
+    "test_auc": 0.9801136363636364,
+    "test_auc_interval": [
+     0.9577820616883117,
+     0.9955357142857142
+    ],
+    "accuracy": 0.9,
+    "accuracy_interval": [
+     0.84,
+     0.95
+    ],
+    "bad_caught": 36,
+    "bad": 44,
+    "good_flagged": 2,
+    "good": 56,
+    "accuracy_on_changed_test": 0.7368421052631579,
+    "accuracy_on_unchanged_test": 0.9382716049382716
+   },
+   "judge": {
+    "settings": {
+     "learning_rate": 0.03,
+     "max_depth": 1,
+     "n_estimators": 200
+    },
+    "val_auc": 0.9200362296707123,
+    "test_auc": 0.8737824675324675,
+    "test_auc_interval": [
+     0.7942116477272728,
+     0.939945211038961
+    ],
+    "accuracy": 0.78,
+    "accuracy_interval": [
+     0.7,
+     0.85
+    ],
+    "bad_caught": 30,
+    "bad": 44,
+    "good_flagged": 8,
+    "good": 56,
+    "accuracy_on_changed_test": 0.5263157894736842,
+    "accuracy_on_unchanged_test": 0.8395061728395061
+   }
+  },
+  "human_minus_judge": {
+   "auc": 0.10633116883116889,
+   "auc_interval": [
+    0.04504870129870131,
+    0.17940340909090902
+   ],
+   "accuracy": 0.12,
+   "accuracy_interval": [
+    0.039999999999999925,
+    0.20000000000000007
+   ]
   }
  }
 }
