@@ -1,0 +1,214 @@
+{
+ "changed": [
+  {
+   "id": "HS029",
+   "from": "positive",
+   "to": "negative",
+   "reason": "In this 750x500 three-panel image, panel B's branch labels are only a few pixels tall and the terminal 'markov' labels in panels A and B (and the red root label in B) are unreadable blurs even when zoomed at full resolution."
+  },
+  {
+   "id": "HS095",
+   "from": "positive",
+   "to": "negative",
+   "reason": "In the Jan 2020-Jan 2021 period the arrow runs from the '109 included' box down into the '388 lung resections' box, reversed relative to every other period (resections -> included); also the excluded-list text is only ~4 px tall in this 761x264 image and hard to read at normal size."
+  },
+  {
+   "id": "HS142",
+   "from": "positive",
+   "to": "negative",
+   "reason": "Arrows use three unrelated styles with no meaning: a thin gray line arrow (MRI->images), a thin dark-green line arrow (images->ROI), and light-green block arrows of varying widths for the rest."
+  },
+  {
+   "id": "HS185",
+   "from": "positive",
+   "to": "negative",
+   "reason": "The three-panel figure is packed into a 761x289 image: exclusion lists are about 4 px tall, and the rotated risk-factor labels (Age, INR, Creatinine, ...) cannot be read at normal size without zooming."
+  },
+  {
+   "id": "HS186",
+   "from": "positive",
+   "to": "negative",
+   "reason": "Both exclusion arrows point from the exclusion boxes ('Lack of SUA assessment', 'Exclusion criteria') into the main flow, the reverse of an exclusion and in conflict with the caption, which says these participants are excluded."
+  },
+  {
+   "id": "HS234",
+   "from": "positive",
+   "to": "negative",
+   "reason": "Map#3 emits <Biomedical,1>, but Shuffle sends <Biomedical,{1,2}> to Reducer#1 and the result shows 'Biomedical, 3'. 'Biomedical' appears 4 times in the input chunks, so the count label is wrong. The layout itself is fine; the text is small but readable."
+  },
+  {
+   "id": "HS250",
+   "from": "positive",
+   "to": "negative",
+   "reason": "The Risk Characterization formula reads 'Cancer risk =  \u00d7 total intake' with a missing term before the \u00d7. The double arrow's right end stops visibly short of the Hazard Characterization box, and that box is mostly empty apart from a stray blue mark in its corner."
+  },
+  {
+   "id": "HS252",
+   "from": "positive",
+   "to": "negative",
+   "reason": "The 600x707 image squeezes 27 node tables into the frame. At full resolution the table text is about 4 px high and blurry, so digits are ambiguous (e.g. 80,00 vs 88,88), and some n values touch or clip the box edge."
+  },
+  {
+   "id": "HS261",
+   "from": "positive",
+   "to": "negative",
+   "reason": "A thin yellow connector from 'Complete causality assessment' to the risk-benefit box runs diagonally through the section heading ('about') and through both 'The same batch of vaccines...' branch labels. Otherwise the content matches the caption."
+  },
+  {
+   "id": "HS262",
+   "from": "positive",
+   "to": "negative",
+   "reason": "The horizontal split bar under '173 patients' ends in mid-air, with no connectors down to the '69 Responders' and '104 Non-Responders' boxes. The two exclusion boxes are also not linked to the main flow."
+  },
+  {
+   "id": "HS295",
+   "from": "positive",
+   "to": "negative",
+   "reason": "An arrow runs from the 'Studies excluded (n = 23)' box into 'Studies included initial search', and the initial-search box (n = 12) has no connection to the final 'Studies included in review' box. The three blue PRISMA stage bars on the left are blank, showing only faint dots instead of labels."
+  }
+ ],
+ "labels": {
+  "original": {
+   "methods": {
+    "trained on human scores, given human scores": {
+     "settings": {
+      "learning_rate": 0.03,
+      "max_depth": 2,
+      "n_estimators": 200
+     },
+     "val_auc": 0.9611835839598996,
+     "test_auc": 0.9751103974307507,
+     "test_auc_interval": [
+      0.9490064231232437,
+      0.9927739863508631
+     ],
+     "accuracy": 0.9,
+     "accuracy_interval": [
+      0.84,
+      0.95
+     ],
+     "bad_caught": 50,
+     "bad": 53,
+     "good_flagged": 7,
+     "good": 47,
+     "changed_test_called_bad": [
+      "HS250",
+      "HS252",
+      "HS261"
+     ],
+     "accuracy_on_unchanged_test": 0.925531914893617
+    },
+    "trained on judge scores, given judge scores": {
+     "settings": {
+      "learning_rate": 0.03,
+      "max_depth": 3,
+      "n_estimators": 200
+     },
+     "val_auc": 0.9516491228070176,
+     "test_auc": 0.9112806101967083,
+     "test_auc_interval": [
+      0.8534725010036129,
+      0.958249698916098
+     ],
+     "accuracy": 0.82,
+     "accuracy_interval": [
+      0.74,
+      0.89
+     ],
+     "bad_caught": 43,
+     "bad": 53,
+     "good_flagged": 8,
+     "good": 47,
+     "changed_test_called_bad": [
+      "HS250",
+      "HS261"
+     ],
+     "accuracy_on_unchanged_test": 0.8297872340425532
+    }
+   },
+   "human_minus_judge": {
+    "auc": 0.06382978723404242,
+    "auc_interval": [
+     0.016057808109193102,
+     0.11964070654355692
+    ],
+    "accuracy": 0.08000000000000007,
+    "accuracy_interval": [
+     0.0,
+     0.15999999999999992
+    ]
+   }
+  },
+  "aligned": {
+   "methods": {
+    "trained on human scores, given human scores": {
+     "settings": {
+      "learning_rate": 0.1,
+      "max_depth": 1,
+      "n_estimators": 100
+     },
+     "val_auc": 0.9553382699172174,
+     "test_auc": 0.9718892104175278,
+     "test_auc_interval": [
+      0.9396341463414635,
+      0.9946258784621744
+     ],
+     "accuracy": 0.93,
+     "accuracy_interval": [
+      0.88,
+      0.9702499999999986
+     ],
+     "bad_caught": 55,
+     "bad": 59,
+     "good_flagged": 3,
+     "good": 41,
+     "changed_test_called_bad": [
+      "HS234",
+      "HS250",
+      "HS261"
+     ],
+     "accuracy_on_unchanged_test": 0.9574468085106383
+    },
+    "trained on judge scores, given judge scores": {
+     "settings": {
+      "learning_rate": 0.03,
+      "max_depth": 3,
+      "n_estimators": 50
+     },
+     "val_auc": 0.9400631123262702,
+     "test_auc": 0.8644067796610169,
+     "test_auc_interval": [
+      0.7800589086399339,
+      0.9334487391484084
+     ],
+     "accuracy": 0.79,
+     "accuracy_interval": [
+      0.71,
+      0.87
+     ],
+     "bad_caught": 48,
+     "bad": 59,
+     "good_flagged": 10,
+     "good": 41,
+     "changed_test_called_bad": [
+      "HS250",
+      "HS261"
+     ],
+     "accuracy_on_unchanged_test": 0.8191489361702128
+    }
+   },
+   "human_minus_judge": {
+    "auc": 0.10748243075651098,
+    "auc_interval": [
+     0.04051260851591576,
+     0.1874844977263331
+    ],
+    "accuracy": 0.14,
+    "accuracy_interval": [
+     0.06999999999999995,
+     0.21999999999999997
+    ]
+   }
+  }
+ }
+}

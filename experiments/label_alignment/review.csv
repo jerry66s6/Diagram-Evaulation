@@ -1,0 +1,301 @@
+id,label,difficulty,reviewed,verdict,aligned_label,reason
+HS001,negative,medium,0,,negative,
+HS002,positive,medium,0,,positive,
+HS003,negative,easy,0,,negative,
+HS004,positive,medium,1,good,positive,"All boxes and branches in the caption are present and connected with readable text; arrow weights vary (thick main flow, thin side arrows) and the Local CHCs to Candidates link lacks an arrowhead, but nothing that makes the flow ambiguous."
+HS005,negative,hard,0,,negative,
+HS006,positive,easy,0,,positive,
+HS007,negative,medium,1,bad,negative,"A second identical 'WoE Assessment' box sits unconnected below the first one in panel A, which the caption does not describe. The overlap edit is not visible: no box overlaps the Relevant/Irrelevant boxes."
+HS008,negative,hard,1,bad,negative,"Box borders and connectors use a jumble of dotted, dashed, dash-dot and solid styles in different colors, with no consistent meaning."
+HS009,positive,medium,0,,positive,
+HS010,negative,hard,0,,negative,
+HS011,negative,easy,0,,negative,
+HS012,negative,medium,0,,negative,
+HS013,negative,medium,0,,negative,
+HS014,positive,hard,1,good,positive,"Clean decision tree with consistent red/green branches; small monospace labels are readable at full resolution and match the caption (GRL0617, Azithromycin, Nsp15 splits, Mixed Phenotype 3/4/2, markers (1)-(3))."
+HS015,positive,easy,0,,positive,
+HS016,positive,easy,0,,positive,
+HS017,positive,easy,1,good,positive,"Simple, clean tree with all counts matching the caption."
+HS018,negative,medium,0,,negative,
+HS019,positive,medium,0,,positive,
+HS020,negative,easy,0,,negative,
+HS021,positive,medium,0,,positive,
+HS022,positive,medium,1,good,positive,All steps and both inclusion/exclusion boxes are present and connected; text is readable and fits its boxes.
+HS023,positive,easy,0,,positive,
+HS024,positive,medium,0,,positive,
+HS025,positive,easy,0,,positive,
+HS026,positive,hard,0,,positive,
+HS027,negative,hard,0,,negative,
+HS028,negative,hard,1,bad,negative,"The left arm shows '139 no mass visible' where the 768 screen-detected-cancers box belongs, and '768 screen detected cancers' (smaller font) sits in the mass/no-mass split. This contradicts the caption."
+HS029,positive,hard,1,bad,negative,"In this 750x500 three-panel image, panel B's branch labels are only a few pixels tall and the terminal 'markov' labels in panels A and B (and the red root label in B) are unreadable blurs even when zoomed at full resolution."
+HS030,positive,easy,0,,positive,
+HS031,negative,hard,0,,negative,
+HS032,positive,easy,0,,positive,
+HS033,positive,hard,1,good,positive,"Both DNA and RNA arms are complete, consistently styled, and readable; the RNA pre-processing column has no explicit arrow into Clustering/DEG (unlike the DNA arm) but the column layout keeps the flow clear."
+HS034,negative,easy,0,,negative,
+HS035,negative,easy,1,bad,negative,"The drawing is pushed into the top-left corner: margins are about 9 px on the left vs 355 px on the right, and 14 px at the top vs 186 px at the bottom. The non-COPD/COPD label swap does not contradict the caption, since left/right order is arbitrary."
+HS036,positive,easy,0,,positive,
+HS037,negative,hard,1,bad,negative,"The t=0 sample box in the first row reads 'Sample N(μ'', cut off mid-formula. The matching box in the K-th row has text faded to near-invisible pink."
+HS038,positive,easy,1,good,positive,"Simple exclusion flowchart with all boxes and counts from the caption, readable and properly connected."
+HS039,negative,hard,0,,negative,
+HS040,positive,hard,1,good,positive,"Decision scheme is complete, consistently styled and readable; one range label reads '101-10000' (overlapping '>1000'), an apparent source typo but not something the caption contradicts."
+HS041,positive,easy,1,good,positive,All four counts and three exclusion boxes are present and connected; the final box is slightly offset but the drawing is clear.
+HS042,negative,hard,0,,negative,
+HS043,positive,medium,0,,positive,
+HS044,positive,easy,0,,positive,
+HS045,negative,easy,0,,negative,
+HS046,positive,easy,0,,positive,
+HS047,negative,medium,1,bad,negative,The databases-arm 'Full text reviewed for eligibility (n=117)' box has very light gray text and border that are hard to read.
+HS048,negative,easy,0,,negative,
+HS049,positive,easy,1,good,positive,"Clean exclusion flowchart matching the caption, readable and properly connected."
+HS050,negative,medium,0,,negative,
+HS051,positive,easy,0,,positive,
+HS052,negative,medium,0,,negative,
+HS053,negative,easy,0,,negative,
+HS054,negative,hard,1,bad,negative,The whole image is heavily blurred. Box labels such as 'PvaCO2 ≤ 6mmHg' and the end-point texts are barely legible.
+HS055,positive,easy,0,,positive,
+HS056,negative,easy,0,,negative,
+HS057,positive,hard,1,good,positive,"All blocks in the caption are present and wired correctly; 'P controller' text sits tight against its box edge and the 'u' label is crossed by the dashed frame, but everything remains readable."
+HS058,positive,easy,1,good,positive,All boxes and counts match the caption with consistent plain connectors; line breaks in the exclusion box are awkward but the text is readable.
+HS059,positive,hard,1,good,positive,"Dense but complete: all subsets, four models, testing/training sets, evaluation and backcasting boxes are present; colored lines are used consistently and text is small but readable."
+HS060,positive,medium,0,,positive,
+HS061,negative,hard,1,bad,negative,"The low-risk 'Non adherence' box has lost its count line and its bold weight. Every other box, including the high-risk 'Non adherence (N = 59)', shows an n value."
+HS062,positive,hard,0,,positive,
+HS063,positive,easy,0,,positive,
+HS064,negative,medium,1,bad,negative,"The Step 2 'Analyze DVHs based on the reference structure set' text is shrunk to an unreadably tiny size inside a large box. Most box borders are faded to light gray while a few stay black, and a pale patch covers part of 'Host institution'."
+HS065,negative,medium,1,bad,negative,"The 'Excluded (n=129)' box text is cut off at the right edge ('Not finished (', 'Outcomes not', 'Not target drug'). The top-left database box and the 'Records excluded' box are visibly rotated."
+HS066,negative,easy,0,,negative,
+HS067,negative,hard,0,,negative,
+HS068,negative,hard,0,,negative,
+HS069,negative,hard,0,,negative,
+HS070,positive,easy,0,,positive,
+HS071,positive,hard,0,,positive,
+HS072,negative,easy,0,,negative,
+HS073,positive,medium,1,good,positive,"All five questions with simulations and conclusions are present in order and connected; the last box's 'technology' descenders touch its border, a minor tightness only."
+HS074,positive,easy,0,,positive,
+HS075,positive,medium,0,,positive,
+HS076,negative,easy,0,,negative,
+HS077,positive,hard,0,,positive,
+HS078,negative,easy,0,,negative,
+HS079,negative,easy,1,bad,negative,"'Surgeries with follow-up' shows n=98 and Neurolysis shows n=108, the reverse of the caption (108 surgeries, 98 neurolysis). The n=98 label is enlarged and sits on a visible patch rectangle."
+HS080,negative,hard,0,,negative,
+HS081,positive,easy,1,good,positive,PRISMA flow is complete with consistent thick gray arrows and readable text matching the caption.
+HS082,negative,easy,0,,negative,
+HS083,negative,easy,1,bad,negative,"'Stool (+) n = 46' is at the top and 'Subjects n = 138' comes below it, reversing the order in the caption. The 'Presence n = 40 (98%)' box text is faded to light gray, and the top boxes have faint borders."
+HS084,positive,hard,1,good,positive,"All branches in the caption (WD/uncertain/PD NEN, grades, genetics, PET prognosis) are present, connected and readable."
+HS085,positive,hard,1,good,positive,"All inputs, computational steps and biological processes in the caption are present and linked; text is small but readable at full resolution."
+HS086,positive,medium,1,good,positive,"Both RCA and LAD arms and the converging ICCU and discharge boxes are present, consistently styled and readable."
+HS087,positive,medium,0,,positive,
+HS088,positive,medium,0,,positive,
+HS089,negative,easy,0,,negative,
+HS090,negative,easy,0,,negative,
+HS091,negative,hard,1,bad,negative,"The whole image is blurred so that small labels are hard to read. The left connector at the bottom has its arrowhead pointing left, away from the final box, instead of into it."
+HS092,positive,medium,0,,positive,
+HS093,negative,easy,0,,negative,
+HS094,negative,easy,1,bad,negative,"There is no connector between the '510 patients' box and the '152 patients' box, only a tiny stub, so the first step is disconnected."
+HS095,positive,hard,1,bad,negative,"In the Jan 2020-Jan 2021 period the arrow runs from the '109 included' box down into the '388 lung resections' box, reversed relative to every other period (resections -> included); also the excluded-list text is only ~4 px tall in this 761x264 image and hard to read at normal size."
+HS096,negative,medium,0,,negative,
+HS097,positive,easy,0,,positive,
+HS098,positive,hard,0,,positive,
+HS099,positive,hard,1,good,positive,"All day 1/3/7 steps and outcomes in the caption are present and connected with readable text; the open-ended dashed arrows leaving the CCT boxes are a design choice, not a clear cut-off."
+HS100,positive,easy,0,,positive,
+HS101,negative,hard,1,bad,negative,"In panel (b), Day 2 shows only Condition B and C. The crossover lines from Day 1 and Day 3 dangle into the empty slot where Condition A should be."
+HS102,negative,hard,0,,negative,
+HS103,positive,easy,0,,positive,
+HS104,positive,hard,1,good,positive,"All workflow stages from the caption are present and correctly connected, with consistent styling and small but readable text."
+HS105,negative,easy,1,bad,negative,"The '165 PTC patients were included' box text and border are faded to very light gray. The arrow to the '100 patients excluded' box also stops a little short of it, but that gap is minor."
+HS106,positive,easy,0,,positive,
+HS107,positive,hard,1,good,positive,"All eight topic columns, assessment bars, outlier boxes and the Depression third period are present and match the caption; text is small but readable and colors follow the legend."
+HS108,negative,easy,0,,negative,
+HS109,positive,hard,1,good,positive,Panel A tree and panel B loop workflow are complete and clearly connected; labels are legible and consistent with the caption.
+HS110,positive,easy,0,,positive,
+HS111,negative,medium,0,,negative,
+HS112,positive,easy,0,,positive,
+HS113,positive,medium,0,,positive,
+HS114,positive,hard,1,good,positive,"All decision branches and outcomes in the caption are present and correctly connected. Diamond labels touch the diamond outlines and one box ends with 'COVID-19 designated' (missing 'hospital'), but text stays readable, so these are minor."
+HS115,positive,medium,1,good,positive,Plain grayscale CONSORT-style chart with all boxes and counts from the caption; boxes sit flush to the image edges but nothing is cut off.
+HS116,negative,easy,0,,negative,
+HS117,negative,medium,0,,negative,
+HS118,positive,medium,0,,positive,
+HS119,negative,hard,0,,negative,
+HS120,positive,hard,1,good,positive,Both workflows with all steps from the caption are present and connected with consistent color-coded arrows; text is small but readable at native size.
+HS121,positive,medium,0,,positive,
+HS122,negative,medium,0,,negative,
+HS123,negative,hard,0,,negative,
+HS124,negative,medium,0,,negative,
+HS125,negative,medium,0,,negative,
+HS126,negative,easy,0,,negative,
+HS127,negative,hard,1,bad,negative,"The connector from the Update systematic review/Inconsistent results line down to 'Evidence synthesis' is erased, leaving that box with no input and a broken stub with a notch in its top border."
+HS128,negative,easy,0,,negative,
+HS129,negative,medium,0,,negative,
+HS130,positive,hard,1,good,positive,"Three-column CUSUM-AA-PCA flow is complete and connected as described; formula labels are legible, only minor typos ('prediciton')."
+HS131,negative,medium,0,,negative,
+HS132,positive,hard,1,good,positive,"Extraction and fractionation trees match the caption; the low-resolution figure has tiny subscripts, but the main labels remain readable."
+HS133,positive,hard,1,good,positive,"QC, imputation, merge and the two analysis arms are all present with correct counts; group titles sit on box/container borders in a consistent draw.io style, so nothing is unreadable."
+HS134,positive,medium,0,,positive,
+HS135,negative,hard,1,bad,negative,The Results 3 box text ('Decadal trends in habitat-specific gamma diversity (H3)') is shrunk to an unreadable size inside a large box.
+HS136,positive,easy,1,good,positive,"All steps in the caption appear in a single U-shaped chain joined by plain connector bars (no arrowheads, a consistent style); text is legible."
+HS137,negative,hard,0,,negative,
+HS138,positive,easy,0,,positive,
+HS139,positive,hard,1,good,positive,"Dense but complete ModFOLD8 data/process graph with key; all listed methods and outputs present, labels readable at native size."
+HS140,positive,hard,0,,positive,
+HS141,positive,easy,0,,positive,
+HS142,positive,medium,1,bad,negative,"Arrows use three unrelated styles with no meaning: a thin gray line arrow (MRI->images), a thin dark-green line arrow (images->ROI), and light-green block arrows of varying widths for the rest."
+HS143,positive,hard,0,,positive,
+HS144,positive,easy,0,,positive,
+HS145,negative,easy,0,,negative,
+HS146,negative,easy,1,bad,negative,The final box reads 'Atheros' instead of 'Atherosclerosis'. The Metabolites and Immune activation boxes are visibly tilted.
+HS147,positive,hard,0,,positive,
+HS148,negative,easy,0,,negative,
+HS149,negative,hard,0,,negative,
+HS150,positive,medium,0,,positive,
+HS151,positive,medium,0,,positive,
+HS152,positive,easy,1,good,positive,Left flowchart and right illustrative panels match the caption; labels are clear and nothing is cut off.
+HS153,positive,easy,0,,positive,
+HS154,negative,easy,0,,negative,
+HS155,negative,medium,0,,negative,
+HS156,negative,easy,0,,negative,
+HS157,negative,medium,0,,negative,
+HS158,negative,easy,1,bad,negative,"The '212 Patients Included' box is moved up over the screened box, hiding the 281-included box (only an empty strip shows) and leaving the arrow pointing from 212 to 69. The whole drawing is pushed into the top-left with a large empty area on the right and bottom."
+HS159,negative,easy,1,bad,negative,The DEGs label is enlarged far beyond its box: the text spills over the borders and clashes with the box outline and the neighbouring arrows.
+HS160,positive,easy,1,good,positive,Four sequential chevron stages with the caption's counts; stage colors are a consistent sequence and all text fits its shapes.
+HS161,negative,hard,1,bad,negative,"In the OS branch, the AFP-L3 final count box is empty, and the 'Other studies' count box next to it has text shrunk to an unreadable size."
+HS162,positive,medium,1,good,positive,"All datasets, intermediate gene sets and the ceRNA network from the caption are present and connected; labels are clear."
+HS163,negative,easy,0,,negative,
+HS164,positive,medium,0,,positive,
+HS165,negative,hard,0,,negative,
+HS166,negative,hard,0,,negative,
+HS167,negative,medium,0,,negative,
+HS168,negative,hard,0,,negative,
+HS169,positive,hard,0,,positive,
+HS170,negative,medium,0,,negative,
+HS171,negative,easy,0,,negative,
+HS172,positive,hard,1,good,positive,"Both arms, all assessment stages and exclusion counts are present and arithmetically consistent; exclusion boxes float beside each row without connectors, but this is applied consistently and is easy to follow."
+HS173,positive,easy,1,good,positive,Literature-selection flow matches the caption with consistent counts; only a tiny character collision in 'library(n=640)'.
+HS174,negative,easy,0,,negative,
+HS175,positive,hard,0,,positive,
+HS176,negative,medium,0,,negative,
+HS177,positive,medium,0,,positive,
+HS178,negative,medium,1,bad,negative,The '7593 Offered matching examination' box and the left diabetes-exclusion box are visibly rotated. The arrow between 7593 and 6905 points upward and is broken at its tail.
+HS179,negative,medium,1,bad,negative,"In the intervention arm, the arrow between 'Lost to follow-up' and 'Completed T2' points up, unlike the downward arrow in the control arm. Matching boxes in the two arms have different colours, an inconsistent rainbow scheme."
+HS180,positive,medium,0,,positive,
+HS181,negative,medium,0,,negative,
+HS182,negative,medium,0,,negative,
+HS183,positive,medium,0,,positive,
+HS184,negative,hard,0,,negative,
+HS185,positive,hard,1,bad,negative,"The three-panel figure is packed into a 761x289 image: exclusion lists are about 4 px tall, and the rotated risk-factor labels (Age, INR, Creatinine, ...) cannot be read at normal size without zooming."
+HS186,positive,easy,1,bad,negative,"Both exclusion arrows point from the exclusion boxes ('Lack of SUA assessment', 'Exclusion criteria') into the main flow, the reverse of an exclusion and in conflict with the caption, which says these participants are excluded."
+HS187,negative,hard,1,bad,negative,"A second gray 'Dataset partitioning' box sits unconnected inside the TtRSA Algorithm Process region, duplicating the one in Data Preprocess."
+HS188,negative,hard,0,,negative,
+HS189,positive,medium,0,,positive,
+HS190,positive,medium,0,,positive,
+HS191,positive,medium,0,,positive,
+HS192,negative,easy,0,,negative,
+HS193,positive,easy,0,,positive,
+HS194,negative,easy,0,,negative,
+HS195,positive,easy,0,,positive,
+HS196,positive,easy,0,,positive,
+HS197,negative,easy,1,bad,negative,The step-1 label ('Training before test trial') is shrunk to illegible size. The whole drawing occupies only a small central part of a mostly empty canvas.
+HS198,positive,medium,0,,positive,
+HS199,negative,hard,0,,negative,
+HS200,positive,hard,1,good,positive,"OHT, POAG suspect and POAG algorithms are complete as described; the low-resolution grayscale image is still readable, apart from a missing closing parenthesis."
+HS201,negative,hard,0,,negative,
+HS202,negative,hard,1,bad,negative,"The header of the male cognitive-decline outcome box is cut off as 'Cognitive decline b', while the parallel box reads 'Cognitive decline by risk score tertile'."
+HS203,negative,medium,0,,negative,
+HS204,negative,medium,0,,negative,
+HS205,positive,easy,0,,positive,
+HS206,positive,hard,1,good,positive,"Decision tree and three Markov sub-models with the caption's states, self-loops and no exits from Death are present. In the middle model one connector clips the Infected ellipse edge, a minor flaw in an inherently dense graph."
+HS207,positive,medium,1,good,positive,PRISMA-style selection with stage labels and counts that sum correctly; all text legible.
+HS208,negative,medium,0,,negative,
+HS209,positive,easy,1,good,positive,Simple three-box flow with one exclusion box; counts are consistent (23694-22146-278=1270) and all text is clear.
+HS210,positive,medium,1,good,positive,"Clean PRISMA chart with stage bars; all boxes, counts and connections match the caption."
+HS211,negative,hard,0,,negative,
+HS212,negative,hard,0,,negative,
+HS213,positive,medium,0,,positive,
+HS214,negative,medium,1,bad,negative,"The 'Studies included in quantitative synthesis (meta-analysis) (n = 18)' text is enlarged far past its box, overflowing the left edge and colliding with the box border."
+HS215,negative,medium,1,bad,negative,"The 'Modified process' panel is shifted left over the 'Trial testing' panel, cutting off its text ('Recycled PET -', 'Amorphous polyes', 'Talc (T) / Carbon fi') and its image."
+HS216,negative,hard,1,bad,negative,"In panel (c), the 'Entity-Entity linking' text is faded to very low contrast against its blue box, unlike every other label."
+HS217,negative,easy,0,,negative,
+HS218,negative,easy,0,,negative,
+HS219,positive,medium,0,,positive,
+HS220,negative,easy,0,,negative,
+HS221,positive,medium,0,,positive,
+HS222,negative,medium,0,,negative,
+HS223,negative,medium,0,,negative,
+HS224,negative,medium,0,,negative,
+HS225,negative,easy,0,,negative,
+HS226,negative,medium,0,,negative,
+HS227,positive,medium,0,,positive,
+HS228,positive,medium,0,,positive,
+HS229,positive,hard,0,,positive,
+HS230,positive,hard,1,good,positive,"All described inputs, dictionaries, two coefficient-estimation boxes and reconstruction steps are present and connected. Text sits tight against the slanted parallelogram edges in a few boxes but stays readable, so this is minor."
+HS231,negative,easy,0,,negative,
+HS232,positive,medium,0,,positive,
+HS233,negative,easy,1,bad,negative,"The CBR to Knowledge Base connector has two arrowheads both pointing right ('>>'), so it reads one-way, but the caption says the link is two-way. Box borders and several connectors are pale grey, while other connectors are black."
+HS234,positive,hard,1,bad,negative,"Map#3 emits <Biomedical,1>, but Shuffle sends <Biomedical,{1,2}> to Reducer#1 and the result shows 'Biomedical, 3'. 'Biomedical' appears 4 times in the input chunks, so the count label is wrong. The layout itself is fine; the text is small but readable."
+HS235,positive,easy,0,,positive,
+HS236,positive,hard,0,,positive,
+HS237,negative,medium,0,,negative,
+HS238,negative,medium,1,bad,negative,"The flowchart is shrunk to a small strip in the middle of a mostly empty tall canvas, and its text is blurry and hard to read."
+HS239,negative,hard,0,,negative,
+HS240,positive,hard,1,good,positive,"All four stages and their contents match the caption. The detail inset and heatmap thumbnail have very small text, but that is a secondary illustration and the main labels are clear."
+HS241,positive,medium,1,good,positive,"All inputs, the SQLite database, utilities and R visualization are present. The mixed solid and dashed arrows are used consistently to show different kinds of link."
+HS242,negative,hard,0,,negative,
+HS243,negative,hard,0,,negative,
+HS244,negative,easy,0,,negative,
+HS245,negative,medium,0,,negative,
+HS246,positive,hard,1,good,positive,"The full workflow matches the caption with clean orthogonal layout. The risk-factor criteria box is a free-standing annotation, which is a common style."
+HS247,negative,medium,0,,negative,
+HS248,positive,medium,0,,positive,
+HS249,negative,hard,1,bad,negative,"Panel A's box before the cohort split now reads 'Non-normal: u-test, median (interquartile range)', and 'Patients were eligible for analysis (n=920)' has moved into panel B next to 'Continuous variables'. This contradicts the caption, and both labels are now tiny."
+HS250,positive,medium,1,bad,negative,"The Risk Characterization formula reads 'Cancer risk =  × total intake' with a missing term before the ×. The double arrow's right end stops visibly short of the Hazard Characterization box, and that box is mostly empty apart from a stray blue mark in its corner."
+HS251,negative,hard,0,,negative,
+HS252,positive,hard,1,bad,negative,"The 600x707 image squeezes 27 node tables into the frame. At full resolution the table text is about 4 px high and blurry, so digits are ambiguous (e.g. 80,00 vs 88,88), and some n values touch or clip the box edge."
+HS253,negative,hard,0,,negative,
+HS254,negative,medium,0,,negative,
+HS255,negative,medium,0,,negative,
+HS256,negative,easy,1,bad,negative,"The 'noise' box text and border are faded to pale grey, clearly lighter than the 'slippage' and 'calibration problem' boxes."
+HS257,positive,hard,1,good,positive,"The structure matches the caption (induction options, assessments, failure and response branches, remission and relapse options, deep-remission goal). There are typos ('Combinatio', 'assesment') and the text is small but readable."
+HS258,negative,hard,1,bad,negative,"The yellow task box at the left of panel (b) is blank except for leftover letter fragments ('av', 'te') at its edges, so the 'direct update' step from the caption is missing."
+HS259,positive,easy,0,,positive,
+HS260,negative,hard,0,,negative,
+HS261,positive,hard,1,bad,negative,A thin yellow connector from 'Complete causality assessment' to the risk-benefit box runs diagonally through the section heading ('about') and through both 'The same batch of vaccines...' branch labels. Otherwise the content matches the caption.
+HS262,positive,medium,1,bad,negative,"The horizontal split bar under '173 patients' ends in mid-air, with no connectors down to the '69 Responders' and '104 Non-Responders' boxes. The two exclusion boxes are also not linked to the main flow."
+HS263,negative,medium,0,,negative,
+HS264,positive,easy,0,,positive,
+HS265,positive,medium,0,,positive,
+HS266,positive,easy,1,good,positive,Six-step linear workflow in the correct order with clean arrows. The green start box is a deliberate highlight.
+HS267,positive,hard,0,,positive,
+HS268,positive,hard,1,good,positive,"All branches described in the caption are present and connected. Diagonal arrows and typos ('Hemodynamicaly', 'Commpression') make it a bit untidy, but nothing would block a careful reader."
+HS269,negative,medium,0,,negative,
+HS270,positive,easy,0,,positive,
+HS271,negative,medium,0,,negative,
+HS272,positive,easy,1,good,positive,"Clean vertical flow with correct counts (523-130=393, 393-88=305). Text fits tightly but stays inside the boxes."
+HS273,positive,hard,1,good,positive,"Data scraping, three model blocks with tuning loops, and the SHAP/LIME blocks are all present and connected as described. The text is small but readable."
+HS274,positive,medium,0,,positive,
+HS275,negative,medium,0,,negative,
+HS276,negative,medium,0,,negative,
+HS277,negative,medium,0,,negative,
+HS278,positive,hard,0,,positive,
+HS279,positive,medium,0,,positive,
+HS280,negative,medium,0,,negative,
+HS281,negative,hard,0,,negative,
+HS282,positive,easy,0,,positive,
+HS283,positive,hard,1,good,positive,Decision flow matches the caption with clear yes/no branches and orthogonal connectors; there is only a stray comma in one diamond.
+HS284,positive,easy,0,,positive,
+HS285,positive,medium,1,good,positive,"Counts are consistent (262-23=239, 239-14=225, 167+58, 42+16) and every box is present and connected. The framing is tight but nothing is cut off."
+HS286,positive,easy,0,,positive,
+HS287,negative,easy,0,,negative,
+HS288,negative,easy,0,,negative,
+HS289,negative,medium,1,bad,negative,"The 'Records screened' and 'Reports excluded' boxes are tilted with clipped corners, and the 'Reports assessed for eligibility' text is faded. The arrow between 'Records identified' and 'Records screened' is reversed and garbled."
+HS290,positive,hard,1,good,positive,All boxes and counts match the caption (147+44+5=196 and per-arm splits). The text is small in the low-resolution image but readable.
+HS291,negative,hard,0,,negative,
+HS292,negative,hard,0,,negative,
+HS293,negative,hard,1,bad,negative,"The Split to Bottleneck arrow in the C2f inset is replaced by a white smear. The CBS inset (Conv, BN, SiLU) named in the caption is missing, leaving empty space at the top."
+HS294,positive,hard,1,good,positive,"All three algorithms (A, B, C) are present with consistent boxes and connectors matching the caption."
+HS295,positive,medium,1,bad,negative,"An arrow runs from the 'Studies excluded (n = 23)' box into 'Studies included initial search', and the initial-search box (n = 12) has no connection to the final 'Studies included in review' box. The three blue PRISMA stage bars on the left are blank, showing only faint dots instead of labels."
+HS296,negative,easy,0,,negative,
+HS297,positive,hard,0,,positive,
+HS298,negative,hard,1,bad,negative,"The 'Calculate normalization' label is enlarged past its box and the image edge, overlapping the neighbouring box. Most boxes and connectors are drawn in very faint grey."
+HS299,positive,medium,0,,positive,
+HS300,negative,easy,0,,negative,
