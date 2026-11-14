@@ -1,15 +1,36 @@
-"""report.html: the pipeline's result on one short, self-contained page. Run `classify --beauty-tuned` first.
+"""One short, self-contained page with the pipeline's result on HS201-HS300.
 
-    python3 experiments/pipeline/report.py
+    python3 experiments/pipeline/report.py                       # report.html: classifier trained on human scores
+    python3 experiments/pipeline/report.py --trained-on-judges   # report_trained_on_judges.html: trained on judge scores
+
+Run `classify --beauty-tuned` or `train-on-judges --beauty-tuned` first.
 """
 import csv
 import json
+import sys
 from pathlib import Path
 
 HERE = Path(__file__).resolve().parent
-R = json.load(open(HERE / "results_beauty_tuned.json"))
-M = R["methods"]["pipeline: gradient boosting on judge scores"]
-rows = list(csv.DictReader(open(HERE / "predictions_beauty_tuned.csv")))
+JUDGES = "--trained-on-judges" in sys.argv
+if JUDGES:
+    R = json.load(open(HERE / "results_trained_on_judges_beauty_tuned.json"))
+    M = R["methods"]["gradient boosting trained on judge scores"]
+    rows = list(csv.DictReader(open(HERE / "predictions_trained_on_judges_beauty_tuned.csv")))
+    OUT = HERE / "report_trained_on_judges.html"
+    other = json.load(open(HERE / "results_beauty_tuned.json"))["methods"]["pipeline: gradient boosting on judge scores"]
+    STEP2 = (f"Gradient boosting, trained on the judges' scores of HS001 to HS200, turns the 13 scores into a good or bad call. "
+             f"Its settings ({M['settings']['n_estimators']} trees, depth {M['settings']['max_depth']}, learning rate "
+             f"{M['settings']['learning_rate']}) and the good/bad cut were chosen by 5-fold train/val on those 200 diagrams, "
+             f"then it was refit on all 200.")
+    NOTE = (f"<p>Trained on the human scores of HS001 to HS200 instead, the same pipeline gets AUC {other['test_auc']:.3f} "
+            f"and accuracy {other['accuracy']:.2f}.</p>")
+else:
+    R = json.load(open(HERE / "results_beauty_tuned.json"))
+    M = R["methods"]["pipeline: gradient boosting on judge scores"]
+    rows = list(csv.DictReader(open(HERE / "predictions_beauty_tuned.csv")))
+    OUT = HERE / "report.html"
+    STEP2 = "Gradient boosting, trained on the human scores of HS001 to HS200, turns the 13 scores into a good or bad call."
+    NOTE = ""
 bad = [r for r in rows if r["label"] == "negative"]
 good = [r for r in rows if r["label"] == "positive"]
 caught, missed = sum(r["called_bad"] == "1" for r in bad), sum(r["called_bad"] == "0" for r in bad)
@@ -73,13 +94,13 @@ page = f"""<!doctype html>
 <li>Two VLM judges (gpt-6-luna) score each diagram on 13 dimensions: the correctness judge on Layout, Connectivity,
 Presence, Details, and Legibility, and the Beauty judge on its eight dimensions, with the four tuned prompts for
 Centering, Space Use, Alignment, and Canvas Fill.</li>
-<li>Gradient boosting, trained on the human scores of HS001 to HS200, turns the 13 scores into a good or bad call.</li>
+<li>{STEP2}</li>
 <li>The call is compared with each diagram's true label: positive (good) or negative (deliberately made bad with
 inserted errors). The human scores of the test diagrams are not used.</li>
 </ol>
-
+{NOTE}
 <footer>Code and full results: <code>experiments/pipeline</code> on branch <code>vlm-pipeline</code>.
-To reproduce: <code>python3 experiments/pipeline/run.py classify --beauty-tuned</code></footer>
+To reproduce: <code>python3 experiments/pipeline/run.py {'train-on-judges' if JUDGES else 'classify'} --beauty-tuned</code></footer>
 </main></body></html>
 """
-(HERE / "report.html").write_text(page)
+OUT.write_text(page)

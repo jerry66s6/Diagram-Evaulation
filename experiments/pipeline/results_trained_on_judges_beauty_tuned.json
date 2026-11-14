@@ -3,6 +3,7 @@
  "train_val": "HS001-HS200",
  "test": "HS201-HS300",
  "beauty_tuned": true,
+ "cut": 0.6907936865459637,
  "methods": {
   "gradient boosting trained on judge scores": {
    "settings": {

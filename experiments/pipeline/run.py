@@ -22,6 +22,7 @@ import csv
 import importlib.util
 import json
 import os
+import pickle
 import sys
 from concurrent.futures import ThreadPoolExecutor, as_completed
 from pathlib import Path
@@ -246,9 +247,14 @@ def train_on_judges(tuned=False):
               f"accuracy {g['accuracy']:+.2f} ({g['accuracy_interval'][0]:+.2f} to {g['accuracy_interval'][1]:+.2f})")
     print("\nSettings: " + json.dumps(summary[names[0]]["settings"]))
     suffix = "_beauty_tuned" if tuned else ""
-    json.dump({"model": MODEL, "train_val": "HS001-HS200", "test": "HS201-HS300", "beauty_tuned": tuned, "methods": summary, "differences": gaps},
-              open(HERE / f"results_trained_on_judges{suffix}.json", "w"), indent=1)
     gb = methods[names[0]]
+    cut = float(c.best_cut(gb["val_score"][develop], y[develop]))  # the same cut run_method used
+    with open(HERE / f"classifier_trained_on_judges{suffix}.pkl", "wb") as f:  # the trained model, to score new diagrams
+        pickle.dump({"model": gb["model"], "cut": cut, "dimensions": DIMENSIONS, "settings": gb["settings"], "beauty_tuned": tuned,
+                     "scale": "1-10 per dimension; Beauty in src is 0-100 divided by 10; the tuned prompts score 1-10",
+                     "call_bad_if": "model.predict_proba(scores)[:, 1] > cut"}, f)
+    json.dump({"model": MODEL, "train_val": "HS001-HS200", "test": "HS201-HS300", "beauty_tuned": tuned, "cut": cut, "methods": summary, "differences": gaps},
+              open(HERE / f"results_trained_on_judges{suffix}.json", "w"), indent=1)
     with open(HERE / f"predictions_trained_on_judges{suffix}.csv", "w", newline="") as f:
         w = csv.writer(f)
         w.writerow(["id", "label", "difficulty", "p_bad", "called_bad"])
