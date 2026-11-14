@@ -365,7 +365,7 @@ if __name__ == "__main__":
     s.add_argument("--end", type=int, default=300)
     s.add_argument("--dimensions", default=",".join(DIMENSIONS))
     d = sub.add_parser("score-dataset")
-    d.add_argument("--workers", type=int, default=16)
+    d.add_argument("--workers", type=int, default=6)
     d.add_argument("--limit", type=int, help="only the first N diagrams of the fixed random order")
     sub.add_parser("classify-dataset")
     j = sub.add_parser("train-on-judges")
