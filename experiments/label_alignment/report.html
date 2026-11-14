@@ -1,0 +1,95 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Corrected Labels Result</title><style>
+:root { color-scheme: light; --surface:#fcfcfb; --ink:#0b0b0b; --ink2:#52514e; --muted:#6f6e68; --grid:#e8e7e3; --rule:#d5d4cf; --wash:#f4f3f0; }
+@media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) { color-scheme: dark; --surface:#1a1a19; --ink:#f0efec; --ink2:#c3c2b7;
+  --muted:#9c9b92; --grid:#2e2e2b; --rule:#444440; --wash:#242422; } }
+:root[data-theme="dark"] { color-scheme: dark; --surface:#1a1a19; --ink:#f0efec; --ink2:#c3c2b7; --muted:#9c9b92; --grid:#2e2e2b;
+  --rule:#444440; --wash:#242422; }
+* { box-sizing: border-box; }
+body { margin: 0; background: var(--surface); color: var(--ink); font: 16px/1.55 -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif; }
+main { max-width: 800px; margin: 0 auto; padding: 48px 24px 64px; }
+h1 { font-size: 28px; line-height: 1.2; margin: 0 0 6px; }
+h2 { font-size: 18px; margin: 36px 0 10px; }
+p { margin: 0 0 12px; }
+.meta { color: var(--ink2); font-size: 14px; margin-bottom: 28px; }
+.tiles { display: grid; grid-template-columns: repeat(4, 1fr); gap: 12px; margin: 8px 0 8px; }
+.tile { background: var(--wash); border-radius: 8px; padding: 14px 16px; }
+.tile .label { font-size: 13px; color: var(--ink2); }
+.tile .value { font-size: 28px; font-weight: 600; line-height: 1.25; font-variant-numeric: tabular-nums; }
+.tile .note { font-size: 12px; color: var(--muted); font-variant-numeric: tabular-nums; }
+.scroll { overflow-x: auto; }
+table { border-collapse: collapse; font-size: 15px; margin: 8px 0 12px; width: 100%; }
+th, td { padding: 8px 12px; border-bottom: 1px solid var(--grid); text-align: right; font-variant-numeric: tabular-nums; vertical-align: top; }
+th { color: var(--ink2); font-weight: 600; border-bottom-color: var(--rule); }
+th:first-child, td:first-child { text-align: left; padding-left: 0; }
+td.text, th.text { text-align: left; }
+tr.main td { font-weight: 600; }
+ol, ul { padding-left: 22px; margin: 0 0 12px; }
+li { margin-bottom: 6px; }
+code { font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace; font-size: 13px; }
+footer { margin-top: 40px; padding-top: 14px; border-top: 1px solid var(--grid); color: var(--ink2); font-size: 14px; }
+@media (max-width: 640px) { main { padding: 32px 16px 48px; } .tiles { grid-template-columns: repeat(2, 1fr); } h1 { font-size: 24px; } }
+</style></head><body><main>
+<h1>Corrected labels: the VLM pipeline on HS201 to HS300</h1>
+<p class="meta">Diagram Evaluation &middot; test set HS201 to HS300 (100 diagrams) &middot; branch <code>vlm-pipeline</code></p>
+
+<div class="tiles">
+<div class="tile"><div class="label">Accuracy</div><div class="value">0.82</div><div class="note">was 0.74 on the original labels</div></div>
+<div class="tile"><div class="label">Test AUC</div><div class="value">0.901</div><div class="note">was 0.849</div></div>
+<div class="tile"><div class="label">Bad diagrams caught</div><div class="value">53 of 59</div><div class="note">90%</div></div>
+<div class="tile"><div class="label">Good diagrams flagged</div><div class="value">12 of 41</div><div class="note">29%</div></div>
+</div>
+<p>The pipeline: two VLM judges (gpt-6-luna) score the 13 dimensions, and gradient boosting trained on human scores
+calls each diagram good or bad.</p>
+
+<h2>What was wrong with the labels</h2>
+<p>Positive meant the original published figure, negative the figure with one to three errors inserted on purpose.
+101 diagrams that looked suspicious (by the human scores, the judge scores, or either classifier) were looked
+at again, image and caption only, without seeing any score. The same standard was used for both labels: a diagram is
+bad if it has a clear error of the kinds that were inserted.</p>
+<ul>
+<li><strong>No negative was wrong.</strong> In all 38 suspicious negatives at least one inserted error
+can be seen or contradicts the caption.</li>
+<li><strong>11 original figures already have a clear error</strong> and are relabeled bad, 6 of them
+in the test set.</li>
+</ul>
+<div class="scroll"><table>
+<thead><tr><th>Diagram</th><th class="text">Set</th><th class="text">What is wrong with the original figure</th></tr></thead>
+<tbody><tr><td>HS029</td><td class="text">train/val</td><td class="text">Branch labels a few pixels tall, unreadable</td></tr><tr><td>HS095</td><td class="text">train/val</td><td class="text">One arrow reversed; exclusion lists about 4 px tall</td></tr><tr><td>HS142</td><td class="text">train/val</td><td class="text">Arrows drawn in three unrelated styles</td></tr><tr><td>HS185</td><td class="text">train/val</td><td class="text">Three panels squeezed into 761x289 px; lists unreadable</td></tr><tr><td>HS186</td><td class="text">train/val</td><td class="text">Exclusion arrows point into the main flow</td></tr><tr><td>HS234</td><td class="text">test</td><td class="text">A count label is wrong (layout is fine; a judgement call)</td></tr><tr><td>HS250</td><td class="text">test</td><td class="text">Formula with a missing term; arrow stops short of its box</td></tr><tr><td>HS252</td><td class="text">test</td><td class="text">27 tables in 600x707 px; digits unreadable</td></tr><tr><td>HS261</td><td class="text">test</td><td class="text">A connector runs through a heading and two labels</td></tr><tr><td>HS262</td><td class="text">test</td><td class="text">The split bar never connects to the two result boxes</td></tr><tr><td>HS295</td><td class="text">test</td><td class="text">Arrow from "excluded" into "included"; blank stage bars</td></tr></tbody></table></div>
+
+<h2>Results on the corrected labels</h2>
+<p>Every classifier is retrained on the corrected labels of HS001 to HS200 with the same settings as before (200 trees,
+learning rate 0.03), so only the labels change. The judge scores are the saved ones; no judge was re-run.</p>
+<div class="scroll"><table>
+<thead><tr><th>Classifier</th><th>Original labels: AUC / accuracy</th><th>Corrected: AUC (95% interval)</th>
+<th>Corrected: accuracy (95% interval)</th><th>Bad caught / good flagged</th></tr></thead>
+<tbody><tr class="main"><td>Trained on human scores, given judge scores (the pipeline)</td><td>0.849 / 0.74</td><td>0.901 (0.836 to 0.952)</td><td>0.82 (0.74 to 0.89)</td><td>53 of 59 / 12 of 41</td></tr><tr><td>Trained on judge scores, given judge scores</td><td>0.911 / 0.82</td><td>0.889 (0.814 to 0.948)</td><td>0.83 (0.75 to 0.90)</td><td>47 of 59 / 5 of 41</td></tr><tr><td>Trained on human scores, given human scores</td><td>0.975 / 0.90</td><td>0.976 (0.946 to 0.996)</td><td>0.92 (0.86 to 0.97)</td><td>56 of 59 / 5 of 41</td></tr></tbody></table></div>
+<ol>
+<li><strong>The pipeline gains most:</strong> accuracy 0.74 to 0.82, AUC
+0.849 to 0.901. It calls 5 of the 6 bad test originals bad: part of
+what counted as good diagrams wrongly flagged were bad diagrams.</li>
+<li><strong>The classifier trained on judge scores barely moves</strong> (accuracy 0.82 to
+0.83); it calls only 2 of the 6 bad originals bad.</li>
+<li><strong>Human scores stay the ceiling</strong> at 0.92 accuracy.</li>
+</ol>
+
+<h2>Other label versions tried</h2>
+<p>AUC / accuracy on HS201 to HS300, same settings.</p>
+<div class="scroll"><table>
+<thead><tr><th>Labels</th><th>Pipeline</th><th>Trained on judge scores</th><th>Trained on human scores</th></tr></thead>
+<tbody><tr><td>Original</td><td>0.849 / 0.74</td><td>0.911 / 0.82</td><td>0.975 / 0.90</td></tr><tr><td>Corrected (kept)</td><td>0.901 / 0.82</td><td>0.889 / 0.83</td><td>0.976 / 0.92</td></tr><tr><td>Both classifiers disagree with the label: flip it</td><td>0.868 / 0.77</td><td>0.926 / 0.86</td><td>0.981 / 0.92</td></tr><tr><td>Mean of the 13 human scores below 8: bad</td><td>0.848 / 0.83</td><td>0.867 / 0.77</td><td>0.971 / 0.91</td></tr></tbody></table></div>
+<p>The corrected labels are kept: fewest changes, each with a visible error, made without seeing any score. The other
+two are computed from the human scores or from the classifiers' own calls, so the classifiers that read those scores
+are partly graded on their own output.</p>
+
+<h2>Limits</h2>
+<ul>
+<li>Only the suspicious diagrams were re-checked, by a model (Claude), not by human annotators; a human look at the
+11 changes is still to do.</li>
+<li>100 test diagrams: one diagram moves accuracy by 1 point.</li>
+</ul>
+
+<footer>Code, the per-diagram review (<code>review.csv</code>) and full results: <code>experiments/label_alignment</code>
+on branch <code>vlm-pipeline</code>. To reproduce: <code>python3 experiments/label_alignment/run.py</code></footer>
+</main></body></html>

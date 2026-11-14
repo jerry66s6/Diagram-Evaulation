@@ -59,6 +59,15 @@ def consensus_labels(X_human, X_judge, y, rows):
     return np.where(both_disagree, 1 - y, y)
 
 
+# Fixed gradient boosting settings for every label set, so only the labels change: the settings 5-fold val chose on
+# the original labels (../classification for human scores, ../pipeline train-on-judges for judge scores).
+c.MODELS["gb_human"] = (GradientBoostingClassifier(random_state=0), {"n_estimators": [200], "max_depth": [2], "learning_rate": [0.03]})
+c.MODELS["gb_judge"] = (GradientBoostingClassifier(random_state=0), {"n_estimators": [200], "max_depth": [3], "learning_rate": [0.03]})
+CLASSIFIERS = {"pipeline": "trained on human scores, given judge scores",
+               "judge": "trained on judge scores, given judge scores",
+               "human": "trained on human scores, given human scores"}
+
+
 def main():
     rows, dims, X_human, y_original = c.load()
     X_judge = pipeline.judge_scores(rows, tuned=True)  # the four tuned Beauty prompts, as in the best pipeline
@@ -72,39 +81,38 @@ def main():
     }
 
     out = {}
-    print("| Labels | Changed (in test) | Classifier | Val AUC | Test AUC (95% interval) | Accuracy (95% interval) | Bad caught | Good flagged |\n"
-          "|---|---:|---|---:|---:|---:|---:|---:|")
+    print("| Labels | Changed (in test) | Classifier | Test AUC (95% interval) | Accuracy (95% interval) | Bad caught | Good flagged |\n"
+          "|---|---:|---|---:|---:|---:|---:|")
     for labels, y in label_sets.items():
         changed = np.flatnonzero(y != y_original)
-        methods = {"human": c.run_method("gradient_boosting", X_human, y, develop, test, folds),
-                   "judge": c.run_method("gradient_boosting", X_judge, y, develop, test, folds)}
-        auc, accuracy = c.bootstrap(y[test], methods)
-        n_bad, n_good = int(y[test].sum()), int((1 - y[test]).sum())
         flipped = y[test] != y_original[test]
+        human = c.run_method("gb_human", X_human, y, develop, test, folds)
+        # The pipeline: the model trained on human scores (with its val cut), given the judges' scores of the test set.
+        cut = c.best_cut(human["val_score"][develop], y[develop])
+        p = c.bad_score(human["model"], X_judge[test])
+        methods = {"pipeline": {"test_score": p, "test_called": p > cut},
+                   "judge": c.run_method("gb_judge", X_judge, y, develop, test, folds),
+                   "human": human}
+        auc, accuracy = c.bootstrap(y[test], methods)
+        t = y[test]
         result = {}
         for name, m in methods.items():
-            result[name] = {"settings": m["settings"], "val_auc": m["val_auc"], "test_auc": m["test_auc"], "test_auc_interval": c.interval(auc[name]),
-                            "accuracy": m["accuracy"], "accuracy_interval": c.interval(accuracy[name]),
-                            "bad_caught": m["bad_caught"], "bad": n_bad, "good_flagged": m["clean_flagged"], "good": n_good,
-                            "accuracy_on_changed_test": float((m["test_called"][flipped] == y[test][flipped]).mean()) if flipped.any() else None,
-                            "accuracy_on_unchanged_test": float((m["test_called"][~flipped] == y[test][~flipped]).mean())}
+            called = m["test_called"]
+            result[name] = {"test_auc": float(c.roc_auc_score(t, m["test_score"])), "test_auc_interval": c.interval(auc[name]),
+                            "accuracy": float((called == t).mean()), "accuracy_interval": c.interval(accuracy[name]),
+                            "bad_caught": int(called[t == 1].sum()), "bad": int(t.sum()), "good_flagged": int(called[t == 0].sum()), "good": int((1 - t).sum()),
+                            "accuracy_on_changed_test": float((called[flipped] == t[flipped]).mean()) if flipped.any() else None}
             r = result[name]
-            print(f"| {labels} | {len(changed)} ({int(flipped.sum())}) | trained on {name} scores | {r['val_auc']:.3f} "
+            print(f"| {labels} | {len(changed)} ({int(flipped.sum())}) | {CLASSIFIERS[name]} "
                   f"| {r['test_auc']:.3f} ({r['test_auc_interval'][0]:.3f}-{r['test_auc_interval'][1]:.3f}) "
-                  f"| {r['accuracy']:.2f} ({r['accuracy_interval'][0]:.2f}-{r['accuracy_interval'][1]:.2f}) | {r['bad_caught']} of {n_bad} | {r['good_flagged']} of {n_good} |")
-        gap = {"auc": result["human"]["test_auc"] - result["judge"]["test_auc"], "auc_interval": c.interval(auc["human"] - auc["judge"]),
-               "accuracy": result["human"]["accuracy"] - result["judge"]["accuracy"], "accuracy_interval": c.interval(accuracy["human"] - accuracy["judge"])}
+                  f"| {r['accuracy']:.2f} ({r['accuracy_interval'][0]:.2f}-{r['accuracy_interval'][1]:.2f}) | {r['bad_caught']} of {r['bad']} | {r['good_flagged']} of {r['good']} |")
         out[labels] = {"changed": [{"id": rows[i]["id"], "from": rows[i]["label"], "to": "negative" if y[i] else "positive"} for i in changed],
                        "negative_to_positive": int((y_original[changed] == 1).sum()), "positive_to_negative": int((y_original[changed] == 0).sum()),
-                       "methods": result, "human_minus_judge": gap}
+                       "methods": result}
     print()
     for labels, v in out.items():
-        g = v["human_minus_judge"]
-        print(f"{labels}: negative->positive {v['negative_to_positive']}, positive->negative {v['positive_to_negative']}; human minus judge: "
-              f"AUC {g['auc']:+.3f} ({g['auc_interval'][0]:+.3f} to {g['auc_interval'][1]:+.3f}), "
-              f"accuracy {g['accuracy']:+.2f} ({g['accuracy_interval'][0]:+.2f} to {g['accuracy_interval'][1]:+.2f}); "
-              + "; ".join(f"{n}: accuracy on changed test {r['accuracy_on_changed_test'] if r['accuracy_on_changed_test'] is None else round(r['accuracy_on_changed_test'], 2)}, "
-                          f"on the rest {r['accuracy_on_unchanged_test']:.2f}" for n, r in v["methods"].items()))
+        print(f"{labels}: negative->positive {v['negative_to_positive']}, positive->negative {v['positive_to_negative']}; accuracy on the changed test diagrams: "
+              + ", ".join(f"{n} {r['accuracy_on_changed_test']:.2f}" for n, r in v["methods"].items() if r["accuracy_on_changed_test"] is not None))
     json.dump(out, open(HERE / "results.json", "w"), indent=1)
 
 

@@ -4,37 +4,24 @@
   "negative_to_positive": 0,
   "positive_to_negative": 0,
   "methods": {
-   "human": {
-    "settings": {
-     "learning_rate": 0.03,
-     "max_depth": 2,
-     "n_estimators": 200
-    },
-    "val_auc": 0.9611835839598996,
-    "test_auc": 0.9751103974307507,
+   "pipeline": {
+    "test_auc": 0.8492573263749498,
     "test_auc_interval": [
-     0.9490064231232437,
-     0.9927739863508631
+     0.7749799277398636,
+     0.9157065435568045
     ],
-    "accuracy": 0.9,
+    "accuracy": 0.74,
     "accuracy_interval": [
-     0.84,
-     0.95
+     0.65,
+     0.83
     ],
-    "bad_caught": 50,
+    "bad_caught": 40,
     "bad": 53,
-    "good_flagged": 7,
+    "good_flagged": 13,
     "good": 47,
-    "accuracy_on_changed_test": null,
-    "accuracy_on_unchanged_test": 0.9
+    "accuracy_on_changed_test": null
    },
    "judge": {
-    "settings": {
-     "learning_rate": 0.03,
-     "max_depth": 3,
-     "n_estimators": 200
-    },
-    "val_auc": 0.9516491228070176,
     "test_auc": 0.9112806101967083,
     "test_auc_interval": [
      0.8534725010036129,
@@ -49,21 +36,25 @@
     "bad": 53,
     "good_flagged": 8,
     "good": 47,
-    "accuracy_on_changed_test": null,
-    "accuracy_on_unchanged_test": 0.82
+    "accuracy_on_changed_test": null
+   },
+   "human": {
+    "test_auc": 0.9751103974307507,
+    "test_auc_interval": [
+     0.9490064231232437,
+     0.9927739863508631
+    ],
+    "accuracy": 0.9,
+    "accuracy_interval": [
+     0.84,
+     0.95
+    ],
+    "bad_caught": 50,
+    "bad": 53,
+    "good_flagged": 7,
+    "good": 47,
+    "accuracy_on_changed_test": null
    }
-  },
-  "human_minus_judge": {
-   "auc": 0.06382978723404242,
-   "auc_interval": [
-    0.016057808109193102,
-    0.11964070654355692
-   ],
-   "accuracy": 0.08000000000000007,
-   "accuracy_interval": [
-    0.0,
-    0.15999999999999992
-   ]
   }
  },
  "visual check": {
@@ -127,66 +118,57 @@
   "negative_to_positive": 0,
   "positive_to_negative": 11,
   "methods": {
-   "human": {
-    "settings": {
-     "learning_rate": 0.1,
-     "max_depth": 1,
-     "n_estimators": 100
-    },
-    "val_auc": 0.9553382699172174,
-    "test_auc": 0.9718892104175278,
+   "pipeline": {
+    "test_auc": 0.9005787515502274,
     "test_auc_interval": [
-     0.9396341463414635,
-     0.9946258784621744
+     0.8358774286895412,
+     0.9520514675485737
     ],
-    "accuracy": 0.93,
+    "accuracy": 0.82,
     "accuracy_interval": [
-     0.88,
-     0.9702499999999986
+     0.74,
+     0.89
     ],
-    "bad_caught": 55,
+    "bad_caught": 53,
     "bad": 59,
-    "good_flagged": 3,
+    "good_flagged": 12,
     "good": 41,
-    "accuracy_on_changed_test": 0.5,
-    "accuracy_on_unchanged_test": 0.9574468085106383
+    "accuracy_on_changed_test": 0.8333333333333334
    },
    "judge": {
-    "settings": {
-     "learning_rate": 0.03,
-     "max_depth": 3,
-     "n_estimators": 50
-    },
-    "val_auc": 0.9400631123262702,
-    "test_auc": 0.8644067796610169,
+    "test_auc": 0.8892104175279041,
     "test_auc_interval": [
-     0.7800589086399339,
-     0.9334487391484084
+     0.8139727159983464,
+     0.9479226953286483
     ],
-    "accuracy": 0.79,
+    "accuracy": 0.83,
     "accuracy_interval": [
-     0.71,
-     0.87
+     0.75,
+     0.9
     ],
-    "bad_caught": 48,
+    "bad_caught": 47,
     "bad": 59,
-    "good_flagged": 10,
+    "good_flagged": 5,
     "good": 41,
-    "accuracy_on_changed_test": 0.3333333333333333,
-    "accuracy_on_unchanged_test": 0.8191489361702128
+    "accuracy_on_changed_test": 0.3333333333333333
+   },
+   "human": {
+    "test_auc": 0.975609756097561,
+    "test_auc_interval": [
+     0.9458350558081852,
+     0.9958660603555188
+    ],
+    "accuracy": 0.92,
+    "accuracy_interval": [
+     0.86,
+     0.97
+    ],
+    "bad_caught": 56,
+    "bad": 59,
+    "good_flagged": 5,
+    "good": 41,
+    "accuracy_on_changed_test": 0.6666666666666666
    }
-  },
-  "human_minus_judge": {
-   "auc": 0.10748243075651098,
-   "auc_interval": [
-    0.04051260851591576,
-    0.1874844977263331
-   ],
-   "accuracy": 0.14,
-   "accuracy_interval": [
-    0.06999999999999995,
-    0.21999999999999997
-   ]
   }
  },
  "both classifiers": {
@@ -255,66 +237,57 @@
   "negative_to_positive": 10,
   "positive_to_negative": 2,
   "methods": {
-   "human": {
-    "settings": {
-     "learning_rate": 0.1,
-     "max_depth": 1,
-     "n_estimators": 100
-    },
-    "val_auc": 0.9762880424342264,
-    "test_auc": 0.9723557692307692,
+   "pipeline": {
+    "test_auc": 0.8677884615384616,
     "test_auc_interval": [
-     0.9431089743589745,
-     0.9919871794871795
+     0.7984725560897435,
+     0.9298878205128205
     ],
-    "accuracy": 0.93,
+    "accuracy": 0.77,
     "accuracy_interval": [
-     0.88,
+     0.69,
+     0.85
+    ],
+    "bad_caught": 38,
+    "bad": 52,
+    "good_flagged": 9,
+    "good": 48,
+    "accuracy_on_changed_test": 0.6666666666666666
+   },
+   "judge": {
+    "test_auc": 0.9262820512820512,
+    "test_auc_interval": [
+     0.8697816506410257,
+     0.9731570512820512
+    ],
+    "accuracy": 0.86,
+    "accuracy_interval": [
+     0.79,
+     0.92
+    ],
+    "bad_caught": 46,
+    "bad": 52,
+    "good_flagged": 8,
+    "good": 48,
+    "accuracy_on_changed_test": 0.6666666666666666
+   },
+   "human": {
+    "test_auc": 0.9811698717948717,
+    "test_auc_interval": [
+     0.9567307692307693,
+     0.9959935897435896
+    ],
+    "accuracy": 0.92,
+    "accuracy_interval": [
+     0.86,
      0.97
     ],
     "bad_caught": 49,
     "bad": 52,
-    "good_flagged": 4,
+    "good_flagged": 5,
     "good": 48,
-    "accuracy_on_changed_test": 1.0,
-    "accuracy_on_unchanged_test": 0.9278350515463918
-   },
-   "judge": {
-    "settings": {
-     "learning_rate": 0.1,
-     "max_depth": 2,
-     "n_estimators": 200
-    },
-    "val_auc": 0.9722385480091766,
-    "test_auc": 0.9391025641025642,
-    "test_auc_interval": [
-     0.8874198717948717,
-     0.9799679487179487
-    ],
-    "accuracy": 0.84,
-    "accuracy_interval": [
-     0.76,
-     0.91
-    ],
-    "bad_caught": 43,
-    "bad": 52,
-    "good_flagged": 7,
-    "good": 48,
-    "accuracy_on_changed_test": 0.6666666666666666,
-    "accuracy_on_unchanged_test": 0.845360824742268
+    "accuracy_on_changed_test": 0.6666666666666666
    }
-  },
-  "human_minus_judge": {
-   "auc": 0.033253205128204955,
-   "auc_interval": [
-    -0.010426682692307654,
-    0.08335336538461542
-   ],
-   "accuracy": 0.09000000000000008,
-   "accuracy_interval": [
-    0.010000000000000009,
-    0.16999999999999993
-   ]
   }
  },
  "human mean < 8": {
@@ -603,66 +576,57 @@
   "negative_to_positive": 46,
   "positive_to_negative": 10,
   "methods": {
-   "human": {
-    "settings": {
-     "learning_rate": 0.1,
-     "max_depth": 2,
-     "n_estimators": 200
-    },
-    "val_auc": 0.9830076431869536,
-    "test_auc": 0.9801136363636364,
+   "pipeline": {
+    "test_auc": 0.8484172077922079,
     "test_auc_interval": [
-     0.9577820616883117,
-     0.9955357142857142
+     0.7646002435064935,
+     0.9224837662337662
     ],
-    "accuracy": 0.9,
+    "accuracy": 0.83,
     "accuracy_interval": [
-     0.84,
-     0.95
+     0.75975,
+     0.9
     ],
-    "bad_caught": 36,
+    "bad_caught": 37,
     "bad": 44,
-    "good_flagged": 2,
+    "good_flagged": 10,
     "good": 56,
-    "accuracy_on_changed_test": 0.7368421052631579,
-    "accuracy_on_unchanged_test": 0.9382716049382716
+    "accuracy_on_changed_test": 0.47368421052631576
    },
    "judge": {
-    "settings": {
-     "learning_rate": 0.03,
-     "max_depth": 1,
-     "n_estimators": 200
-    },
-    "val_auc": 0.9200362296707123,
-    "test_auc": 0.8737824675324675,
+    "test_auc": 0.867086038961039,
     "test_auc_interval": [
-     0.7942116477272728,
-     0.939945211038961
+     0.7861201298701299,
+     0.9334415584415584
     ],
-    "accuracy": 0.78,
+    "accuracy": 0.77,
     "accuracy_interval": [
-     0.7,
+     0.69,
      0.85
     ],
-    "bad_caught": 30,
+    "bad_caught": 29,
     "bad": 44,
     "good_flagged": 8,
     "good": 56,
-    "accuracy_on_changed_test": 0.5263157894736842,
-    "accuracy_on_unchanged_test": 0.8395061728395061
+    "accuracy_on_changed_test": 0.5263157894736842
+   },
+   "human": {
+    "test_auc": 0.971185064935065,
+    "test_auc_interval": [
+     0.9419642857142857,
+     0.9918831168831168
+    ],
+    "accuracy": 0.91,
+    "accuracy_interval": [
+     0.86,
+     0.96
+    ],
+    "bad_caught": 37,
+    "bad": 44,
+    "good_flagged": 2,
+    "good": 56,
+    "accuracy_on_changed_test": 0.7894736842105263
    }
-  },
-  "human_minus_judge": {
-   "auc": 0.10633116883116889,
-   "auc_interval": [
-    0.04504870129870131,
-    0.17940340909090902
-   ],
-   "accuracy": 0.12,
-   "accuracy_interval": [
-    0.039999999999999925,
-    0.20000000000000007
-   ]
   }
  }
 }
