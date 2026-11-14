@@ -14,6 +14,8 @@ python3 run.py score --first 100 --wording d2      # gpt-6-luna only; resumable;
 python3 run.py compare --first 100 --wording d2    # summary_d2.json, judge_scores_d2.json
 python3 run.py tune --wordings v1,d1,d2,d6         # versions side by side
 python3 run.py report                              # report.html
+python3 run.py brief                               # correctness_report.html: the evaluator in src vs the human ratings
+python3 run.py brief --split                       # correctness_report_split.html: training 1-100, validation 101-200, test 201-300
 ```
 
 Judge scores are put on 0-10 (formula scores x10, Beauty /10); human scores stay as rated.

@@ -1141,6 +1141,165 @@ and averaging the two runs gave only 0.75, so one call per dimension is enough.<
     print(f"wrote {HERE / 'report.html'}")
 
 
+# ---------- brief: the evaluator's results in plain tables ----------
+
+EVALUATOR = "d17"  # the prompt in src/diagram_correctness/direct.py
+
+
+def brief(split: bool = False) -> None:
+    """correctness_report.html: how the evaluator in src agrees with the human ratings, in plain tables.
+    With split, correctness_report_split.html: training HS001-HS100, validation HS101-HS200, test HS201-HS300."""
+    import html
+    humans = {d["id"]: d for d in _humans()}
+    names = {"layout": "Layout", "connectivity": "Connectivity", "presence": "Presence", "details": "Details",
+             "legibility": "Legibility", "overall": "Overall correctness"}
+    score = lambda i, w, k: json.load(open(RESULTS / i / f"direct_{w}_{k}.json"))["score"]
+
+    def pairs(ids, k, judge=lambda i, k: score(i, EVALUATOR, k)):
+        if k == "overall":
+            return ([statistics.mean(humans[i]["scores"][x] for x in CORRECTNESS) for i in ids],
+                    [statistics.mean(judge(i, x) for x in CORRECTNESS) for i in ids])
+        return [humans[i]["scores"][k] for i in ids], [judge(i, k) for i in ids]
+
+    def pearson_ci(h, j):
+        r = float(pearsonr(h, j).statistic)
+        z, se = math.atanh(r), 1 / math.sqrt(len(h) - 3)
+        return r, math.tanh(z - 1.96 * se), math.tanh(z + 1.96 * se)
+
+    def agreement_rows(ids):
+        out = ""
+        for k in CORRECTNESS + ["overall"]:
+            h, j = pairs(ids, k)
+            r, lo, hi = pearson_ci(h, j)
+            d = [b - a for a, b in zip(h, j)]
+            cells = [f"{statistics.mean(h):.2f}", f"{statistics.mean(j):.2f}", f"<b>{r:.2f}</b> <span class='ci'>[{lo:.2f}, {hi:.2f}]</span>",
+                     f"{spearmanr(h, j).statistic:.2f}", f"{kendalltau(h, j).statistic:.2f}",
+                     f"{statistics.mean(abs(x) for x in d):.2f}", f"{math.sqrt(statistics.mean(x * x for x in d)):.2f}",
+                     f"{sum(abs(x) <= 1 for x in d) / len(d):.0%}"]
+            cls = " class='total'" if k == "overall" else ""
+            out += f"<tr{cls}><th>{names[k]}</th>" + "".join(f"<td class='num'>{c}</td>" for c in cells) + "</tr>"
+        return out
+
+    head = ("<tr><th>Dimension</th><th class='num'>Human mean</th><th class='num'>Evaluator mean</th>"
+            "<th class='num'>Pearson r [95% CI]</th><th class='num'>Spearman</th><th class='num'>Kendall</th>"
+            "<th class='num'>MAE</th><th class='num'>RMSE</th><th class='num'>Within 1 point</th></tr>")
+    ids = lambda a, b: [f"HS{i:03d}" for i in range(a, b + 1)]
+    test, dev, every = ids(201, 300), ids(1, 200), ids(1, 300)
+    train, val = ids(1, 100), ids(101, 200)
+
+    def auc(vals, labels):
+        return _auc(vals, labels)
+    auc_rows = ""
+    for k in CORRECTNESS + ["overall"]:
+        h, j = pairs(every, k)
+        labels = [humans[i]["label"] for i in every]
+        fa = "" if k == "overall" else str(sum(l == "positive" and a >= 9 and b < CAUGHT for l, a, b in zip(labels, h, j)))
+        cls = " class='total'" if k == "overall" else ""
+        auc_rows += (f"<tr{cls}><th>{names[k]}</th><td class='num'>{auc(h, labels):.2f}</td><td class='num'>{auc(j, labels):.2f}</td>"
+                     f"<td class='num'>{fa}</td></tr>")
+
+    caught = {}
+    for i in every:
+        d = humans[i]
+        for e in d["defects"]:
+            k = e["criterion"].split(".")[0]
+            if d["label"] != "negative" or k not in CORRECTNESS:
+                continue
+            c = caught.setdefault((k, e["defect"]), [0, 0, 0])
+            c[0] += 1
+            c[1] += d["scores"][k] < CAUGHT
+            c[2] += score(i, EVALUATOR, k) < CAUGHT
+    caught_rows = "".join(
+        f"<tr><th>{html.escape(defect.replace('_', ' '))}</th><td>{names[k]}</td><td class='num'>{n}</td>"
+        f"<td class='num'>{hc}</td><td class='num'>{jc}</td></tr>"
+        for (k, defect), (n, hc, jc) in sorted(caught.items(), key=lambda kv: (CORRECTNESS.index(kv[0][0]), kv[0][1])))
+    tot = [sum(v[x] for v in caught.values()) for x in range(3)]
+    caught_rows += f"<tr class='total'><th>All inserted errors</th><td></td>" + "".join(f"<td class='num'>{t}</td>" for t in tot) + "</tr>"
+
+    # earlier methods on HS001-HS100, the first diagrams the work started from
+    first = ids(1, 100)
+    methods = [("Checklist + formula (earlier method)", lambda i, k: _judge(i, "v1")["scores"][k]),
+               ("Direct scoring, first instructions", lambda i, k: score(i, "d2", k)),
+               ("Direct scoring, current instructions", lambda i, k: score(i, EVALUATOR, k))]
+    method_rows = ""
+    for name, judge in methods:
+        h, j = pairs(first, "overall", judge)
+        r, lo, hi = pearson_ci(h, j)
+        d = [b - a for a, b in zip(h, j)]
+        method_rows += (f"<tr><th>{name}</th><td class='num'><b>{r:.2f}</b> <span class='ci'>[{lo:.2f}, {hi:.2f}]</span></td>"
+                        f"<td class='num'>{spearmanr(h, j).statistic:.2f}</td><td class='num'>{statistics.mean(abs(x) for x in d):.2f}</td>"
+                        f"<td class='num'>{math.sqrt(statistics.mean(x * x for x in d)):.2f}</td>"
+                        f"<td class='num'>{auc(j, [humans[i]['label'] for i in first]):.2f}</td></tr>")
+    n_clean = sum(humans[i]["label"] == "positive" for i in every)
+
+    table = lambda headrow, body: f"<div class='wrap'><table><thead>{headrow}</thead><tbody>{body}</tbody></table></div>"
+    unused = ("Test set: HS201–HS300", "100 flowcharts not used while developing the evaluator.", test)
+    if split:
+        about = ("<li>Training set: HS001–HS100, where the evaluator's instructions were developed. Validation set: HS101–HS200. "
+                 "Test set: HS201–HS300, used only for testing.</li>")
+        sections = [("Training set: HS001–HS100", "100 flowcharts the instructions were developed on.", train),
+                    ("Validation set: HS101–HS200", "", val),
+                    unused, ("All 300 flowcharts", "", every)]
+    else:
+        about = "<li>The evaluator's instructions were developed on HS001–HS200. HS201–HS300 were used only for testing.</li>"
+        sections = [unused, ("Development set: HS001–HS200", "", dev), ("All 300 flowcharts", "", every)]
+    blocks = "\n\n".join(f"<h2>{title}</h2>\n" + (f"<p class='note'>{note}</p>\n" if note else "") + table(head, agreement_rows(s))
+                         for title, note, s in sections)
+    page = f"""<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Correctness Evaluator Report</title>
+<style>
+:root{{--bg:#fbfbfa;--fg:#1d1d1b;--muted:#6b6a66;--line:#e4e2dc;--card:#ffffff;--accent:#2f6f5e;--total:#f3f1ec}}
+@media (prefers-color-scheme: dark){{:root:not([data-theme="light"]){{--bg:#161615;--fg:#ecebe7;--muted:#a19f99;--line:#33322f;--card:#1f1f1d;--accent:#7cc4ad;--total:#262624}}}}
+:root[data-theme="dark"]{{--bg:#161615;--fg:#ecebe7;--muted:#a19f99;--line:#33322f;--card:#1f1f1d;--accent:#7cc4ad;--total:#262624}}
+*{{box-sizing:border-box}}body{{margin:0;background:var(--bg);color:var(--fg);font:15px/1.55 -apple-system,BlinkMacSystemFont,"Segoe UI",Helvetica,Arial,sans-serif}}
+main{{max-width:1000px;margin:0 auto;padding:32px 16px 64px}}h1{{font-size:26px;margin:0 0 4px}}h2{{font-size:18px;margin:34px 0 6px}}
+.sub{{color:var(--muted);margin:0 0 18px}}p,li{{max-width:780px}}.note{{color:var(--muted);font-size:13px;margin:4px 0 10px}}
+.wrap{{overflow-x:auto;background:var(--card);border:1px solid var(--line);border-radius:10px}}
+table{{border-collapse:collapse;width:100%;font-size:14px}}th,td{{padding:7px 10px;border-bottom:1px solid var(--line);text-align:left;white-space:nowrap}}
+thead th{{color:var(--muted);font-weight:600;font-size:12px}}tbody th{{font-weight:600}}tbody tr:last-child th,tbody tr:last-child td{{border-bottom:0}}
+.num{{text-align:right;font-variant-numeric:tabular-nums}}tr.total th,tr.total td{{background:var(--total)}}.ci{{color:var(--muted);font-size:12px}}
+dl{{display:grid;grid-template-columns:max-content 1fr;gap:4px 14px;font-size:13px;color:var(--muted)}}dt{{font-weight:600;color:var(--fg)}}dd{{margin:0}}
+</style></head><body><main>
+<h1>Correctness evaluator vs. human ratings</h1>
+<p class="sub">300 flowcharts from the human study · evaluator model gpt-6-luna · all scores on a 1–10 scale</p>
+<ul>
+<li>Each flowchart has human ratings for five correctness dimensions: Layout, Connectivity, Presence, Details, Legibility.</li>
+<li>The evaluator looks at the flowchart and its caption and gives a 1–10 score for each dimension, one dimension at a time.</li>
+<li>Overall correctness is the mean of the five dimensions, for the humans and for the evaluator alike.</li>
+{about}
+<li>{n_clean} of the 300 flowcharts are unmodified originals; the other {300 - n_clean} have one to three inserted errors.</li>
+</ul>
+
+{blocks}
+
+<h2>Telling unmodified flowcharts from ones with errors (all 300)</h2>
+<p class="note">AUC: how often an unmodified flowchart scores higher than one with inserted errors (0.5 = chance, 1 = always).
+False alarms: unmodified flowcharts the humans rated 9–10 but the evaluator scored below 8.</p>
+{table("<tr><th>Dimension</th><th class='num'>AUC, humans</th><th class='num'>AUC, evaluator</th><th class='num'>False alarms</th></tr>", auc_rows)}
+
+<h2>Inserted errors detected (all 300)</h2>
+<p class="note">An error counts as detected when the score of its dimension is below 8.</p>
+{table("<tr><th>Inserted error</th><th>Dimension</th><th class='num'>Flowcharts</th><th class='num'>Detected by humans</th><th class='num'>Detected by evaluator</th></tr>", caught_rows)}
+
+<h2>Earlier methods, overall correctness on HS001–HS100</h2>
+{table("<tr><th>Method</th><th class='num'>Pearson r [95% CI]</th><th class='num'>Spearman</th><th class='num'>MAE</th><th class='num'>RMSE</th><th class='num'>AUC</th></tr>", method_rows)}
+<p class="note">Checklist + formula: the model listed what the caption calls for, checked each item in the image, and a formula turned the checks into a score.</p>
+
+<h2>Metrics</h2>
+<dl>
+<dt>Pearson r</dt><dd>Linear correlation between human and evaluator scores, with a 95% confidence interval (Fisher z).</dd>
+<dt>Spearman, Kendall</dt><dd>Rank correlations: do the two put the flowcharts in the same order.</dd>
+<dt>MAE, RMSE</dt><dd>Mean absolute and root-mean-square difference in points; RMSE weighs large differences more.</dd>
+<dt>Within 1 point</dt><dd>Share of flowcharts where the two scores differ by at most 1.</dd>
+</dl>
+</main></body></html>
+"""
+    out = HERE / ("correctness_report_split.html" if split else "correctness_report.html")
+    out.write_text(page)
+    print(f"wrote {out}")
+
+
 if __name__ == "__main__":
     parser = argparse.ArgumentParser()
     sub = parser.add_subparsers(dest="cmd", required=True)
@@ -1154,6 +1313,8 @@ if __name__ == "__main__":
     t = sub.add_parser("tune")
     t.add_argument("--wordings", default="v1,v1r,v2")
     sub.add_parser("report")
+    b = sub.add_parser("brief")  # correctness_report.html: the evaluator in src against the human ratings
+    b.add_argument("--split", action="store_true", help="correctness_report_split.html: training 1-100, validation 101-200, test 201-300")
     k = sub.add_parser("sketches")  # stage-1 sketches of a wording, checked against the unmodified figures
     k.add_argument("--wording", default="v4", choices=list(WORDINGS))
     k.add_argument("--workers", type=int, default=12)
@@ -1168,5 +1329,7 @@ if __name__ == "__main__":
         compare(args.first, args.wording, args.start)
     elif args.cmd == "tune":
         tune(args.wordings.split(","))
+    elif args.cmd == "brief":
+        brief(args.split)
     else:
         report()
