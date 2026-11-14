@@ -9,6 +9,8 @@ python3 experiments/pipeline/run.py score                      # gpt-6-luna; res
 python3 experiments/pipeline/run.py score --only HS201,HS202   # a quick trial
 python3 experiments/pipeline/run.py classify                   # results.json, predictions.csv
 python3 experiments/pipeline/run.py classify --beauty-tuned    # with the four tuned Beauty prompts
+python3 experiments/pipeline/run.py score --start 1 --end 200 --dimensions color_consistency,contrast,style_uniformity,resolution
+python3 experiments/pipeline/run.py train-on-judges [--beauty-tuned]   # gradient boosting trained on judge scores
 ```
 
 `predictions.csv` keeps each diagram's 13 judge scores, its P(bad), and the call.
@@ -51,10 +53,37 @@ Alignment, Canvas Fill): AUC 0.849 (0.775-0.916), accuracy 0.74, 40 of 53 bad ca
 (`results_beauty_tuned.json`). The mean of the 13 judge scores rises to AUC 0.925; the classifier trained on human
 scores barely moves.
 
+## Gradient boosting trained on judge scores
+
+`train-on-judges [--beauty-tuned]` trains gradient boosting on the judges' scores of HS001-HS200 instead of the human
+scores, with the same split, folds, setting grid, and cut rule as `../classification`, and tests it once on HS201-HS300.
+Judge scores for HS001-HS200: Correctness from the study's d17 outputs (`../human_alignment/results`; the prompt is
+identical to the one in `src`), Color Consistency, Contrast, Style Uniformity, and Resolution scored here with the
+prompts in `src` (800 calls), and the four tuned dimensions from `../beauty_tuning` (current or tuned prompts).
+
+| HS201-HS300 | Beauty prompts in `src`: AUC / accuracy | Four tuned Beauty prompts: AUC / accuracy | Bad caught / good flagged (tuned) |
+|---|---:|---:|---:|
+| **Gradient boosting trained on judge scores** | 0.879 / 0.79 | **0.911 / 0.82** | 43 of 53 / **8 of 47** |
+| Gradient boosting trained on human scores, given judge scores | 0.842 / 0.75 | 0.849 / 0.74 | 40 of 53 / 13 of 47 |
+| Mean of the 13 judge scores (no training) | 0.903 / 0.78 | 0.925 / 0.78 | 49 of 53 / 18 of 47 |
+| Reference: gradient boosting trained and tested on human scores | 0.975 / 0.90 | 0.975 / 0.90 | 50 of 53 / 7 of 47 |
+
+Intervals are in `results_trained_on_judges.json` and `results_trained_on_judges_beauty_tuned.json`.
+
+1. **Training on judge scores helps.** With the tuned Beauty prompts, test AUC rises from 0.849 to 0.911 (+0.062, 95%
+   interval +0.005 to +0.126) and accuracy from 0.74 to 0.82 (+0.08, -0.01 to +0.17), with good diagrams wrongly flagged
+   falling from 13 to 8 of 47. With the prompts in `src` the gain is smaller and not clear (AUC +0.037, -0.025 to +0.104).
+2. **The best pipeline is the tuned Beauty prompts with gradient boosting trained on judge scores:** AUC 0.911
+   (0.853-0.958), accuracy 0.82 (0.74-0.89). It also has the higher val AUC of the two (0.952 vs 0.948).
+3. **It is still below human scores:** AUC -0.064 (-0.120 to -0.016), accuracy -0.08 (-0.16 to +0.00).
+4. **The plain mean of the judge scores ranks about as well** (AUC 0.925; difference -0.013, -0.055 to +0.029), but at
+   its val-chosen cut it flags 18 of 47 good diagrams, against 8 for the trained model.
+
+The val AUC of the two rows trained on human scores is measured on human scores.
+
 ## Limits
 
 - One call per dimension, so run-to-run noise is not measured.
-- The classifier never saw judge scores. Training it on judge scores of HS001-HS200 is a separate run: the d17
-  correctness scores for those exist in `../human_alignment/results/`; Beauty scores there exist for only the four
-  dimensions in `../beauty_tuning/results/`.
+- HS201-HS300 has now served as the test set for the first pipeline, the Beauty tuning, and this comparison. Both
+  versions here were planned before the test run and both are reported; nothing was chosen on the test set.
 - The test set has 100 diagrams; one diagram moves accuracy by 1 point.

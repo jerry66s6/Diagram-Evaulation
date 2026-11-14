@@ -1,0 +1,126 @@
+{
+ "model": "gpt-6-luna",
+ "train_val": "HS001-HS200",
+ "test": "HS201-HS300",
+ "beauty_tuned": false,
+ "methods": {
+  "gradient boosting trained on judge scores": {
+   "settings": {
+    "learning_rate": 0.1,
+    "max_depth": 3,
+    "n_estimators": 100
+   },
+   "val_auc": 0.9478934837092732,
+   "test_auc": 0.8791649939783219,
+   "test_auc_interval": [
+    0.8065034122842232,
+    0.9405961461260539
+   ],
+   "accuracy": 0.79,
+   "accuracy_interval": [
+    0.71,
+    0.87
+   ],
+   "f1": 0.8073394495412844,
+   "bad_caught": 44,
+   "clean_flagged": 12
+  },
+  "gradient boosting trained on human scores, given judge scores": {
+   "settings": {
+    "learning_rate": 0.03,
+    "max_depth": 2,
+    "n_estimators": 200
+   },
+   "val_auc": 0.9611835839598996,
+   "test_auc": 0.8418305901244479,
+   "test_auc_interval": [
+    0.7643516659975914,
+    0.9116820553994379
+   ],
+   "accuracy": 0.75,
+   "accuracy_interval": [
+    0.6697500000000001,
+    0.83
+   ],
+   "f1": 0.7663551401869159,
+   "bad_caught": 41,
+   "clean_flagged": 13
+  },
+  "mean of the 13 judge scores (no training)": {
+   "settings": {},
+   "val_auc": 0.8998690476190477,
+   "test_auc": 0.9030509835407468,
+   "test_auc_interval": [
+    0.8410076274588518,
+    0.9546366920915296
+   ],
+   "accuracy": 0.78,
+   "accuracy_interval": [
+    0.7,
+    0.86
+   ],
+   "f1": 0.8035714285714286,
+   "bad_caught": 45,
+   "clean_flagged": 14
+  },
+  "reference: gradient boosting trained and tested on human scores": {
+   "settings": {
+    "learning_rate": 0.03,
+    "max_depth": 2,
+    "n_estimators": 200
+   },
+   "val_auc": 0.9611835839598996,
+   "test_auc": 0.9751103974307507,
+   "test_auc_interval": [
+    0.9490064231232437,
+    0.9927739863508631
+   ],
+   "accuracy": 0.9,
+   "accuracy_interval": [
+    0.84,
+    0.95
+   ],
+   "f1": 0.9090909090909091,
+   "bad_caught": 50,
+   "clean_flagged": 7
+  }
+ },
+ "differences": {
+  "gradient boosting trained on judge scores minus gradient boosting trained on human scores, given judge scores": {
+   "auc": 0.03733440385387399,
+   "auc_interval": [
+    -0.024688879967884384,
+    0.1035828984343636
+   ],
+   "accuracy": 0.040000000000000036,
+   "accuracy_interval": [
+    -0.050000000000000044,
+    0.13024999999999864
+   ]
+  },
+  "gradient boosting trained on judge scores minus mean of the 13 judge scores (no training)": {
+   "auc": -0.023885989562424825,
+   "auc_interval": [
+    -0.07466880770774786,
+    0.0287033319951826
+   ],
+   "accuracy": 0.010000000000000009,
+   "accuracy_interval": [
+    -0.07000000000000006,
+    0.08999999999999997
+   ]
+  },
+  "gradient boosting trained on judge scores minus reference: gradient boosting trained and tested on human scores": {
+   "auc": -0.09594540345242875,
+   "auc_interval": [
+    -0.16421116017663587,
+    -0.034122842232035315
+   ],
+   "accuracy": -0.10999999999999999,
+   "accuracy_interval": [
+    -0.19000000000000006,
+    -0.030000000000000023
+   ]
+  }
+ }
+}
