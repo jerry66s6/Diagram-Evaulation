@@ -8,6 +8,7 @@ Split: HS201-HS300 is the test set, scored once at the end. HS001-HS200 go throu
 label and difficulty. Each method's settings and bad/good cut come from val; it is then refit on all 200 and tested.
 """
 import csv
+import itertools
 import json
 from pathlib import Path
 
@@ -106,17 +107,19 @@ def run_method(name, X, y, develop, test, folds):
             "bad_caught": int(called[t == 1].sum()), "clean_flagged": int(called[t == 0].sum())}
 
 
-def bootstrap(y, score, base):
-    """95% intervals for test AUC and its gap to the baseline, resampling test diagrams within each label."""
+def bootstrap(y, methods):
+    """Test AUC and accuracy of every method on the same bootstrap draws (test diagrams resampled within each label).
+    The draws are shared, so the difference between two methods is paired."""
     rng = np.random.default_rng(SEED)
     good, bad = np.flatnonzero(y == 0), np.flatnonzero(y == 1)
-    aucs, gaps = [], []
-    for _ in range(N_BOOTSTRAP):
-        at = np.r_[rng.choice(good, len(good)), rng.choice(bad, len(bad))]
-        auc = roc_auc_score(y[at], score[at])
-        aucs.append(auc)
-        gaps.append(auc - roc_auc_score(y[at], base[at]))
-    return [float(v) for v in np.percentile(aucs, [2.5, 97.5])], [float(v) for v in np.percentile(gaps, [2.5, 97.5])]
+    draws = [np.r_[rng.choice(good, len(good)), rng.choice(bad, len(bad))] for _ in range(N_BOOTSTRAP)]
+    auc = {n: np.array([roc_auc_score(y[at], m["test_score"][at]) for at in draws]) for n, m in methods.items()}
+    accuracy = {n: np.array([(m["test_called"][at] == y[at]).mean() for at in draws]) for n, m in methods.items()}
+    return auc, accuracy
+
+
+def interval(values):
+    return [float(v) for v in np.percentile(values, [2.5, 97.5])]
 
 
 def main():
@@ -126,13 +129,27 @@ def main():
 
     methods = {name: run_method(name, X, y, develop, test, folds) for name in NAMES}
     n_bad, n_good = int(y[test].sum()), int((1 - y[test]).sum())
-    print(f"| Method | Val AUC | Val accuracy | Test AUC (95% interval) | Minus mean_of_13 (95% interval) | Test accuracy | Test F1 | Bad caught of {n_bad} | Clean flagged of {n_good} |\n|---|---:|---:|---:|---:|---:|---:|---:|---:|")
+    print(f"| Method | Val AUC | Val accuracy | Test AUC (95% interval) | Minus mean_of_13 (95% interval) | Test accuracy (95% interval) | Test F1 | Bad caught of {n_bad} | Clean flagged of {n_good} |\n|---|---:|---:|---:|---:|---:|---:|---:|---:|")
+    auc_draws, accuracy_draws = bootstrap(y[test], methods)
     for name, m in methods.items():
-        m["test_auc_interval"], m["gap_interval"] = bootstrap(y[test], m["test_score"], methods["mean_of_13"]["test_score"])
+        m["test_auc_interval"], m["accuracy_interval"] = interval(auc_draws[name]), interval(accuracy_draws[name])
         m["gap"] = m["test_auc"] - methods["mean_of_13"]["test_auc"]
+        m["gap_interval"] = interval(auc_draws[name] - auc_draws["mean_of_13"])
         print(f"| {name} | {m['val_auc']:.3f} | {m['val_accuracy']:.3f} | {m['test_auc']:.3f} ({m['test_auc_interval'][0]:.3f}-{m['test_auc_interval'][1]:.3f}) "
-              f"| {m['gap']:+.3f} ({m['gap_interval'][0]:+.3f} to {m['gap_interval'][1]:+.3f}) | {m['accuracy']:.3f} | {m['f1']:.3f} | {m['bad_caught']} | {m['clean_flagged']} |")
+              f"| {m['gap']:+.3f} ({m['gap_interval'][0]:+.3f} to {m['gap_interval'][1]:+.3f}) | {m['accuracy']:.2f} ({m['accuracy_interval'][0]:.2f}-{m['accuracy_interval'][1]:.2f}) "
+              f"| {m['f1']:.3f} | {m['bad_caught']} | {m['clean_flagged']} |")
     print("\nSettings: " + json.dumps({n: methods[n]["settings"] for n in MODELS}))
+
+    # Every pair of methods on the same draws. 21 pairs and no correction for that, so a borderline pair can be chance.
+    pairwise = [{"a": a, "b": b, "auc_difference": methods[a]["test_auc"] - methods[b]["test_auc"], "auc_interval": interval(auc_draws[a] - auc_draws[b]),
+                 "accuracy_difference": methods[a]["accuracy"] - methods[b]["accuracy"], "accuracy_interval": interval(accuracy_draws[a] - accuracy_draws[b])}
+                for a, b in itertools.combinations(NAMES, 2)]
+    print("\nPairs whose test AUC or accuracy interval excludes zero (a minus b):")
+    for p in pairwise:
+        for k in ("auc", "accuracy"):
+            low, high = p[f"{k}_interval"]
+            if low > 0 or high < 0:
+                print(f"  {p['a']} - {p['b']}: {k} {p[f'{k}_difference']:+.3f} ({low:+.3f} to {high:+.3f})")
 
     # The method to carry forward is chosen on val, not on the test table.
     chosen = max(MODELS, key=lambda n: methods[n]["val_auc"])
@@ -183,9 +200,10 @@ def main():
     rules = export_text(methods["decision_tree"]["model"], feature_names=dims, class_names=["good", "bad"])
     print("\nDecision tree (the one tested)\n" + rules)
 
-    keep = ("settings", "val_auc", "val_accuracy", "test_auc", "test_auc_interval", "gap", "gap_interval", "accuracy", "f1", "bad_caught", "clean_flagged")
+    keep = ("settings", "val_auc", "val_accuracy", "test_auc", "test_auc_interval", "gap", "gap_interval", "accuracy", "accuracy_interval",
+            "f1", "bad_caught", "clean_flagged")
     json.dump({"inputs": dims, "bad_means": "label negative", "test_ids": [rows[i]["id"] for i in test],
-               "methods": {n: {k: m[k] for k in keep} for n, m in methods.items()}, "best_val_auc": chosen, "test_by_difficulty": levels,
+               "methods": {n: {k: m[k] for k in keep} for n, m in methods.items()}, "pairwise": pairwise, "best_val_auc": chosen, "test_by_difficulty": levels,
                "val_by_inserted_error": by_defect, "by_input": by_input, "dimensions": dimensions, "style_uniformity_means": style_means, "decision_tree": rules},
               open(HERE / "results.json", "w"), indent=1)
     part_of = {int(i): "test" for i in test} | {int(i): f"val_{k}" for k, (_, v) in enumerate(folds) for i in v}

@@ -133,6 +133,10 @@
     0.0
    ],
    "accuracy": 0.85,
+   "accuracy_interval": [
+    0.78,
+    0.92
+   ],
    "f1": 0.8598130841121495,
    "bad_caught": 46,
    "clean_flagged": 8
@@ -152,6 +156,10 @@
     0.017668606985146645
    ],
    "accuracy": 0.87,
+   "accuracy_interval": [
+    0.8,
+    0.93
+   ],
    "f1": 0.8785046728971962,
    "bad_caught": 47,
    "clean_flagged": 7
@@ -174,6 +182,10 @@
     0.05419510236852665
    ],
    "accuracy": 0.86,
+   "accuracy_interval": [
+    0.79,
+    0.9202499999999987
+   ],
    "f1": 0.8679245283018868,
    "bad_caught": 46,
    "clean_flagged": 7
@@ -195,6 +207,10 @@
     0.07407667603372123
    ],
    "accuracy": 0.92,
+   "accuracy_interval": [
+    0.86,
+    0.97
+   ],
    "f1": 0.9285714285714286,
    "bad_caught": 52,
    "clean_flagged": 7
@@ -217,6 +233,10 @@
     0.07928542753914081
    ],
    "accuracy": 0.91,
+   "accuracy_interval": [
+    0.85,
+    0.96
+   ],
    "f1": 0.9158878504672897,
    "bad_caught": 49,
    "clean_flagged": 5
@@ -240,6 +260,10 @@
     0.08029405861099961
    ],
    "accuracy": 0.9,
+   "accuracy_interval": [
+    0.84,
+    0.95
+   ],
    "f1": 0.9090909090909091,
    "bad_caught": 50,
    "clean_flagged": 7
@@ -262,11 +286,311 @@
     0.05781814532316339
    ],
    "accuracy": 0.91,
+   "accuracy_interval": [
+    0.85,
+    0.96
+   ],
    "f1": 0.9158878504672897,
    "bad_caught": 49,
    "clean_flagged": 5
   }
  },
+ "pairwise": [
+  {
+   "a": "mean_of_13",
+   "b": "lowest_of_13",
+   "auc_difference": 0.021878763548775604,
+   "auc_interval": [
+    -0.01766860698514667,
+    0.07025291047771964
+   ],
+   "accuracy_difference": -0.020000000000000018,
+   "accuracy_interval": [
+    -0.08025000000000006,
+    0.04999999999999993
+   ]
+  },
+  {
+   "a": "mean_of_13",
+   "b": "decision_tree",
+   "auc_difference": 0.002408671216378888,
+   "auc_interval": [
+    -0.05419510236852665,
+    0.062244078683259686
+   ],
+   "accuracy_difference": -0.010000000000000009,
+   "accuracy_interval": [
+    -0.09999999999999998,
+    0.07999999999999996
+   ]
+  },
+  {
+   "a": "mean_of_13",
+   "b": "logistic_regression",
+   "auc_difference": -0.03994379767161782,
+   "auc_interval": [
+    -0.07407667603372128,
+    -0.012043356081894774
+   ],
+   "accuracy_difference": -0.07000000000000006,
+   "accuracy_interval": [
+    -0.1399999999999999,
+    -0.010000000000000009
+   ]
+  },
+  {
+   "a": "mean_of_13",
+   "b": "random_forest",
+   "auc_difference": -0.037133681252509154,
+   "auc_interval": [
+    -0.07928542753914081,
+    -0.002408671216378888
+   ],
+   "accuracy_difference": -0.06000000000000005,
+   "accuracy_interval": [
+    -0.1399999999999999,
+    0.010000000000000009
+   ]
+  },
+  {
+   "a": "mean_of_13",
+   "b": "gradient_boosting",
+   "auc_difference": -0.038739462063428376,
+   "auc_interval": [
+    -0.08029405861099964,
+    -0.0023986350863107013
+   ],
+   "accuracy_difference": -0.050000000000000044,
+   "accuracy_interval": [
+    -0.12024999999999998,
+    0.020000000000000018
+   ]
+  },
+  {
+   "a": "mean_of_13",
+   "b": "svm_rbf",
+   "auc_difference": -0.027900441589723046,
+   "auc_interval": [
+    -0.05781814532316344,
+    -0.005018065034122832
+   ],
+   "accuracy_difference": -0.06000000000000005,
+   "accuracy_interval": [
+    -0.12,
+    0.0
+   ]
+  },
+  {
+   "a": "lowest_of_13",
+   "b": "decision_tree",
+   "auc_difference": -0.019470092332396716,
+   "auc_interval": [
+    -0.09694901645925325,
+    0.059820353271778516
+   ],
+   "accuracy_difference": 0.010000000000000009,
+   "accuracy_interval": [
+    -0.08999999999999997,
+    0.10999999999999999
+   ]
+  },
+  {
+   "a": "lowest_of_13",
+   "b": "logistic_regression",
+   "auc_difference": -0.061822561220393424,
+   "auc_interval": [
+    -0.12064431955038127,
+    -0.013649136892814103
+   ],
+   "accuracy_difference": -0.050000000000000044,
+   "accuracy_interval": [
+    -0.13,
+    0.02999999999999992
+   ]
+  },
+  {
+   "a": "lowest_of_13",
+   "b": "random_forest",
+   "auc_difference": -0.05901244480128476,
+   "auc_interval": [
+    -0.12144219189080703,
+    -0.007627458851866664
+   ],
+   "accuracy_difference": -0.040000000000000036,
+   "accuracy_interval": [
+    -0.12,
+    0.040000000000000036
+   ]
+  },
+  {
+   "a": "lowest_of_13",
+   "b": "gradient_boosting",
+   "auc_difference": -0.06061822561220398,
+   "auc_interval": [
+    -0.1152147731834604,
+    -0.012841228422320453
+   ],
+   "accuracy_difference": -0.030000000000000027,
+   "accuracy_interval": [
+    -0.10025000000000008,
+    0.04999999999999993
+   ]
+  },
+  {
+   "a": "lowest_of_13",
+   "b": "svm_rbf",
+   "auc_difference": -0.04977920513849865,
+   "auc_interval": [
+    -0.0947460859092732,
+    -0.013649136892814103
+   ],
+   "accuracy_difference": -0.040000000000000036,
+   "accuracy_interval": [
+    -0.09000000000000008,
+    0.0
+   ]
+  },
+  {
+   "a": "decision_tree",
+   "b": "logistic_regression",
+   "auc_difference": -0.04235246888799671,
+   "auc_interval": [
+    -0.0923323966278603,
+    5.01806503409345e-06
+   ],
+   "accuracy_difference": -0.06000000000000005,
+   "accuracy_interval": [
+    -0.13,
+    0.010000000000000009
+   ]
+  },
+  {
+   "a": "decision_tree",
+   "b": "random_forest",
+   "auc_difference": -0.03954235246888804,
+   "auc_interval": [
+    -0.08129265355279003,
+    -0.003813729425933385
+   ],
+   "accuracy_difference": -0.050000000000000044,
+   "accuracy_interval": [
+    -0.10999999999999999,
+    0.010000000000000009
+   ]
+  },
+  {
+   "a": "decision_tree",
+   "b": "gradient_boosting",
+   "auc_difference": -0.041148133279807264,
+   "auc_interval": [
+    -0.0851063829787233,
+    -0.0030008028904054233
+   ],
+   "accuracy_difference": -0.040000000000000036,
+   "accuracy_interval": [
+    -0.10000000000000009,
+    0.030000000000000027
+   ]
+  },
+  {
+   "a": "decision_tree",
+   "b": "svm_rbf",
+   "auc_difference": -0.030309112806101934,
+   "auc_interval": [
+    -0.08833801686069846,
+    0.02027800080289015
+   ],
+   "accuracy_difference": -0.050000000000000044,
+   "accuracy_interval": [
+    -0.14,
+    0.040000000000000036
+   ]
+  },
+  {
+   "a": "logistic_regression",
+   "b": "random_forest",
+   "auc_difference": 0.002810116419108666,
+   "auc_interval": [
+    -0.018065034122842216,
+    0.02448815736651933
+   ],
+   "accuracy_difference": 0.010000000000000009,
+   "accuracy_interval": [
+    -0.04999999999999993,
+    0.06999999999999995
+   ]
+  },
+  {
+   "a": "logistic_regression",
+   "b": "gradient_boosting",
+   "auc_difference": 0.001204335608189444,
+   "auc_interval": [
+    -0.022882376555600104,
+    0.02569249297470888
+   ],
+   "accuracy_difference": 0.020000000000000018,
+   "accuracy_interval": [
+    -0.040000000000000036,
+    0.08000000000000007
+   ]
+  },
+  {
+   "a": "logistic_regression",
+   "b": "svm_rbf",
+   "auc_difference": 0.012043356081894774,
+   "auc_interval": [
+    -0.006824568446406998,
+    0.033319951826575656
+   ],
+   "accuracy_difference": 0.010000000000000009,
+   "accuracy_interval": [
+    -0.04999999999999993,
+    0.06999999999999995
+   ]
+  },
+  {
+   "a": "random_forest",
+   "b": "gradient_boosting",
+   "auc_difference": -0.0016057808109192218,
+   "auc_interval": [
+    -0.01726214371738255,
+    0.01284624648735444
+   ],
+   "accuracy_difference": 0.010000000000000009,
+   "accuracy_interval": [
+    -0.030000000000000027,
+    0.050000000000000044
+   ]
+  },
+  {
+   "a": "random_forest",
+   "b": "svm_rbf",
+   "auc_difference": 0.009233239662786108,
+   "auc_interval": [
+    -0.019670814933761552,
+    0.03853873946206343
+   ],
+   "accuracy_difference": 0.0,
+   "accuracy_interval": [
+    -0.06999999999999995,
+    0.06999999999999995
+   ]
+  },
+  {
+   "a": "gradient_boosting",
+   "b": "svm_rbf",
+   "auc_difference": 0.01083902047370533,
+   "auc_interval": [
+    -0.014853472501003662,
+    0.03894018466479332
+   ],
+   "accuracy_difference": -0.010000000000000009,
+   "accuracy_interval": [
+    -0.06999999999999995,
+    0.050000000000000044
+   ]
+  }
+ ],
  "best_val_auc": "gradient_boosting",
  "test_by_difficulty": {
   "easy": {

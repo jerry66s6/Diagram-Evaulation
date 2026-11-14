@@ -35,6 +35,10 @@ th:first-child, td:first-child { text-align: left; padding-left: 0; }
 td { font-variant-numeric: tabular-nums; }
 td small { display: block; color: var(--muted); font-size: 12px; }
 tr.break td { border-bottom-color: var(--rule); }
+td.sig { font-weight: 600; background: var(--wash); }
+table.matrix { font-size: 13px; }
+table.matrix th, table.matrix td { padding: 7px 6px; }
+table.matrix td small { font-size: 11px; }
 .chart { margin: 8px 0 16px; }
 .row { display: grid; grid-template-columns: 170px 1fr; align-items: center; border-radius: 4px; outline-offset: 1px; }
 .row:hover { background: var(--wash); }
@@ -65,12 +69,13 @@ footer { margin-top: 44px; padding-top: 16px; border-top: 1px solid var(--grid);
 </style></head><body><main>
 
 <h1>Classifying good and bad diagrams from human scores</h1>
-<p class="meta">Diagram Evaluation &middot; November 5, 2026 &middot; branch <code>classification</code></p>
+<p class="meta">Diagram Evaluation &middot; November 13, 2026 &middot; branch <code>classification</code></p>
 
 <div class="answer"><p><strong>The 13 human scores separate good diagrams from bad ones well.</strong> On 100 held-out test diagrams, logistic regression,
 random forest, gradient boosting, and an SVM reach AUC 0.964 to 0.976 and accuracy 0.90 to 0.92.
-All four beat simply averaging the scores (AUC 0.936, accuracy 0.85). They cannot be told apart from each other, so
-logistic regression is the natural choice: it is the simplest, and its weights can be read directly.</p></div>
+All four beat simply averaging the scores (AUC 0.936, accuracy 0.85), and they cannot be told apart from each other.
+<strong>Gradient boosting is the method carried forward:</strong> it has the best val AUC, which is how the method was to be picked, and its test AUC
+(0.975) is clearly above the decision tree, the mean of the 13 scores, and the lowest of the 13 scores.</p></div>
 
 <h2>Setup</h2>
 <dl>
@@ -99,14 +104,20 @@ Test AUC 0.936
 Test AUC 0.914
 95% interval 0.855 to 0.966"><div class="name">Lowest of the 13 scores</div><div class="plot"><i class="tick" style="left:6.25%"></i><i class="tick" style="left:37.50%"></i><i class="tick" style="left:68.75%"></i><i class="tick" style="left:100.00%"></i><i class="ref" style="left:60.23%"></i><span class="whisker" style="left:9.42%;width:69.25%"></span><span class="dot" style="left:46.56%"></span></div></div><div class="row"><div class="name"></div><div class="plot axis"><span style="left:6.25%">0.85</span><span style="left:37.50%">0.90</span><span style="left:68.75%">0.95</span><span style="left:100.00%">1.00</span></div></div></div>
 <div class="table"><table><thead><tr><th>Method</th><th>Val AUC</th><th>Val accuracy</th><th>Test AUC</th><th>Test AUC minus mean</th><th>Test accuracy</th><th>Test F1</th><th>Bad caught of 53</th><th>Clean flagged of 47</th></tr></thead>
-<tbody><tr><td>Gradient boosting</td><td>0.961</td><td>0.900</td><td>0.975<small>0.949 to 0.993</small></td><td>+0.039<small>+0.002 to +0.080</small></td><td>0.900</td><td>0.909</td><td>50</td><td>7</td></tr><tr><td>SVM (RBF)</td><td>0.960</td><td>0.910</td><td>0.964<small>0.931 to 0.990</small></td><td>+0.028<small>+0.005 to +0.058</small></td><td>0.910</td><td>0.916</td><td>49</td><td>5</td></tr><tr><td>Random forest</td><td>0.954</td><td>0.905</td><td>0.974<small>0.947 to 0.992</small></td><td>+0.037<small>+0.002 to +0.079</small></td><td>0.910</td><td>0.916</td><td>49</td><td>5</td></tr><tr class=break><td>Logistic regression</td><td>0.953</td><td>0.905</td><td>0.976<small>0.947 to 0.997</small></td><td>+0.040<small>+0.012 to +0.074</small></td><td>0.920</td><td>0.929</td><td>52</td><td>7</td></tr><tr class=break><td>Decision tree</td><td>0.932</td><td>0.870</td><td>0.934<small>0.879 to 0.978</small></td><td>−0.002<small>−0.062 to +0.054</small></td><td>0.860</td><td>0.868</td><td>46</td><td>7</td></tr><tr><td>Mean of the 13 scores</td><td>0.917</td><td>0.860</td><td>0.936<small>0.888 to 0.975</small></td><td>—</td><td>0.850</td><td>0.860</td><td>46</td><td>8</td></tr><tr><td>Lowest of the 13 scores</td><td>0.917</td><td>0.840</td><td>0.914<small>0.855 to 0.966</small></td><td>−0.022<small>−0.070 to +0.018</small></td><td>0.870</td><td>0.879</td><td>47</td><td>7</td></tr></tbody></table></div>
+<tbody><tr><td>Gradient boosting</td><td>0.961</td><td>0.900</td><td>0.975<small>0.949 to 0.993</small></td><td>+0.039<small>+0.002 to +0.080</small></td><td>0.90<small>0.84 to 0.95</small></td><td>0.909</td><td>50</td><td>7</td></tr><tr><td>SVM (RBF)</td><td>0.960</td><td>0.910</td><td>0.964<small>0.931 to 0.990</small></td><td>+0.028<small>+0.005 to +0.058</small></td><td>0.91<small>0.85 to 0.96</small></td><td>0.916</td><td>49</td><td>5</td></tr><tr><td>Random forest</td><td>0.954</td><td>0.905</td><td>0.974<small>0.947 to 0.992</small></td><td>+0.037<small>+0.002 to +0.079</small></td><td>0.91<small>0.85 to 0.96</small></td><td>0.916</td><td>49</td><td>5</td></tr><tr class=break><td>Logistic regression</td><td>0.953</td><td>0.905</td><td>0.976<small>0.947 to 0.997</small></td><td>+0.040<small>+0.012 to +0.074</small></td><td>0.92<small>0.86 to 0.97</small></td><td>0.929</td><td>52</td><td>7</td></tr><tr class=break><td>Decision tree</td><td>0.932</td><td>0.870</td><td>0.934<small>0.879 to 0.978</small></td><td>−0.002<small>−0.062 to +0.054</small></td><td>0.86<small>0.79 to 0.92</small></td><td>0.868</td><td>46</td><td>7</td></tr><tr><td>Mean of the 13 scores</td><td>0.917</td><td>0.860</td><td>0.936<small>0.888 to 0.975</small></td><td>—</td><td>0.85<small>0.78 to 0.92</small></td><td>0.860</td><td>46</td><td>8</td></tr><tr><td>Lowest of the 13 scores</td><td>0.917</td><td>0.840</td><td>0.914<small>0.855 to 0.966</small></td><td>−0.022<small>−0.070 to +0.018</small></td><td>0.87<small>0.80 to 0.93</small></td><td>0.879</td><td>47</td><td>7</td></tr></tbody></table></div>
 
 <ol>
 <li><strong>Combining the scores beats averaging them.</strong> The four methods are 0.028 to 0.040 above the mean of the 13 on test AUC, and each difference's interval excludes zero.</li>
-<li><strong>Those four cannot be separated.</strong> Gradient boosting has the best val AUC (0.961, SVM 0.960), and logistic regression the best test AUC (0.976, gradient boosting 0.975). Their test intervals overlap heavily.</li>
+<li><strong>Those four cannot be separated.</strong> Gradient boosting has the best val AUC (0.961, SVM 0.960), and logistic regression the best test AUC (0.976, gradient boosting 0.975). No two of them differ clearly in the direct comparisons below.</li>
 <li><strong>A single decision tree is no better than the plain mean</strong> (test AUC 0.934 vs 0.936), though its rules are the easiest to read.</li>
 <li><strong>The test scores may run a little high.</strong> Most methods score above their val AUC on test, including the plain mean (0.917 to 0.936), although the test set has fewer easy diagrams. Val AUC of 0.95 to 0.96 is the more cautious figure.</li>
 </ol>
+
+<h3>Comparing methods directly</h3>
+<p class="caption">Test AUC of the row method minus the column method, with a 95% interval from the same bootstrap draws for both. Shaded: the interval
+excludes zero. These are 21 comparisons with no correction for testing that many, so a borderline one can be chance.</p>
+<div class="table"><table class="matrix"><thead><tr><th>Row minus column</th><th>SVM</th><th>Random forest</th><th>Logistic regression</th><th>Decision tree</th><th>Mean of 13</th><th>Lowest of 13</th></tr></thead><tbody><tr><td>Gradient boosting</td><td>+0.011<small>−0.015 to +0.039</small></td><td>+0.002<small>−0.013 to +0.017</small></td><td>−0.001<small>−0.026 to +0.023</small></td><td class=sig>+0.041<small>+0.003 to +0.085</small></td><td class=sig>+0.039<small>+0.002 to +0.080</small></td><td class=sig>+0.061<small>+0.013 to +0.115</small></td></tr><tr><td>SVM</td><td></td><td>−0.009<small>−0.039 to +0.020</small></td><td>−0.012<small>−0.033 to +0.007</small></td><td>+0.030<small>−0.020 to +0.088</small></td><td class=sig>+0.028<small>+0.005 to +0.058</small></td><td class=sig>+0.050<small>+0.014 to +0.095</small></td></tr><tr><td>Random forest</td><td></td><td></td><td>−0.003<small>−0.024 to +0.018</small></td><td class=sig>+0.040<small>+0.004 to +0.081</small></td><td class=sig>+0.037<small>+0.002 to +0.079</small></td><td class=sig>+0.059<small>+0.008 to +0.121</small></td></tr><tr><td>Logistic regression</td><td></td><td></td><td></td><td>+0.042<small>−0.000 to +0.092</small></td><td class=sig>+0.040<small>+0.012 to +0.074</small></td><td class=sig>+0.062<small>+0.014 to +0.121</small></td></tr><tr><td>Decision tree</td><td></td><td></td><td></td><td></td><td>−0.002<small>−0.062 to +0.054</small></td><td>+0.019<small>−0.060 to +0.097</small></td></tr><tr><td>Mean of 13</td><td></td><td></td><td></td><td></td><td></td><td>+0.022<small>−0.018 to +0.070</small></td></tr></tbody></table></div>
+<p>On test accuracy, only one pair differs clearly: logistic regression is 0.07 above the mean of the 13 scores (0.01 to 0.14). With 100 test diagrams, accuracy gaps of a few points are within noise.</p>
 
 <h2>Which inputs matter</h2>
 <p class="caption">Drop in test AUC when one score is shuffled, averaged over the five trained methods. Hover over a row for each method.</p>
@@ -197,7 +208,7 @@ style_uniformity &gt; 8.5
     otherwise                                             good</pre>
 
 <h2>By difficulty</h2>
-<p class="caption">Gradient boosting on the test set, the method with the best val AUC.</p>
+<p class="caption">Gradient boosting, the method carried forward, on the test set.</p>
 <div class="table"><table style="max-width:420px"><thead><tr><th>Difficulty</th><th>Bad caught</th><th>Clean flagged</th></tr></thead><tbody><tr><td>Easy</td><td>12 of 12</td><td>0 of 11</td></tr><tr><td>Medium</td><td>22 of 23</td><td>4 of 18</td></tr><tr><td>Hard</td><td>16 of 18</td><td>3 of 18</td></tr></tbody></table></div>
 
 <h2>Limits</h2>
