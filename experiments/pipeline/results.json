@@ -1,0 +1,161 @@
+{
+ "model": "gpt-6-luna",
+ "test": "HS201-HS300",
+ "cut": 0.4333244885927412,
+ "methods": {
+  "pipeline: gradient boosting on judge scores": {
+   "test_auc": 0.8418305901244479,
+   "test_auc_interval": [
+    0.7643516659975914,
+    0.9116820553994379
+   ],
+   "accuracy": 0.75,
+   "accuracy_interval": [
+    0.6697500000000001,
+    0.83
+   ],
+   "f1": 0.7663551401869159,
+   "bad_caught": 41,
+   "clean_flagged": 13
+  },
+  "reference: gradient boosting on human scores": {
+   "test_auc": 0.9751103974307507,
+   "test_auc_interval": [
+    0.9490064231232437,
+    0.9927739863508631
+   ],
+   "accuracy": 0.9,
+   "accuracy_interval": [
+    0.84,
+    0.95
+   ],
+   "f1": 0.9090909090909091,
+   "bad_caught": 50,
+   "clean_flagged": 7
+  },
+  "reference: mean of the 13 judge scores": {
+   "test_auc": 0.9030509835407468,
+   "test_auc_interval": [
+    0.8410076274588518,
+    0.9546366920915296
+   ]
+  }
+ },
+ "pipeline_minus_human": {
+  "auc": -0.13327980730630273,
+  "auc_interval": [
+   -0.20674427940586115,
+   -0.06904857486953031
+  ],
+  "accuracy": -0.15000000000000002,
+  "accuracy_interval": [
+   -0.24,
+   -0.06000000000000005
+  ]
+ },
+ "pipeline_minus_judge_mean": {
+  "auc": -0.06122039341629881,
+  "auc_interval": [
+   -0.12224508229626659,
+   -0.0050180650341229375
+  ]
+ },
+ "per_dimension": {
+  "layout": {
+   "human_mean": 7.63,
+   "judge_mean": 8.08,
+   "spearman": 0.6452219716919219,
+   "auc_human": 0.8757527097551184,
+   "auc_judge": 0.753512645523886
+  },
+  "connectivity": {
+   "human_mean": 7.84,
+   "judge_mean": 7.84,
+   "spearman": 0.6093384274112811,
+   "auc_human": 0.8474508229626656,
+   "auc_judge": 0.6457246085909274
+  },
+  "presence": {
+   "human_mean": 8.86,
+   "judge_mean": 9.04,
+   "spearman": 0.7932354002705044,
+   "auc_human": 0.7902448815736651,
+   "auc_judge": 0.6993175431553593
+  },
+  "details": {
+   "human_mean": 8.31,
+   "judge_mean": 8.44,
+   "spearman": 0.6571284709133712,
+   "auc_human": 0.8040947410678443,
+   "auc_judge": 0.7029305499799279
+  },
+  "legibility": {
+   "human_mean": 6.42,
+   "judge_mean": 6.92,
+   "spearman": 0.8016538660780267,
+   "auc_human": 0.7755921316740265,
+   "auc_judge": 0.8103171417101566
+  },
+  "centering": {
+   "human_mean": 7.61,
+   "judge_mean": 9.628,
+   "spearman": 0.15948684148747075,
+   "auc_human": 0.6973103171417101,
+   "auc_judge": 0.5355279004415898
+  },
+  "space_use": {
+   "human_mean": 7.15,
+   "judge_mean": 6.6129999999999995,
+   "spearman": 0.13181248968414963,
+   "auc_human": 0.6971095945403452,
+   "auc_judge": 0.597952629466078
+  },
+  "color_consistency": {
+   "human_mean": 9.23,
+   "judge_mean": 9.304,
+   "spearman": 0.5086191588778446,
+   "auc_human": 0.6756322761942994,
+   "auc_judge": 0.6973103171417102
+  },
+  "contrast": {
+   "human_mean": 7.87,
+   "judge_mean": 8.521,
+   "spearman": 0.5816305810158273,
+   "auc_human": 0.61641910879165,
+   "auc_judge": 0.6158169409875552
+  },
+  "alignment": {
+   "human_mean": 8.16,
+   "judge_mean": 7.779000000000002,
+   "spearman": 0.20969672436056203,
+   "auc_human": 0.7111601766358893,
+   "auc_judge": 0.6039743075070253
+  },
+  "style_uniformity": {
+   "human_mean": 8.04,
+   "judge_mean": 8.902999999999999,
+   "spearman": 0.48395079398886404,
+   "auc_human": 0.80228823765556,
+   "auc_judge": 0.7173825772782015
+  },
+  "resolution": {
+   "human_mean": 7.3,
+   "judge_mean": 9.019,
+   "spearman": 0.4193251209017539,
+   "auc_human": 0.6670012043356082,
+   "auc_judge": 0.6872741870734644
+  },
+  "canvas_fill": {
+   "human_mean": 8.84,
+   "judge_mean": 9.982999999999999,
+   "spearman": 0.18910908689141753,
+   "auc_human": 0.5495784825371337,
+   "auc_judge": 0.5094339622641509
+  }
+ },
+ "gradient_boosting_settings": {
+  "learning_rate": 0.03,
+  "max_depth": 2,
+  "n_estimators": 200
+ }
+}
