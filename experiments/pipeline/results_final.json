@@ -1,0 +1,24 @@
+{
+ "train_val": "HS001-HS200, human scores, corrected labels",
+ "test": "HS201-HS300, judge scores, corrected labels",
+ "settings": {
+  "n_estimators": 200,
+  "max_depth": 2,
+  "learning_rate": 0.03
+ },
+ "cut": 0.36140768881394353,
+ "test_auc": 0.9005787515502274,
+ "test_auc_interval": [
+  0.8358774286895412,
+  0.9520514675485737
+ ],
+ "accuracy": 0.82,
+ "accuracy_interval": [
+  0.74,
+  0.89
+ ],
+ "bad_caught": 53,
+ "bad": 59,
+ "good_flagged": 12,
+ "good": 41
+}

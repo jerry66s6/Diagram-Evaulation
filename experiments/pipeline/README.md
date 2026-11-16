@@ -1,5 +1,30 @@
 # VLM pipeline: two judges, then gradient boosting
 
+## Final pipeline
+
+1. **Judges** (gpt-6-luna, one call per dimension, 13 per diagram): the correctness judge in `src` for Layout,
+   Connectivity, Presence, Details, Legibility; the Beauty judge in `src` for Color Consistency, Contrast, Style
+   Uniformity, Resolution; the four tuned Beauty prompts from `../beauty_tuning` for Centering, Space Use, Alignment,
+   Canvas Fill.
+2. **Classifier** `classifier.pkl`: gradient boosting (200 trees, depth 2, learning rate 0.03) trained on the human
+   scores of HS001-HS200 with the corrected labels of `../label_alignment` (11 original figures with clear errors
+   relabeled bad). A diagram is called bad when P(bad) > 0.361, the cut chosen by 5-fold val.
+3. **Result on HS201-HS300** (judge scores, corrected labels): AUC 0.901 (0.836-0.952), accuracy 0.82 (0.74-0.89),
+   53 of 59 bad caught, 12 of 41 good flagged (`results_final.json`, `predictions_final.csv`).
+
+On the dataset (`diagrams/data.csv`, the 6,000 diagrams outside the human study):
+
+```bash
+python3 experiments/pipeline/run.py train-final        # rebuilds classifier.pkl (already committed; no API calls)
+python3 experiments/pipeline/run.py score-dataset      # 13 calls per diagram, 6 at a time; resumable; outputs in dataset_results/ (git-ignored)
+python3 experiments/pipeline/run.py classify-dataset   # dataset_results.json, dataset_predictions.csv
+```
+
+The dataset calls are compared with the dataset's own labels (positive/negative in `data.csv`); corrected labels exist
+only for the 300 study diagrams. The sections below are the steps that led here.
+
+## First version
+
 The full pipeline on HS201-HS300: the correctness judge and the Beauty judge in `src/` score each diagram on the
 13 dimensions, the gradient boosting classifier from `../classification` calls it good or bad, and the call is compared
 with the true label (`positive` / `negative` in `human_ratings.json`, not the human scores).

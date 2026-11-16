@@ -7,8 +7,9 @@ good or bad, and the call is compared with the true label (positive/negative, no
     python3 experiments/pipeline/run.py classify --beauty-tuned    # the same with the four tuned Beauty prompts
     python3 experiments/pipeline/run.py score --start 1 --end 200 --dimensions color_consistency,contrast,style_uniformity,resolution
     python3 experiments/pipeline/run.py train-on-judges [--beauty-tuned]   # gradient boosting trained on judge scores
-    python3 experiments/pipeline/run.py score-dataset [--limit N]   # the pipeline on diagrams/data.csv (outside the human study)
-    python3 experiments/pipeline/run.py classify-dataset            # dataset_results.json, dataset_predictions.csv
+    python3 experiments/pipeline/run.py train-final                 # the final classifier: classifier.pkl, results_final.json
+    python3 experiments/pipeline/run.py score-dataset [--limit N]   # the judges on diagrams/data.csv (outside the human study)
+    python3 experiments/pipeline/run.py classify-dataset            # classifier.pkl on them: dataset_results.json, dataset_predictions.csv
 
 Judges: `judge_correctness_dimension` (src/diagram_correctness/direct.py) for the 5 Correctness dimensions and
 `judge_beauty_dimension` (src/diagram_correctness/beauty.py) for the 8 Beauty dimensions, one call per dimension.
@@ -29,6 +30,7 @@ from pathlib import Path
 
 import numpy as np
 from scipy.stats import spearmanr
+from sklearn.ensemble import GradientBoostingClassifier
 from sklearn.metrics import f1_score, roc_auc_score
 
 HERE = Path(__file__).resolve().parent
@@ -262,6 +264,49 @@ def train_on_judges(tuned=False):
             w.writerow([rows[i]["id"], rows[i]["label"], rows[i]["difficulty"], round(float(gb["test_score"][n]), 4), int(gb["test_called"][n])])
 
 
+# ---------- the final pipeline: corrected labels ----------
+
+LABELS = ROOT / "experiments" / "label_alignment" / "review.csv"
+CLASSIFIER = HERE / "classifier.pkl"
+FINAL_SETTINGS = {"n_estimators": 200, "max_depth": 2, "learning_rate": 0.03}
+
+
+def train_final():
+    """Save the final classifier: gradient boosting on the human scores of HS001-HS200 with the corrected labels from
+    ../label_alignment (11 original figures with clear errors relabeled bad), fixed settings, good/bad cut from 5-fold
+    val. The same model as the pipeline row of ../label_alignment; tested on the judges' scores of HS201-HS300."""
+    c = classification()
+    rows, dims, X, _ = c.load()
+    corrected = {r["id"]: r["aligned_label"] for r in csv.DictReader(open(LABELS))}
+    y = np.array([corrected[r["id"]] == "negative" for r in rows], dtype=int)
+    develop, test, folds = c.split(rows)
+    c.MODELS["final"] = (GradientBoostingClassifier(random_state=0), {k: [v] for k, v in FINAL_SETTINGS.items()})
+    gb = c.run_method("final", X, y, develop, test, folds)
+    cut = float(c.best_cut(gb["val_score"][develop], y[develop]))
+    J = judge_scores([rows[i] for i in test], tuned=True)
+    t = y[test]
+    p = c.bad_score(gb["model"], J)
+    called = p > cut
+    auc, accuracy = c.bootstrap(t, {"pipeline": {"test_score": p, "test_called": called}})
+    summary = {"train_val": "HS001-HS200, human scores, corrected labels", "test": "HS201-HS300, judge scores, corrected labels",
+               "settings": FINAL_SETTINGS, "cut": cut, "test_auc": float(roc_auc_score(t, p)), "test_auc_interval": c.interval(auc["pipeline"]),
+               "accuracy": float((called == t).mean()), "accuracy_interval": c.interval(accuracy["pipeline"]),
+               "bad_caught": int(called[t == 1].sum()), "bad": int(t.sum()), "good_flagged": int(called[t == 0].sum()), "good": int((1 - t).sum())}
+    print(json.dumps(summary, indent=1))
+    with open(CLASSIFIER, "wb") as f:
+        pickle.dump({"model": gb["model"], "cut": cut, "dimensions": DIMENSIONS, "settings": FINAL_SETTINGS,
+                     "labels": "corrected labels of ../label_alignment/review.csv", "trained_on": "human scores of HS001-HS200",
+                     "scale": "1-10 per dimension; Beauty in src is 0-100 divided by 10; the four tuned prompts score 1-10",
+                     "call_bad_if": "model.predict_proba(scores)[:, 1] > cut"}, f)
+    json.dump(summary, open(HERE / "results_final.json", "w"), indent=1)
+    with open(HERE / "predictions_final.csv", "w", newline="") as f:
+        w = csv.writer(f)
+        w.writerow(["id", "label", "corrected_label", "difficulty", "p_bad", "called_bad", *(f"judge_{k}" for k in DIMENSIONS)])
+        for n, i in enumerate(test):
+            w.writerow([rows[i]["id"], rows[i]["label"], corrected[rows[i]["id"]], rows[i]["difficulty"], round(float(p[n]), 4), int(called[n]),
+                        *(round(float(v), 1) for v in J[n])])
+
+
 # ---------- the full dataset: diagrams/data.csv ----------
 
 DATASET = ROOT / "diagrams" / "data.csv"
@@ -327,13 +372,12 @@ def score_dataset(workers, limit):
 
 
 def classify_dataset():
-    """The pipeline (tuned Beauty prompts, gradient boosting trained on human scores of HS001-HS200) on every dataset
-    diagram scored so far, against its true label."""
+    """The final pipeline (tuned Beauty prompts, classifier.pkl from `train-final`) on every dataset diagram scored so
+    far, against its dataset label (positive/negative in data.csv; corrected labels exist only for the 300 study diagrams)."""
     c = classification()
-    rows, dims, X, y = c.load()
-    develop, test, folds = c.split(rows)
-    gb = c.run_method("gradient_boosting", X, y, develop, test, folds)
-    cut = c.best_cut(gb["val_score"][develop], y[develop])
+    clf = pickle.load(open(CLASSIFIER, "rb"))
+    assert clf["dimensions"] == DIMENSIONS
+    gb, cut = {"model": clf["model"]}, clf["cut"]
     done = [r for r in dataset_rows() if all((DATASET_RESULTS / r["id"] / f"{k}.json").exists() for k in DIMENSIONS)]
     J = np.array([[json.load(open(DATASET_RESULTS / r["id"] / f"{k}.json"))["score"] / (10 if k in BEAUTY_DIMENSIONS and k not in TUNED else 1)
                    for k in DIMENSIONS] for r in done], dtype=float)
@@ -374,6 +418,7 @@ if __name__ == "__main__":
     d.add_argument("--workers", type=int, default=6)
     d.add_argument("--limit", type=int, help="only the first N diagrams of the fixed random order")
     sub.add_parser("classify-dataset")
+    sub.add_parser("train-final")
     j = sub.add_parser("train-on-judges")
     j.add_argument("--beauty-tuned", action="store_true")
     k = sub.add_parser("classify")
@@ -385,6 +430,8 @@ if __name__ == "__main__":
         score_dataset(args.workers, args.limit)
     elif args.cmd == "classify-dataset":
         classify_dataset()
+    elif args.cmd == "train-final":
+        train_final()
     elif args.cmd == "train-on-judges":
         train_on_judges(args.beauty_tuned)
     else:
