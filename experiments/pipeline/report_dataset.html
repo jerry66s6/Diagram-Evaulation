@@ -1,0 +1,114 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Dataset Pipeline Result</title><style>
+:root { color-scheme: light; --surface:#fcfcfb; --ink:#0b0b0b; --ink2:#52514e; --muted:#6f6e68; --grid:#e8e7e3; --rule:#d5d4cf; --wash:#f4f3f0; }
+@media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) { color-scheme: dark; --surface:#1a1a19; --ink:#f0efec; --ink2:#c3c2b7;
+  --muted:#9c9b92; --grid:#2e2e2b; --rule:#444440; --wash:#242422; } }
+:root[data-theme="dark"] { color-scheme: dark; --surface:#1a1a19; --ink:#f0efec; --ink2:#c3c2b7; --muted:#9c9b92; --grid:#2e2e2b;
+  --rule:#444440; --wash:#242422; }
+* { box-sizing: border-box; }
+body { margin: 0; background: var(--surface); color: var(--ink); font: 16px/1.55 -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif; }
+main { max-width: 800px; margin: 0 auto; padding: 48px 24px 64px; }
+h1 { font-size: 28px; line-height: 1.2; margin: 0 0 6px; }
+h2 { font-size: 18px; margin: 36px 0 10px; }
+p { margin: 0 0 12px; }
+.meta { color: var(--ink2); font-size: 14px; margin-bottom: 28px; }
+.tiles { display: grid; grid-template-columns: repeat(4, 1fr); gap: 12px; margin: 8px 0 8px; }
+.tile { background: var(--wash); border-radius: 8px; padding: 14px 16px; }
+.tile .label { font-size: 13px; color: var(--ink2); }
+.tile .value { font-size: 28px; font-weight: 600; line-height: 1.25; font-variant-numeric: tabular-nums; }
+.tile .note { font-size: 12px; color: var(--muted); font-variant-numeric: tabular-nums; }
+.scroll { overflow-x: auto; }
+table { border-collapse: collapse; font-size: 15px; margin: 8px 0 12px; width: 100%; }
+th, td { padding: 8px 12px; border-bottom: 1px solid var(--grid); text-align: right; font-variant-numeric: tabular-nums; vertical-align: top; }
+th { color: var(--ink2); font-weight: 600; border-bottom-color: var(--rule); }
+th:first-child, td:first-child { text-align: left; padding-left: 0; }
+td code { color: var(--muted); }
+ol, ul { padding-left: 22px; margin: 0 0 12px; }
+li { margin-bottom: 6px; }
+code { font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace; font-size: 13px; }
+footer { margin-top: 40px; padding-top: 14px; border-top: 1px solid var(--grid); color: var(--ink2); font-size: 14px; }
+@media (max-width: 640px) { main { padding: 32px 16px 48px; } .tiles { grid-template-columns: repeat(2, 1fr); } h1 { font-size: 24px; } }
+</style></head><body><main>
+<h1>The final VLM pipeline on the 6,000 dataset diagrams</h1>
+<p class="meta">Diagram Evaluation &middot; <code>diagrams/data.csv</code>, the 6,000 diagrams outside the human study &middot; branch <code>vlm-pipeline</code></p>
+
+<div class="tiles">
+<div class="tile"><div class="label">Accuracy</div><div class="value">0.83</div><div class="note">95% interval 0.82 to 0.84</div></div>
+<div class="tile"><div class="label">AUC</div><div class="value">0.915</div><div class="note">95% interval 0.908 to 0.922</div></div>
+<div class="tile"><div class="label">Bad diagrams caught</div><div class="value">87%</div><div class="note">2,039 of 2,348</div></div>
+<div class="tile"><div class="label">Good diagrams flagged</div><div class="value">19%</div><div class="note">710 of 3,652</div></div>
+</div>
+<p>The final pipeline, unchanged: two VLM judges (gpt-6-luna) score the 13 dimensions, and the classifier in
+<code>classifier.pkl</code> (gradient boosting trained on the human scores of HS001 to HS200) calls each diagram good
+or bad. The call is compared with the label in <code>data.csv</code>: negative (bad, one to four errors inserted on
+purpose) or positive (good, the original figure).</p>
+
+<h2>The same result as on the study test set</h2>
+<div class="scroll"><table>
+<thead><tr><th>Test diagrams</th><th>AUC</th><th>Accuracy</th><th>Bad caught</th><th>Good flagged</th></tr></thead>
+<tbody>
+<tr><td>HS201 to HS300 (100, corrected labels)</td><td>0.901</td><td>0.82</td>
+<td>53 of 59 (90%)</td><td>12 of 41 (29%)</td></tr>
+<tr><td>The dataset (6,000, its own labels)</td><td>0.915</td><td>0.83</td>
+<td>2,039 of 2,348 (87%)</td><td>710 of 3,652 (19%)</td></tr>
+</tbody></table></div>
+<p>None of these 6,000 diagrams was used to build the pipeline, so the result on the 100 test diagrams holds
+on 60 times as many.</p>
+
+<h2>Calls against the labels</h2>
+<div class="scroll"><table>
+<thead><tr><th></th><th>Called bad</th><th>Called good</th></tr></thead>
+<tbody>
+<tr><td>Bad (2,348)</td><td>2,039</td><td>309</td></tr>
+<tr><td>Good (3,652)</td><td>710</td><td>2,942</td></tr>
+</tbody></table></div>
+
+<h2>By difficulty</h2>
+<div class="scroll"><table>
+<thead><tr><th>Difficulty</th><th>Diagrams</th><th>Accuracy</th><th>Bad caught</th><th>Good flagged</th></tr></thead>
+<tbody><tr><td>Easy</td><td>1,505</td><td>0.85</td><td>496 of 585 (85%)</td><td>144 of 920 (16%)</td></tr><tr><td>Medium</td><td>3,817</td><td>0.84</td><td>1,326 of 1,508 (88%)</td><td>411 of 2,309 (18%)</td></tr><tr><td>Hard</td><td>678</td><td>0.72</td><td>217 of 255 (85%)</td><td>155 of 423 (37%)</td></tr></tbody></table></div>
+<p>Hard diagrams are where the pipeline loses: 37% of the hard originals are
+flagged bad, against about 15 to 18% for easy and medium.</p>
+
+<h2>Which bad diagrams it misses</h2>
+<p>The more errors were inserted, the more often the diagram is caught:</p>
+<div class="scroll"><table>
+<thead><tr><th>Errors inserted</th><th>Caught</th></tr></thead>
+<tbody><tr><td>1</td><td>370 of 545 (68%)</td></tr><tr><td>2</td><td>881 of 1,000 (88%)</td></tr><tr><td>3</td><td>586 of 600 (98%)</td></tr><tr><td>4</td><td>202 of 203 (100%)</td></tr></tbody></table></div>
+<p>By the kind of error. &ldquo;Only error&rdquo; counts the diagrams where it is the single inserted error, the
+cleanest view of what the judges see; &ldquo;any&rdquo; counts every diagram that has it, often with other errors.
+Sorted by the first column, hardest first.</p>
+<div class="scroll"><table>
+<thead><tr><th>Error</th><th>Caught, only error</th><th>Caught, any</th></tr></thead>
+<tbody><tr><td>Arrow detached from its box <code>detach_arrow</code></td><td>0 of 10 (0%)</td><td>116 of 150 (77%)</td></tr><tr><td>Arrow reversed <code>reverse_arrow</code></td><td>2 of 19 (11%)</td><td>113 of 145 (78%)</td></tr><tr><td>Arrow erased <code>erase_arrow</code></td><td>9 of 30 (30%)</td><td>180 of 226 (80%)</td></tr><tr><td>Label faded <code>fade_label</code></td><td>17 of 49 (35%)</td><td>227 of 278 (82%)</td></tr><tr><td>Low resolution <code>low_resolution</code></td><td>20 of 43 (47%)</td><td>241 of 284 (85%)</td></tr><tr><td>Box duplicated <code>duplicate_box</code></td><td>17 of 28 (61%)</td><td>159 of 178 (89%)</td></tr><tr><td>Arrow runs through a box <code>arrow_through_box</code></td><td>17 of 23 (74%)</td><td>184 of 194 (95%)</td></tr><tr><td>Label enlarged <code>enlarge_label</code></td><td>28 of 37 (76%)</td><td>257 of 278 (92%)</td></tr><tr><td>Label truncated <code>truncate_label</code></td><td>25 of 33 (76%)</td><td>275 of 294 (94%)</td></tr><tr><td>Two labels swapped <code>swap_labels</code></td><td>21 of 27 (78%)</td><td>261 of 274 (95%)</td></tr><tr><td>Two adjacent steps swapped <code>swap_adjacent_steps</code></td><td>25 of 32 (78%)</td><td>201 of 219 (92%)</td></tr><tr><td>Boxes overlap <code>overlap_box</code></td><td>25 of 32 (78%)</td><td>247 of 264 (94%)</td></tr><tr><td>Label shrunk <code>shrink_label</code></td><td>44 of 55 (80%)</td><td>281 of 310 (91%)</td></tr><tr><td>Box removed <code>remove_box</code></td><td>42 of 47 (89%)</td><td>310 of 319 (97%)</td></tr><tr><td>Edge cropped <code>crop_edge</code></td><td>33 of 35 (94%)</td><td>249 of 256 (97%)</td></tr><tr><td>Label blanked <code>blank_label</code></td><td>45 of 45 (100%)</td><td>326 of 330 (99%)</td></tr><tr><td>Boxes recolored <code>recolor_boxes</code></td><td>&ndash;</td><td>103 of 121 (85%)</td></tr><tr><td>Pixelated <code>pixelated</code></td><td>&ndash;</td><td>164 of 188 (87%)</td></tr><tr><td>Shapes faint <code>faint_shapes</code></td><td>&ndash;</td><td>121 of 136 (89%)</td></tr><tr><td>Boxes tilted <code>tilt_boxes</code></td><td>&ndash;</td><td>143 of 157 (91%)</td></tr><tr><td>Drawing off center <code>off_center</code></td><td>&ndash;</td><td>159 of 170 (94%)</td></tr><tr><td>Mixed line styles <code>mixed_edges</code></td><td>&ndash;</td><td>115 of 119 (97%)</td></tr><tr><td>Drawing shrunk <code>shrink_drawing</code></td><td>&ndash;</td><td>266 of 267 (100%)</td></tr></tbody></table></div>
+<ul>
+<li><strong>Arrow errors alone are mostly missed:</strong> a detached, reversed or erased arrow as the only error is
+caught in 11 of
+59 diagrams. A faded label or low
+resolution alone is caught in 35% and 47% of the diagrams.</li>
+<li><strong>Missing or cut content is caught:</strong> a blanked label, a cropped edge or a removed box alone is caught
+in 100%, 94% and 89% of the diagrams.</li>
+<li>Of the 545 diagrams with a single error, 175 are missed.</li>
+</ul>
+
+<h2>The run</h2>
+<p>78,000 judge calls (6,000 diagrams &times; 13 dimensions), 6 at a time, about 20 hours,
+about $23.5. 71 calls were refused by OpenAI's prompt filter (a false flag); all went through
+when re-run, so every diagram has all 13 scores.</p>
+
+<h2>Limits</h2>
+<ul>
+<li>The labels are the original ones. In the 300 study diagrams 7% of the originals already had a clear error; if
+that holds here, part of the 710 flagged originals are really bad, and the accuracy shown here is a little
+lower than it would be on corrected labels.</li>
+<li>Each diagram was scored once by each judge; how much the scores move between runs was not measured here.</li>
+<li>Several error kinds never appear alone, so their &ldquo;only error&rdquo; column is empty; single-error counts are
+small (10 to 55 diagrams per kind).</li>
+</ul>
+
+<footer>Code, per-diagram calls and scores (<code>dataset_predictions.csv</code>), the summary
+(<code>dataset_results.json</code>) and every raw judge output (<code>dataset_judge_outputs.jsonl.gz</code>):
+<code>experiments/pipeline</code> on branch <code>vlm-pipeline</code>. To rebuild this page:
+<code>python3 experiments/pipeline/report_dataset.py</code></footer>
+</main></body></html>

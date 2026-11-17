@@ -32,6 +32,8 @@ all went through when re-run. Files:
 
 - `dataset_predictions.csv`: one row per diagram with its label, difficulty, P(bad), the call, and the 13 judge scores.
 - `dataset_results.json`: the summary below.
+- `report_dataset.html` (built by `report_dataset.py`): one page with the result, by difficulty, and which inserted
+  errors are missed.
 - `dataset_judge_outputs.jsonl.gz` (7 MB): every raw judge output, one line per diagram and dimension (score,
   reasoning, and the problems or observation the judge wrote).
 
