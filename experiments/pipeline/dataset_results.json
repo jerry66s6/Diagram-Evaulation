@@ -1,0 +1,45 @@
+{
+ "diagrams": 6000,
+ "bad": 2348,
+ "good": 3652,
+ "cut": 0.36140768881394353,
+ "test_auc": 0.9149100467224324,
+ "test_auc_interval": [
+  0.9077601057785423,
+  0.9221289243624644
+ ],
+ "accuracy": 0.8301666666666667,
+ "accuracy_interval": [
+  0.8205,
+  0.8391666666666666
+ ],
+ "f1": 0.8000784775358054,
+ "bad_caught": 2039,
+ "good_flagged": 710,
+ "by_difficulty": {
+  "easy": {
+   "diagrams": 1505,
+   "accuracy": 0.8451827242524917,
+   "bad_caught": 496,
+   "bad": 585,
+   "good_flagged": 144,
+   "good": 920
+  },
+  "medium": {
+   "diagrams": 3817,
+   "accuracy": 0.8446423893109772,
+   "bad_caught": 1326,
+   "bad": 1508,
+   "good_flagged": 411,
+   "good": 2309
+  },
+  "hard": {
+   "diagrams": 678,
+   "accuracy": 0.7153392330383481,
+   "bad_caught": 217,
+   "bad": 255,
+   "good_flagged": 155,
+   "good": 423
+  }
+ }
+}

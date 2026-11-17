@@ -10,6 +10,7 @@ good or bad, and the call is compared with the true label (positive/negative, no
     python3 experiments/pipeline/run.py train-final                 # the final classifier: classifier.pkl, results_final.json
     python3 experiments/pipeline/run.py score-dataset [--limit N]   # the judges on diagrams/data.csv (outside the human study)
     python3 experiments/pipeline/run.py classify-dataset            # classifier.pkl on them: dataset_results.json, dataset_predictions.csv
+    python3 experiments/pipeline/run.py pack-dataset                # all raw judge outputs in dataset_judge_outputs.jsonl.gz
 
 Judges: `judge_correctness_dimension` (src/diagram_correctness/direct.py) for the 5 Correctness dimensions and
 `judge_beauty_dimension` (src/diagram_correctness/beauty.py) for the 8 Beauty dimensions, one call per dimension.
@@ -20,6 +21,7 @@ HS001-HS200, with its settings and good/bad cut chosen there on val. Here it get
 """
 import argparse
 import csv
+import gzip
 import importlib.util
 import json
 import os
@@ -405,6 +407,15 @@ def classify_dataset():
             w.writerow([r["id"], r["label"], r["difficulty"], round(float(p[n]), 4), int(called[n]), *(round(float(v), 1) for v in J[n])])
 
 
+def pack_dataset():
+    """Every raw judge output on the dataset in one file, one line per diagram and dimension (dataset_results/ is not in git)."""
+    with gzip.GzipFile(HERE / "dataset_judge_outputs.jsonl.gz", "wb", mtime=0) as f:
+        for r in sorted(dataset_rows(), key=lambda r: r["id"]):
+            for k in DIMENSIONS:
+                result = json.load(open(DATASET_RESULTS / r["id"] / f"{k}.json"))
+                f.write((json.dumps({"id": r["id"], "dimension": k, **result}) + "\n").encode())
+
+
 if __name__ == "__main__":
     parser = argparse.ArgumentParser()
     sub = parser.add_subparsers(dest="cmd", required=True)
@@ -418,6 +429,7 @@ if __name__ == "__main__":
     d.add_argument("--workers", type=int, default=6)
     d.add_argument("--limit", type=int, help="only the first N diagrams of the fixed random order")
     sub.add_parser("classify-dataset")
+    sub.add_parser("pack-dataset")
     sub.add_parser("train-final")
     j = sub.add_parser("train-on-judges")
     j.add_argument("--beauty-tuned", action="store_true")
@@ -430,6 +442,8 @@ if __name__ == "__main__":
         score_dataset(args.workers, args.limit)
     elif args.cmd == "classify-dataset":
         classify_dataset()
+    elif args.cmd == "pack-dataset":
+        pack_dataset()
     elif args.cmd == "train-final":
         train_final()
     elif args.cmd == "train-on-judges":

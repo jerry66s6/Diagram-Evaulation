@@ -18,10 +18,39 @@ On the dataset (`diagrams/data.csv`, the 6,000 diagrams outside the human study)
 python3 experiments/pipeline/run.py train-final        # rebuilds classifier.pkl (already committed; no API calls)
 python3 experiments/pipeline/run.py score-dataset      # 13 calls per diagram, 6 at a time; resumable; outputs in dataset_results/ (git-ignored)
 python3 experiments/pipeline/run.py classify-dataset   # dataset_results.json, dataset_predictions.csv
+python3 experiments/pipeline/run.py pack-dataset       # every raw judge output in dataset_judge_outputs.jsonl.gz
 ```
 
 The dataset calls are compared with the dataset's own labels (positive/negative in `data.csv`); corrected labels exist
 only for the 300 study diagrams. The sections below are the steps that led here.
+
+## Result on the dataset (6,000 diagrams)
+
+All 78,000 judge calls (6,000 diagrams x 13 dimensions) are done: about 20 hours at 6 calls at a time, about $23.5
+(95M input and 28M output tokens). 71 calls were refused by OpenAI's prompt filter (`invalid_prompt`, a false flag);
+all went through when re-run. Files:
+
+- `dataset_predictions.csv`: one row per diagram with its label, difficulty, P(bad), the call, and the 13 judge scores.
+- `dataset_results.json`: the summary below.
+- `dataset_judge_outputs.jsonl.gz` (7 MB): every raw judge output, one line per diagram and dimension (score,
+  reasoning, and the problems or observation the judge wrote).
+
+The final pipeline, unchanged (`classifier.pkl`, cut 0.361), against the labels in `data.csv` (2,348 negatives with
+errors inserted, 3,652 originals):
+
+| Diagrams | Accuracy | Bad caught | Good flagged |
+|---|---:|---:|---:|
+| all 6,000 | **0.83** (0.82-0.84) | 2,039 of 2,348 (87%) | 710 of 3,652 (19%) |
+| easy (1,505) | 0.85 | 496 of 585 | 144 of 920 |
+| medium (3,817) | 0.84 | 1,326 of 1,508 | 411 of 2,309 |
+| hard (678) | 0.72 | 217 of 255 | 155 of 423 |
+
+AUC 0.915 (0.908-0.922), F1 0.80; intervals are 95% bootstrap.
+
+- The result holds on data the classifier never saw: on HS201-HS300 it was AUC 0.901, accuracy 0.82.
+- Hard diagrams are where it loses: 37% of the hard originals are flagged bad.
+- The labels here are the original ones. In the 300 study diagrams 7% of the originals already had a clear error
+  (`../label_alignment`); if that holds here, part of the 710 flagged originals are really bad.
 
 ## First version
 
