@@ -14,12 +14,14 @@ for(const d of config.diagrams){
   if(digest!==d.sha256)throw new Error(`Image hash changed for ${d.id}; update the catalog intentionally.`);
   if(hashes.has(digest))throw new Error(`Duplicate image content at ${d.id}`);hashes.add(digest);
 }
+// Review mode: sets may differ by one diagram and are dealt by difficulty and call, not balanced by difficulty.
+const review=config.task==='review';
 if(config.order==='sets'){
   for(let set=1;set<=config.sets;set++){
     const items=config.diagrams.filter(d=>d.set===set);
-    if(items.length!==config.sampleSize)throw new Error(`Set ${set} has ${items.length} diagrams, not ${config.sampleSize}.`);
+    if(review?items.length<config.sampleSize-1||items.length>config.sampleSize:items.length!==config.sampleSize)throw new Error(`Set ${set} has ${items.length} diagrams, not ${config.sampleSize}.`);
     const counts=['easy','medium','hard'].map(level=>items.filter(d=>d.difficulty===level).length);
-    if(Math.max(...counts)-Math.min(...counts)>1)throw new Error(`Set ${set} is unbalanced: ${counts.join('/')}.`);
+    if(!review&&Math.max(...counts)-Math.min(...counts)>1)throw new Error(`Set ${set} is unbalanced: ${counts.join('/')}.`);
   }
   if(config.diagrams.some(d=>!(d.set>=1&&d.set<=config.sets)))throw new Error('Every diagram needs a set.');
 }else if(config.order!=='fixed')balancedAssignment(config.diagrams,config.sampleSize);

@@ -15,8 +15,8 @@ export const METRICS = [
 ] as const;
 export type MetricId = typeof METRICS[number]['id'];
 export type Scores = Partial<Record<MetricId, number>>;
-export type PublicDiagram = { id: string; image: string; caption: string };
-export type Rating = { scores: Scores; comment: string; durationMs: number; updatedAt?: string };
+export type PublicDiagram = { id: string; image: string; caption: string; model?: { call: 'good' | 'bad'; scores: Record<string, number> } };
+export type Rating = { scores: Scores; comment: string; durationMs: number; verdict?: '' | 'good' | 'bad'; updatedAt?: string };
 export type StudySession = { id: string; participantCode: string; participantName?: string; studyVersion: string; mode: string; submittedAt: string | null; diagrams: PublicDiagram[]; ratings: Record<string, Rating> };
 export const METRIC_IDS = METRICS.map(m => m.id);
 export function isComplete(scores: Scores) { return METRIC_IDS.every(id => Number.isInteger(scores[id]) && scores[id]! >= 1 && scores[id]! <= 10); }

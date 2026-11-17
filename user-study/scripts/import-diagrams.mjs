@@ -11,6 +11,8 @@
 //   source            optional provenance, e.g. "arXiv:2401.01234 Fig. 3"
 //   label, defects    optional ground truth (positive | negative, and the errors added);
 //                     never shown to participants, only in the researcher export
+//   model_call, model_scores  review mode: the pipeline's call (good | bad) and the judges' 13 scores
+//                     as JSON; shown to the reviewer, the scores pre-filled and editable
 //
 // Options:
 //   --sample-size N   diagrams per participant, 20-30 (default: current value)
@@ -19,6 +21,8 @@
 //   --sets N          split the diagrams into N fixed sets with the same number of each
 //                     difficulty and label (dealt in manifest order); each participant gets
 //                     the next unused set, so no diagram goes to two participants
+//   --review          review mode: reviewers see model_call and model_scores and give a final good/bad
+//                     call; with --sets the sets may differ by one diagram (dealt by difficulty and call)
 //   --mode M          demo | research (default: current value)
 //   --id ID           catalog id; change it for each real study round
 //   --title T         study title
@@ -32,7 +36,7 @@ import { createHash } from 'node:crypto';
 import { copyFileSync, existsSync, mkdirSync, readFileSync, writeFileSync } from 'node:fs';
 import { dirname, extname, relative, resolve } from 'node:path';
 import { fileURLToPath, pathToFileURL } from 'node:url';
-import { balancedAssignment } from '../lib/study-rules.mjs';
+import { balancedAssignment, SCORE_KEYS } from '../lib/study-rules.mjs';
 
 export const LEVELS = ['easy', 'medium', 'hard'];
 const IMAGE_TYPES = new Set(['.svg', '.png', '.jpg', '.jpeg', '.webp']);
@@ -130,14 +134,31 @@ export function buildCatalog(rows, { manifestDir, settings }) {
     copies.push({ from: sourcePath, name: imageName });
     const label = row.label?.trim().toLowerCase() ?? '';
     if (label && !['positive', 'negative'].includes(label)) throw new Error(`${where}: label must be positive or negative; got "${row.label}".`);
+    let model;
+    if (row.model_call?.trim()) {
+      const call = row.model_call.trim().toLowerCase(), scores = JSON.parse(row.model_scores || '{}');
+      if (!['good', 'bad'].includes(call)) throw new Error(`${where}: model_call must be good or bad; got "${row.model_call}".`);
+      if (!SCORE_KEYS.every(k => typeof scores[k] === 'number' && scores[k] >= 1 && scores[k] <= 10)) throw new Error(`${where}: model_scores needs all 13 scores from 1 to 10.`);
+      model = { call, scores: Object.fromEntries(SCORE_KEYS.map(k => [k, scores[k]])) };
+    }
     diagrams.push({ id, image: `/diagrams/${imageName}`, caption, difficulty, source: row.source?.trim() || file, sha256,
-      ...(label ? { label, defects: row.defects?.trim() ?? '' } : {}) });
+      ...(label ? { label, defects: row.defects?.trim() ?? '' } : {}), ...(model ? { model } : {}) });
   });
   const catalog = { ...settings, diagrams };
   if (catalog.order === 'sets') {
     const sets = catalog.sets;
     const counts = Object.fromEntries(LEVELS.map(level => [level, diagrams.filter(d => d.difficulty === level).length]));
     if (!Number.isInteger(sets) || sets < 1) throw new Error('--sets must be a positive integer.');
+    if (catalog.task === 'review') {
+      // Deal each difficulty and call group in turn, continuing round the sets, so set sizes differ by at most one.
+      let next = 0;
+      for (const level of LEVELS) for (const call of ['bad', 'good']) {
+        for (const d of diagrams.filter(d => d.difficulty === level && d.model?.call === call)) d.set = next++ % sets + 1;
+      }
+      if (diagrams.some(d => !d.set)) throw new Error('Every diagram in review mode needs a model_call.');
+      catalog.sampleSize = Math.ceil(diagrams.length / sets);
+      return { catalog, copies, counts };
+    }
     if (LEVELS.some(level => counts[level] % sets)) {
       throw new Error(`${sets} sets need each difficulty count to be a multiple of ${sets}; the manifest has easy=${counts.easy}, medium=${counts.medium}, hard=${counts.hard}.`);
     }
@@ -166,6 +187,7 @@ function parseArgs(argv) {
     const arg = argv[i];
     if (arg === '--dry-run') options.dryRun = true;
     else if (arg === '--fixed-order') options.fixedOrder = true;
+    else if (arg === '--review') options.review = true;
     else if (arg === '--help' || arg === '-h') options.help = true;
     else if (valued[arg]) {
       if (i + 1 >= argv.length) throw new Error(`${arg} needs a value.`);
@@ -196,6 +218,7 @@ function main() {
     sampleSize: options.sampleSize !== undefined ? Number(options.sampleSize) : current.sampleSize ?? 24,
     order: options.sets !== undefined ? 'sets' : options.fixedOrder ? 'fixed' : 'random',
     ...(options.sets !== undefined ? { sets: Number(options.sets) } : {}),
+    ...(options.review ? { task: 'review' } : {}),
     difficultyNote: options.difficultyNote ?? current.difficultyNote ?? '',
   };
   if (options.sets !== undefined && options.fixedOrder) throw new Error('Use either --sets or --fixed-order, not both.');
@@ -211,7 +234,7 @@ function main() {
   const summary = [
     `${catalog.diagrams.length} diagrams: easy=${counts.easy}, medium=${counts.medium}, hard=${counts.hard}.`,
     (catalog.order === 'sets'
-      ? `${catalog.sets} sets of ${catalog.sampleSize} (${LEVELS.map(level => `${counts[level] / catalog.sets} ${level}`).join(', ')}); each participant gets the next unused set.`
+      ? (catalog.task === 'review' ? `${catalog.sets} sets of ${catalog.sampleSize - 1} or ${catalog.sampleSize}; review mode.` : `${catalog.sets} sets of ${catalog.sampleSize} (${LEVELS.map(level => `${counts[level] / catalog.sets} ${level}`).join(', ')})`) + ' Each participant gets the next unused set.'
       : catalog.order === 'fixed'
       ? `Every participant sees all ${catalog.diagrams.length}, in manifest order.`
       : `Each participant gets ${catalog.sampleSize}, balanced across difficulty.`) + ` Mode: ${catalog.mode}. Catalog id: ${catalog.id}.`,

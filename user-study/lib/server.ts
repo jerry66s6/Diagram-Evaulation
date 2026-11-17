@@ -1,9 +1,9 @@
 import { env } from 'cloudflare:workers';
 import { createHash, randomBytes, timingSafeEqual } from 'node:crypto';
 import { DIAGRAMS, FIXED_ORDER, SETS, STUDY, STUDY_VERSION, validateCatalog, type Diagram } from './catalog';
-import { balancedAssignment, completeScores, shuffle } from './study-rules.mjs';
+import { balancedAssignment, shuffle } from './study-rules.mjs';
 export type SessionRow={id:string;token_hash:string;participant_code:string;study_version:string;mode:string;assignment:string;consent_version:string;started_at:string;submitted_at:string|null;participant_name:string;set_number:number|null};
-export type RatingRow={session_id:string;diagram_id:string;scores:string;comment:string;duration_ms:number;complete:number;updated_at:string};
+export type RatingRow={session_id:string;diagram_id:string;scores:string;comment:string;duration_ms:number;complete:number;updated_at:string;verdict:string};
 export class ApiError extends Error {constructor(public status:number,message:string){super(message);}}
 export function db(){if(!env.DB)throw new ApiError(503,'The study is temporarily unavailable. Please try again shortly.');return env.DB;}
 export function json(value:unknown,status=200,headers:Record<string,string>={}) {return Response.json(value,{status,headers:{'Cache-Control':'no-store',...headers}});}
@@ -14,7 +14,7 @@ function digest(token:string){return createHash('sha256').update(token).digest('
 export async function findSession(request:Request){const token=request.headers.get('cookie')?.split(';').map(c=>c.trim()).find(c=>c.startsWith('diagram_study='))?.slice('diagram_study='.length);if(!token||!/^[a-f0-9]{64}$/.test(token))return null;return db().prepare('SELECT * FROM study_sessions WHERE token_hash = ? AND study_version = ?').bind(digest(token),STUDY_VERSION).first<SessionRow>();}
 export async function requireSession(request:Request){const s=await findSession(request);if(!s)throw new ApiError(401,'Your study session was not found. Return to the study page to begin.');return s;}
 export async function getRatings(id:string){const rows=await db().prepare('SELECT * FROM study_ratings WHERE session_id = ?').bind(id).all<RatingRow>();return rows.results;}
-export async function publicSession(s:SessionRow){const ratings=await getRatings(s.id);return {id:s.id,participantCode:s.participant_code,participantName:s.participant_name,studyVersion:s.study_version,mode:s.mode,submittedAt:s.submitted_at,diagrams:(JSON.parse(s.assignment) as (Diagram&{description?:string})[]).map(({id,image,caption,description})=>({id,image,caption:caption??description??''})),ratings:Object.fromEntries(ratings.map(r=>[r.diagram_id,{scores:JSON.parse(r.scores),comment:r.comment,durationMs:r.duration_ms,updatedAt:r.updated_at}]))};}
+export async function publicSession(s:SessionRow){const ratings=await getRatings(s.id);return {id:s.id,participantCode:s.participant_code,participantName:s.participant_name,studyVersion:s.study_version,mode:s.mode,submittedAt:s.submitted_at,diagrams:(JSON.parse(s.assignment) as (Diagram&{description?:string})[]).map(({id,image,caption,description,model})=>({id,image,caption:caption??description??'',...(model?{model}:{})})),ratings:Object.fromEntries(ratings.map(r=>[r.diagram_id,{scores:JSON.parse(r.scores),comment:r.comment,durationMs:r.duration_ms,verdict:r.verdict??'',updatedAt:r.updated_at}]))};}
 export function participantName(value:unknown){const name=typeof value==='string'?value.trim().replace(/\s+/g,' '):'';if(!name)throw new ApiError(400,'Please enter your name to begin.');if(name.length>80)throw new ApiError(400,'Please keep your name under 80 characters.');return name;}
 function random(){return randomBytes(4).readUInt32BE()/4294967296;}
 // With fixed sets, take the lowest set no session holds yet. The unique index on
@@ -35,4 +35,5 @@ export async function newSession(request:Request,name:string){validateCatalog();
 export async function releaseSession(participantCode:string){const s=await db().prepare('SELECT id FROM study_sessions WHERE participant_code = ? AND study_version = ? AND submitted_at IS NULL').bind(participantCode,STUDY_VERSION).first<{id:string}>();if(!s)throw new ApiError(404,'Only unfinished sessions of this study can be released.');await db().batch([db().prepare('DELETE FROM study_ratings WHERE session_id = ?').bind(s.id),db().prepare('DELETE FROM study_sessions WHERE id = ? AND submitted_at IS NULL').bind(s.id)]);}
 export function requireAdmin(request:Request){const configured=env.STUDY_ADMIN_KEY || process.env.STUDY_ADMIN_KEY;const supplied=request.headers.get('x-study-admin-key')||'';if(!configured||configured.length<24)throw new ApiError(503,'Researcher access has not been configured.');const a=Buffer.from(digest(configured)),b=Buffer.from(digest(supplied));if(!timingSafeEqual(a,b))throw new ApiError(401,'The researcher access key is incorrect.');}
 export function assertEditable(s:SessionRow){if(s.submitted_at)throw new ApiError(409,'This study has already been submitted. Ratings are locked.');}
-export function fullyRated(rows:RatingRow[],assignment:Diagram[]){return assignment.every(d=>rows.some(r=>r.diagram_id===d.id&&completeScores(JSON.parse(r.scores))));}
+// A rating is complete when saved with all 13 scores (and, in review mode, a final call); see the rating route.
+export function fullyRated(rows:RatingRow[],assignment:Diagram[]){return assignment.every(d=>rows.some(r=>r.diagram_id===d.id&&r.complete===1));}

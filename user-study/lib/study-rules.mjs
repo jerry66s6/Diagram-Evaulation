@@ -19,7 +19,10 @@ export function validateRating(value) {
   for(const [key,score] of Object.entries(value.scores))if(!SCORE_KEYS.includes(key)||!Number.isInteger(score)||score<1||score>10)throw new Error('Scores must be integers from 1 to 10 for the thirteen study dimensions.');
   if(typeof value.comment!=='string'||value.comment.length>2000)throw new Error('Comments must be at most 2,000 characters.');
   if(!Number.isInteger(value.durationMs)||value.durationMs<0||value.durationMs>86400000)throw new Error('Invalid active duration.');
-  return {scores:value.scores,comment:value.comment,durationMs:value.durationMs};
+  // Review mode only: the reviewer's final call on the diagram ('' until chosen).
+  const verdict=value.verdict??'';
+  if(!['','good','bad'].includes(verdict))throw new Error('The final call must be good or bad.');
+  return {scores:value.scores,comment:value.comment,durationMs:value.durationMs,verdict};
 }
 export function completeScores(scores) {return SCORE_KEYS.every(key=>Number.isInteger(scores?.[key])&&scores[key]>=1&&scores[key]<=10);}
 export function csvCell(value) {

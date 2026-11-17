@@ -1,46 +1,38 @@
-# Low-confidence calls on the 6,000 dataset diagrams: pick, group, spot-check
+# Low-confidence calls on the 6,000 dataset diagrams, to label again by hand
 
-The labels of the 6,000 dataset diagrams are not reliable enough to grade the pipeline on all of them (in the 300
-study diagrams 7% of the originals already had a clear error). So only the calls the classifier is unsure of are
-analyzed, and a sample of them is checked by hand.
+The final pipeline gives every dataset diagram a P(bad). The diagrams it is unsure of are labeled again by people in
+the user-study site (`../../user-study`, "Review mode"). The dataset labels are not used anywhere here: the band comes
+from the 100 test diagrams, and the reviewers check our call.
 
-**Scope:** choosing the low-confidence diagrams, grouping them, and drawing the sample. The manual verdicts are not
-part of this step.
+**Scope:** choosing the low-confidence diagrams and preparing them for the site. The reviewing itself is not part of
+this step.
 
 ```bash
-python3 experiments/spot_check/run.py   # spot_check.csv, summary.json, spot_check.html; no API calls
+python3 experiments/spot_check/run.py   # spot_check.csv, band.json, review_manifest.csv (for the site, not in git); no API calls
 ```
 
-## Low confidence
+## Low confidence: split conformal prediction on the 100 test diagrams
 
-Every diagram has a P(bad) from the final classifier (`../pipeline/dataset_predictions.csv`); it is called bad above
-0.361. A call is low confidence when P(bad) is within 0.1 of that cut (0.261 to 0.461): **691 of 6,000 diagrams
-(12%)**. There the call matches the dataset label 60% of the time, against 86% for the other 5,309.
+Standard split conformal prediction at 90% coverage, calibrated on HS201-HS300 with the corrected labels
+(`../pipeline/predictions_final.csv`):
 
-## Groups
+1. Score of each test diagram: 1 minus the classifier's probability of its true label (1 - P(bad) for a bad diagram,
+   P(bad) for a good one).
+2. qhat = the ceil(101 x 0.9) = 91st smallest score = **0.708**.
+3. A diagram's prediction set holds every label whose score is at most qhat. It holds both good and bad, so the call is
+   unsure, when **0.292 <= P(bad) <= 0.708**.
 
-| Call against the label | Diagrams |
-|---|---:|
-| Original, called bad | 192 |
-| Errors inserted, called good | 86 |
-| Errors inserted, called bad | 87 |
-| Original, called good | 326 |
+**1,135 of the 6,000 diagrams** are in that band (836 called bad, 299 called good; easy 245, medium 668, hard 222).
 
-- **Hard diagrams are twice as often unsure:** 139 of 678 hard diagrams (21%) are low confidence, against 10% of easy
-  (155 of 1,505) and medium (397 of 3,817).
-- **Inserted errors called good** (86): the errors are mostly legibility (31) and arrow errors (31), then layout (23).
-- **Judge scores:** 112 of the 192 originals called bad have no judge score of 5 or less; the call comes from several
-  middling scores, not from one clear problem.
+## Files
 
-`summary.json` has the full counts (inserted error kinds and low judge dimensions per group).
+- `spot_check.csv`: the 1,135 diagrams with P(bad), our call and the 13 judge scores.
+- `band.json`: qhat, the band and the counts.
+- `review_manifest.csv` (git-ignored): the same diagrams with image path and caption, for the site's importer.
 
-## Spot check
+## Limits
 
-25 diagrams drawn at random from each group (seed 0), 100 in all, in random order.
-
-- `spot_check.html`: one card per diagram, with the image and the caption. A closed box under each card holds the
-  label, the call, P(bad), the inserted errors and what the judges said about any dimension they scored 5 or less, so
-  the diagram can be judged before seeing them. The images load from `diagrams/images` (not in git), so open the page
-  from inside the project folder.
-- `spot_check.csv`: all 691 low-confidence diagrams; the 100 in the sample have a `spot_check` number. Write good or
-  bad in `verdict` (and anything else in `note`).
+- 100 test diagrams set the band; with 80% coverage instead of 90% it would shrink to 0.491-0.509 (53 diagrams), so
+  the band is sensitive to the coverage chosen.
+- The 90% guarantee assumes the test diagrams and the 6,000 come from the same distribution. They do not quite: the
+  test set has a third of each difficulty and half bad diagrams; the 6,000 are 25% easy, 64% medium, 11% hard.

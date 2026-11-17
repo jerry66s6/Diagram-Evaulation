@@ -1,0 +1,12 @@
+{
+ "alpha": 0.1,
+ "test_diagrams": 100,
+ "qhat": 0.7078,
+ "band": [
+  0.2922,
+  0.7078
+ ],
+ "low_confidence": 1135,
+ "of": 6000,
+ "called_bad": 836
+}

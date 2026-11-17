@@ -21,4 +21,6 @@ export const ratings = sqliteTable('study_ratings', {
   durationMs: integer('duration_ms').notNull().default(0),
   complete: integer('complete').notNull().default(0),
   updatedAt: text('updated_at').notNull(),
+  // Review mode only: the reviewer's final call, 'good' or 'bad' ('' until chosen).
+  verdict: text('verdict').notNull().default(''),
 },table=>[primaryKey({columns:[table.sessionId,table.diagramId]})]);

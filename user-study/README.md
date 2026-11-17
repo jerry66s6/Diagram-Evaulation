@@ -47,6 +47,26 @@ Before recruitment:
 
 This is a working collection interface, not a claim that the demo sample or anchors are scientifically calibrated. The UI does not compute an overall score or expose model scores to raters.
 
+## Review mode (the low-confidence diagrams)
+
+A second use of the same site: people label again the dataset diagrams the final pipeline is unsure of
+(`../experiments/spot_check`). Each reviewer sees the image, the caption, **our call** (good or bad), and the 13 scores
+**pre-filled with the VLM judges' scores** (the judge's exact value is shown next to each). They change any score they
+disagree with and give a **final call, good or bad**; a diagram is done when it has a final call. The dataset labels
+are not in the catalog and are never shown.
+
+```bash
+python3 ../experiments/spot_check/run.py   # writes ../experiments/spot_check/review_manifest.csv (1,135 diagrams)
+cp config/study.json config/study.human-300.json   # keep the 300-diagram study catalog (both are git-ignored)
+node scripts/import-diagrams.mjs ../experiments/spot_check/review_manifest.csv --review --sets 38 --mode research \
+  --id low-confidence-review-v1 --title "Low-Confidence Review" --difficulty-note "Difficulty from diagrams/data.csv; used only to deal the sets."
+```
+
+`--review` reads `model_call` and `model_scores` from the manifest; with `--sets` the sets may differ by one diagram
+(38 sets of 29 or 30, dealt by difficulty and our call). The final call is stored in the `verdict` column added by
+`drizzle/0002_review_verdict.sql` (applied by the deploy script; apply it once to an existing local database). The CSV
+export adds `model_call`, `judge_<dimension>` and `verdict` next to the reviewer's 13 scores.
+
 ## Run locally
 
 Node.js 22.13+ is required. From `user-study/`:

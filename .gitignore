@@ -41,3 +41,5 @@ correctness-report.json
 
 /experiments/beauty_alignment_fresh/outputs/
 /human_ratings.json
+experiments/spot_check/review_manifest.csv
+/user-study/config/study.human-300.json
