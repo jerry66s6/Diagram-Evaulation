@@ -6,7 +6,26 @@
   0.2922,
   0.7078
  ],
- "low_confidence": 1135,
- "of": 6000,
- "called_bad": 836
+ "high_confidence_limit": 0.8539,
+ "tie_left_out": 3,
+ "dataset": {
+  "low confidence": 1135,
+  "high confidence, least confident": 1135,
+  "high confidence": 3730
+ },
+ "reviewed": 2270,
+ "test_errors_by_part": {
+  "high confidence": {
+   "diagrams": 60,
+   "errors": 4
+  },
+  "high confidence, least confident": {
+   "diagrams": 17,
+   "errors": 5
+  },
+  "low confidence": {
+   "diagrams": 23,
+   "errors": 9
+  }
+ }
 }
