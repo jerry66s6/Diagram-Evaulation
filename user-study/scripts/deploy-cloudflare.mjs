@@ -4,6 +4,7 @@
 //   npm run deploy:cloudflare       # creates or reuses everything, then deploys
 //   npm run deploy:cloudflare -- --dry-run   # build and check only; no login needed
 //   npm run deploy:cloudflare -- --rotate-key # also replace the researcher key
+//   npm run deploy:cloudflare -- --site review  # a separate site: config/cloudflare-review.json, key in .env.cloudflare-review
 //
 // Every step is safe to re-run:
 //   1. validate config/study.json and its images
@@ -15,12 +16,15 @@
 import { spawnSync } from 'node:child_process';
 import { randomBytes } from 'node:crypto';
 import { chmodSync, existsSync, readFileSync, writeFileSync } from 'node:fs';
-import { dirname, resolve } from 'node:path';
+import { basename, dirname, resolve } from 'node:path';
 import { fileURLToPath } from 'node:url';
 
 const root = resolve(dirname(fileURLToPath(import.meta.url)), '..');
-const cloudflareConfigPath = resolve(root, 'config/cloudflare.json');
-const keyFile = resolve(root, '.env.cloudflare');
+// --site NAME deploys a separate Worker and database, named in config/cloudflare-NAME.json, with its own key file.
+const siteArg = process.argv.indexOf('--site'), site = siteArg > 0 ? process.argv[siteArg + 1] : '';
+if (siteArg > 0 && !/^[a-z0-9-]+$/.test(site ?? '')) { console.error('error: --site needs a name of lowercase letters, digits and dashes.'); process.exit(1); }
+const cloudflareConfigPath = resolve(root, site ? `config/cloudflare-${site}.json` : 'config/cloudflare.json');
+const keyFile = resolve(root, site ? `.env.cloudflare-${site}` : '.env.cloudflare');
 const builtConfig = resolve(root, 'dist/server/wrangler.json');
 const dryRun = process.argv.includes('--dry-run');
 const rotateKey = process.argv.includes('--rotate-key');
@@ -142,20 +146,20 @@ const secrets = wrangler(['secret', 'list', '--config', builtConfig, '--format',
 if (secrets.status !== 0) fail(`could not list Worker secrets.\n${secrets.stderr || secrets.stdout}`);
 if (/"STUDY_ADMIN_KEY"/.test(secrets.stdout) && !rotateKey) {
   console.log(existsSync(keyFile)
-    ? '  STUDY_ADMIN_KEY is already set; your copy is in .env.cloudflare.'
-    : '  STUDY_ADMIN_KEY is already set, but .env.cloudflare is missing here. Run with --rotate-key to make a new one.');
+    ? `  STUDY_ADMIN_KEY is already set; your copy is in ${basename(keyFile)}.`
+    : `  STUDY_ADMIN_KEY is already set, but ${basename(keyFile)} is missing here. Run with --rotate-key to make a new one.`);
 } else {
   const key = (!rotateKey && readSavedKey()) || randomBytes(24).toString('base64url');
   writeFileSync(keyFile, `# Researcher key for the deployed study. Keep private; never commit.\nSTUDY_ADMIN_KEY=${key}\n`);
   chmodSync(keyFile, 0o600);
   const put = wrangler(['secret', 'put', 'STUDY_ADMIN_KEY', '--config', builtConfig], { input: key });
   if (put.status !== 0) fail(`could not set the secret.\n${put.stderr || put.stdout}`);
-  console.log('  Set STUDY_ADMIN_KEY. Your copy is in user-study/.env.cloudflare.');
+  console.log(`  Set STUDY_ADMIN_KEY. Your copy is in user-study/${basename(keyFile)}.`);
 }
 
 console.log(`
 Done.
   Participant link:     ${url ?? '(see the deploy output above)'}
   Researcher workspace: ${url ? url + '/researcher' : '<link>/researcher'}
-  Researcher key:       user-study/.env.cloudflare
+  Researcher key:       user-study/${basename(keyFile)}
 To update after changing diagrams or code, run npm run deploy:cloudflare again.`);
