@@ -1,4 +1,5 @@
 {
   "workerName": "diagram-review",
-  "databaseName": "diagram-review-db"
+  "databaseName": "diagram-review-db",
+  "databaseId": "8f2760de-c3bb-429a-a854-2da818945c80"
 }
